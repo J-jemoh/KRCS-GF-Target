@@ -20,5 +20,17 @@ class PagesController extends Controller
         $targets=Target::get();
         return view('pages.target.allTargets',compact('targets'));
     }
+    public function TargetReports():View{
+
+        return view('pages.target.reports');
+    }
+    public function msmdata(){
+        $msmdata=Target::where('module','MSM')->get();
+        return view('pages.target.msm',compact('msmdata'));
+    }
+    public function fswdata(){
+        $fswdata=Target::where('module','FSW')->get();
+        return view('pages.target.fsw',compact('fswdata'));
+    }
 
 }

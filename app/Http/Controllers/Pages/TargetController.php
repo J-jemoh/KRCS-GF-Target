@@ -2,6 +2,7 @@
 
 namespace App\Http\Controllers\Pages;
 use Illuminate\Support\Facades\Log;
+use Illuminate\Support\Facades\Auth;
 use Illuminate\Http\RedirectResponse;
 use App\Http\Controllers\Controller;
 use Illuminate\Http\Request;
@@ -55,6 +56,7 @@ class TargetController extends Controller
                 'Prep(Total)' => 'prep_total',
                 'Prep(Performance)' => 'prep_performance'
             ];
+            $user_id = Auth::id();
              // Get all existing data from the database
             $existingData = Target::all()->toArray();
             // Process CSV data and save to database
@@ -66,6 +68,7 @@ class TargetController extends Controller
                         $data[$columnName] = $row[$index] ?? null;
                     }
                 }
+                $data['user_id'] = $user_id;
                  // Check if data already exists in the database for the same quarter and year
                    // Check if data already exists in the existing records
                     $exists = false;

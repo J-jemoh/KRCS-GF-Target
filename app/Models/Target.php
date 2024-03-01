@@ -30,6 +30,7 @@ class Target extends Model
         'prep_q2',
         'prep_target',
         'prep_total',
-        'prep_performance'
+        'prep_performance',
+        'user_id',
     ];
 }
