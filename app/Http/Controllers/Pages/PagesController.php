@@ -15,9 +15,11 @@ class PagesController extends Controller
                         ->selectRaw('avg(defined_performance) as avg_performance')
                         ->groupBy('reqion', 'module')
                         ->get();
-    // $regions = $barData->pluck('reqion')->unique()->toArray();
-    // $modules = $barData->pluck('module')->unique()->toArray();
-         return view('dashboard',compact('barData'));
+        $barDataHts = Target::select('reqion', 'module')
+                        ->selectRaw('avg(hts_performance) as avg_performance_hts')
+                        ->groupBy('reqion', 'module')
+                        ->get();
+         return view('dashboard',compact('barData','barDataHts'));
     }
     public function targetIndex():View{
         return view('pages.target.index');

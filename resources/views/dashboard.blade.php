@@ -1,6 +1,6 @@
 @extends('layouts.admin')
 @section('content')
- <div class="content-header">
+ <div class="content-header bg-info">
       <div class="container-fluid">
         <div class="row mb-2">
           <div class="col-sm-6">
@@ -168,7 +168,7 @@
                 <!-- /.row -->
               </div>
               <!-- ./card-body -->
-              <div class="card-footer">
+              <div class="card-footer bg-info">
                 <div class="row">
                   <div class="col-sm-3 col-6">
                     <div class="description-block border-right">
@@ -217,17 +217,33 @@
         <!-- /.row -->
        	</div>
         <div class="container-fluid">
-          <div class="card card-danger">
-            <div class="card-header"><b>Visualizations</b></div>
+          <div class="row">
+            <div class="col-lg-6">
+              <div class="card card-danger">
+            <div class="card-header"><b>Performance Visualizations for Defined Packaged</b></div>
             <div class="card-body">
-              <div style="width: 800px; height: 400px;">
+              <div style="width: 100%; height: 400px;">
                 <canvas id="myChart"></canvas>
             </div>
             </div>
           </div>
+            </div>
+            <div class="col-lg-6">
+              <div class="card card-danger">
+            <div class="card-header"><b>Perfomance Visualization for HTS</b></div>
+            <div class="card-body">
+              <div style="width: 100%; height: 400px;">
+                <canvas id="myChart_hts"></canvas>
+            </div>
+            </div>
+          </div>
+            </div>
+          </div>
+          
         </div>
   </section>
 @endsection
+<!-- for defined package -->
   <script>
         document.addEventListener('DOMContentLoaded', function() {
             // Extracting data from PHP to JavaScript
@@ -256,6 +272,57 @@
 
             // Drawing chart with Chart.js
             var ctx = document.getElementById('myChart');
+            if (ctx) {
+                var myChart = new Chart(ctx, {
+                    type: 'bar',
+                    data: {
+                        labels: Object.keys(chartData[Object.keys(chartData)[0]]),
+                        datasets: datasets
+                    },
+                    options: {
+                        scales: {
+                            yAxes: [{
+                                ticks: {
+                                    beginAtZero: true
+                                }
+                            }]
+                        }
+                    }
+                });
+            } else {
+                console.error("Canvas element with ID 'myChart' not found.");
+            }
+        });
+    </script>
+    <!-- for hts -->
+  <script>
+        document.addEventListener('DOMContentLoaded', function() {
+            // Extracting data from PHP to JavaScript
+            var data = @json($barDataHts);
+
+            // Processing data for Chart.js
+            var chartData = {};
+            data.forEach(function(item) {
+                if (!chartData[item.reqion]) {
+                    chartData[item.reqion] = {};
+                }
+                chartData[item.reqion][item.module] = item.avg_performance_hts;
+            });
+
+            // Creating dataset for Chart.js
+            var datasets = [];
+            for (var region in chartData) {
+                var moduleData = chartData[region];
+                var dataset = {
+                    label: region,
+                    data: Object.values(moduleData),
+                    backgroundColor: 'rgba(' + Math.floor(Math.random() * 255) + ',' + Math.floor(Math.random() * 255) + ',' + Math.floor(Math.random() * 255) + ',0.6)',
+                };
+                datasets.push(dataset);
+            }
+
+            // Drawing chart with Chart.js
+            var ctx = document.getElementById('myChart_hts');
             if (ctx) {
                 var myChart = new Chart(ctx, {
                     type: 'bar',
