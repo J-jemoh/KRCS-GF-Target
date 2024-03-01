@@ -1,7 +1,7 @@
 <?php
 
 namespace App\Http\Controllers\Pages;
-
+use ConsoleTVs\Charts\Classes\Chartjs\BarChart;
 use App\Http\Controllers\Controller;
 use Illuminate\Http\Request;
 use Illuminate\View\View;
@@ -11,7 +11,13 @@ class PagesController extends Controller
 {
 
     public function dashboard():View{
-         return view('dashboard');
+        $barData = Target::select('reqion', 'module')
+                        ->selectRaw('avg(defined_performance) as avg_performance')
+                        ->groupBy('reqion', 'module')
+                        ->get();
+    // $regions = $barData->pluck('reqion')->unique()->toArray();
+    // $modules = $barData->pluck('module')->unique()->toArray();
+         return view('dashboard',compact('barData'));
     }
     public function targetIndex():View{
         return view('pages.target.index');
@@ -31,6 +37,18 @@ class PagesController extends Controller
     public function fswdata(){
         $fswdata=Target::where('module','FSW')->get();
         return view('pages.target.fsw',compact('fswdata'));
+    }
+    public function pwiddata(){
+        $pwiddata=Target::where('module','PWID')->get();
+        return view('pages.target.pwid',compact('pwiddata'));
+    }
+    public function tgdata(){
+        $tgdata=Target::where('module','TG')->get();
+        return view('pages.target.tg',compact('tgdata'));
+    }
+    public function tcsdata(){
+        $tcsdata=Target::where('module','TCS')->get();
+        return view('pages.target.tcs',compact('tcsdata'));
     }
 
 }

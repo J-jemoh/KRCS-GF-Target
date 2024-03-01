@@ -66,7 +66,7 @@
 			              <div class="icon">
 			                <i class="fas fa-shopping-cart"></i>
 			              </div>
-			              <a href="#" class="small-box-footer">
+			              <a href="{{route('admin.target.reports.pwid')}}" class="small-box-footer">
 			                More info <i class="fas fa-arrow-circle-right"></i>
 			              </a>
 			            </div>
@@ -84,7 +84,7 @@
 			              <div class="icon">
 			                <i class="fas fa-shopping-cart"></i>
 			              </div>
-			              <a href="#" class="small-box-footer">
+			              <a href="{{route('admin.target.reports.tg')}}" class="small-box-footer">
 			                More info <i class="fas fa-arrow-circle-right"></i>
 			              </a>
 			            </div>
@@ -100,7 +100,7 @@
 			              <div class="icon">
 			                <i class="fas fa-shopping-cart"></i>
 			              </div>
-			              <a href="#" class="small-box-footer">
+			              <a href="{{route('admin.target.reports.tcs')}}" class="small-box-footer">
 			                More info <i class="fas fa-arrow-circle-right"></i>
 			              </a>
 			            </div>
@@ -116,7 +116,7 @@
 			              <div class="icon">
 			                <i class="fas fa-shopping-cart"></i>
 			              </div>
-			              <a href="#" class="small-box-footer">
+			              <a href="{{route('admin.target.all')}}" class="small-box-footer">
 			                More info <i class="fas fa-arrow-circle-right"></i>
 			              </a>
 			            </div>

@@ -36,6 +36,10 @@ Route::group(['middleware' => 'auth'], function () {
             #indicator reports
             Route::get('target/reports/msm',[PagesController::class,'msmdata'])->name('admin.target.reports.msm');
               Route::get('target/reports/fsw',[PagesController::class,'fswdata'])->name('admin.target.reports.fsw');
+              Route::get('target/reports/pwid',[PagesController::class,'pwiddata'])->name('admin.target.reports.pwid');
+              Route::get('target/reports/tg',[PagesController::class,'tgdata'])->name('admin.target.reports.tg');
+              Route::get('target/reports/tcs',[PagesController::class,'tcsdata'])->name('admin.target.reports.tcs');
+
             // Target Contoller routes here...
             Route::post('/target/save',[TargetController::class,'uploadTarget'])->name('target.save');
 

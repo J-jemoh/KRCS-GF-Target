@@ -70,11 +70,35 @@
           <i class="fas fa-expand-arrows-alt"></i>
         </a>
       </li>
-      <li class="nav-item">
-        <a class="nav-link" data-widget="control-sidebar" data-slide="true" href="#" role="button">
-          <i class="fas fa-th-large"></i>
-        </a>
-      </li>
+   
+       <!-- User Account: style can be found in dropdown.less -->
+          <li class="dropdown user user-menu">
+            <a href="#" class="dropdown-toggle" data-toggle="dropdown">
+              
+              <span class="hidden-xs text-white"><b>{{auth()->user()->name}}</b></span>
+            </a>
+            <ul class="dropdown-menu">
+              <!-- User image -->
+              <li class="user-header">
+                <img src="{{asset('admin/dist/img/user2-160x160.jpg')}}" class="img-circle" alt="User Image">
+                <p>
+                  {{auth()->user()->name}}
+                  <small>Member since {{auth()->user()->created_at}}</small>
+                </p>
+              </li>
+              <!-- Menu Footer-->
+              <li class="user-footer">
+                <div class="float-right">
+                  <a href="{{route('logout')}}" class="btn btn-danger btn-flat" onclick="event.preventDefault();
+                                                     document.getElementById('logout-form').submit();">
+                                       Sign out</a>
+                                         <form id="logout-form" action="{{ route('logout') }}" method="POST" class="d-none">
+                                        @csrf
+                                    </form>
+                </div>
+              </li>
+            </ul>
+          </li>
     </ul>
   </nav>
   <!-- /.navbar -->
