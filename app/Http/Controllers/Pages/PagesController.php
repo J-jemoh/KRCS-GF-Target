@@ -6,6 +6,7 @@ use App\Http\Controllers\Controller;
 use Illuminate\Http\Request;
 use Illuminate\View\View;
 use App\Models\Target;
+use App\Models\Regions;
 
 class PagesController extends Controller
 {
@@ -56,6 +57,14 @@ class PagesController extends Controller
     public function tcsdata(){
         $tcsdata=Target::where('module','TCS')->get();
         return view('pages.target.tcs',compact('tcsdata'));
+    }
+    public function regions(){
+        $regions=Regions::get();
+        return view('regions.index',compact('regions'));
+    }
+    public function addRegion(){
+        $regionNumber = random_int(0, 999);
+        return view('regions.addRegion',compact('regionNumber'));
     }
 
 }

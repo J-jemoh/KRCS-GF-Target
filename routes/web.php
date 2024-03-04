@@ -3,6 +3,7 @@
 use Illuminate\Support\Facades\Route;
 use App\Http\Controllers\Pages\PagesController;
 use App\Http\Controllers\Pages\TargetController;
+use App\Http\Controllers\Pages\RegionController;
 /*
 |--------------------------------------------------------------------------
 | Web Routes
@@ -42,6 +43,11 @@ Route::group(['middleware' => 'auth'], function () {
 
             // Target Contoller routes here...
             Route::post('/target/save',[TargetController::class,'uploadTarget'])->name('target.save');
+
+            #regions route
+            Route::get('/regions', [PagesController::class,'regions'])->name('admin.regions');
+            Route::get('/regions/add', [PagesController::class,'addRegion'])->name('admin.regions.add');
+            Route::post('/regions/add', [RegionController::class,'saveRegion'])->name('admin.regions.save');
 
     });
 
