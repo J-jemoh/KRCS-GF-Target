@@ -4,6 +4,7 @@ use Illuminate\Support\Facades\Route;
 use App\Http\Controllers\Pages\PagesController;
 use App\Http\Controllers\Pages\TargetController;
 use App\Http\Controllers\Pages\RegionController;
+use App\Http\Controllers\Pages\GC7Controller;
 /*
 |--------------------------------------------------------------------------
 | Web Routes
@@ -48,6 +49,11 @@ Route::group(['middleware' => 'auth'], function () {
             Route::get('/regions', [PagesController::class,'regions'])->name('admin.regions');
             Route::get('/regions/add', [PagesController::class,'addRegion'])->name('admin.regions.add');
             Route::post('/regions/add', [RegionController::class,'saveRegion'])->name('admin.regions.save');
+
+            #GC7 COVERAHE ROUTES
+            Route::get('/gc7-coverage', [PagesController::class,'gc7'])->name('admin.gc7');
+            Route::get('/gc7-coverage/areas', [PagesController::class,'coverage'])->name('admin.coverage');
+            Route::post('/gc7-coverage/post',[GC7Controller::class,'uploadCoverage'])->name('admin.coverage.post');
 
     });
 

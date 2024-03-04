@@ -64,17 +64,17 @@
 			              <td>{{$target->defined_q2}}</td>
 			              <td>{{$target->defined_target}}</td>
 			              <td>{{$target->defined_sem}}</td>
-			              <td>{{round($target->defined_performance,2)}}</td>
+			              <td>{{$target->defined_performance}}</td>
 			              <td>{{$target->hts_q1}}</td>
 			              <td>{{$target->hts_q2}}</td>
 			              <td>{{$target->hts_target}}</td>
 			              <td>{{$target->hts_sem}}</td>
-			              <td>{{round($target->hts_performance,2)}}</td>
+			              <td>{{$target->hts_performance,}}</td>
 			              <td>{{$target->prep_q1}}</td>
 			              <td>{{$target->prep_q2}}</td>
 			              <td>{{$target->prep_target}}</td>
 			              <td>{{$target->prep_total}}</td>
-			              <td>{{round($target->prep_performance,2)}}</td>
+			              <td>{{$target->prep_performance}}</td>
     					</tr>
     					@endforeach
     				</tbody>

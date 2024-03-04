@@ -155,6 +155,12 @@
               <p>Indicator Dashboard</p>
             </a>
           </li>
+            <li class="nav-item">
+            <a href="{{route('admin.gc7')}}" class="nav-link">
+              <i class="nav-icon fas fa-ellipsis-h"></i>
+              <p>GC7 Program Coverage</p>
+            </a>
+          </li>
           <li class="nav-item">
             <a href="#" class="nav-link">
               <i class="nav-icon fas fa-file"></i>

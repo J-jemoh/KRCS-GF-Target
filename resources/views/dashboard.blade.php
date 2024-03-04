@@ -367,7 +367,7 @@
                 if (!chartData[item.reqion]) {
                     chartData[item.reqion] = {};
                 }
-                chartData[item.reqion][item.module] = item.avg_performance_hts;
+                chartData[item.reqion][item.module] = item.avg_performance_prep;
             });
 
             // Creating dataset for Chart.js

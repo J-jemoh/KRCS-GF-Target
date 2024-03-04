@@ -7,6 +7,7 @@ use Illuminate\Http\Request;
 use Illuminate\View\View;
 use App\Models\Target;
 use App\Models\Regions;
+use App\Models\GC7Coverage;
 
 class PagesController extends Controller
 {
@@ -66,5 +67,11 @@ class PagesController extends Controller
         $regionNumber = random_int(0, 999);
         return view('regions.addRegion',compact('regionNumber'));
     }
-
+    public function gc7(){
+        return view('pages.gc7.index');
+    }
+    public function coverage(){
+        $coverages=GC7Coverage::get();
+        return view('pages.gc7.coverage',compact('coverages'));
+    }
 }
