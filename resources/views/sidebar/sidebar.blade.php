@@ -175,7 +175,7 @@
           </li>
 
           <li class="nav-item">
-            <a href="#" class="nav-link">
+            <a href="{{route('admin.users')}}" class="nav-link">
               <i class="nav-icon far fa-user text-warning"></i>
               <p>User Management</p>
             </a>

@@ -20,7 +20,7 @@
   <section class="content">
     <div class="container-fluid">
           @include('messages.flash_messages')
-      <div class="card card-danger">
+      <div class="card card-info">
         <div class="card-header">GC7 Program Coverage  </div>
         <div class="card-body">
           <table id="example1" class="table table-bordered table-striped">
@@ -77,10 +77,10 @@
           </table>
         </div>
       </div>
-      <div class="card-danger">
+      <div class="card-info">
         <div class="card-header">Summary by County for all modules</div>
         <div class="card-body">
-          <table id="example1" class="table table-bordered table-striped">
+          <table id="example2" class="table table-bordered table-striped">
             <thead>
               <tr>
                 <th>#</th>
@@ -124,10 +124,10 @@
         </div>
       </div>
       <br>
-      <div class="card card-danger">
+      <div class="card card-info">
         <div class="card-header">Visualization of modules</div>
         <div class="card-body">
-          <canvas id="moduleChart" width="500" height="130" ></canvas>
+          <canvas id="moduleChart" width="500" class="bg-light" height="130"></canvas>
         </div>
       </div>
     </div>
@@ -170,7 +170,7 @@
             function generateRandomColors(count) {
                 var colors = [];
                 for (var i = 0; i < count; i++) {
-                    colors.push('rgba(' + Math.floor(Math.random() * 256) + ',' + Math.floor(Math.random() * 256) + ',' + Math.floor(Math.random() * 256) + ',0.2)');
+                    colors.push('rgba(' + Math.floor(Math.random() * 200 + 55) + ',' + Math.floor(Math.random() * 200 + 55) + ',' + Math.floor(Math.random() * 200 + 55) + ',0.6)');
                 }
                 return colors;
             }

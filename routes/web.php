@@ -5,6 +5,7 @@ use App\Http\Controllers\Pages\PagesController;
 use App\Http\Controllers\Pages\TargetController;
 use App\Http\Controllers\Pages\RegionController;
 use App\Http\Controllers\Pages\GC7Controller;
+use App\Http\Controllers\Pages\UserController;
 /*
 |--------------------------------------------------------------------------
 | Web Routes
@@ -54,6 +55,11 @@ Route::group(['middleware' => 'auth'], function () {
             Route::get('/gc7-coverage', [PagesController::class,'gc7'])->name('admin.gc7');
             Route::get('/gc7-coverage/areas', [PagesController::class,'coverage'])->name('admin.coverage');
             Route::post('/gc7-coverage/post',[GC7Controller::class,'uploadCoverage'])->name('admin.coverage.post');
+
+            #user management routes
+            Route::get('/users',[PagesController::class,'userManagement'])->name('admin.users');
+            Route::get('/users/newUser',[PagesController::class,'addUser'])->name('admin.users.new');
+            Route::post('/users/newUser/create', [UserController::class, 'createUser'])->name('admin.user.save');
 
     });
 

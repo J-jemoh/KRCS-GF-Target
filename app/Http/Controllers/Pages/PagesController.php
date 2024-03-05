@@ -7,12 +7,15 @@ use Illuminate\Http\Request;
 use Illuminate\View\View;
 use App\Models\Target;
 use App\Models\Regions;
+use App\Models\User;
 use App\Models\GC7Coverage;
+use Carbon\Carbon;
 
 class PagesController extends Controller
 {
 
     public function dashboard():View{
+        $threshold = Carbon::now()->subMinutes(5); 
         $barData = Target::select('reqion', 'module')
                         ->selectRaw('avg(defined_performance) as avg_performance')
                         ->groupBy('reqion', 'module')
@@ -25,7 +28,8 @@ class PagesController extends Controller
                         ->selectRaw('avg(prep_performance) as avg_performance_prep')
                         ->groupBy('reqion', 'module')
                         ->get();
-         return view('dashboard',compact('barData','barDataHts','barDataPrep'));
+        $users=User::orderBy('created_at','desc')->limit(5)->get();
+         return view('dashboard',compact('barData','barDataHts','barDataPrep','users','threshold'));
 
     }
     public function targetIndex():View{
@@ -107,5 +111,13 @@ class PagesController extends Controller
     $totalm = array_sum($modules);
         #
         return view('pages.gc7.coverage',compact('coverages','dhts','tcs','pmtct','ayp','msm','fsw','tg','pwid','hrg','ff','truckers','dc','prison','total','modules','totalm'));
+    }
+    public function userManagement(){
+        $users=User::get();
+        return view('pages.users.index',compact('users'));
+    }
+    public function addUser(){
+        $regions=Regions::get();
+        return view('pages.users.newUser',compact('regions'));
     }
 }

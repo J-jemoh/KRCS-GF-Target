@@ -251,6 +251,78 @@
           </div>
           
         </div>
+        <div class="container-fluid">
+          <div class="row">
+            <div class="col-lg-6">
+              <div class="card card-info">
+                <div class="card-header">Recent System Users</div>
+                <div class="card-body">
+                  <table id="example1" class="table table-bordered table-striped">
+                    <thead>
+                      <tr>
+                        <th>#</th>
+                        <th>User Name</th>
+                        <th>Email</th>
+                        <th>Region</th>
+                        <th>Date Created</th>
+                      </tr>
+                    </thead>
+                    <tbody>
+                      @foreach($users as $user)
+                      <tr>
+                        <td>{{$user->id}}</td>
+                        <td>{{$user->name}}</td>
+                        <td>{{$user->email}}</td>
+                        <td>{{$user->region}}</td>
+                        <td>{{$user->created_at->format('d M Y')}}</td>
+                      </tr>
+                      @endforeach
+                    </tbody>
+                  </table>
+                </div>
+              </div>
+            </div>
+            <div class="col-lg-6">
+               <div class="card card-info">
+                <div class="card-header">Active Users</div>
+                <div class="card-body">
+                  <table id="example2" class="table table-bordered table-striped">
+                    <thead>
+                      <tr>
+                        <th>#</th>
+                        <th>User Name</th>
+                        <th>Email</th>
+                        <th>Region</th>
+                        <th>Status</th>
+                      </tr>
+                    </thead>
+                    <tbody>
+                      @foreach($users as $user)
+                      <tr>
+                        <td>{{$user->id}}</td>
+                        <td>{{$user->name}}</td>
+                        <td>{{$user->email}}</td>
+                        <td>{{$user->region}}</td>
+                        <td>
+                          @if (!is_null($user->last_activity_at))
+                              @if ($user->last_activity_at >= $threshold)
+                                  <span class="badge badge-info">Active</span>
+                              @else
+                                  <span class="badge badge-success">{{ $user->last_activity_at->diffForHumans() }}</span>
+                              @endif
+                          @else
+                              <span class="badge badge-secondary">No activity</span>
+                          @endif
+                        </td>
+                      </tr>
+                      @endforeach
+                    </tbody>
+                  </table>
+                </div>
+              </div>
+            </div>
+          </div>
+        </div>
   </section>
 @endsection
 <!-- for defined package -->
