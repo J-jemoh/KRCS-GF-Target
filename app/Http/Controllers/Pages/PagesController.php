@@ -72,6 +72,40 @@ class PagesController extends Controller
     }
     public function coverage(){
         $coverages=GC7Coverage::get();
-        return view('pages.gc7.coverage',compact('coverages'));
+        $dhts = GC7Coverage::where('dhts', 'Yes')->select('county')->distinct()->count();
+        $tcs = GC7Coverage::where('tcs', 'Yes')->select('county')->distinct()->count();
+        $pmtct = GC7Coverage::where('pmtct', 'Yes')->select('county')->distinct()->count();
+        $ayp = GC7Coverage::where('ayp', 'Yes')->select('county')->distinct()->count();
+        $msm = GC7Coverage::where('msm', 'Yes')->select('county')->distinct()->count();
+        $fsw = GC7Coverage::where('fsw', 'Yes')->select('county')->distinct()->count();
+        $tg = GC7Coverage::where('tg', 'Yes')->select('county')->distinct()->count();
+        $pwid = GC7Coverage::where('pwid', 'Yes')->select('county')->distinct()->count();
+        $hrg = GC7Coverage::where('hrg', 'Yes')->select('county')->distinct()->count();
+        $ff = GC7Coverage::where('ff', 'Yes')->select('county')->distinct()->count();
+        $truckers = GC7Coverage::where('truckers', 'Yes')->select('county')->distinct()->count();
+        $dc = GC7Coverage::where('dc', 'Yes')->select('county')->distinct()->count();
+        $prison = GC7Coverage::where('prison', 'Yes')->select('county')->distinct()->count();
+        $total = $dhts + $tcs + $pmtct + $ayp + $msm + $fsw + $tg + $pwid + $hrg + $ff + $truckers + $dc + $prison;
+
+        #for bar chart
+        $modules = [
+        'dhts' => GC7Coverage::where('dhts', 'Yes')->select('county')->distinct()->count(),
+        'tcs' => GC7Coverage::where('tcs', 'Yes')->select('county')->distinct()->count(),
+        'pmtct' => GC7Coverage::where('pmtct', 'Yes')->select('county')->distinct()->count(),
+        'ayp' => GC7Coverage::where('ayp', 'Yes')->select('county')->distinct()->count(),
+        'msm' => GC7Coverage::where('msm', 'Yes')->select('county')->distinct()->count(),
+        'fsw' => GC7Coverage::where('fsw', 'Yes')->select('county')->distinct()->count(),
+        'tg' => GC7Coverage::where('tg', 'Yes')->select('county')->distinct()->count(),
+        'pwid' => GC7Coverage::where('pwid', 'Yes')->select('county')->distinct()->count(),
+        'hrg' => GC7Coverage::where('hrg', 'Yes')->select('county')->distinct()->count(),
+        'ff' => GC7Coverage::where('ff', 'Yes')->select('county')->distinct()->count(),
+        'truckers' => GC7Coverage::where('truckers', 'Yes')->select('county')->distinct()->count(),
+        'dc' => GC7Coverage::where('dc', 'Yes')->select('county')->distinct()->count(),
+        'prison' => GC7Coverage::where('prison', 'Yes')->select('county')->distinct()->count(),
+    ];
+
+    $totalm = array_sum($modules);
+        #
+        return view('pages.gc7.coverage',compact('coverages','dhts','tcs','pmtct','ayp','msm','fsw','tg','pwid','hrg','ff','truckers','dc','prison','total','modules','totalm'));
     }
 }

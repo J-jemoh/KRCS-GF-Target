@@ -148,16 +148,16 @@
               </li>
             </ul>
           </li>
-          <li class="nav-header">QUICK lINKS</li>
+          <li class="nav-header text-warning">QUICK lINKS</li>
           <li class="nav-item">
-            <a href="#" class="nav-link">
+            <a href="https://krcs-analytics.shinyapps.io/GF-ANALYTICS/" class="nav-link">
               <i class="nav-icon fas fa-ellipsis-h"></i>
               <p>Indicator Dashboard</p>
             </a>
           </li>
             <li class="nav-item">
             <a href="{{route('admin.gc7')}}" class="nav-link">
-              <i class="nav-icon fas fa-ellipsis-h"></i>
+              <i class="nav-icon fas fa-map-marker text-danger"></i>
               <p>GC7 Program Coverage</p>
             </a>
           </li>
@@ -173,20 +173,20 @@
               <p>Regions</p>
             </a>
           </li>
-          <li class="nav-item">
-            <a href="{{ route('logout') }}" onclick="event.preventDefault();
-                                                     document.getElementById('logout-form').submit();" class="nav-link">
-              <i class="fas fa-circle nav-icon"></i>
-              <p>Logout</p>
-               <form id="logout-form" action="{{ route('logout') }}" method="POST" class="d-none">
-                                        @csrf
-            </a>
-          </li>
 
           <li class="nav-item">
             <a href="#" class="nav-link">
-              <i class="nav-icon far fa-circle text-warning"></i>
+              <i class="nav-icon far fa-user text-warning"></i>
               <p>User Management</p>
+            </a>
+          </li>
+          <li class="nav-item">
+            <a href="{{ route('logout') }}" onclick="event.preventDefault();
+                                                     document.getElementById('logout-form').submit();" class="nav-link">
+              <i class="fas fa-sign-out-alt nav-icon"></i>
+              <p>Logout</p>
+               <form id="logout-form" action="{{ route('logout') }}" method="POST" class="d-none">
+                                        @csrf
             </a>
           </li>
         </ul>
