@@ -41,7 +41,7 @@
     			 			<td>{{$user->id}}</td>
     			 			<td>{{$user->name}}</td>
     			 			<td>{{$user->email}}</td>
-    			 			<td>{{$user->destination}}</td>
+    			 			<td><span class="badge badge-info">{{$user->destination}}</span></td>
     			 			<td>{{$user->region}}</td>
     			 			<td>
     			 				<div class="btn-group" role="group" aria-label="Basic example">

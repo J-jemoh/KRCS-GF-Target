@@ -82,8 +82,8 @@
               <li class="user-header">
                 <img src="{{asset('admin/dist/img/user2-160x160.jpg')}}" class="img-circle" alt="User Image">
                 <p>
-                  {{auth()->user()->name}}
-                  <small>Member since {{auth()->user()->created_at}}</small>
+                  <b class="text-danger">{{auth()->user()->name}}</b>
+                  <small><b>Member since {{auth()->user()->created_at->format('d M Y')}}</b></small>
                 </p>
               </li>
               <!-- Menu Footer-->

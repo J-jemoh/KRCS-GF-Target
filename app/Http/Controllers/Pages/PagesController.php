@@ -37,7 +37,14 @@ class PagesController extends Controller
     }
     public function AllTargets():View{
         $targets=Target::get();
-        return view('pages.target.allTargets',compact('targets'));
+        $counties = $targets->pluck('county')->unique()->count();
+        $regions = $targets->pluck('reqion')->unique()->count();
+        $sr = $targets->pluck('sr')->unique()->count();
+        $barALL = Target::select('reqion', 'module')
+                        ->selectRaw('avg(defined_performance) as avg_performance')
+                        ->groupBy('reqion','module')
+                        ->get();
+        return view('pages.target.allTargets',compact('targets','counties','regions','sr','barALL'));
     }
     public function TargetReports():View{
 
@@ -45,23 +52,88 @@ class PagesController extends Controller
     }
     public function msmdata(){
         $msmdata=Target::where('module','MSM')->get();
-        return view('pages.target.msm',compact('msmdata'));
+        $counties = $msmdata->pluck('county')->unique()->count();
+        $regions = $msmdata->pluck('reqion')->unique()->count();
+        $sr = $msmdata->pluck('sr')->unique()->count();
+        $barMSM = Target::select('reqion', 'module')
+                        ->where('module','MSM')
+                        ->selectRaw('avg(defined_performance) as avg_performance')
+                        ->groupBy('reqion','module')
+                        ->get();
+        $barMSMCounty = Target::select('county', 'module')
+                        ->where('module','MSM')
+                        ->selectRaw('avg(defined_performance) as avg_performance')
+                        ->groupBy('module','county')
+                        ->get();
+        return view('pages.target.msm',compact('msmdata','counties','regions','sr','barMSM','barMSMCounty'));
     }
     public function fswdata(){
         $fswdata=Target::where('module','FSW')->get();
-        return view('pages.target.fsw',compact('fswdata'));
+        $counties = $fswdata->pluck('county')->unique()->count();
+        $regions = $fswdata->pluck('reqion')->unique()->count();
+        $sr = $fswdata->pluck('sr')->unique()->count();
+        $barFSW = Target::select('reqion', 'module')
+                        ->where('module','FSW')
+                        ->selectRaw('avg(defined_performance) as avg_performance')
+                        ->groupBy('reqion','module')
+                        ->get();
+        $barFSWCounty = Target::select('county', 'module')
+                        ->where('module','FSW')
+                        ->selectRaw('avg(defined_performance) as avg_performance')
+                        ->groupBy('module','county')
+                        ->get();
+        return view('pages.target.fsw',compact('fswdata','counties','regions','sr','barFSW','barFSWCounty'));
     }
     public function pwiddata(){
         $pwiddata=Target::where('module','PWID')->get();
-        return view('pages.target.pwid',compact('pwiddata'));
+        $counties = $pwiddata->pluck('county')->unique()->count();
+        $regions = $pwiddata->pluck('reqion')->unique()->count();
+        $sr = $pwiddata->pluck('sr')->unique()->count();
+        $barPWID = Target::select('reqion', 'module')
+                        ->where('module','PWID')
+                        ->selectRaw('avg(defined_performance) as avg_performance')
+                        ->groupBy('reqion','module')
+                        ->get();
+        $barPWIDCounty = Target::select('county', 'module')
+                        ->where('module','PWID')
+                        ->selectRaw('avg(defined_performance) as avg_performance')
+                        ->groupBy('module','county')
+                        ->get();
+        return view('pages.target.pwid',compact('pwiddata','counties','regions','sr','barPWID','barPWIDCounty'));
     }
     public function tgdata(){
         $tgdata=Target::where('module','TG')->get();
-        return view('pages.target.tg',compact('tgdata'));
+        $counties = $tgdata->pluck('county')->unique()->count();
+        $regions = $tgdata->pluck('reqion')->unique()->count();
+        $sr = $tgdata->pluck('sr')->unique()->count();
+        $barTG = Target::select('reqion', 'module')
+                        ->where('module','TG')
+                        ->selectRaw('avg(defined_performance) as avg_performance')
+                        ->groupBy('reqion','module')
+                        ->get();
+        $barTGCounty = Target::select('county', 'module')
+                        ->where('module','TG')
+                        ->selectRaw('avg(defined_performance) as avg_performance')
+                        ->groupBy('module','county')
+                        ->get();
+        return view('pages.target.tg',compact('tgdata','counties','regions','sr','barTG','barTGCounty'));
     }
     public function tcsdata(){
         $tcsdata=Target::where('module','TCS')->get();
-        return view('pages.target.tcs',compact('tcsdata'));
+        $counties = $tcsdata->pluck('county')->unique()->count();
+        $regions = $tcsdata->pluck('reqion')->unique()->count();
+        $sr = $tcsdata->pluck('sr')->unique()->count();
+        $barTCS = Target::select('reqion', 'module')
+                        ->where('module','TCS')
+                        ->selectRaw('avg(defined_performance) as avg_performance')
+                        ->groupBy('reqion','module')
+                        ->get();
+        $barTCSCounty = Target::select('county', 'module')
+                        ->where('module','TCS')
+                        ->selectRaw('avg(defined_performance) as avg_performance')
+                        ->groupBy('module','county')
+                        ->get();
+        return view('pages.target.tcs',compact('tcsdata','counties','regions','sr','barTCS','barTCSCounty'));
     }
     public function regions(){
         $regions=Regions::get();
@@ -119,5 +191,14 @@ class PagesController extends Controller
     public function addUser(){
         $regions=Regions::get();
         return view('pages.users.newUser',compact('regions'));
+    }
+    public function qpmm(){
+        return view('pages.qpmm.index');
+    }
+    public function qpmmReports(){
+        return view('pages.qpmm.reports');
+    }
+    public function agywReport(){
+        return view('pages.qpmm.agyw');
     }
 }

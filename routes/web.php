@@ -61,6 +61,11 @@ Route::group(['middleware' => 'auth'], function () {
             Route::get('/users/newUser',[PagesController::class,'addUser'])->name('admin.users.new');
             Route::post('/users/newUser/create', [UserController::class, 'createUser'])->name('admin.user.save');
 
+            #QPMM routes
+            Route::get('/qpmm', [PagesController::class, 'qpmm'])->name('admin.qpmm');
+            Route::get('/qpmm/reports', [PagesController::class, 'qpmmReports'])->name('admin.reports');
+            Route::get('/qpmm/reports/agyw', [PagesController::class, 'agywReport'])->name('admin.reports.agyw');
+
     });
 
 
