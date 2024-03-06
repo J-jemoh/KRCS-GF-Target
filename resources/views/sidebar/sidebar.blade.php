@@ -89,7 +89,7 @@
                 </a>
               </li>
               <li class="nav-item">
-                <a href="#" class="nav-link">
+                <a href="{{route('admin.qpmm.allreports')}}" class="nav-link">
                   <i class="far fa-circle nav-icon"></i>
                   <p>All QPMMS</p>
                 </a>

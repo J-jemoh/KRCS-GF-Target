@@ -201,4 +201,7 @@ class PagesController extends Controller
     public function agywReport(){
         return view('pages.qpmm.agyw');
     }
+    public function allReports(){
+        return view('pages.qpmm.allReports');
+    }
 }
