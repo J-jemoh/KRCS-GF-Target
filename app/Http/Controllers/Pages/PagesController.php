@@ -11,6 +11,7 @@ use App\Models\User;
 use App\Models\GC7Coverage;
 use Carbon\Carbon;
 use Spatie\Permission\Models\Role;
+use App\Models\QPMM;
 
 class PagesController extends Controller
 {
@@ -204,7 +205,8 @@ class PagesController extends Controller
         return view('pages.qpmm.agyw');
     }
     public function allReports(){
-        return view('pages.qpmm.allReports');
+        $qpmms=QPMM::get();
+        return view('pages.qpmm.allReports',compact('qpmms'));
     }
     public function TargetTemplate(){
         return view('pages.target.template');

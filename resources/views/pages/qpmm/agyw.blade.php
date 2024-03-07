@@ -33,7 +33,8 @@
 				            <th colspan="4">Program Achievements JULY,2021 -JUNE ,2022</th>
 			        	</tr>
     					<tr>
-    						<th>#</th>
+    						<th>SNo</th>
+                <th>Region</th>
     						<th>Target Group</th>
     						<th>Indicators</th>
     						<th>Quater 1</th>

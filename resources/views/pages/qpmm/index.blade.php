@@ -23,12 +23,12 @@
       <div class="card card-info">
         <div class="card-header">Upload QPMM file</div>
         <form></form>
-        <form method="POST" action="{{route('target.save')}}" enctype="multipart/form-data">
+        <form method="POST" action="{{route('admin.qpmm.upload')}}" enctype="multipart/form-data">
           @csrf
         <div class="card-body">
           <div class="row">
             <label>Upload your quater QPMM</label>
-            <input type="file" name="targetF" class="form-control" required>
+            <input type="file" name="qpmmF" class="form-control" required>
           </div>
         </div>
         <div class="card-footer">

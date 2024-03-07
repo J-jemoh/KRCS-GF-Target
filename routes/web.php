@@ -6,6 +6,7 @@ use App\Http\Controllers\Pages\TargetController;
 use App\Http\Controllers\Pages\RegionController;
 use App\Http\Controllers\Pages\GC7Controller;
 use App\Http\Controllers\Pages\UserController;
+use App\Http\Controllers\Pages\QPMMController;
 /*
 |--------------------------------------------------------------------------
 | Web Routes
@@ -92,6 +93,11 @@ Route::group(['middleware' => 'auth'], function () {
             ->name('admin.reports.agyw');
             Route::get('/qpmm/reports/all',[PagesController::class,'allReports'])
             ->name('admin.qpmm.allreports');
+             Route::post('/qpmm/upload', [QPMMController::class, 'uploadQpmm'])
+            ->name('admin.qpmm.upload');
+
+
+
 
     });
 
