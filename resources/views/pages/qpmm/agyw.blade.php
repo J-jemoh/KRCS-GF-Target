@@ -25,13 +25,6 @@
     		<div class="card-body">
     			<table id="example1" class="table table-bordered table-striped">
     				<thead>
-    					<tr class="bg-danger">
-    						<th colspan="3">General Information</th>
-				            <th colspan="4">Year 1 JULY,2021 -JUNE ,2022</th>
-				            <th colspan="4">Year 2 JULY,2022 -JUNE ,2023</th>
-				            <th colspan="5">Year 3 JULY,2023 -JUNE ,2024</th>
-				            <th colspan="4">Program Achievements JULY,2021 -JUNE ,2022</th>
-			        	</tr>
     					<tr>
     						<th>SNo</th>
                 <th>Region</th>
@@ -67,6 +60,43 @@
     						
     					</tr>
     				</thead>
+            <tbody>
+              @foreach($agyw as $qpmm)
+              <tr>
+                <td>{{$qpmm->sno}}</td>
+                <td>{{$qpmm->region}}</td>
+                <td>{{$qpmm->target_group}}</td>
+                <td>{{Str::limit($qpmm->indicators,30)}}</td>
+                <td>{{$qpmm->pt_quater_1}}</td>
+                <td>{{$qpmm->pt_quater_2}}</td>
+                <td>{{$qpmm->pt_quater_3}}</td>
+                <td>{{$qpmm->pt_quater_4}}</td>
+                <td>{{$qpmm->pt_quater_5}}</td>
+                <td>{{$qpmm->pt_quater_6}}</td>
+                <td>{{$qpmm->pt_quater_7}}</td>
+                <td>{{$qpmm->pt_quater_8}}</td>
+                <td>{{$qpmm->pt_quater_9}}</td>
+                <td>{{$qpmm->pt_quater_10}}</td>
+                <td>{{$qpmm->pt_quater_11}}</td>
+                <td>{{$qpmm->pt_quater_12}}</td>
+                <td>{{$qpmm->pt_total}}</td>
+                <td>{{$qpmm->pa_quater1}}</td>
+                <td>{{$qpmm->pa_quater2}}</td>
+                <td>{{$qpmm->pa_quater3}}</td>
+                <td>{{$qpmm->pa_quater4}}</td>
+                <td>{{$qpmm->pa_quater5}}</td>
+                <td>{{$qpmm->pa_quater6}}</td>
+                <td>{{$qpmm->pa_quater7}}</td>
+                <td>{{$qpmm->pa_quater8}}</td>
+                <td>{{$qpmm->pa_quater9}}</td>
+                <td>{{$qpmm->pa_quater10}}</td>
+                <td>{{$qpmm->pa_quater11}}</td>
+                <td>{{$qpmm->pa_quater12}}</td>
+                <td>{{$qpmm->pa_total}}</td>
+                <td>{{$qpmm->percent}}</td>
+              </tr>
+              @endforeach
+            </tbody>
     			</table>
     		</div>
     	</div>

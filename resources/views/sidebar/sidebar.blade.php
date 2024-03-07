@@ -212,6 +212,12 @@
               <p>User Management</p>
             </a>
           </li>
+          <li class="nav-item">
+            <a href="#" class="nav-link">
+              <i class="nav-icon far fa-user text-warning"></i>
+              <p>Audit Trail</p>
+            </a>
+          </li>
           @endcan
           <li class="nav-item">
             <a href="{{ route('logout') }}" onclick="event.preventDefault();

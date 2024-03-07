@@ -202,7 +202,8 @@ class PagesController extends Controller
         return view('pages.qpmm.reports');
     }
     public function agywReport(){
-        return view('pages.qpmm.agyw');
+        $agyw=QPMM::where('target_group','AGYW')->get();
+        return view('pages.qpmm.agyw',compact('agyw'));
     }
     public function allReports(){
         $qpmms=QPMM::get();
