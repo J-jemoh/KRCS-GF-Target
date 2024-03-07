@@ -60,20 +60,20 @@
               </li>
               <li class="nav-item">
                 <a href="{{route('admin.target.all')}}" class="nav-link">
-                  <i class="far fa-circle nav-icon"></i>
+                  <i class="far fa-file nav-icon"></i>
                   <p>All Targets</p>
                 </a>
               </li>
 
               <li class="nav-item">
                 <a href="{{route('admin.target.reports')}}" class="nav-link">
-                  <i class="far fa-circle nav-icon"></i>
+                  <i class="far fa-file nav-icon"></i>
                   <p>Reports</p>
                 </a>
               </li>
                 <li class="nav-item">
                 <a href="{{route('admin.target.template')}}" class="nav-link">
-                  <i class="far fa-circle nav-icon"></i>
+                  <i class="far fa-file nav-icon"></i>
                   <p>Template</p>
                 </a>
               </li>
@@ -90,19 +90,19 @@
             <ul class="nav nav-treeview">
               <li class="nav-item">
                 <a href="{{route('admin.qpmm')}}" class="nav-link">
-                  <i class="far fa-circle nav-icon"></i>
+                  <i class="far fa-file nav-icon"></i>
                   <p>New Upload</p>
                 </a>
               </li>
               <li class="nav-item">
                 <a href="{{route('admin.qpmm.allreports')}}" class="nav-link">
-                  <i class="far fa-circle nav-icon"></i>
+                  <i class="far fa-file nav-icon"></i>
                   <p>All QPMMS</p>
                 </a>
               </li>
               <li class="nav-item">
                 <a href="{{route('admin.reports')}}" class="nav-link">
-                  <i class="far fa-circle nav-icon"></i>
+                  <i class="far fa-file nav-icon"></i>
                   <p>QPMM Reports</p>
                 </a>
               </li>
@@ -119,19 +119,19 @@
             <ul class="nav nav-treeview">
               <li class="nav-item">
                 <a href="#" class="nav-link">
-                  <i class="far fa-circle nav-icon"></i>
+                  <i class="far fa-file nav-icon"></i>
                   <p>New Upload</p>
                 </a>
               </li>
               <li class="nav-item">
                 <a href="#" class="nav-link">
-                  <i class="far fa-circle nav-icon"></i>
+                  <i class="far fa-file nav-icon"></i>
                   <p>All HRG data</p>
                 </a>
               </li>
               <li class="nav-item">
                 <a href="#" class="nav-link">
-                  <i class="far fa-circle nav-icon"></i>
+                  <i class="far fa-file nav-icon"></i>
                   <p>HRG Reports</p>
                 </a>
               </li>
@@ -154,7 +154,8 @@
               </li>
             </ul>
           </li>
-                    <li class="nav-item">
+          @can('Read C7 Coverage')
+            <li class="nav-item">
             <a href="#" class="nav-link">
               <i class="nav-icon fas fa-map-marker"></i>
               <p class="text-warning">
@@ -162,6 +163,7 @@
                 <i class="fas fa-angle-left right"></i>
               </p>
             </a>
+            
             <ul class="nav nav-treeview">
               <li class="nav-item">
                 <a href="#" class="nav-link">
@@ -183,10 +185,11 @@
               </li>
             </ul>
           </li>
+          @endcan
           <li class="nav-header text-warning">QUICK lINKS</li>
           <li class="nav-item">
             <a href="https://krcs-analytics.shinyapps.io/GF-ANALYTICS/" class="nav-link">
-              <i class="nav-icon fas fa-ellipsis-h"></i>
+              <i class="nav-icon fas fa-chart-pie"></i>
               <p>Indicator Dashboard</p>
             </a>
           </li>
@@ -202,13 +205,14 @@
               <p>Regions</p>
             </a>
           </li>
-
+          @can('Manage Users')
           <li class="nav-item">
             <a href="{{route('admin.users')}}" class="nav-link">
               <i class="nav-icon far fa-user text-warning"></i>
               <p>User Management</p>
             </a>
           </li>
+          @endcan
           <li class="nav-item">
             <a href="{{ route('logout') }}" onclick="event.preventDefault();
                                                      document.getElementById('logout-form').submit();" class="nav-link">

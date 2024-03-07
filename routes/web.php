@@ -80,6 +80,8 @@ Route::group(['middleware' => 'auth'], function () {
             ->name('admin.users.new');
             Route::post('/users/newUser/create', [UserController::class, 'createUser'])
             ->name('admin.user.save');
+            Route::get('/users/edit/{id}',[UserController::class,'editUser'])->name('admin.user.edit');
+            Route::post('/users/edit/{id}',[UserController::class,'UpdateUser'])->name('admin.user.update');
 
             #QPMM routes
             Route::get('/qpmm', [PagesController::class, 'qpmm'])

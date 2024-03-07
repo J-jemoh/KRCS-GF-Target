@@ -10,6 +10,7 @@ use App\Models\Regions;
 use App\Models\User;
 use App\Models\GC7Coverage;
 use Carbon\Carbon;
+use Spatie\Permission\Models\Role;
 
 class PagesController extends Controller
 {
@@ -190,7 +191,8 @@ class PagesController extends Controller
     }
     public function addUser(){
         $regions=Regions::get();
-        return view('pages.users.newUser',compact('regions'));
+        $roles = Role::get();
+        return view('pages.users.newUser',compact('regions','roles'));
     }
     public function qpmm(){
         return view('pages.qpmm.index');

@@ -45,9 +45,9 @@
     			 			<td>{{$user->region}}</td>
     			 			<td>
     			 				<div class="btn-group" role="group" aria-label="Basic example">
-				                    <button type="button" class="btn btn-info"><i class="fa fa-edit"></i></button>
-				                    <button type="button" class="btn btn-warning"><i class="fa fa-eye"></i></button>
-				                    <button type="button" class="btn btn-danger"><i class="fa fa-trash"></i></button>
+				                    <a type="button" class="btn btn-info" href="{{route('admin.user.edit',$user->id)}}"><i class="fa fa-edit"></i></a>
+				                    <a type="button" class="btn btn-warning" href="#"><i class="fa fa-eye"></i></a>
+				                    <a type="button" href="#" class="btn btn-danger"><i class="fa fa-trash"></i></a>
 				                  </div>
     			 			</td>
     			 		</tr>
