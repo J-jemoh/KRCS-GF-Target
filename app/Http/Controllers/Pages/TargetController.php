@@ -34,6 +34,7 @@ class TargetController extends Controller
             }
             // Define mapping between CSV headers and database columns
             $mapping = [
+                'SNo'=>'sno',
                 'Module' => 'module',
                 'Quater' => 'quater',
                 'Year' => 'year',
@@ -60,40 +61,27 @@ class TargetController extends Controller
              // Get all existing data from the database
             $existingData = Target::all()->toArray();
             // Process CSV data and save to database
-            foreach ($csvData as $row) {
-                $data=[];
-                foreach ($headers as $index => $header) {
-                   $columnName = $mapping[$header] ?? null; 
-                    if ($columnName) {
-                        $data[$columnName] = $row[$index] ?? null;
-                    }
-                }
-                $data['user_id'] = $user_id;
-                 // Check if data already exists in the database for the same quarter and year
-                   // Check if data already exists in the existing records
-                    $exists = false;
-                    foreach ($existingData as $existingRecord) {
-                        $match = true;
-                        foreach ($data as $key => $value) {
-                            if ($existingRecord[$key] != $value) {
-                                $match = false;
-                                break;
+                    foreach ($csvData as $row) {
+                        $data = [];
+                        foreach ($headers as $index => $header) {
+                            $columnName = $mapping[$header] ?? null;
+                            if ($columnName) {
+                                $data[$columnName] = $row[$index] ?? null;
                             }
                         }
-                        if ($match) {
-                            $exists = true;
-                            break;
-                        }
-                    }
+                        $data['user_id'] = $user_id;
 
-                             // If data already exists, return with an error message
-                    if ($exists) {
-                        return redirect()->route('admin.target')->with('error', 'Uploaded Data already exists.');
-                    }
+                        // dd($data);
+                        $existingRecord = Target::where('sno',$data['sno'])->first();
+                            if ($existingRecord) {
+                                // Update the existing record
+                                $existingRecord->update($data);
+                            } else {
+                                // Create a new record
+                                Target::create($data);
+                            }
 
-         // If data does not exist, create new record
-                    Target::create($data);
-            }
+                    }
              return redirect()->route('admin.target')->with('success', 'Your Target file has been uploaded successfully.');
         }
         return redirect()->route('admin.target')->with('error', 'Invalid file.');

@@ -45,7 +45,7 @@
           <li class="nav-item">
             <a href="#" class="nav-link">
               <i class="nav-icon fas fa-copy"></i>
-              <p>
+              <p class="text-warning">
                 Targets
                 <i class="fas fa-angle-left right"></i>
                 <span class="badge badge-info right">2</span>
@@ -71,12 +71,18 @@
                   <p>Reports</p>
                 </a>
               </li>
+                <li class="nav-item">
+                <a href="{{route('admin.target.template')}}" class="nav-link">
+                  <i class="far fa-circle nav-icon"></i>
+                  <p>Template</p>
+                </a>
+              </li>
             </ul>
           </li>
           <li class="nav-item">
             <a href="#" class="nav-link">
               <i class="nav-icon fas fa-chart-pie"></i>
-              <p>
+              <p class="text-warning">
                 QPMM
                 <i class="right fas fa-angle-left"></i>
               </p>
@@ -105,7 +111,7 @@
           <li class="nav-item">
             <a href="#" class="nav-link">
               <i class="nav-icon fas fa-tree"></i>
-              <p>
+              <p class="text-warning">
                 HRG
                 <i class="fas fa-angle-left right"></i>
               </p>
@@ -134,7 +140,7 @@
           <li class="nav-item">
             <a href="#" class="nav-link">
               <i class="nav-icon fas fa-edit"></i>
-              <p>
+              <p class="text-warning">
                 GBV data
                 <i class="fas fa-angle-left right"></i>
               </p>
@@ -148,17 +154,40 @@
               </li>
             </ul>
           </li>
+                    <li class="nav-item">
+            <a href="#" class="nav-link">
+              <i class="nav-icon fas fa-map-marker"></i>
+              <p class="text-warning">
+                GC Program
+                <i class="fas fa-angle-left right"></i>
+              </p>
+            </a>
+            <ul class="nav nav-treeview">
+              <li class="nav-item">
+                <a href="#" class="nav-link">
+                  <i class="far fa-circle nav-icon"></i>
+                  <p>GC6 Coverage</p>
+                </a>
+              </li>
+              <li class="nav-item">
+                <a href="{{route('admin.gc7')}}" class="nav-link">
+                  <i class="far fa-circle nav-icon"></i>
+                  <p>GC7 Coverage</p>
+                </a>
+              </li>
+              <li class="nav-item">
+                <a href="#" class="nav-link">
+                  <i class="far fa-circle nav-icon"></i>
+                  <p>Reports</p>
+                </a>
+              </li>
+            </ul>
+          </li>
           <li class="nav-header text-warning">QUICK lINKS</li>
           <li class="nav-item">
             <a href="https://krcs-analytics.shinyapps.io/GF-ANALYTICS/" class="nav-link">
               <i class="nav-icon fas fa-ellipsis-h"></i>
               <p>Indicator Dashboard</p>
-            </a>
-          </li>
-            <li class="nav-item">
-            <a href="{{route('admin.gc7')}}" class="nav-link">
-              <i class="nav-icon fas fa-map-marker text-danger"></i>
-              <p>GC7 Program Coverage</p>
             </a>
           </li>
           <li class="nav-item">

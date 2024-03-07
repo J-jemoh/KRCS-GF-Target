@@ -67,14 +67,8 @@
     		<div class="card-body">
     			<table id="example1" class="table table-bordered table-striped">
     				<thead>
-               <tr class="bg-danger">
-                    <th colspan="7">General Information</th>
-                    <th colspan="5">Reached(Condom+HESB/RRC+STI)</th>
-                    <th colspan="5">HIV Testing Service</th>
-
-                </tr>
     					<tr>
-    						<th>#</th>
+    						<th>SNo</th>
     						<th>Module</th>
     						<th>Quater</th>
     						<th>Year</th>
@@ -101,7 +95,7 @@
     				<tbody>
     					@foreach($pwiddata as $target)
     					<tr>
-			    		  <td>{{$target->id}}</td>
+			    		  <td>{{$target->sno}}</td>
 			              <td>{{$target->module}}</td>
 			              <td>{{$target->quater}}</td>
 			              <td>{{$target->year}}</td>

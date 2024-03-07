@@ -26,7 +26,7 @@
           <table id="example1" class="table table-bordered table-striped">
             <thead>
               <tr>
-                <th>#</th>
+                <th>Sno</th>
                 <th>County</th>
                 <th>DHTS</th>
                 <th>TCS</th>
@@ -42,13 +42,13 @@
                 <th>DC</th>
                 <th>PRISON</th>
                 <th>Total Program</th>
-                <th>Action</th>
+                <!-- <th>Action</th> -->
               </tr>
             </thead>
             <tbody>
              @foreach($coverages as $coverage)
               <tr>
-                <td>{{$coverage->id}}</td>
+                <td>{{$coverage->sno}}</td>
                 <td>{{$coverage->county}}</td>
                 <td><span class="badge badge-success">{{$coverage->dhts}}</span></td>
                 <td><span class="badge badge-info">{{$coverage->tcs}}</span></td>
@@ -64,13 +64,13 @@
                 <td><span class="badge badge-info">{{$coverage->dc}}</span></td>
                 <td><span class="badge badge-primary">{{$coverage->prison}}</span></td>
                 <td><span class="badge badge-danger">{{$coverage->total_program}}</span></td>
-                <td>
+              <!--   <td>
                   <div class="btn-group" role="group" aria-label="Basic example">
                     <button type="button" class="btn btn-info"><i class="fa fa-edit"></i></button>
                     <button type="button" class="btn btn-warning"><i class="fa fa-eye"></i></button>
                     <button type="button" class="btn btn-danger"><i class="fa fa-trash"></i></button>
                   </div>
-                </td>
+                </td> -->
               </tr>
             @endforeach
             </tbody>

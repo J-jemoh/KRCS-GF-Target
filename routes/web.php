@@ -35,6 +35,8 @@ Route::group(['middleware' => 'auth'], function () {
             ->name('admin.dashboard');
             Route::get('/target', [PagesController::class,'targetIndex'])
             ->name('admin.target');
+            Route::get('/target/template', [PagesController::class,'TargetTemplate'])
+            ->name('admin.target.template');
             Route::get('/target/all', [PagesController::class,'AllTargets'])
             ->name('admin.target.all');
             Route::get('target/reports',[PagesController::class,'TargetReports'])

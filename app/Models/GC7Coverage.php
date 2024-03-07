@@ -11,7 +11,6 @@ class GC7Coverage extends Model
     use HasFactory,SoftDeletes;
 
     protected $fillable=[
-
         'county',
         'dhts',
         'tcs',
@@ -27,7 +26,8 @@ class GC7Coverage extends Model
         'dc',
         'prison',
         'total_program',
-        'user_id'
+        'user_id',
+        'sno',
 
     ];
 }

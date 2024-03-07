@@ -32,6 +32,7 @@ class GC7Controller extends Controller
             }
             // Define mapping between CSV headers and database columns
             $mapping = [
+                'Sno'=>'sno',
                 'County' => 'county',
                 'DHTS' => 'dhts',
                 'TCS' => 'tcs',
@@ -51,41 +52,27 @@ class GC7Controller extends Controller
             $user_id = Auth::id();
              // Get all existing data from the database
             $existingData = GC7Coverage::all()->toArray();
-            // Process CSV data and save to database
             foreach ($csvData as $row) {
-                $data=[];
-                foreach ($headers as $index => $header) {
-                   $columnName = $mapping[$header] ?? null; 
-                    if ($columnName) {
-                        $data[$columnName] = $row[$index] ?? null;
-                    }
-                }
-                $data['user_id'] = $user_id;
-                 // Check if data already exists in the database for the same quarter and year
-                   // Check if data already exists in the existing records
-                    $exists = false;
-                    foreach ($existingData as $existingRecord) {
-                        $match = true;
-                        foreach ($data as $key => $value) {
-                            if ($existingRecord[$key] != $value) {
-                                $match = false;
-                                break;
-                            }
-                        }
-                        if ($match) {
-                            $exists = true;
-                            break;
-                        }
-                    }
+                                        $data = [];
+                                        foreach ($headers as $index => $header) {
+                                            $columnName = $mapping[$header] ?? null;
+                                            if ($columnName) {
+                                                $data[$columnName] = $row[$index] ?? null;
+                                            }
+                                        }
+                                        $data['user_id'] = $user_id;
 
-                             // If data already exists, return with an error message
-                    if ($exists) {
-                        return redirect()->route('admin.gc7')->with('error', 'Uploaded Data already exists.');
-                    }
+                                        // dd($data);
+                                        $existingRecord = GC7Coverage::where('sno',$data['sno'])->first();
+                                            if ($existingRecord) {
+                                                // Update the existing record
+                                                $existingRecord->update($data);
+                                            } else {
+                                                // Create a new record
+                                                GC7Coverage::create($data);
+                                            }
 
-         // If data does not exist, create new record
-                    GC7Coverage::create($data);
-            }
+                                    }
              return redirect()->route('admin.gc7')->with('success', 'Your GC7 Coverage file has been uploaded successfully.');
         }
         return redirect()->route('admin.gc7')->with('error', 'Invalid file.');

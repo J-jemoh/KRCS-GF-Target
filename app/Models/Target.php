@@ -32,5 +32,6 @@ class Target extends Model
         'prep_total',
         'prep_performance',
         'user_id',
+        'sno'
     ];
 }

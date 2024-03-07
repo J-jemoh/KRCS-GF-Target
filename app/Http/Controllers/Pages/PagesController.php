@@ -204,4 +204,7 @@ class PagesController extends Controller
     public function allReports(){
         return view('pages.qpmm.allReports');
     }
+    public function TargetTemplate(){
+        return view('pages.target.template');
+    }
 }
