@@ -101,5 +101,206 @@
     		</div>
     	</div>
     </div>
+    <div class="container-fluid">
+      <div class="row">
+        <div class="col-lg-6">
+        <div class="card card-info">
+        <div class="card-header"><b>Performance Target Visualization</b></div>
+        <div class="card-body">
+           <div style="width: 100%;">
+                <canvas id="myChart_truck_pt"></canvas>
+            </div>
+        </div>
+      </div>
+        </div>
+        <div class="col-lg-6">
+        <div class="card card-info">
+        <div class="card-header"><b>Performance Achievements Visualization</b></div>
+        <div class="card-body">
+           <div style="width: 100%;">
+                <canvas id="myChart_truck_pa"></canvas>
+            </div>
+        </div>
+      </div>
+        </div>
+        <div class="col-lg-12">
+        <div class="card card-info">
+        <div class="card-header"><b>Performance Achievements vs Performance Targets Visualization</b></div>
+        <div class="card-body">
+           <div style="width: 100%;">
+                <canvas id="myChart_pcombined_truck" height="100"></canvas>
+            </div>
+        </div>
+      </div>
+        </div>
+    </div>
+    </div>
 </section>
 @endsection
+<script>
+        document.addEventListener('DOMContentLoaded', function() {
+            // Extracting data from PHP to JavaScript
+            var data = @json($barPt);
+
+            // Processing data for Chart.js
+            var chartData = {};
+            data.forEach(function(item) {
+                if (!chartData[item.region]) {
+                    chartData[item.region] = {};
+                }
+                chartData[item.region][item.target_group] = item.avg_pt_total;
+            });
+
+            // Creating dataset for Chart.js
+            var datasets = [];
+            for (var region in chartData) {
+                var moduleData = chartData[region];
+                var dataset = {
+                    label: region,
+                    data: Object.values(moduleData),
+                    backgroundColor: 'rgba(' + Math.floor(Math.random() * 255) + ',' + Math.floor(Math.random() * 255) + ',' + Math.floor(Math.random() * 255) + ',0.6)',
+                };
+                datasets.push(dataset);
+            }
+
+            // Drawing chart with Chart.js
+            var ctx = document.getElementById('myChart_truck_pt');
+            if (ctx) {
+                var myChart = new Chart(ctx, {
+                    type: 'bar',
+                    data: {
+                        labels: Object.keys(chartData[Object.keys(chartData)[0]]),
+                        datasets: datasets
+                    },
+                    options: {
+                        scales: {
+                            yAxes: [{
+                                ticks: {
+                                    beginAtZero: true
+                                }
+                            }]
+                        }
+                    }
+                });
+            } else {
+                console.error("Canvas element with ID 'myChart' not found.");
+            }
+        });
+    </script>
+    <!-- Perfomance achievements -->
+    <script>
+        document.addEventListener('DOMContentLoaded', function() {
+            // Extracting data from PHP to JavaScript
+            var data = @json($barPa);
+
+            // Processing data for Chart.js
+            var chartData = {};
+            data.forEach(function(item) {
+                if (!chartData[item.region]) {
+                    chartData[item.region] = {};
+                }
+                chartData[item.region][item.target_group] = item.avg_pa_total;
+            });
+
+            // Creating dataset for Chart.js
+            var datasets = [];
+            for (var region in chartData) {
+                var moduleData = chartData[region];
+                var dataset = {
+                    label: region,
+                    data: Object.values(moduleData),
+                    backgroundColor: 'rgba(' + Math.floor(Math.random() * 255) + ',' + Math.floor(Math.random() * 255) + ',' + Math.floor(Math.random() * 255) + ',0.6)',
+                };
+                datasets.push(dataset);
+            }
+
+            // Drawing chart with Chart.js
+            var ctx = document.getElementById('myChart_truck_pa');
+            if (ctx) {
+                var myChart = new Chart(ctx, {
+                    type: 'bar',
+                    data: {
+                        labels: Object.keys(chartData[Object.keys(chartData)[0]]),
+                        datasets: datasets
+                    },
+                    options: {
+                        scales: {
+                            yAxes: [{
+                                ticks: {
+                                    beginAtZero: true
+                                }
+                            }]
+                        }
+                    }
+                });
+            } else {
+                console.error("Canvas element with ID 'myChart' not found.");
+            }
+        });
+    </script>
+    <!-- pt vs pt combined -->
+   <script>
+        document.addEventListener('DOMContentLoaded', function() {
+            // Extracting data from PHP to JavaScript
+            var data = @json($barCombined);
+
+            // Organize data by region
+            var chartData = {};
+            data.forEach(function(item) {
+                if (!chartData[item.region]) {
+                    chartData[item.region] = [];
+                }
+                chartData[item.region].push({
+                    target_group: item.target_group,
+                    avg_pa_total: item.avg_pa_total,
+                    avg_pt_total: item.avg_pt_total
+                });
+            });
+
+            // Prepare datasets for Chart.js
+            var datasets = [];
+            for (var region in chartData) {
+                var regionData = chartData[region];
+                var avg_pa_totalData = [];
+                var avg_pt_totalData = [];
+                var targetGroups = [];
+
+                regionData.forEach(function(item) {
+                    targetGroups.push(item.target_group);
+                    avg_pa_totalData.push(item.avg_pa_total);
+                    avg_pt_totalData.push(item.avg_pt_total);
+                });
+
+                datasets.push({
+                    label: region + ' - Average Performance Achievements',
+                    data: avg_pa_totalData,
+                    backgroundColor: 'rgba(255, 99, 132, 0.6)'
+                });
+
+                datasets.push({
+                    label: region + ' - Average Performance Traget',
+                    data: avg_pt_totalData,
+                    backgroundColor: 'rgba(54, 162, 235, 0.6)'
+                });
+            }
+
+            // Drawing chart with Chart.js
+            var ctx = document.getElementById('myChart_pcombined_truck').getContext('2d');
+            var myChart = new Chart(ctx, {
+                type: 'bar',
+                data: {
+                    labels: targetGroups, // Assuming all regions have same target groups
+                    datasets: datasets
+                },
+                options: {
+                    scales: {
+                        yAxes: [{
+                            ticks: {
+                                beginAtZero: true
+                            }
+                        }]
+                    }
+                }
+            });
+        });
+    </script>

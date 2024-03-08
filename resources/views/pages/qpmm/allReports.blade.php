@@ -127,7 +127,7 @@
         <div class="card-header"><b>Performance Achievements vs Performance Targets Visualization</b></div>
         <div class="card-body">
            <div style="width: 100%;">
-                <canvas id="myChart_pcombined"></canvas>
+                <canvas id="myChart_pcombined" height="90"></canvas>
             </div>
         </div>
       </div>

@@ -203,7 +203,23 @@ class PagesController extends Controller
     }
     public function agywReport(){
         $agyw=QPMM::where('target_group','AGYW')->get();
-        return view('pages.qpmm.agyw',compact('agyw'));
+        $barPt = QPMM::select('region', 'target_group')
+                        ->where('target_group','AGYW')
+                        ->selectRaw('avg(pt_total) as avg_pt_total')
+                        ->groupBy('region','target_group')
+                        ->get();
+        $barPa = QPMM::select('region', 'target_group')
+                        ->where('target_group','AGYW')
+                        ->selectRaw('avg(pa_total) as avg_pa_total')
+                        ->groupBy('region','target_group')
+                        ->get();
+        $barCombined = QPMM::select('region', 'target_group')
+                        ->where('target_group','AGYW')
+                        ->selectRaw('avg(pa_total) as avg_pa_total')
+                        ->selectRaw('avg(pt_total) as avg_pt_total')
+                        ->groupBy('region','target_group')
+                        ->get();
+        return view('pages.qpmm.agyw',compact('agyw','barPt','barPa','barCombined'));
     }
     public function allReports(){
         $qpmms=QPMM::get();
@@ -227,43 +243,203 @@ class PagesController extends Controller
     }
     public function TcsReport(){
         $tcs=QPMM::where('target_group','TCS')->get();
-        return view('pages.qpmm.tcs',compact('tcs'));
+        $barPt = QPMM::select('region', 'target_group')
+                        ->where('target_group','TCS')
+                        ->selectRaw('avg(pt_total) as avg_pt_total')
+                        ->groupBy('region','target_group')
+                        ->get();
+        $barPa = QPMM::select('region', 'target_group')
+                        ->where('target_group','TCS')
+                        ->selectRaw('avg(pa_total) as avg_pa_total')
+                        ->groupBy('region','target_group')
+                        ->get();
+        $barCombined = QPMM::select('region', 'target_group')
+                        ->where('target_group','TCS')
+                        ->selectRaw('avg(pa_total) as avg_pa_total')
+                        ->selectRaw('avg(pt_total) as avg_pt_total')
+                        ->groupBy('region','target_group')
+                        ->get();
+        return view('pages.qpmm.tcs',compact('tcs','barPt','barPa','barCombined'));
     }
     public function PmtcTReport(){
         $pmtct=QPMM::where('target_group','PMTCT')->get();
-        return view('pages.qpmm.pmtct',compact('pmtct'));
+        $barPt = QPMM::select('region', 'target_group')
+                        ->where('target_group','PMTCT')
+                        ->selectRaw('avg(pt_total) as avg_pt_total')
+                        ->groupBy('region','target_group')
+                        ->get();
+        $barPa = QPMM::select('region', 'target_group')
+                        ->where('target_group','PMTCT')
+                        ->selectRaw('avg(pa_total) as avg_pa_total')
+                        ->groupBy('region','target_group')
+                        ->get();
+        $barCombined = QPMM::select('region', 'target_group')
+                        ->where('target_group','PMTCT')
+                        ->selectRaw('avg(pa_total) as avg_pa_total')
+                        ->selectRaw('avg(pt_total) as avg_pt_total')
+                        ->groupBy('region','target_group')
+                        ->get();
+        return view('pages.qpmm.pmtct',compact('pmtct','barPt','barPa','barCombined'));
     }
     public function FswReport(){
         $fsw=QPMM::where('target_group','FSW')->get();
-        return view('pages.qpmm.fsw',compact('fsw'));
+        $barPt = QPMM::select('region', 'target_group')
+                        ->where('target_group','FSW')
+                        ->selectRaw('avg(pt_total) as avg_pt_total')
+                        ->groupBy('region','target_group')
+                        ->get();
+        $barPa = QPMM::select('region', 'target_group')
+                        ->where('target_group','FSW')
+                        ->selectRaw('avg(pa_total) as avg_pa_total')
+                        ->groupBy('region','target_group')
+                        ->get();
+        $barCombined = QPMM::select('region', 'target_group')
+                        ->where('target_group','FSW')
+                        ->selectRaw('avg(pa_total) as avg_pa_total')
+                        ->selectRaw('avg(pt_total) as avg_pt_total')
+                        ->groupBy('region','target_group')
+                        ->get();
+        return view('pages.qpmm.fsw',compact('fsw','barPt','barPa','barCombined'));
     }
     public function MsmReport(){
         $msm=QPMM::where('target_group','MSM')->get();
-        return view('pages.qpmm.msm',compact('msm'));
+        $barPt = QPMM::select('region', 'target_group')
+                        ->where('target_group','MSM')
+                        ->selectRaw('avg(pt_total) as avg_pt_total')
+                        ->groupBy('region','target_group')
+                        ->get();
+        $barPa = QPMM::select('region', 'target_group')
+                        ->where('target_group','MSM')
+                        ->selectRaw('avg(pa_total) as avg_pa_total')
+                        ->groupBy('region','target_group')
+                        ->get();
+        $barCombined = QPMM::select('region', 'target_group')
+                        ->where('target_group','MSM')
+                        ->selectRaw('avg(pa_total) as avg_pa_total')
+                        ->selectRaw('avg(pt_total) as avg_pt_total')
+                        ->groupBy('region','target_group')
+                        ->get();
+        return view('pages.qpmm.msm',compact('msm','barPt','barPa','barCombined'));
     }
      public function PwidReport(){
         $pwid=QPMM::where('target_group','PWID')->get();
-        return view('pages.qpmm.pwid',compact('pwid'));
+        $barPt = QPMM::select('region', 'target_group')
+                        ->where('target_group','PWID')
+                        ->selectRaw('avg(pt_total) as avg_pt_total')
+                        ->groupBy('region','target_group')
+                        ->get();
+        $barPa = QPMM::select('region', 'target_group')
+                        ->where('target_group','PWID')
+                        ->selectRaw('avg(pa_total) as avg_pa_total')
+                        ->groupBy('region','target_group')
+                        ->get();
+        $barCombined = QPMM::select('region', 'target_group')
+                        ->where('target_group','PWID')
+                        ->selectRaw('avg(pa_total) as avg_pa_total')
+                        ->selectRaw('avg(pt_total) as avg_pt_total')
+                        ->groupBy('region','target_group')
+                        ->get();
+        return view('pages.qpmm.pwid',compact('pwid','barPt','barPa','barCombined'));
     }
     public function TgReport(){
         $tg=QPMM::where('target_group','TG')->get();
-        return view('pages.qpmm.tg',compact('tg'));
+        $barPt = QPMM::select('region', 'target_group')
+                        ->where('target_group','TG')
+                        ->selectRaw('avg(pt_total) as avg_pt_total')
+                        ->groupBy('region','target_group')
+                        ->get();
+        $barPa = QPMM::select('region', 'target_group')
+                        ->where('target_group','TG')
+                        ->selectRaw('avg(pa_total) as avg_pa_total')
+                        ->groupBy('region','target_group')
+                        ->get();
+        $barCombined = QPMM::select('region', 'target_group')
+                        ->where('target_group','TG')
+                        ->selectRaw('avg(pa_total) as avg_pa_total')
+                        ->selectRaw('avg(pt_total) as avg_pt_total')
+                        ->groupBy('region','target_group')
+                        ->get();
+        return view('pages.qpmm.tg',compact('tg','barPt','barPa','barCombined'));
     }
     public function TruckersReport(){
         $truckers=QPMM::where('target_group','TRUCKERS')->get();
-        return view('pages.qpmm.truckers',compact('truckers'));
+        $barPt = QPMM::select('region', 'target_group')
+                        ->where('target_group','TRUCKERS')
+                        ->selectRaw('avg(pt_total) as avg_pt_total')
+                        ->groupBy('region','target_group')
+                        ->get();
+        $barPa = QPMM::select('region', 'target_group')
+                        ->where('target_group','TRUCKERS')
+                        ->selectRaw('avg(pa_total) as avg_pa_total')
+                        ->groupBy('region','target_group')
+                        ->get();
+        $barCombined = QPMM::select('region', 'target_group')
+                        ->where('target_group','TRUCKERS')
+                        ->selectRaw('avg(pa_total) as avg_pa_total')
+                        ->selectRaw('avg(pt_total) as avg_pt_total')
+                        ->groupBy('region','target_group')
+                        ->get();
+        return view('pages.qpmm.truckers',compact('truckers','barPt','barPa','barCombined'));
     }
     public function FisherfolksReport(){
         $fisherfolk=QPMM::where('target_group','FISHERFOLKS')->get();
-        return view('pages.qpmm.fisherfolk',compact('fisherfolk'));
+        $barPt = QPMM::select('region', 'target_group')
+                        ->where('target_group','FISHERFOLKS')
+                        ->selectRaw('avg(pt_total) as avg_pt_total')
+                        ->groupBy('region','target_group')
+                        ->get();
+        $barPa = QPMM::select('region', 'target_group')
+                        ->where('target_group','FISHERFOLKS')
+                        ->selectRaw('avg(pa_total) as avg_pa_total')
+                        ->groupBy('region','target_group')
+                        ->get();
+        $barCombined = QPMM::select('region', 'target_group')
+                        ->where('target_group','FISHERFOLKS')
+                        ->selectRaw('avg(pa_total) as avg_pa_total')
+                        ->selectRaw('avg(pt_total) as avg_pt_total')
+                        ->groupBy('region','target_group')
+                        ->get();
+        return view('pages.qpmm.fisherfolk',compact('fisherfolk','barPt','barPa','barCombined'));
     }
     public function DcReport(){
         $dc=QPMM::where('target_group','DCS')->get();
-        return view('pages.qpmm.dc',compact('dc'));
+        $barPt = QPMM::select('region', 'target_group')
+                        ->where('target_group','DCS')
+                        ->selectRaw('avg(pt_total) as avg_pt_total')
+                        ->groupBy('region','target_group')
+                        ->get();
+        $barPa = QPMM::select('region', 'target_group')
+                        ->where('target_group','DCS')
+                        ->selectRaw('avg(pa_total) as avg_pa_total')
+                        ->groupBy('region','target_group')
+                        ->get();
+        $barCombined = QPMM::select('region', 'target_group')
+                        ->where('target_group','DCS')
+                        ->selectRaw('avg(pa_total) as avg_pa_total')
+                        ->selectRaw('avg(pt_total) as avg_pt_total')
+                        ->groupBy('region','target_group')
+                        ->get();
+        return view('pages.qpmm.dc',compact('dc','barPt','barPa','barCombined'));
     }
     public function MhrsReport(){
         $mhrs=QPMM::where('target_group','MHRS')->get();
-        return view('pages.qpmm.mhrs',compact('mhrs'));
+        $barPt = QPMM::select('region', 'target_group')
+                        ->where('target_group','MHRS')
+                        ->selectRaw('avg(pt_total) as avg_pt_total')
+                        ->groupBy('region','target_group')
+                        ->get();
+        $barPa = QPMM::select('region', 'target_group')
+                        ->where('target_group','MHRS')
+                        ->selectRaw('avg(pa_total) as avg_pa_total')
+                        ->groupBy('region','target_group')
+                        ->get();
+        $barCombined = QPMM::select('region', 'target_group')
+                        ->where('target_group','MHRS')
+                        ->selectRaw('avg(pa_total) as avg_pa_total')
+                        ->selectRaw('avg(pt_total) as avg_pt_total')
+                        ->groupBy('region','target_group')
+                        ->get();
+        return view('pages.qpmm.mhrs',compact('mhrs','barPt','barPa','barCombined'));
     }
 
 
