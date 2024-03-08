@@ -212,11 +212,13 @@
               <p>User Management</p>
             </a>
           </li>
-          <li class="nav-item">
-            <a href="#" class="nav-link">
-              <i class="nav-icon far fa-user text-warning"></i>
-              <p>Audit Trail</p>
-            </a>
+          <!--  <li class="nav-item {{Request::is('logs*')?' active':''}}">
+              <a class="nav-link {{ Request::is('logs') ? 'active' : null }}" href="{{ url('/logs') }}" > <i class="nav-icon fas fa-clipboard-list"></i>System Logs
+              </a>
+          </li> -->
+           <li class="nav-item {{Request::is('activity*')?' active':''}}">
+              <a class="nav-link {{ Request::is('activity') ? 'active' : null }}" href="{{ url('/activity') }}" > <i class="nav-icon fas fa-users-cog"></i>User Activities
+              </a>
           </li>
           @endcan
           <li class="nav-item">
