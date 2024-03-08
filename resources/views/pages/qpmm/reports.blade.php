@@ -50,7 +50,7 @@
 			              <div class="icon">
 			                <i class="fas fa-shopping-cart"></i>
 			              </div>
-			              <a href="#" class="small-box-footer">
+			              <a href="{{route('admin.reports.tcs')}}" class="small-box-footer">
 			                More info <i class="fas fa-arrow-circle-right"></i>
 			              </a>
 			            </div>
@@ -66,7 +66,7 @@
 			              <div class="icon">
 			                <i class="fas fa-shopping-cart"></i>
 			              </div>
-			              <a href="#" class="small-box-footer">
+			              <a href="{{route('admin.reports.pmtct')}}" class="small-box-footer">
 			                More info <i class="fas fa-arrow-circle-right"></i>
 			              </a>
 			            </div>
@@ -84,7 +84,7 @@
 			              <div class="icon">
 			                <i class="fas fa-shopping-cart"></i>
 			              </div>
-			              <a href="#" class="small-box-footer">
+			              <a href="{{route('admin.reports.fsw')}}" class="small-box-footer">
 			                More info <i class="fas fa-arrow-circle-right"></i>
 			              </a>
 			            </div>
@@ -100,7 +100,7 @@
 			              <div class="icon">
 			                <i class="fas fa-shopping-cart"></i>
 			              </div>
-			              <a href="#" class="small-box-footer">
+			              <a href="{{route('admin.reports.msm')}}" class="small-box-footer">
 			                More info <i class="fas fa-arrow-circle-right"></i>
 			              </a>
 			            </div>
@@ -116,7 +116,7 @@
 			              <div class="icon">
 			                <i class="fas fa-shopping-cart"></i>
 			              </div>
-			              <a href="#" class="small-box-footer">
+			              <a href="{{route('admin.reports.pwid')}}" class="small-box-footer">
 			                More info <i class="fas fa-arrow-circle-right"></i>
 			              </a>
 			            </div>
@@ -134,7 +134,7 @@
 			              <div class="icon">
 			                <i class="fas fa-shopping-cart"></i>
 			              </div>
-			              <a href="#" class="small-box-footer">
+			              <a href="{{route('admin.reports.tg')}}" class="small-box-footer">
 			                More info <i class="fas fa-arrow-circle-right"></i>
 			              </a>
 			            </div>
@@ -150,7 +150,7 @@
 			              <div class="icon">
 			                <i class="fas fa-shopping-cart"></i>
 			              </div>
-			              <a href="#" class="small-box-footer">
+			              <a href="{{route('admin.reports.truckers')}}" class="small-box-footer">
 			                More info <i class="fas fa-arrow-circle-right"></i>
 			              </a>
 			            </div>
@@ -166,7 +166,7 @@
 			              <div class="icon">
 			                <i class="fas fa-shopping-cart"></i>
 			              </div>
-			              <a href="#" class="small-box-footer">
+			              <a href="{{route('admin.reports.fisherfolk')}}" class="small-box-footer">
 			                More info <i class="fas fa-arrow-circle-right"></i>
 			              </a>
 			            </div>
@@ -184,7 +184,7 @@
 			              <div class="icon">
 			                <i class="fas fa-shopping-cart"></i>
 			              </div>
-			              <a href="#" class="small-box-footer">
+			              <a href="{{route('admin.reports.dc')}}" class="small-box-footer">
 			                More info <i class="fas fa-arrow-circle-right"></i>
 			              </a>
 			            </div>
@@ -200,7 +200,7 @@
 			              <div class="icon">
 			                <i class="fas fa-shopping-cart"></i>
 			              </div>
-			              <a href="#" class="small-box-footer">
+			              <a href="{{route('admin.reports.mhrs')}}" class="small-box-footer">
 			                More info <i class="fas fa-arrow-circle-right"></i>
 			              </a>
 			            </div>
@@ -216,7 +216,7 @@
 			              <div class="icon">
 			                <i class="fas fa-shopping-cart"></i>
 			              </div>
-			              <a href="#" class="small-box-footer">
+			              <a href="{{route('admin.qpmm.allreports')}}" class="small-box-footer">
 			                More info <i class="fas fa-arrow-circle-right"></i>
 			              </a>
 			            </div>

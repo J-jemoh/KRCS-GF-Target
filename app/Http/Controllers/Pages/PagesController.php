@@ -207,9 +207,65 @@ class PagesController extends Controller
     }
     public function allReports(){
         $qpmms=QPMM::get();
-        return view('pages.qpmm.allReports',compact('qpmms'));
+        $barPt = QPMM::select('region', 'target_group')
+                        ->selectRaw('avg(pt_total) as avg_pt_total')
+                        ->groupBy('region','target_group')
+                        ->get();
+        $barPa = QPMM::select('region', 'target_group')
+                        ->selectRaw('avg(pa_total) as avg_pa_total')
+                        ->groupBy('region','target_group')
+                        ->get();
+        $barCombined = QPMM::select('region', 'target_group')
+                        ->selectRaw('avg(pa_total) as avg_pa_total')
+                        ->selectRaw('avg(pt_total) as avg_pt_total')
+                        ->groupBy('region','target_group')
+                        ->get();
+        return view('pages.qpmm.allReports',compact('qpmms','barPt','barPa','barCombined'));
     }
     public function TargetTemplate(){
         return view('pages.target.template');
     }
+    public function TcsReport(){
+        $tcs=QPMM::where('target_group','TCS')->get();
+        return view('pages.qpmm.tcs',compact('tcs'));
+    }
+    public function PmtcTReport(){
+        $pmtct=QPMM::where('target_group','PMTCT')->get();
+        return view('pages.qpmm.pmtct',compact('pmtct'));
+    }
+    public function FswReport(){
+        $fsw=QPMM::where('target_group','FSW')->get();
+        return view('pages.qpmm.fsw',compact('fsw'));
+    }
+    public function MsmReport(){
+        $msm=QPMM::where('target_group','MSM')->get();
+        return view('pages.qpmm.msm',compact('msm'));
+    }
+     public function PwidReport(){
+        $pwid=QPMM::where('target_group','PWID')->get();
+        return view('pages.qpmm.pwid',compact('pwid'));
+    }
+    public function TgReport(){
+        $tg=QPMM::where('target_group','TG')->get();
+        return view('pages.qpmm.tg',compact('tg'));
+    }
+    public function TruckersReport(){
+        $truckers=QPMM::where('target_group','TRUCKERS')->get();
+        return view('pages.qpmm.truckers',compact('truckers'));
+    }
+    public function FisherfolksReport(){
+        $fisherfolk=QPMM::where('target_group','FISHERFOLKS')->get();
+        return view('pages.qpmm.fisherfolk',compact('fisherfolk'));
+    }
+    public function DcReport(){
+        $dc=QPMM::where('target_group','DCS')->get();
+        return view('pages.qpmm.dc',compact('dc'));
+    }
+    public function MhrsReport(){
+        $mhrs=QPMM::where('target_group','MHRS')->get();
+        return view('pages.qpmm.mhrs',compact('mhrs'));
+    }
+
+
+
 }

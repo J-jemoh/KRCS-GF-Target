@@ -95,12 +95,33 @@ Route::group(['middleware' => ['auth','activity']], function () {
             ->name('admin.qpmm.allreports');
              Route::post('/qpmm/upload', [QPMMController::class, 'uploadQpmm'])
             ->name('admin.qpmm.upload');
+            Route::get('/qpmm/reports/tcs', [PagesController::class, 'TcsReport'])
+            ->name('admin.reports.tcs');
+             Route::get('/qpmm/reports/pmtct', [PagesController::class, 'PmtcTReport'])
+            ->name('admin.reports.pmtct');
+            Route::get('/qpmm/reports/fsw', [PagesController::class, 'FswReport'])
+            ->name('admin.reports.fsw');
+            Route::get('/qpmm/reports/msm', [PagesController::class, 'MsmReport'])
+            ->name('admin.reports.msm');
+            Route::get('/qpmm/reports/pwid', [PagesController::class, 'PwidReport'])
+            ->name('admin.reports.pwid');
+            Route::get('/qpmm/reports/tg', [PagesController::class, 'TgReport'])
+            ->name('admin.reports.tg');
+            Route::get('/qpmm/reports/truckers', [PagesController::class, 'TruckersReport'])
+            ->name('admin.reports.truckers');
+            Route::get('/qpmm/reports/fisherfolk', [PagesController::class, 'FisherfolksReport'])
+            ->name('admin.reports.fisherfolk');
+            Route::get('/qpmm/reports/dc', [PagesController::class, 'DcReport'])
+            ->name('admin.reports.dc');
+            Route::get('/qpmm/reports/mhrs', [PagesController::class, 'MhrsReport'])
+            ->name('admin.reports.mhrs');
 
-            #User activity Logs
+
 
 
 
     });
+    #User activity Logs
     Route::group(['prefix' => 'activity', 'namespace' => 'jeremykenedy\LaravelLogger\App\Http\Controllers', 'middleware' => ['auth', 'activity']], function () {
 
     // Dashboards
