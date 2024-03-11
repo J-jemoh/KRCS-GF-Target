@@ -7,6 +7,8 @@ use App\Http\Controllers\Pages\RegionController;
 use App\Http\Controllers\Pages\GC7Controller;
 use App\Http\Controllers\Pages\UserController;
 use App\Http\Controllers\Pages\QPMMController;
+use App\Http\Controllers\Pages\HRGController;
+use App\Http\Controllers\Pages\GBVController;
 /*
 |--------------------------------------------------------------------------
 | Web Routes
@@ -116,6 +118,19 @@ Route::group(['middleware' => ['auth','activity']], function () {
             Route::get('/qpmm/reports/mhrs', [PagesController::class, 'MhrsReport'])
             ->name('admin.reports.mhrs');
 
+            #hrg routes
+             Route::get('/hrg', [PagesController::class, 'hrgIndex'])
+            ->name('admin.hrg.index');
+            Route::get('/hrg/consolidated', [PagesController::class, 'hrgConsolidated'])
+            ->name('admin.hrg.consolidated');
+
+            #GBV data routes
+            Route::get('/gbv', [PagesController::class, 'gbvIndex'])
+            ->name('admin.gbv.index');
+            Route::get('/gbv/consolidated', [PagesController::class, 'gbvConsolidated'])
+            ->name('admin.gbv.consolidated');
+             Route::post('/gbv/upload', [GBVController::class, 'uploadGBV'])
+            ->name('admin.gbv.post');
 
 
 
