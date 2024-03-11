@@ -118,13 +118,13 @@
             </a>
             <ul class="nav nav-treeview">
               <li class="nav-item">
-                <a href="#" class="nav-link">
+                <a href="{{route('admin.hrg.index')}}" class="nav-link">
                   <i class="far fa-file nav-icon"></i>
                   <p>New Upload</p>
                 </a>
               </li>
               <li class="nav-item">
-                <a href="#" class="nav-link">
+                <a href="{{route('admin.hrg.consolidated')}}" class="nav-link">
                   <i class="far fa-file nav-icon"></i>
                   <p>All HRG data</p>
                 </a>
@@ -147,7 +147,13 @@
             </a>
             <ul class="nav nav-treeview">
               <li class="nav-item">
-                <a href="pages/forms/general.html" class="nav-link">
+                <a href="{{route('admin.gbv.index')}}" class="nav-link">
+                  <i class="far fa-circle nav-icon"></i>
+                  <p>New Upload</p>
+                </a>
+              </li>
+              <li class="nav-item">
+                <a href="{{route('admin.gbv.consolidated')}}" class="nav-link">
                   <i class="far fa-circle nav-icon"></i>
                   <p>Consolidated</p>
                 </a>

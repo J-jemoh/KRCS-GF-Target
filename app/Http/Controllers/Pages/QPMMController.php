@@ -62,6 +62,7 @@ class QPMMController extends Controller
                 'PA Quater 12'=> 'pa_quater12',
                 'PATotal'=> 'pa_total',
                  'Percentage'=>'percent',
+
             ];
             $user_id = Auth::id();
              // Get all existing data from the database

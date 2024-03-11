@@ -441,6 +441,22 @@ class PagesController extends Controller
                         ->get();
         return view('pages.qpmm.mhrs',compact('mhrs','barPt','barPa','barCombined'));
     }
+    public function hrgIndex(){
+
+        return view('pages.hrg.index');
+    }
+    public function hrgConsolidated(){
+
+        return view('pages.hrg.allhrg');
+    }
+    public function gbvIndex(){
+
+        return view('pages.gbv.index');
+    }
+    public function gbvConsolidated(){
+
+        return view('pages.gbv.consolidated');
+    }
 
 
 
