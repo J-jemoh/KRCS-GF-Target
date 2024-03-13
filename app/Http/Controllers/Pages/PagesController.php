@@ -12,6 +12,7 @@ use App\Models\GC7Coverage;
 use Carbon\Carbon;
 use Spatie\Permission\Models\Role;
 use App\Models\QPMM;
+use App\Models\GBV;
 
 class PagesController extends Controller
 {
@@ -453,9 +454,28 @@ class PagesController extends Controller
 
         return view('pages.gbv.index');
     }
+    public function gbvTemplate(){
+        return view('pages.gbv.template');
+    }
     public function gbvConsolidated(){
-
-        return view('pages.gbv.consolidated');
+        $gbvdata=GBV::get();
+        $barData = GBV::select('region', 'typology')
+                        ->selectRaw('count(*) as count_topology')
+                        ->groupBy('region','typology')
+                        ->get();
+        return view('pages.gbv.consolidated',compact('gbvdata','barData'));
+    }
+    public function gbvVisualize(){
+        $regions=GBV::distinct()->pluck('region');
+        $barData = GBV::select('region', 'typology')
+                        ->selectRaw('count(*) as count_topology')
+                        ->groupBy('region','typology')
+                        ->get();
+        $barSR = GBV::select('region', 'typology','sr_name')
+                        ->selectRaw('count(*) as count_topology')
+                        ->groupBy('region','typology','sr_name')
+                        ->get();
+        return view('pages.gbv.visualize',compact('barData','barSR','regions'));
     }
 
 

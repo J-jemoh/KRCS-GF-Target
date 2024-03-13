@@ -53,6 +53,7 @@ class GBVController extends Controller
                 'Phone'=>'phone',
                 'Confidant No'=>'confidant_no',
                 'Abuse/Violation'=>'abuse',
+                'Abuse Date'=>'abuse_date',
                 'Perpetrator'=>'perpetrator',
                 'Attend Legal Aid Clinic'=>'legal_clinic',
                 'Litigation'=>'litigation',
@@ -72,6 +73,7 @@ class GBVController extends Controller
                             $columnName = $mapping[$header] ?? null;
                             if ($columnName) {
                                 $data[$columnName] = $row[$index] ?? null;
+                                $data[$columnName] = mb_convert_encoding($row[$index], 'UTF-8', 'UTF-8');
                             }
                         }
                         $data['user_id'] = $user_id;

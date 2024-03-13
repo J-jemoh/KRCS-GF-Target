@@ -129,6 +129,10 @@ Route::group(['middleware' => ['auth','activity']], function () {
             ->name('admin.gbv.index');
             Route::get('/gbv/consolidated', [PagesController::class, 'gbvConsolidated'])
             ->name('admin.gbv.consolidated');
+            Route::get('/gbv/template', [PagesController::class, 'gbvTemplate'])
+            ->name('admin.gbv.template');
+            Route::get('/gbv/visualization', [PagesController::class, 'gbvVisualize'])
+            ->name('admin.gbv.visualize');
              Route::post('/gbv/upload', [GBVController::class, 'uploadGBV'])
             ->name('admin.gbv.post');
 

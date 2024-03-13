@@ -58,6 +58,7 @@ class GC7Controller extends Controller
                                             $columnName = $mapping[$header] ?? null;
                                             if ($columnName) {
                                                 $data[$columnName] = $row[$index] ?? null;
+                                                $data[$columnName] = mb_convert_encoding($row[$index], 'UTF-8', 'UTF-8');
                                             }
                                         }
                                         $data['user_id'] = $user_id;

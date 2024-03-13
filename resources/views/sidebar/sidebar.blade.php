@@ -158,6 +158,18 @@
                   <p>Consolidated</p>
                 </a>
               </li>
+              <li class="nav-item">
+                <a href="{{route('admin.gbv.visualize')}}" class="nav-link">
+                  <i class="far fa-circle nav-icon"></i>
+                  <p>Visualizations</p>
+                </a>
+              </li>
+              <li class="nav-item">
+                <a href="{{route('admin.gbv.template')}}" class="nav-link">
+                  <i class="far fa-circle nav-icon"></i>
+                  <p>Template</p>
+                </a>
+              </li>
             </ul>
           </li>
           @can('Read C7 Coverage')
