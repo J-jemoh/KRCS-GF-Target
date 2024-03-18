@@ -13,6 +13,7 @@ use Carbon\Carbon;
 use Spatie\Permission\Models\Role;
 use App\Models\QPMM;
 use App\Models\GBV;
+use App\Models\Demographics;
 
 class PagesController extends Controller
 {
@@ -476,6 +477,14 @@ class PagesController extends Controller
                         ->groupBy('region','typology','sr_name')
                         ->get();
         return view('pages.gbv.visualize',compact('barData','barSR','regions'));
+    }
+    public function fswIndex(){
+
+        return view('pages.typology.index');
+    }
+    public function fswReports(){
+        $demographics=Demographics::get();
+        return view('pages.typology.report',compact('demographics'));
     }
 
 

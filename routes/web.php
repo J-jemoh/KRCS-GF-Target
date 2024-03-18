@@ -9,6 +9,7 @@ use App\Http\Controllers\Pages\UserController;
 use App\Http\Controllers\Pages\QPMMController;
 use App\Http\Controllers\Pages\HRGController;
 use App\Http\Controllers\Pages\GBVController;
+use App\Http\Controllers\Pages\TypologyController;
 /*
 |--------------------------------------------------------------------------
 | Web Routes
@@ -135,6 +136,14 @@ Route::group(['middleware' => ['auth','activity']], function () {
             ->name('admin.gbv.visualize');
              Route::post('/gbv/upload', [GBVController::class, 'uploadGBV'])
             ->name('admin.gbv.post');
+
+            #Typology dataset
+            Route::get('/typology/fsw', [PagesController::class, 'fswIndex'])
+            ->name('admin.fsw.index');
+            Route::get('/typology/reports', [PagesController::class, 'fswReports'])
+            ->name('admin.fsw.report');
+            Route::post('/typology/demo/upload', [TypologyController::class, 'uploadDemo'])
+            ->name('admin.fsw.demo.post');
 
 
 

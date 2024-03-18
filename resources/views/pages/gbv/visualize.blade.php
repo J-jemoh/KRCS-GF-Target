@@ -23,7 +23,7 @@
       <div class="row">
         <div class="col-lg-12">
         <div class="card card-info">
-        <div class="card-header"><b>Count by Region by Typology</b></div>
+        <div class="card-header"><b>Count of Typology by Region</b></div>
         <div class="card-body">
            <div style="width: 100%;">
                 <canvas id="myChart"></canvas>
@@ -33,7 +33,7 @@
         </div>
         <div class="col-lg-12">
         <div class="card card-info">
-        <div class="card-header"><b>Count by SR by Typology</b></div>
+        <div class="card-header"><b>Count of Typology by SR</b></div>
         <div class="card-body">
         	<label>Region</label>
         	<select name="region" class="form-control" id="regionSelect">
