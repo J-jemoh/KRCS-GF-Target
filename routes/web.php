@@ -142,8 +142,20 @@ Route::group(['middleware' => ['auth','activity']], function () {
             ->name('admin.fsw.index');
             Route::get('/typology/reports', [PagesController::class, 'fswReports'])
             ->name('admin.fsw.report');
+            Route::get('/typology/template/demo', [PagesController::class, 'demoTemplate'])
+            ->name('admin.fsw.template.demo');
+             Route::get('/typology/template/fsw', [PagesController::class, 'fswTemplate'])
+            ->name('admin.fsw.template.fsw');
             Route::post('/typology/demo/upload', [TypologyController::class, 'uploadDemo'])
             ->name('admin.fsw.demo.post');
+            Route::post('/typology/fsw/upload', [TypologyController::class, 'uploadPartInfo'])
+            ->name('admin.fsw.fsw.post');
+            Route::get('/typology/demo/download-csv', [TypologyController::class, 'downloadCSV'])
+            ->name('fsw.download-demographics-csv');
+            Route::get('/typology/demo/download-excel', [TypologyController::class, 'downloadExcel'])->name('fsw.download-demographics-excel');
+            Route::get('typology/data', [PagesController::class, 'fetchDemographics'])->name('demographics.data');
+            Route::get('typology/export', [PagesController::class, 'export'])->name('demographics.export');
+            Route::get('typology/consolidated', [TypologyController::class, 'RetrieveAllData'])->name('admin.fsw.consolidated');
 
 
 

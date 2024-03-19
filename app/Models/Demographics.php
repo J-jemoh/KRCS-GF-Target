@@ -8,6 +8,7 @@ use Illuminate\Database\Eloquent\Model;
 class Demographics extends Model
 {
     use HasFactory;
+    protected $table = 'demographics';
 
     protected $fillable=[
             'user_id',
@@ -35,4 +36,8 @@ class Demographics extends Model
             'peer_educator',
             'peer_educator_code',
     ];
+    public function typology()
+    {
+      return $this->hasOne(Typology::class,'peer_educator_code', 'uic');
+    }
 }

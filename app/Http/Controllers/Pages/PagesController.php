@@ -2,6 +2,7 @@
 
 namespace App\Http\Controllers\Pages;
 use ConsoleTVs\Charts\Classes\Chartjs\BarChart;
+use Illuminate\Support\Facades\Schema;
 use App\Http\Controllers\Controller;
 use Illuminate\Http\Request;
 use Illuminate\View\View;
@@ -14,6 +15,9 @@ use Spatie\Permission\Models\Role;
 use App\Models\QPMM;
 use App\Models\GBV;
 use App\Models\Demographics;
+use App\Models\Typology;
+use DataTables;
+use Illuminate\Support\Facades\DB;
 
 class PagesController extends Controller
 {
@@ -483,8 +487,82 @@ class PagesController extends Controller
         return view('pages.typology.index');
     }
     public function fswReports(){
-        $demographics=Demographics::get();
-        return view('pages.typology.report',compact('demographics'));
+        $srCount = Demographics::distinct()->count('sr_name');
+        $counties = Demographics::distinct()->count('county');
+        $region = Demographics::distinct()->count('region');
+        $enrolled = Demographics::distinct()->count('uic');
+        #show age distribution
+        // Define age ranges
+        $ageRanges = [
+            '0-18' => [0, 18],
+            '19-24' => [19, 24],
+            '25-50' => [25, 50],
+            'Above 50' => [51, 999], // Adjust upper limit accordingly
+        ];
+
+        // Group by age ranges and count occurrences
+        $results = [];
+        foreach ($ageRanges as $range => $limits) {
+            $count = Demographics::whereBetween('age', $limits)->count();
+            $results[$range] = $count;
+        }
+        #hiv status at enrollment
+        $hivstatus = Demographics::select('hiv_status_enrol', DB::raw('COUNT(*) as count'))
+        ->groupBy('hiv_status_enrol')
+        ->get();
+        #defined package
+        $definedPackage = Typology::where(function ($query) {
+        $query->where('received_peer_education', 'yes')
+            ->orWhere('rssh', 'yes');
+            })
+            ->where('sti_screened', 'yes')
+            ->where(DB::raw('CAST(condom_distributed_nmbr AS UNSIGNED)'), '>', 0)
+            ->count();
+        $prepInitiated= Typology::where('prep_initated','Yes')->count();
+        $hivTested= Typology::where('hiv_tested','Yes')->count();
+
+        return view('pages.typology.report',compact('srCount','counties','region','enrolled','results','hivstatus','definedPackage','prepInitiated','hivTested'));
+    }
+    public function demoTemplate(){
+
+        return view('pages.typology.demographic');
+    }
+     public function fswTemplate(){
+
+        return view('pages.typology.typologyTemplate');
+    }
+    public function fetchDemographics(Request $request)
+    {
+    try {
+        // Get all columns from the Demographics table
+        $columns = Schema::getColumnListing('demographics');
+
+        // Fetch data with pagination
+        $data = Demographics::paginate(100);
+
+        // Prepare data for DataTables
+        $formattedData = [];
+        foreach ($data->items() as $item) {
+            $rowData = [];
+            foreach ($columns as $column) {
+                $rowData[$column] = $item->$column;
+            }
+            $formattedData[] = $rowData;
+        }
+
+        // Pass data and columns to the view
+        return view('pages.typology.report', compact('formattedData', 'columns'));
+    } catch (\Exception $e) {
+        // Log or handle any exceptions
+        return response()->json(['error' => $e->getMessage()], 500);
+    }
+    }
+
+    public function export()
+    {
+        $data = Demographics::all();
+
+        // Logic to export data as CSV or Excel
     }
 
 
