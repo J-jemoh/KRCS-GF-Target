@@ -88,7 +88,7 @@ public function uploadDemo(Request $request)
                 }
 
                 // Insert batch data into the database
-                Demographics::upsert($batch, ['sno', 'region', 'year', 'month'], array_keys($batch[0]));
+                Demographics::upsert($batch, ['sno','month', 'year', 'region','uic'], array_keys($batch[0]));
             }
 
             fclose($handle);
