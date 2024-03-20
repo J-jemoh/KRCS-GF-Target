@@ -14,6 +14,7 @@ use Illuminate\Support\Facades\Response;
 use Illuminate\Support\Facades\Schema;
 use PhpOffice\PhpSpreadsheet\Spreadsheet;
 use PhpOffice\PhpSpreadsheet\Writer\Xlsx;
+use Illuminate\Support\Facades\File;
 
 class TypologyController extends Controller
 {
@@ -220,7 +221,10 @@ public function uploadPartInfo(Request $request)
  public function downloadCSV()
     {
         // Fetch all demographics data from the database
-        $demographics = Demographics::all();
+        $distinctUICs = Demographics::distinct()->pluck('uic');
+
+// Fetch demographics data where uic is distinct
+        $demographics = Demographics::whereIn('uic', $distinctUICs)->get();
 
         // Get all column names from the demographics table
         $columns = Schema::getColumnListing('demographics');
@@ -304,50 +308,186 @@ public function uploadPartInfo(Request $request)
             exit();
         }
     public function RetrieveAllData(){
-       // $demographics = Demographics::with('typology')->get();
-         // Retrieve data from demographics table
-    $demographicsData = Demographics::select('*')->get();
+        // Set batch size
+        $batchSize = 3000; // Adjust as needed
 
-    // Retrieve data from typologies table
-    $typologiesData = Typology::select('*')->get();
+        // Set headers for CSV file
+        $headers = [
+            'Content-Type' => 'text/csv',
+            'Content-Disposition' => 'attachment; filename="FSW_Consolidated.csv"',
+        ];
 
-    // Merge data from both tables
-    $mergedData = [];
-    foreach ($demographicsData as $demographic) {
-        $mergedRow = $demographic->toArray();
-        foreach ($typologiesData as $typology) {
-            if ($demographic->year === $typology->year &&
-                $demographic->month === $typology->month &&
-                $demographic->region === $typology->region) {
-                $mergedRow = array_merge($mergedRow, $typology->toArray());
-                break; // Found matching typology, move to the next demographic
+        // Stream CSV file content directly to response
+        $callback = function () use ($batchSize, $headers) {
+            $file = fopen('php://output', 'w');
+
+            // Add column headers
+            $columnsToExport = [
+                'sno',
+                'month',
+                'year',
+                'region',
+                'county',
+                'sr_name',
+                'kp_name',
+                'hotspot',
+                'hotspot_typology',
+                'other_hotspot',
+                'subcounty',
+                'ward',
+                'kp_phone',
+                'kp_type',
+                'uic',
+                'age',
+                'yob',
+                'sex',
+                'first_contact_date',
+                'enrol_date',
+                'hiv_status_enrol',
+                'peer_educator',
+                'peer_educator_code',
+
+                // Columns from typologies table
+                'received_peer_education',
+                'clinical_services',
+                'hiv_tested',
+                'hts_service_point',
+                'hiv_test_freq',
+                'hiv_status',
+                'self_test_hiv',
+                'pre_art',
+                'art_started',
+                'currently_art',
+                'current_facility_care',
+                'hiv_care_outcome',
+                'art_outcome',
+                'due_vl',
+                'vl_done',
+                'vl_result_received',
+                'att_vl_suppression',
+                'tb_screened',
+                'tb_diagonised',
+                'tb_treatment_started',
+                'hiv_exposure_72hr',
+                'pep_72',
+                'completed_pep',
+                'condom_nmbr_reqr',
+                'condom_distributed_nmbr',
+                'condom_prov_as_per_need',
+                'lubricant_req_nbr',
+                'lubricant_distr_nbr',
+                'lubricant_prov_per_need',
+                'nssp_nmbr',
+                'nssp_distributed_nbr',
+                'received_nssp_need',
+                'hepc_screened',
+                'hepc_status',
+                'hepc_treated',
+                'hepb_screening',
+                'hepb_status',
+                'on_hepb_treatment',
+                'hepb_vaccination',
+                'sti_screened',
+                'sti_diagnosied',
+                'sti_treated',
+                'drug_abuse_screened',
+                'prep_initated',
+                'on_prep',
+                'modern_fp_services',
+                'rssh',
+                'ebi',
+                'exp_violence',
+                'post_violence_support',
+                'program_status',
+                'tca',
+            ];
+            fputcsv($file, $columnsToExport);
+
+            // Paginate demographics data
+            $regions = Demographics::select('region')->distinct()->pluck('region');
+
+    // Loop through each region
+    foreach ($regions as $region) {
+        // Paginate demographics data for the current region
+        $demographicsPage = 1;
+        do {
+            $demographicsData = Demographics::where('region', $region)
+                ->paginate($batchSize, ['*'], 'page', $demographicsPage);
+            $demographicsPage++;
+
+            // Retrieve typologies data for the current region
+            $typologiesData = Typology::whereIn('year', $demographicsData->pluck('year'))
+                ->whereIn('month', $demographicsData->pluck('month'))
+                ->where('region', $region)
+                ->get();
+
+            // Create a dictionary of typologies data for efficient lookup
+            $typologiesDict = [];
+            foreach ($typologiesData as $typology) {
+                $key = "{$typology->year}-{$typology->month}-{$typology->region}";
+                $typologiesDict[$key] = $typology->toArray();
             }
-        }
-        $mergedData[] = $mergedRow;
+
+            // Merge and output data
+            foreach ($demographicsData as $demographic) {
+                $key = "{$demographic->year}-{$demographic->month}-{$demographic->region}";
+                $typologyRow = $typologiesDict[$key] ?? [];
+                $mergedRow = array_merge($demographic->toArray(), $typologyRow);
+
+                // Select only the specified columns
+                $selectedColumns = array_intersect_key($mergedRow, array_flip($columnsToExport));
+                fputcsv($file, $selectedColumns);
+            }
+        } while ($demographicsData->hasMorePages());
     }
 
-    // Set headers for CSV file
-    $headers = [
-        'Content-Type' => 'text/csv',
-        'Content-Disposition' => 'attachment; filename="FSW_Consolidated.csv"',
-    ];
+    fclose($file);
+};
 
-    // Stream CSV file content directly to response
-    $callback = function () use ($mergedData) {
-        $file = fopen('php://output', 'w');
+return response()->stream($callback, 200, $headers);
 
-        // Add column headers
-        fputcsv($file, array_keys($mergedData[0]));
+    // $demographicsData = Demographics::select('*')->get();
 
-        // Add data rows
-        foreach ($mergedData as $row) {
-            fputcsv($file, $row);
-        }
+    // // Retrieve data from typologies table
+    // $typologiesData = Typology::select('*')->get();
 
-        fclose($file);
-    };
+    // // Merge data from both tables
+    // $mergedData = [];
+    // foreach ($demographicsData as $demographic) {
+    //     $mergedRow = $demographic->toArray();
+    //     foreach ($typologiesData as $typology) {
+    //         if ($demographic->year === $typology->year &&
+    //             $demographic->month === $typology->month &&
+    //             $demographic->region === $typology->region) {
+    //             $mergedRow = array_merge($mergedRow, $typology->toArray());
+    //             break; // Found matching typology, move to the next demographic
+    //         }
+    //     }
+    //     $mergedData[] = $mergedRow;
+    // }
 
-    return response()->stream($callback, 200, $headers);
+    // // Set headers for CSV file
+    // $headers = [
+    //     'Content-Type' => 'text/csv',
+    //     'Content-Disposition' => 'attachment; filename="FSW_Consolidated.csv"',
+    // ];
+
+    // // Stream CSV file content directly to response
+    // $callback = function () use ($mergedData) {
+    //     $file = fopen('php://output', 'w');
+
+    //     // Add column headers
+    //     fputcsv($file, array_keys($mergedData[0]));
+
+    //     // Add data rows
+    //     foreach ($mergedData as $row) {
+    //         fputcsv($file, $row);
+    //     }
+
+    //     fclose($file);
+    // };
+
+    // return response()->stream($callback, 200, $headers);
      //    $demographics = Demographics::join('typologies', function ($join) {
      //    $join->on('typologies.year', '=', 'demographics.year')
      //         ->on('typologies.month', '=', 'demographics.month')
@@ -392,6 +532,7 @@ public function uploadPartInfo(Request $request)
 
 
     }
+
 
 
 
