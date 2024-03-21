@@ -138,7 +138,7 @@
               </div>
               <div class="col-sm-6">
                 <div style="width: 100%;">
-                  <canvas id="hivStatusPieChart"></canvas>
+                  <canvas id="hivStatusPieChart" height="500"></canvas>
               </div>
               </div>
             </div>
@@ -175,6 +175,77 @@
               <div class="col-sm-6">
                 <div style="width: 100%;">
                   <canvas id="pieChart"></canvas>
+              </div>
+              </div>
+            </div>
+          </div>
+        </div>
+      <div class="card card-info">
+        <div class="card-header">Other visualizations</div>
+          <div class="card-body">
+            <div class="row">
+              <div class="col-lg-4">
+                <div class="card card-body bg-light">
+                <p><b>HIV tested frequency</b></p>
+                <div style="width: 100%;">
+                  <canvas id="hivFreqPieChart"></canvas>
+              </div>
+            </div>
+              </div>
+              <div class="col-lg-4">
+                <div class="card card-body bg-light">
+                <p><b>Reported Potential HIV Exposure within 72 hrs</b></p>
+                <div style="width: 100%;">
+                  <canvas id="hivExpPieChart"></canvas>
+              </div>
+              </div>
+              </div>
+               <div class="col-lg-4">
+                 <div class="card card-body bg-light">
+                <p><b>Provided with PEP within 72 hours</b></p>
+                <div style="width: 100%;">
+                  <canvas id="hivPepPieChart"></canvas>
+              </div>
+              </div>
+              </div>
+              <div class="col-lg-6">
+                 <div class="card card-body bg-light">
+                <p><b>HIV Care Outcome</b></p>
+                <div style="width: 100%;">
+                  <canvas id="hivCareBarChart" height="500"></canvas>
+              </div>
+              </div>
+              </div>
+              <div class="col-lg-6">
+                 <div class="card card-body bg-light">
+                <p><b>ART Outcome</b></p>
+                <div style="width: 100%;">
+                  <canvas id="ArtBarChart" height="500"></canvas>
+              </div>
+              </div>
+              </div>
+              <div class="col-lg-4">
+                 <div class="card card-body bg-light">
+                <p><b>Due for Viral Load</b></p>
+                <div style="width: 100%;">
+                  <canvas id="dueBarChart" height="500"></canvas>
+              </div>
+              </div>
+              </div>
+               <div class="col-lg-4">
+                 <div class="card card-body bg-light">
+                <p><b>Viral Load Done</b></p>
+                <div style="width: 100%;">
+                  <canvas id="VlDoneBarChart" height="500"></canvas>
+              </div>
+              </div>
+              </div>
+              <div class="col-lg-4">
+                 <div class="card card-body bg-light">
+                <p><b>Received Viral Load Result</b></p>
+                <div style="width: 100%;">
+                  <canvas id="VlRBarChart" height="500"></canvas>
+              </div>
               </div>
               </div>
             </div>
@@ -308,3 +379,408 @@
               });
         });
     </script>
+    <!-- HIV TESTED FREQUENCY -->
+     <script>
+        // Data for the pie chart
+      document.addEventListener("DOMContentLoaded", function(){
+        var data = {
+            labels: {!! $hivFreq->pluck('hiv_test_freq') !!},
+            datasets: [{
+                data: {!! $hivFreq->pluck('count') !!},
+                backgroundColor: [
+                    'rgba(255, 99, 132, 0.5)',
+                    'rgba(54, 162, 235, 0.5)',
+                    'rgba(255, 206, 86, 0.5)',
+                    'rgba(75, 192, 192, 0.5)'
+                ],
+                borderColor: [
+                    'rgba(255, 99, 132, 1)',
+                    'rgba(54, 162, 235, 1)',
+                    'rgba(255, 206, 86, 1)',
+                    'rgba(75, 192, 192, 1)'
+                ],
+                borderWidth: 1
+            }]
+        };
+
+        // Options for the pie chart
+        var options = {
+            responsive: true,
+            maintainAspectRatio: false,
+            title: {
+                display: true,
+                text: 'HIV Tested Frequency'
+            }
+        };
+
+        // Get the canvas element
+        var ctx = document.getElementById('hivFreqPieChart').getContext('2d');
+
+        // Create the pie chart
+        var hivStatusPieChart = new Chart(ctx, {
+            type: 'pie',
+            data: data,
+            options: options
+        });
+        });
+    </script>
+    <!-- HIV EXPOSURE WITHIN 72HR -->
+     <<script>
+    // Data for the pie chart
+    document.addEventListener("DOMContentLoaded", function(){
+        var labels = {!! $hivExposure72->pluck('hiv_exposure_72hr') !!};
+        var counts = {!! $hivExposure72->pluck('count') !!};
+
+        var dynamicColors = [];
+        for (var i = 0; i < counts.length; i++) {
+            var r = Math.floor(Math.random() * 256);
+            var g = Math.floor(Math.random() * 256);
+            var b = Math.floor(Math.random() * 256);
+            dynamicColors.push('rgba(' + r + ', ' + g + ', ' + b + ', 0.6)');
+        }
+
+        var data = {
+            labels: labels,
+            datasets: [{
+                data: counts,
+                backgroundColor: dynamicColors,
+                borderColor: dynamicColors.map(color => color.replace(/,\s*0\.5\)/, ', 1)')), // Adjust alpha to 1 for border color
+                borderWidth: 1
+            }]
+        };
+
+        // Options for the pie chart
+        var options = {
+            responsive: true,
+            maintainAspectRatio: false,
+            title: {
+                display: true,
+                text: 'HIV Exposure within 72hrs'
+            }
+        };
+
+        // Get the canvas element
+        var ctx = document.getElementById('hivExpPieChart').getContext('2d');
+
+        // Create the pie chart
+        var hivStatusPieChart = new Chart(ctx, {
+            type: 'pie',
+            data: data,
+            options: options
+        });
+    });
+</script>
+<!-- PEP WITHIN 72HR -->
+     <<script>
+    // Data for the pie chart
+    document.addEventListener("DOMContentLoaded", function(){
+        var labels = {!! $Pep72->pluck('pep_72') !!};
+        var counts = {!! $Pep72->pluck('count') !!};
+
+        var dynamicColors = [];
+        for (var i = 0; i < counts.length; i++) {
+            var r = Math.floor(Math.random() * 256);
+            var g = Math.floor(Math.random() * 256);
+            var b = Math.floor(Math.random() * 256);
+            dynamicColors.push('rgba(' + r + ', ' + g + ', ' + b + ', 0.6)');
+        }
+
+        var data = {
+            labels: labels,
+            datasets: [{
+                data: counts,
+                backgroundColor: dynamicColors,
+                borderColor: dynamicColors.map(color => color.replace(/,\s*0\.5\)/, ', 1)')), // Adjust alpha to 1 for border color
+                borderWidth: 1
+            }]
+        };
+
+        // Options for the pie chart
+        var options = {
+            responsive: true,
+            maintainAspectRatio: false,
+            title: {
+                display: true,
+                text: 'HIV Exposure within 72hrs'
+            }
+        };
+
+        // Get the canvas element
+        var ctx = document.getElementById('hivPepPieChart').getContext('2d');
+
+        // Create the pie chart
+        var hivStatusPieChart = new Chart(ctx, {
+            type: 'pie',
+            data: data,
+            options: options
+        });
+    });
+</script>
+<!-- HIV CARE OUTCOME -->
+<script>
+    // Data for the bar chart
+    document.addEventListener("DOMContentLoaded", function(){
+        var labels = {!! $CareOutcome->pluck('hiv_care_outcome') !!};
+        var counts = {!! $CareOutcome->pluck('count') !!};
+
+        var dynamicColors = [];
+        for (var i = 0; i < counts.length; i++) {
+            var r = Math.floor(Math.random() * 256);
+            var g = Math.floor(Math.random() * 256);
+            var b = Math.floor(Math.random() * 256);
+            dynamicColors.push('rgba(' + r + ', ' + g + ', ' + b + ', 0.6)');
+        }
+
+        var data = {
+            labels: labels,
+            datasets: [{
+                data: counts,
+                backgroundColor: dynamicColors,
+                borderColor: dynamicColors.map(color => color.replace(/,\s*0\.5\)/, ', 1)')), // Adjust alpha to 1 for border color
+                borderWidth: 1
+            }]
+        };
+
+        // Options for the bar chart
+        var options = {
+            responsive: true,
+            maintainAspectRatio: false,
+            title: {
+                display: true,
+                text: 'HIV Care Outcome'
+            },
+            scales: {
+                yAxes: [{
+                    ticks: {
+                        beginAtZero: true
+                    }
+                }]
+            }
+        };
+
+        // Get the canvas element
+        var ctx = document.getElementById('hivCareBarChart').getContext('2d');
+
+        // Create the bar chart
+        var hivStatusBarChart = new Chart(ctx, {
+            type: 'bar',
+            data: data,
+            options: options
+        });
+    });
+</script>
+<!-- ART OUTCOME -->
+<script>
+    // Data for the bar chart
+    document.addEventListener("DOMContentLoaded", function(){
+        var labels = {!! $ArtOutcome->pluck('art_outcome') !!};
+        var counts = {!! $ArtOutcome->pluck('count') !!};
+
+        var dynamicColors = [];
+        for (var i = 0; i < counts.length; i++) {
+            var r = Math.floor(Math.random() * 256);
+            var g = Math.floor(Math.random() * 256);
+            var b = Math.floor(Math.random() * 256);
+            dynamicColors.push('rgba(' + r + ', ' + g + ', ' + b + ', 0.6)');
+        }
+
+        var data = {
+            labels: labels,
+            datasets: [{
+                data: counts,
+                backgroundColor: dynamicColors,
+                borderColor: dynamicColors.map(color => color.replace(/,\s*0\.5\)/, ', 1)')), // Adjust alpha to 1 for border color
+                borderWidth: 1
+            }]
+        };
+
+        // Options for the bar chart
+        var options = {
+            responsive: true,
+            maintainAspectRatio: false,
+            title: {
+                display: true,
+                text: 'ART Outcome'
+            },
+            scales: {
+                yAxes: [{
+                    ticks: {
+                        beginAtZero: true
+                    }
+                }]
+            }
+        };
+
+        // Get the canvas element
+        var ctx = document.getElementById('ArtBarChart').getContext('2d');
+
+        // Create the bar chart
+        var hivStatusBarChart = new Chart(ctx, {
+            type: 'bar',
+            data: data,
+            options: options
+        });
+    });
+</script>
+<!-- Due for Viral Load -->
+<script>
+    // Data for the bar chart
+    document.addEventListener("DOMContentLoaded", function(){
+        var labels = {!! $vlDue->pluck('due_vl') !!};
+        var counts = {!! $vlDue->pluck('count') !!};
+
+        var dynamicColors = [];
+        for (var i = 0; i < counts.length; i++) {
+            var r = Math.floor(Math.random() * 256);
+            var g = Math.floor(Math.random() * 256);
+            var b = Math.floor(Math.random() * 256);
+            dynamicColors.push('rgba(' + r + ', ' + g + ', ' + b + ', 0.6)');
+        }
+
+        var data = {
+            labels: labels,
+            datasets: [{
+                data: counts,
+                backgroundColor: dynamicColors,
+                borderColor: dynamicColors.map(color => color.replace(/,\s*0\.5\)/, ', 1)')), // Adjust alpha to 1 for border color
+                borderWidth: 1
+            }]
+        };
+
+        // Options for the bar chart
+        var options = {
+            responsive: true,
+            maintainAspectRatio: false,
+            title: {
+                display: true,
+                text: 'Due VL'
+            },
+            scales: {
+                yAxes: [{
+                    ticks: {
+                        beginAtZero: true
+                    }
+                }]
+            }
+        };
+
+        // Get the canvas element
+        var ctx = document.getElementById('dueBarChart').getContext('2d');
+
+        // Create the bar chart
+        var hivStatusBarChart = new Chart(ctx, {
+            type: 'bar',
+            data: data,
+            options: options
+        });
+    });
+</script>
+<!-- Viral  load done -->
+<script>
+    // Data for the bar chart
+    document.addEventListener("DOMContentLoaded", function(){
+        var labels = {!! $vlDone->pluck('vl_done') !!};
+        var counts = {!! $vlDone->pluck('count') !!};
+
+        var dynamicColors = [];
+        for (var i = 0; i < counts.length; i++) {
+            var r = Math.floor(Math.random() * 256);
+            var g = Math.floor(Math.random() * 256);
+            var b = Math.floor(Math.random() * 256);
+            dynamicColors.push('rgba(' + r + ', ' + g + ', ' + b + ', 0.6)');
+        }
+
+        var data = {
+            labels: labels,
+            datasets: [{
+                data: counts,
+                backgroundColor: dynamicColors,
+                borderColor: dynamicColors.map(color => color.replace(/,\s*0\.5\)/, ', 1)')), // Adjust alpha to 1 for border color
+                borderWidth: 1
+            }]
+        };
+
+        // Options for the bar chart
+        var options = {
+            responsive: true,
+            maintainAspectRatio: false,
+            title: {
+                display: true,
+                text: 'VL Done'
+            },
+            scales: {
+                yAxes: [{
+                    ticks: {
+                        beginAtZero: true
+                    }
+                }]
+            }
+        };
+
+        // Get the canvas element
+        var ctx = document.getElementById('VlDoneBarChart').getContext('2d');
+
+        // Create the bar chart
+        var hivStatusBarChart = new Chart(ctx, {
+            type: 'bar',
+            data: data,
+            options: options
+        });
+    });
+</script>
+<!-- Received Viral load -->
+<script>
+    // Data for the bar chart
+    document.addEventListener("DOMContentLoaded", function(){
+        var labels = {!! $ReceivedVl->pluck('vl_result_received') !!};
+        var counts = {!! $ReceivedVl->pluck('count') !!};
+
+        var dynamicColors = [];
+        for (var i = 0; i < counts.length; i++) {
+            var r = Math.floor(Math.random() * 256);
+            var g = Math.floor(Math.random() * 256);
+            var b = Math.floor(Math.random() * 256);
+            dynamicColors.push('rgba(' + r + ', ' + g + ', ' + b + ', 0.6)');
+        }
+
+        var data = {
+            labels: labels,
+            datasets: [{
+                data: counts,
+                backgroundColor: dynamicColors,
+                borderColor: dynamicColors.map(color => color.replace(/,\s*0\.5\)/, ', 1)')), // Adjust alpha to 1 for border color
+                borderWidth: 1
+            }]
+        };
+
+        // Options for the bar chart
+        var options = {
+            responsive: true,
+            maintainAspectRatio: false,
+            title: {
+                display: true,
+                text: 'VL Received'
+            },
+            scales: {
+                yAxes: [{
+                    ticks: {
+                        beginAtZero: true
+                    }
+                }]
+            }
+        };
+
+        // Get the canvas element
+        var ctx = document.getElementById('VlRBarChart').getContext('2d');
+
+        // Create the bar chart
+        var hivStatusBarChart = new Chart(ctx, {
+            type: 'bar',
+            data: data,
+            options: options
+        });
+    });
+</script>
+
+
+

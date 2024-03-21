@@ -520,8 +520,32 @@ class PagesController extends Controller
             ->count();
         $prepInitiated= Typology::where('prep_initated','Yes')->count();
         $hivTested= Typology::where('hiv_tested','Yes')->count();
+        $hivFreq = Typology::select('hiv_test_freq', DB::raw('COUNT(*) as count'))
+        ->groupBy('hiv_test_freq')
+        ->get();
+        $hivExposure72 = Typology::select('hiv_exposure_72hr', DB::raw('COUNT(*) as count'))
+        ->groupBy('hiv_exposure_72hr')
+        ->get();
+        $Pep72 = Typology::select('pep_72', DB::raw('COUNT(*) as count'))
+        ->groupBy('pep_72')
+        ->get();
+         $CareOutcome = Typology::select('hiv_care_outcome', DB::raw('COUNT(*) as count'))
+        ->groupBy('hiv_care_outcome')
+        ->get();
+        $ArtOutcome = Typology::select('art_outcome', DB::raw('COUNT(*) as count'))
+        ->groupBy('art_outcome')
+        ->get();
+        $vlDue = Typology::select('due_vl', DB::raw('COUNT(*) as count'))
+        ->groupBy('due_vl')
+        ->get();
+        $vlDone = Typology::select('vl_done', DB::raw('COUNT(*) as count'))
+        ->groupBy('vl_done')
+        ->get();
+        $ReceivedVl = Typology::select('vl_result_received', DB::raw('COUNT(*) as count'))
+        ->groupBy('vl_result_received')
+        ->get();
 
-        return view('pages.typology.report',compact('srCount','counties','region','enrolled','results','hivstatus','definedPackage','prepInitiated','hivTested'));
+        return view('pages.typology.report',compact('srCount','counties','region','enrolled','results','hivstatus','definedPackage','prepInitiated','hivTested','hivFreq','hivExposure72','Pep72','CareOutcome','ArtOutcome','vlDue','vlDone','ReceivedVl'));
     }
     public function demoTemplate(){
 
