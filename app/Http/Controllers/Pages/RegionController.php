@@ -55,8 +55,11 @@ class RegionController extends Controller
         $hivFreq = Typology::select('hiv_test_freq', DB::raw('COUNT(*) as count'))
         ->groupBy('hiv_test_freq')
         ->get();
+        $hivStatus = Typology::select('hiv_status', DB::raw('COUNT(*) as count'))
+        ->groupBy('hiv_status')
+        ->get();
 
-        return view('pages.region.index',compact('regions','typology','srCount','counties','pe','enrolled','results','hivstatus','hivFreq'));
+        return view('pages.region.index',compact('regions','typology','srCount','counties','pe','enrolled','results','hivstatus','hivFreq','hivStatus'));
     }
      public function getCounts(Request $request)
     {
@@ -137,6 +140,26 @@ public function fetchByRegion(Request $request)
         // Prepare data for the pie chart
         $labels = $hivFreq->pluck('hiv_test_freq');
         $values = $hivFreq->pluck('count');
+
+        // Return the data in JSON format
+        return response()->json([
+            'labels' => $labels,
+            'values' => $values
+        ]);
+    }
+    public function fetchByHivStatus(Request $request)
+    {
+        $selectedRegion = $request->input('region');
+
+        // Query HIV status data based on the selected region
+        $hivStatus = Typology::select('hiv_status', DB::raw('COUNT(*) as count'))
+        ->groupBy('hiv_status')
+        ->where('region',$selectedRegion)
+        ->get();
+
+        // Prepare data for the pie chart
+        $labels = $hivStatus->pluck('hiv_status');
+        $values = $hivStatus->pluck('count');
 
         // Return the data in JSON format
         return response()->json([

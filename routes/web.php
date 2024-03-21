@@ -163,6 +163,7 @@ Route::group(['middleware' => ['auth','activity']], function () {
             Route::get('/update-chart', [RegionController::class, 'displayageChart'])->name('agechart.fetch');
             Route::get('/update-region', [RegionController::class, 'fetchByRegion'])->name('regionchart.fetch');
             Route::get('/update-hiv-freq', [RegionController::class, 'fetchByHivFreq'])->name('hivfreqchart.fetch');
+            Route::get('/update-hiv-status', [RegionController::class, 'fetchByHivStatus'])->name('hivStatuschart.fetch');
 
 
 
