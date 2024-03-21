@@ -425,7 +425,7 @@
         });
     </script>
     <!-- HIV EXPOSURE WITHIN 72HR -->
-     <<script>
+     <script>
     // Data for the pie chart
     document.addEventListener("DOMContentLoaded", function(){
         var labels = {!! $hivExposure72->pluck('hiv_exposure_72hr') !!};
@@ -471,7 +471,7 @@
     });
 </script>
 <!-- PEP WITHIN 72HR -->
-     <<script>
+     <script>
     // Data for the pie chart
     document.addEventListener("DOMContentLoaded", function(){
         var labels = {!! $Pep72->pluck('pep_72') !!};

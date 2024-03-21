@@ -157,6 +157,13 @@ Route::group(['middleware' => ['auth','activity']], function () {
             Route::get('typology/export', [PagesController::class, 'export'])->name('demographics.export');
             Route::get('typology/consolidated', [TypologyController::class, 'RetrieveAllData'])->name('admin.fsw.consolidated');
 
+            #reions Route
+            Route::get('/region/home',[RegionController::class,'index'])->name('admin.region.index');
+            Route::get('/get-counts', [RegionController::class, 'getCounts'])->name('get-counts');
+            Route::get('/update-chart', [RegionController::class, 'displayageChart'])->name('agechart.fetch');
+            Route::get('/update-region', [RegionController::class, 'fetchByRegion'])->name('regionchart.fetch');
+            Route::get('/update-hiv-freq', [RegionController::class, 'fetchByHivFreq'])->name('hivfreqchart.fetch');
+
 
 
 
