@@ -544,8 +544,14 @@ class PagesController extends Controller
         $ReceivedVl = Typology::select('vl_result_received', DB::raw('COUNT(*) as count'))
         ->groupBy('vl_result_received')
         ->get();
+        $hivStatus = Typology::select('hiv_status', DB::raw('COUNT(*) as count'))
+        ->groupBy('hiv_status')
+        ->get();
+        $Cart = Typology::select('currently_art', DB::raw('COUNT(*) as count'))
+        ->groupBy('currently_art')
+        ->get();
 
-        return view('pages.typology.report',compact('srCount','counties','region','enrolled','results','hivstatus','definedPackage','prepInitiated','hivTested','hivFreq','hivExposure72','Pep72','CareOutcome','ArtOutcome','vlDue','vlDone','ReceivedVl'));
+        return view('pages.typology.report',compact('srCount','counties','region','enrolled','results','hivstatus','definedPackage','prepInitiated','hivTested','hivFreq','hivExposure72','Pep72','CareOutcome','ArtOutcome','vlDue','vlDone','ReceivedVl','hivStatus','Cart'));
     }
     public function demoTemplate(){
 

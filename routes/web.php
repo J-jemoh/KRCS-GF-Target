@@ -164,6 +164,11 @@ Route::group(['middleware' => ['auth','activity']], function () {
             Route::get('/update-region', [RegionController::class, 'fetchByRegion'])->name('regionchart.fetch');
             Route::get('/update-hiv-freq', [RegionController::class, 'fetchByHivFreq'])->name('hivfreqchart.fetch');
             Route::get('/update-hiv-status', [RegionController::class, 'fetchByHivStatus'])->name('hivStatuschart.fetch');
+            Route::get('/update-currently-art', [RegionController::class, 'CurrentlyArt'])->name('cartchart.fetch');
+            Route::get('/update-care-outcome', [RegionController::class, 'CareOutcome'])->name('carechart.fetch');
+            Route::get('/update-peer-education', [RegionController::class, 'PeerEducation'])->name('peereducation.fetch');
+            Route::get('/update-sti-screened', [RegionController::class, 'StiScreened'])->name('stiscreened.fetch');
+            Route::get('/update-tb-screened', [RegionController::class, 'TbScreened'])->name('tbscreened.fetch');
 
 
 

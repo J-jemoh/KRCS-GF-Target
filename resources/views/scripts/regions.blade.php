@@ -31,9 +31,7 @@
             updateChart(selectedRegion);
         });
     });
-</script>
-// 
-<script>
+
 var ageChart;
 var defaultRegion = "LER";
 
@@ -104,9 +102,7 @@ document.addEventListener('DOMContentLoaded', function () {
     });
 });
 
-   </script>
-   // <!-- HIV STATUS AT ENROLMENT -->
-    <script>
+
 document.addEventListener("DOMContentLoaded", function(){
     // Function to update the pie chart based on the selected region
     var defaultRegion = "LER";
@@ -182,9 +178,7 @@ document.addEventListener("DOMContentLoaded", function(){
     });
 });
 
-    </script>
-    // HIV FREQUENCY
-<script>
+
 document.addEventListener("DOMContentLoaded", function(){
     // Function to update the pie chart based on the selected region
     var defaultRegion = "LER";
@@ -238,7 +232,7 @@ document.addEventListener("DOMContentLoaded", function(){
 
     // Create the pie chart
     var hivStatusPieChart = new Chart(ctx, {
-        type: 'pie',
+        type: 'doughnut',
         data: {
             labels: initialData.labels,
             datasets: [{
@@ -263,9 +257,6 @@ document.addEventListener("DOMContentLoaded", function(){
     });
 });
 
-</script>
-// <!-- hiv status -->
-<script>
 document.addEventListener("DOMContentLoaded", function(){
     // Function to update the bar chart based on the selected region
     var defaultRegion = "LER";
@@ -345,5 +336,375 @@ document.addEventListener("DOMContentLoaded", function(){
     });
 });
 
-</script>
 
+document.addEventListener("DOMContentLoaded", function(){
+    // Function to update the pie chart based on the selected region
+    var defaultRegion = "LER";
+    function updatePieChart(selectedRegion) {
+        // Fetch data for the selected region
+        fetch('{{ route("cartchart.fetch") }}?region=' + selectedRegion, {
+            method: 'GET',
+            headers: {
+                'Content-Type': 'application/json',
+                'X-CSRF-TOKEN': '{{ csrf_token() }}'
+            }
+        })
+        .then(response => response.json())
+        .then(data => {
+            // Update pie chart data
+            hivStatusPieChart.data.labels = data.labels;
+            hivStatusPieChart.data.datasets[0].data = data.values;
+            hivStatusPieChart.update();
+        })
+        .catch(error => {
+            console.error('Error fetching data:', error);
+        });
+    }
+
+    // Get the initial data for the pie chart
+    var initialData = {
+        labels: {!! $Cart->pluck('currently_art') !!},
+        values: {!! $Cart->pluck('count') !!}
+    };
+
+    // Options for the pie chart
+    var options = {
+        responsive: true,
+        maintainAspectRatio: false,
+        title: {
+            display: true,
+            text: 'Currently on ART'
+        }
+    };
+
+    // Get the canvas element
+    var ctx = document.getElementById('CARTChart').getContext('2d');
+
+    // Create the pie chart
+    var hivStatusPieChart = new Chart(ctx, {
+        type: 'pie',
+        data: {
+            labels: initialData.labels,
+            datasets: [{
+                data: initialData.values,
+                backgroundColor: [
+                    'rgba(255, 99, 132, 0.6)',
+                    'rgba(54, 162, 235, 0.7)',
+                    'rgba(255, 206, 86, 0.6)',
+                    'rgba(75, 192, 192, 0.6)'
+                ],
+                borderColor: [
+                    'rgba(255, 99, 132, 1)',
+                    'rgba(54, 162, 235, 1)',
+                    'rgba(255, 206, 86, 1)',
+                    'rgba(75, 192, 192, 1)'
+                ],
+                borderWidth: 1
+            }]
+        },
+        options: options
+    });
+      updatePieChart(defaultRegion);
+    // Event listener for the dropdown menu
+    document.getElementById('regionSelect').addEventListener('change', function() {
+        var selectedRegion = this.value;
+        updatePieChart(selectedRegion);
+    });
+});
+document.addEventListener("DOMContentLoaded", function(){
+    // Function to update the pie chart based on the selected region
+    var defaultRegion = "LER";
+    function updatePieChart(selectedRegion) {
+        // Fetch data for the selected region
+        fetch('{{ route("carechart.fetch") }}?region=' + selectedRegion, {
+            method: 'GET',
+            headers: {
+                'Content-Type': 'application/json',
+                'X-CSRF-TOKEN': '{{ csrf_token() }}'
+            }
+        })
+        .then(response => response.json())
+        .then(data => {
+            // Update pie chart data
+            hivStatusPieChart.data.labels = data.labels;
+            hivStatusPieChart.data.datasets[0].data = data.values;
+            hivStatusPieChart.update();
+        })
+        .catch(error => {
+            console.error('Error fetching data:', error);
+        });
+    }
+
+    // Get the initial data for the pie chart
+    var initialData = {
+        labels: {!! $Careoutcome->pluck('hiv_care_outcome') !!},
+        values: {!! $Careoutcome->pluck('count') !!}
+    };
+
+    // Options for the pie chart
+    var options = {
+        responsive: true,
+        maintainAspectRatio: false,
+        title: {
+            display: true,
+            text: 'HIV Care Outcome'
+        }
+    };
+
+    // Get the canvas element
+    var ctx = document.getElementById('careOutcomeChart').getContext('2d');
+
+    // Create the pie chart
+    var hivStatusPieChart = new Chart(ctx, {
+        type: 'bar',
+        data: {
+            labels: initialData.labels,
+            datasets: [{
+                data: initialData.values,
+                backgroundColor: [
+                    'rgba(255, 99, 132, 0.6)',
+                    'rgba(54, 162, 235, 0.7)',
+                    'rgba(255, 206, 86, 0.6)',
+                    'rgba(75, 192, 192, 0.6)'
+                ],
+                borderColor: [
+                    'rgba(255, 99, 132, 1)',
+                    'rgba(54, 162, 235, 1)',
+                    'rgba(255, 206, 86, 1)',
+                    'rgba(75, 192, 192, 1)'
+                ],
+                borderWidth: 1
+            }]
+        },
+        options: options
+    });
+      updatePieChart(defaultRegion);
+    // Event listener for the dropdown menu
+    document.getElementById('regionSelect').addEventListener('change', function() {
+        var selectedRegion = this.value;
+        updatePieChart(selectedRegion);
+    });
+});
+document.addEventListener("DOMContentLoaded", function(){
+    // Function to update the pie chart based on the selected region
+    var defaultRegion = "LER";
+    function updatePieChart(selectedRegion) {
+        // Fetch data for the selected region
+        fetch('{{ route("peereducation.fetch") }}?region=' + selectedRegion, {
+            method: 'GET',
+            headers: {
+                'Content-Type': 'application/json',
+                'X-CSRF-TOKEN': '{{ csrf_token() }}'
+            }
+        })
+        .then(response => response.json())
+        .then(data => {
+            // Update pie chart data
+            hivStatusPieChart.data.labels = data.labels;
+            hivStatusPieChart.data.datasets[0].data = data.values;
+            hivStatusPieChart.update();
+        })
+        .catch(error => {
+            console.error('Error fetching data:', error);
+        });
+    }
+
+    // Get the initial data for the pie chart
+    var initialData = {
+        labels: {!! $PeEd->pluck('received_peer_education') !!},
+        values: {!! $PeEd->pluck('count') !!}
+    };
+
+    // Options for the pie chart
+    var options = {
+        responsive: true,
+        maintainAspectRatio: false,
+        title: {
+            display: true,
+            text: 'Peer Education'
+        }
+    };
+
+    // Get the canvas element
+    var ctx = document.getElementById('PeerChart').getContext('2d');
+
+    // Create the pie chart
+    var hivStatusPieChart = new Chart(ctx, {
+        type: 'doughnut',
+        data: {
+            labels: initialData.labels,
+            datasets: [{
+                data: initialData.values,
+                backgroundColor: [
+                    'rgba(255, 99, 132, 0.6)',
+                    'rgba(54, 162, 235, 0.7)',
+                    'rgba(255, 206, 86, 0.6)',
+                    'rgba(75, 192, 192, 0.6)'
+                ],
+                borderColor: [
+                    'rgba(255, 99, 132, 1)',
+                    'rgba(54, 162, 235, 1)',
+                    'rgba(255, 206, 86, 1)',
+                    'rgba(75, 192, 192, 1)'
+                ],
+                borderWidth: 1
+            }]
+        },
+        options: options
+    });
+      updatePieChart(defaultRegion);
+    // Event listener for the dropdown menu
+    document.getElementById('regionSelect').addEventListener('change', function() {
+        var selectedRegion = this.value;
+        updatePieChart(selectedRegion);
+    });
+});
+document.addEventListener("DOMContentLoaded", function(){
+    // Function to update the pie chart based on the selected region
+    var defaultRegion = "LER";
+    function updatePieChart(selectedRegion) {
+        // Fetch data for the selected region
+        fetch('{{ route("stiscreened.fetch") }}?region=' + selectedRegion, {
+            method: 'GET',
+            headers: {
+                'Content-Type': 'application/json',
+                'X-CSRF-TOKEN': '{{ csrf_token() }}'
+            }
+        })
+        .then(response => response.json())
+        .then(data => {
+            // Update pie chart data
+            hivStatusPieChart.data.labels = data.labels;
+            hivStatusPieChart.data.datasets[0].data = data.values;
+            hivStatusPieChart.update();
+        })
+        .catch(error => {
+            console.error('Error fetching data:', error);
+        });
+    }
+
+    // Get the initial data for the pie chart
+    var initialData = {
+        labels: {!! $StiScreened->pluck('sti_screened') !!},
+        values: {!! $StiScreened->pluck('count') !!}
+    };
+
+    // Options for the pie chart
+    var options = {
+        responsive: true,
+        maintainAspectRatio: false,
+        title: {
+            display: true,
+            text: 'Screened STI'
+        }
+    };
+
+    // Get the canvas element
+    var ctx = document.getElementById('StiChart').getContext('2d');
+
+    // Create the pie chart
+    var hivStatusPieChart = new Chart(ctx, {
+        type: 'doughnut',
+        data: {
+            labels: initialData.labels,
+            datasets: [{
+                data: initialData.values,
+                backgroundColor: [
+                    'rgba(255, 99, 132, 0.6)',
+                    'rgba(54, 162, 235, 0.7)',
+                    'rgba(255, 206, 86, 0.6)',
+                    'rgba(75, 192, 192, 0.6)'
+                ],
+                borderColor: [
+                    'rgba(255, 99, 132, 1)',
+                    'rgba(54, 162, 235, 1)',
+                    'rgba(255, 206, 86, 1)',
+                    'rgba(75, 192, 192, 1)'
+                ],
+                borderWidth: 1
+            }]
+        },
+        options: options
+    });
+      updatePieChart(defaultRegion);
+    // Event listener for the dropdown menu
+    document.getElementById('regionSelect').addEventListener('change', function() {
+        var selectedRegion = this.value;
+        updatePieChart(selectedRegion);
+    });
+});
+document.addEventListener("DOMContentLoaded", function(){
+    // Function to update the pie chart based on the selected region
+    var defaultRegion = "LER";
+    function updatePieChart(selectedRegion) {
+        // Fetch data for the selected region
+        fetch('{{ route("tbscreened.fetch") }}?region=' + selectedRegion, {
+            method: 'GET',
+            headers: {
+                'Content-Type': 'application/json',
+                'X-CSRF-TOKEN': '{{ csrf_token() }}'
+            }
+        })
+        .then(response => response.json())
+        .then(data => {
+            // Update pie chart data
+            hivStatusPieChart.data.labels = data.labels;
+            hivStatusPieChart.data.datasets[0].data = data.values;
+            hivStatusPieChart.update();
+        })
+        .catch(error => {
+            console.error('Error fetching data:', error);
+        });
+    }
+
+    // Get the initial data for the pie chart
+    var initialData = {
+        labels: {!! $TbScreened->pluck('tb_screened') !!},
+        values: {!! $TbScreened->pluck('count') !!}
+    };
+
+    // Options for the pie chart
+    var options = {
+        responsive: true,
+        maintainAspectRatio: false,
+        title: {
+            display: true,
+            text: 'Screened TB'
+        }
+    };
+
+    // Get the canvas element
+    var ctx = document.getElementById('TBChart').getContext('2d');
+
+    // Create the pie chart
+    var hivStatusPieChart = new Chart(ctx, {
+        type: 'doughnut',
+        data: {
+            labels: initialData.labels,
+            datasets: [{
+                data: initialData.values,
+                backgroundColor: [
+                    'rgba(255, 99, 132, 0.6)',
+                    'rgba(54, 162, 235, 0.7)',
+                    'rgba(255, 206, 86, 0.6)',
+                    'rgba(75, 192, 192, 0.6)'
+                ],
+                borderColor: [
+                    'rgba(255, 99, 132, 1)',
+                    'rgba(54, 162, 235, 1)',
+                    'rgba(255, 206, 86, 1)',
+                    'rgba(75, 192, 192, 1)'
+                ],
+                borderWidth: 1
+            }]
+        },
+        options: options
+    });
+      updatePieChart(defaultRegion);
+    // Event listener for the dropdown menu
+    document.getElementById('regionSelect').addEventListener('change', function() {
+        var selectedRegion = this.value;
+        updatePieChart(selectedRegion);
+    });
+});
+</script>

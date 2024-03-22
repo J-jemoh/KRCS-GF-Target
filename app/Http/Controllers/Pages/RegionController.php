@@ -58,8 +58,23 @@ class RegionController extends Controller
         $hivStatus = Typology::select('hiv_status', DB::raw('COUNT(*) as count'))
         ->groupBy('hiv_status')
         ->get();
+        $Cart = Typology::select('currently_art', DB::raw('COUNT(*) as count'))
+        ->groupBy('currently_art')
+        ->get();
+        $Careoutcome = Typology::select('hiv_care_outcome', DB::raw('COUNT(*) as count'))
+        ->groupBy('hiv_care_outcome')
+        ->get();
+        $PeEd = Typology::select('received_peer_education', DB::raw('COUNT(*) as count'))
+        ->groupBy('received_peer_education')
+        ->get();
+        $StiScreened = Typology::select('sti_screened', DB::raw('COUNT(*) as count'))
+        ->groupBy('sti_screened')
+        ->get();
+        $TbScreened = Typology::select('tb_screened', DB::raw('COUNT(*) as count'))
+        ->groupBy('tb_screened')
+        ->get();
 
-        return view('pages.region.index',compact('regions','typology','srCount','counties','pe','enrolled','results','hivstatus','hivFreq','hivStatus'));
+        return view('pages.region.index',compact('regions','typology','srCount','counties','pe','enrolled','results','hivstatus','hivFreq','hivStatus','Cart','Careoutcome','PeEd','StiScreened','TbScreened'));
     }
      public function getCounts(Request $request)
     {
@@ -167,7 +182,106 @@ public function fetchByRegion(Request $request)
             'values' => $values
         ]);
     }
+     public function CurrentlyArt(Request $request)
+    {
+        $selectedRegion = $request->input('region');
 
+        // Query HIV status data based on the selected region
+        $Cart = Typology::select('currently_art', DB::raw('COUNT(*) as count'))
+        ->groupBy('currently_art')
+        ->where('region',$selectedRegion)
+        ->get();
+
+        // Prepare data for the pie chart
+        $labels = $Cart->pluck('currently_art');
+        $values = $Cart->pluck('count');
+
+        // Return the data in JSON format
+        return response()->json([
+            'labels' => $labels,
+            'values' => $values
+        ]);
+    }
+        public function CareOutcome(Request $request)
+    {
+        $selectedRegion = $request->input('region');
+
+        // Query HIV status data based on the selected region
+        $Careoutcome = Typology::select('hiv_care_outcome', DB::raw('COUNT(*) as count'))
+        ->groupBy('hiv_care_outcome')
+        ->where('region',$selectedRegion)
+        ->get();
+
+        // Prepare data for the pie chart
+        $labels = $Careoutcome->pluck('hiv_care_outcome');
+        $values = $Careoutcome->pluck('count');
+
+        // Return the data in JSON format
+        return response()->json([
+            'labels' => $labels,
+            'values' => $values
+        ]);
+    }
+        public function PeerEducation(Request $request)
+    {
+        $selectedRegion = $request->input('region');
+
+        // Query HIV status data based on the selected region
+        $PeEd = Typology::select('received_peer_education', DB::raw('COUNT(*) as count'))
+        ->groupBy('received_peer_education')
+        ->where('region',$selectedRegion)
+        ->get();
+
+        // Prepare data for the pie chart
+        $labels = $PeEd->pluck('received_peer_education');
+        $values = $PeEd->pluck('count');
+
+        // Return the data in JSON format
+        return response()->json([
+            'labels' => $labels,
+            'values' => $values
+        ]);
+    }
+        public function StiScreened(Request $request)
+    {
+        $selectedRegion = $request->input('region');
+
+        // Query HIV status data based on the selected region
+        $StiScreened = Typology::select('sti_screened', DB::raw('COUNT(*) as count'))
+        ->groupBy('sti_screened')
+        ->where('region',$selectedRegion)
+        ->get();
+
+        // Prepare data for the pie chart
+        $labels = $StiScreened->pluck('sti_screened');
+        $values = $StiScreened->pluck('count');
+
+        // Return the data in JSON format
+        return response()->json([
+            'labels' => $labels,
+            'values' => $values
+        ]);
+    }
+    public function TbScreened(Request $request)
+    {
+        $selectedRegion = $request->input('region');
+
+        // Query HIV status data based on the selected region
+        $TbScreened = Typology::select('tb_screened', DB::raw('COUNT(*) as count'))
+        ->groupBy('tb_screened')
+        ->where('region',$selectedRegion)
+        ->get();
+
+        // Prepare data for the pie chart
+        $labels = $TbScreened->pluck('tb_screened');
+        $values = $TbScreened->pluck('count');
+
+        // Return the data in JSON format
+        return response()->json([
+            'labels' => $labels,
+            'values' => $values
+        ]);
+    }
 
 
 }

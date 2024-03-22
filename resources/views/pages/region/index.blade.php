@@ -9,6 +9,7 @@
           <div class="col-sm-6">
             <ol class="breadcrumb float-sm-right">
               <li class="breadcrumb-item"><a href="#" class="text-white">Home</a></li>
+              <li class="breadcrumb-item active"><a href="{{route('admin.fsw.index')}}" class="text-white">FSW</a></li>
               <li class="breadcrumb-item active text-white">Regions
               </li>
                <li class="breadcrumb-item active text-white">Reports</li>
@@ -105,6 +106,24 @@
       	</div>
       	<div class="card card-body">
       		<div class="row">
+            <div class="col-lg-4">
+              <p><b>Received Peer Education</b></p>
+              <div class="card card-body bg-light">
+                <canvas id="PeerChart" width="400" height="400"></canvas>
+              </div>
+            </div>
+             <div class="col-lg-4">
+              <p><b>Screened for STIs</b></p>
+              <div class="card card-body bg-light">
+                <canvas id="StiChart" width="400" height="400"></canvas>
+              </div>
+            </div>
+            <div class="col-lg-4">
+              <p><b>Screened for TB</b></p>
+              <div class="card card-body bg-light">
+                <canvas id="TBChart" width="400" height="400"></canvas>
+              </div>
+            </div>
       			<div class="col-lg-4">
       				<p><b>Age distribution Chart</b></p>
       				<div class="card card-body bg-light">
@@ -134,13 +153,13 @@
       			<div class="col-lg-4">
       				<p><b>Currently on ART</b></p>
       				<div class="card card-body bg-light">
-      				  <canvas id="hivChart" width="400" height="400"></canvas>
+      				  <canvas id="CARTChart" width="400" height="400"></canvas>
       				</div>
       			</div>
       			<div class="col-lg-4">
       				<p><b>HIV Care Outcome</b></p>
       				<div class="card card-body bg-light">
-      				  <canvas id="htsChart" width="400" height="400"></canvas>
+      				  <canvas id="careOutcomeChart" width="400" height="400"></canvas>
       				</div>
       			</div>
       		</div>
@@ -151,3 +170,4 @@
   </section>
   @include('scripts.regions')
 @endsection
+
