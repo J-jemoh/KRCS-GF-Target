@@ -11,7 +11,7 @@
               <li class="breadcrumb-item"><a href="{{route('admin.dashboard')}}" class="text-white">Home</a></li>
               <li class="breadcrumb-item active"><a href="#" class="text-white">Typology</a></li>
                <li class="breadcrumb-item active"><a href="{{route('admin.fsw.index')}}" class="text-white">FSW</a></li>
-                <li class="breadcrumb-item active"><a href="#" class="text-white">CONSOLIDATED</a></li>
+                <li class="breadcrumb-item active"><a href="#" class="text-white">Reports</a></li>
             </ol>
           </div><!-- /.col -->
         </div><!-- /.row -->
@@ -84,6 +84,27 @@
           </div>
       </div>
       <br>
+      <div class="card">
+        <div class="card-header">Performance tracking for coverage indicators</div>
+        <div class="card-body">
+          <div class="row">
+            <div class="col-lg-4">
+              <b>Defined package progress</b>
+              <div id="container-speed" style="width: 300px; height: 200px;"></div>
+              <!-- <canvas id="container-speed" width="200" height="200"></canvas> -->
+            </div>
+             <div class="col-lg-4">
+               <b class="text-center">Sex workers initiated on Prep</b>
+              <div id="container-prep" style="width: 300px; height: 200px;"></div>
+             </div>
+              <div class="col-lg-4">
+                <b class="text-center">Reached with HIV Testing Services</b>
+              <div id="container-hts" style="width: 300px; height: 200px;"></div>
+              </div>
+          </div>
+        </div>
+        
+      </div>
       <div class="card card-info">
         <div class="card-header">Visualizations by Age</div>
           <div class="card-body">

@@ -169,6 +169,7 @@ Route::group(['middleware' => ['auth','activity']], function () {
             Route::get('/update-peer-education', [RegionController::class, 'PeerEducation'])->name('peereducation.fetch');
             Route::get('/update-sti-screened', [RegionController::class, 'StiScreened'])->name('stiscreened.fetch');
             Route::get('/update-tb-screened', [RegionController::class, 'TbScreened'])->name('tbscreened.fetch');
+            Route::get('/update-sr-names', [RegionController::class, 'SRnames'])->name('srname.fetch');
 
 
 

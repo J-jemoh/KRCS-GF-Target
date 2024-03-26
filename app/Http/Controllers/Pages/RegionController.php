@@ -29,13 +29,15 @@ class RegionController extends Controller
         $region->save();
         return redirect()->route('admin.regions')->with('success','Region Created successfully');
     }
-    public function index(){
+    public function index(Request $request){
          $regions=Demographics::distinct()->pluck('region');
          $typology=Demographics::distinct()->pluck('kp_type');
         $srCount = Demographics::distinct()->count('sr_name');
         $counties = Demographics::distinct()->count('county');
         $pe = Demographics::distinct()->count('peer_educator');
         $enrolled = Demographics::distinct()->count('uic');
+        $selectedRegion = $request->input('region');
+
          $ageRanges = [
             '0-18' => [0, 18],
             '19-24' => [19, 24],
@@ -73,8 +75,12 @@ class RegionController extends Controller
         $TbScreened = Typology::select('tb_screened', DB::raw('COUNT(*) as count'))
         ->groupBy('tb_screened')
         ->get();
+         $SRnames = Demographics::select('sr_name', DB::raw('COUNT(*) as count'))
+        ->groupBy('sr_name')
+        ->where('region',$selectedRegion)
+        ->get();
 
-        return view('pages.region.index',compact('regions','typology','srCount','counties','pe','enrolled','results','hivstatus','hivFreq','hivStatus','Cart','Careoutcome','PeEd','StiScreened','TbScreened'));
+        return view('pages.region.index',compact('regions','typology','srCount','counties','pe','enrolled','results','hivstatus','hivFreq','hivStatus','Cart','Careoutcome','PeEd','StiScreened','TbScreened','SRnames'));
     }
      public function getCounts(Request $request)
     {
@@ -281,6 +287,19 @@ public function fetchByRegion(Request $request)
             'labels' => $labels,
             'values' => $values
         ]);
+    }
+    public function SRnames(Request $request)
+    {
+        $selectedRegion = $request->input('region');
+
+        // Query HIV status data based on the selected region
+        $SRnames = Demographics::select('sr_name', DB::raw('COUNT(*) as count'))
+        ->groupBy('sr_name')
+        ->where('region',$selectedRegion)
+        ->get();
+
+        // Return the data in JSON format
+        return response()->json($SRnames);
     }
 
 

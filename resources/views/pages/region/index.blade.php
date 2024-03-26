@@ -163,6 +163,27 @@
       				</div>
       			</div>
       		</div>
+            <div class="row">
+            <div class="col-lg-6">
+              <div class="card card-info">
+                <div class="card-header">Count of FSW per Region per SR Name</div>
+                <div class="card-body">
+                    <table class="table table-bordered table-striped table-condensed" id="tbData">
+                      <thead>
+                        <tr>
+                          <th>#</th>
+                          <th>SR Name</th>
+                          <th>Count</th>
+                        </tr>
+                      </thead>
+                      <tbody>
+                        
+                      </tbody>
+                    </table>
+                </div>
+              </div>
+            </div>
+          </div>
       	</div>
       </div>
     </div>

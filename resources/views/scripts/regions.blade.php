@@ -707,4 +707,33 @@ document.addEventListener("DOMContentLoaded", function(){
         updatePieChart(selectedRegion);
     });
 });
+
+document.addEventListener("DOMContentLoaded", function(){
+$(document).ready(function(){
+     $('#regionSelect').val('LER').change();
+    $('#regionSelect').change(function(){
+        var selectedRegion = $(this).val();
+        $.ajax({
+            url: '{{ route('srname.fetch') }}',
+            method: 'GET',
+            data: {region: selectedRegion},
+            success: function(response){
+                // Clear existing table rows
+                $('#tbData tbody').empty();
+
+                // Populate table with fetched data
+                $.each(response, function(index, item){
+                    $('#tbData tbody').append(
+                        '<tr>' +
+                        '<td>' + (index + 1) + '</td>' +
+                        '<td>' + item.sr_name + '</td>' +
+                        '<td>' + item.count + '</td>' +
+                        '</tr>'
+                    );
+                });
+            }
+        });
+    });
+});
+});
 </script>
