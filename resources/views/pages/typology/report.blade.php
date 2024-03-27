@@ -84,9 +84,9 @@
           </div>
       </div>
       <br>
-      <div class="card">
+      <div class="card card-info">
         <div class="card-header">Performance tracking for coverage indicators</div>
-        <div class="card-body">
+        <div class="card-body bg-light">
           <div class="row">
             <div class="col-lg-4">
               <b>Defined package progress</b>

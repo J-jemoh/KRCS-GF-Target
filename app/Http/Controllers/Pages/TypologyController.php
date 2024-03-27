@@ -83,13 +83,16 @@ public function uploadDemo(Request $request)
                             $rowData[$columnName] = mb_convert_encoding($data[$index], 'UTF-8', 'UTF-8');
                         }
                     }
+                    $uniqueIdentifier = $rowData['sno'] . '-' . $rowData['month'] . '-' . $rowData['year'] . '-' . $rowData['region'] . '-' . $rowData['uic'];
+                    $rowData['unique_identifier'] = $uniqueIdentifier;
                     $rowData['user_id'] = $user_id;
                     $batch[] = $rowData;
                     $data = fgetcsv($handle);
                 }
+                
 
                 // Insert batch data into the database
-                Demographics::upsert($batch, ['sno','month', 'year', 'region','uic'], array_keys($batch[0]));
+                Demographics::upsert($batch, uniqueBy:['unique_identifier'], update:array_keys($batch[0]));
             }
 
             fclose($handle);
@@ -205,7 +208,7 @@ public function uploadPartInfo(Request $request)
                 }
 
                 // Insert batch data into the database
-                Typology::upsert($batch, ['year', 'month', 'region','peer_educator_code'], array_keys($batch[0]));
+                Typology::upsert($batch, ['id','year', 'month', 'region','peer_educator_code'], array_keys($batch[0]));
             }
 
             fclose($handle);
@@ -346,6 +349,7 @@ public function uploadPartInfo(Request $request)
                 'hiv_status_enrol',
                 'peer_educator',
                 'peer_educator_code',
+                'unique_identifier',
 
                 // Columns from typologies table
                 'received_peer_education',
@@ -400,6 +404,7 @@ public function uploadPartInfo(Request $request)
                 'post_violence_support',
                 'program_status',
                 'tca',
+
             ];
             fputcsv($file, $columnsToExport);
 
