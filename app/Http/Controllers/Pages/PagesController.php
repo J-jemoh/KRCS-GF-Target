@@ -17,6 +17,7 @@ use App\Models\GBV;
 use App\Models\Demographics;
 use App\Models\Typology;
 use DataTables;
+use App\Models\pfTarget;
 use Illuminate\Support\Facades\DB;
 
 class PagesController extends Controller
@@ -593,6 +594,13 @@ class PagesController extends Controller
         $data = Demographics::all();
 
         // Logic to export data as CSV or Excel
+    }
+    public function backups(){
+        return view('pages.backup');
+    }
+    public function pfTarget(){
+        $pftargets=pfTarget::get();
+        return view('pages.gc7.pfTarget',compact('pftargets'));
     }
 
 

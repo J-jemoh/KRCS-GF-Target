@@ -10,6 +10,7 @@ use App\Http\Controllers\Pages\QPMMController;
 use App\Http\Controllers\Pages\HRGController;
 use App\Http\Controllers\Pages\GBVController;
 use App\Http\Controllers\Pages\TypologyController;
+use App\Http\Controllers\Pages\BackupController;
 /*
 |--------------------------------------------------------------------------
 | Web Routes
@@ -76,6 +77,9 @@ Route::group(['middleware' => ['auth','activity']], function () {
             ->name('admin.coverage');
             Route::post('/gc7-coverage/post',[GC7Controller::class,'uploadCoverage'])
             ->name('admin.coverage.post');
+            Route::get('/pftarget',[PagesController::class,'pfTarget'])->name('admin.pftarget');
+            Route::post('/pftarget',[GC7Controller::class,'uploadPFTarget'])->name('admin.pftarget.post');
+            Route::post('/pftarget/{id}',[GC7Controller::class,'updateTarget'])->name('admin.pftarget.update');
 
             #user management routes
             Route::get('/users',[PagesController::class,'userManagement'])
@@ -171,6 +175,11 @@ Route::group(['middleware' => ['auth','activity']], function () {
             Route::get('/update-tb-screened', [RegionController::class, 'TbScreened'])->name('tbscreened.fetch');
             Route::get('/update-sr-names', [RegionController::class, 'SRnames'])->name('srname.fetch');
 
+
+
+#backup routes
+            Route::get('/database/backup',[PagesController::class,'backups'])->name('admin.db.backup');
+            Route::post('/database/backup',[BackupController::class,'backup'])->name('admin.db.backup.post');
 
 
 

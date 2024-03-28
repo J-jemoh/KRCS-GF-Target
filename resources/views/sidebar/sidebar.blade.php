@@ -273,6 +273,12 @@
               <a class="nav-link {{ Request::is('activity') ? 'active' : null }}" href="{{ url('/activity') }}" > <i class="nav-icon fas fa-users-cog"></i>User Activities
               </a>
           </li>
+          <li class="nav-item">
+                <a href="{{route('admin.db.backup')}}" class="nav-link">
+                  <i class="far fa-file nav-icon"></i>
+                  <p>Database Backup</p>
+                </a>
+              </li>
           @endcan
           <li class="nav-item">
             <a href="{{ route('logout') }}" onclick="event.preventDefault();

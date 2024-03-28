@@ -37,7 +37,8 @@
 						</form>
     				</div>
     				<div class="col-4">
-    				<form method="post" action="#">
+    					<form></form>
+    				<form method="post" action="{{route('admin.pftarget.post')}}" enctype="multipart/form-data">
     					@csrf
     						<label>PF targets</label>
     					<div class="input-group mb-3">
@@ -76,7 +77,7 @@
 			              <div class="icon">
 			                <i class="fas fa-shopping-cart"></i>
 			              </div>
-			              <a href="#" class="small-box-footer">
+			              <a href="{{route('admin.pftarget')}}" class="small-box-footer">
 			                More info <i class="fas fa-arrow-circle-right"></i>
 			              </a>
 			            </div>
