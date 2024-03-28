@@ -86,7 +86,7 @@
       <br>
       <div class="card card-info">
         <div class="card-header">Performance tracking for coverage indicators</div>
-        <div class="card-body bg-light">
+        <div class="card-body">
           <div class="row">
             <div class="col-lg-4">
               <b>Defined package progress</b>
@@ -101,8 +101,18 @@
                 <b class="text-center">Reached with HIV Testing Services</b>
               <div id="container-hts" style="width: 300px; height: 200px;"></div>
               </div>
+             
           </div>
-        </div>
+           </div>
+          <div class="card card-body bg-light">
+            <div class="row">
+             <div class="col-12">
+                <b>Bar chart indicator progress summary as at {{ date('Y-m-d') }} for achieved and Target assigned</b>
+                <canvas id="IndcatorbarChartProgress" height="100"></canvas>
+              </div>
+            </div>
+          </div>
+       
         
       </div>
       <div class="card card-info">

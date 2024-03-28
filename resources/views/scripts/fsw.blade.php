@@ -670,7 +670,7 @@
     const chartSpeed = Highcharts.chart('container-speed', Highcharts.merge(gaugeOptions, {
         yAxis: {
             min: 0,
-            max: 29000,
+            max: 91509,
             title: {
                 text: 'defined package'
             }
@@ -859,7 +859,51 @@
     });
 </script>
 
+<script>
+    document.addEventListener('DOMContentLoaded', function () {
 
+        // Data
+var data = {
+    labels: ['Defined Package', 'Prep Initiated', 'HIV Tested'],
+    datasets: [
+        {
+            label: 'Count',
+            backgroundColor: ['rgba(255, 99, 132, 0.4)', 'rgba(54, 162, 235, 0.4)', 'rgba(255, 206, 86, 0.4)'],
+            borderColor: ['rgba(255, 99, 132, 1)', 'rgba(54, 162, 235, 1)', 'rgba(255, 206, 86, 1)'],
+            borderWidth: 1,
+            data: [{{$definedPackage}}, {{$prepInitiated}}, {{$hivTested}}]
+        },
+        {
+            label: 'Target',
+            backgroundColor: ['rgba(255, 99, 132, 0.6)', 'rgba(54, 162, 235, 0.6)', 'rgba(255, 206, 86, 0.6)'],
+            borderColor: ['rgba(255, 99, 132, 1)', 'rgba(54, 162, 235, 1)', 'rgba(255, 206, 86, 1)'],
+            borderWidth: 1,
+            data: [{{$definedPackageTarget}}, {{$prepInitiatedTarget}}, {{$hivTestedTarget}}]
+        }
+    ]
+};
+
+// Options
+var options = {
+    scales: {
+        yAxes: [{
+            ticks: {
+                beginAtZero: true
+            }
+        }]
+    }
+};
+
+// Create Chart
+var ctx = document.getElementById('IndcatorbarChartProgress').getContext('2d');
+var myBarChart = new Chart(ctx, {
+    type: 'bar',
+    data: data,
+    options: options
+});
+
+           });
+</script>
 
 
 

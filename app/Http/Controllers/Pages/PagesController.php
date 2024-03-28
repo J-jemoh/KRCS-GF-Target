@@ -524,6 +524,9 @@ class PagesController extends Controller
         $hivFreq = Typology::select('hiv_test_freq', DB::raw('COUNT(*) as count'))
         ->groupBy('hiv_test_freq')
         ->get();
+        $definedPackageTarget=91029;
+        $prepInitiatedTarget=23862;
+        $hivTestedTarget=20000;
         $hivExposure72 = Typology::select('hiv_exposure_72hr', DB::raw('COUNT(*) as count'))
         ->groupBy('hiv_exposure_72hr')
         ->get();
@@ -552,7 +555,7 @@ class PagesController extends Controller
         ->groupBy('currently_art')
         ->get();
 
-        return view('pages.typology.report',compact('srCount','counties','region','enrolled','results','hivstatus','definedPackage','prepInitiated','hivTested','hivFreq','hivExposure72','Pep72','CareOutcome','ArtOutcome','vlDue','vlDone','ReceivedVl','hivStatus','Cart'));
+        return view('pages.typology.report',compact('srCount','counties','region','enrolled','results','hivstatus','definedPackage','prepInitiated','hivTested','hivFreq','hivExposure72','Pep72','CareOutcome','ArtOutcome','vlDue','vlDone','ReceivedVl','hivStatus','Cart','definedPackageTarget','prepInitiatedTarget','hivTestedTarget'));
     }
     public function demoTemplate(){
 
