@@ -132,6 +132,7 @@ public function uploadPartInfo(Request $request)
                 'Year'=>'year',
                 'Month'=>'month',
                 'Region'=>'region',
+                'KP Type' => 'kp_type',
                 'Peer Educator Code' => 'peer_educator_code',
                 'Received Peer Education' => 'received_peer_education',
                 'Clinical Services' => 'clinical_services',
@@ -451,89 +452,6 @@ public function uploadPartInfo(Request $request)
 
 return response()->stream($callback, 200, $headers);
 
-    // $demographicsData = Demographics::select('*')->get();
-
-    // // Retrieve data from typologies table
-    // $typologiesData = Typology::select('*')->get();
-
-    // // Merge data from both tables
-    // $mergedData = [];
-    // foreach ($demographicsData as $demographic) {
-    //     $mergedRow = $demographic->toArray();
-    //     foreach ($typologiesData as $typology) {
-    //         if ($demographic->year === $typology->year &&
-    //             $demographic->month === $typology->month &&
-    //             $demographic->region === $typology->region) {
-    //             $mergedRow = array_merge($mergedRow, $typology->toArray());
-    //             break; // Found matching typology, move to the next demographic
-    //         }
-    //     }
-    //     $mergedData[] = $mergedRow;
-    // }
-
-    // // Set headers for CSV file
-    // $headers = [
-    //     'Content-Type' => 'text/csv',
-    //     'Content-Disposition' => 'attachment; filename="FSW_Consolidated.csv"',
-    // ];
-
-    // // Stream CSV file content directly to response
-    // $callback = function () use ($mergedData) {
-    //     $file = fopen('php://output', 'w');
-
-    //     // Add column headers
-    //     fputcsv($file, array_keys($mergedData[0]));
-
-    //     // Add data rows
-    //     foreach ($mergedData as $row) {
-    //         fputcsv($file, $row);
-    //     }
-
-    //     fclose($file);
-    // };
-
-    // return response()->stream($callback, 200, $headers);
-     //    $demographics = Demographics::join('typologies', function ($join) {
-     //    $join->on('typologies.year', '=', 'demographics.year')
-     //         ->on('typologies.month', '=', 'demographics.month')
-     //         ->on('typologies.region', '=', 'demographics.region');
-     //        })
-     //        ->select('demographics.*', 'typologies.*')
-     //        ->get();
-
-     // // return $demographics->toJson();
-     //        // Prepare data for export
-     //        $data = [];
-
-     //        // Add column headers
-     //        $columns = array_merge(
-     //            array_keys($demographics->first()->getAttributes()),
-     //            array_keys($demographics->first()->typology->getAttributes())
-     //        );
-
-     //        $data[] = $columns;
-
-     //        foreach ($demographics as $demographic) {
-     //            $rowData = [];
-     //            foreach ($columns as $column) {
-     //                $rowData[] = $demographic->$column;
-     //            }
-     //            $data[] = $rowData;
-     //        }
-
-     //        // Generate CSV file content
-     //        $csv = implode("\n", array_map(function ($row) {
-     //            return implode(",", $row);
-     //        }, $data));
-
-     //        // Set headers for CSV file
-     //        $headers = [
-     //            'Content-Type' => 'text/csv',
-     //            'Content-Disposition' => 'attachment; filename="FSW_Consolidated.csv"',
-     //        ];
-
-     //        // Return response with CSV file content
-     //        return response()->make($csv, 200, $headers);
 
 
     }

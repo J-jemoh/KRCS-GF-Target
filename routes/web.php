@@ -11,6 +11,7 @@ use App\Http\Controllers\Pages\HRGController;
 use App\Http\Controllers\Pages\GBVController;
 use App\Http\Controllers\Pages\TypologyController;
 use App\Http\Controllers\Pages\BackupController;
+use App\Http\Controllers\Pages\MSMController;
 /*
 |--------------------------------------------------------------------------
 | Web Routes
@@ -160,6 +161,10 @@ Route::group(['middleware' => ['auth','activity']], function () {
             Route::get('typology/data', [PagesController::class, 'fetchDemographics'])->name('demographics.data');
             Route::get('typology/export', [PagesController::class, 'export'])->name('demographics.export');
             Route::get('typology/consolidated', [TypologyController::class, 'RetrieveAllData'])->name('admin.fsw.consolidated');
+
+            #MSM routes
+            Route::get('/typology/msm/reports', [MSMController::class, 'indexMSM'])
+            ->name('admin.msm.report');
 
             #reions Route
             Route::get('/region/home',[RegionController::class,'index'])->name('admin.region.index');
