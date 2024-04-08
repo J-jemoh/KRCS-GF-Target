@@ -670,7 +670,7 @@
     const chartSpeed = Highcharts.chart('container-speed', Highcharts.merge(gaugeOptions, {
         yAxis: {
             min: 0,
-            max: 29915,
+            max: 6000,
             title: {
                 text: 'defined package'
             }
@@ -752,7 +752,7 @@
     const chartSpeed = Highcharts.chart('container-prep', Highcharts.merge(gaugeOptions, {
         yAxis: {
             min: 0,
-            max: 6591,
+            max: 2081,
             title: {
                 text: 'Initiated on prep'
             }
@@ -834,7 +834,7 @@
     const chartSpeed = Highcharts.chart('container-hts', Highcharts.merge(gaugeOptions, {
         yAxis: {
             min: 0,
-            max: 83503,
+            max: 6000,
             title: {
                 text: 'Reached with HTS'
             }

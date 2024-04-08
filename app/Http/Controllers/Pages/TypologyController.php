@@ -418,6 +418,299 @@ public function uploadPartInfo(Request $request)
         $demographicsPage = 1;
         do {
             $demographicsData = Demographics::where('region', $region)
+                ->where('kp_type','FSW')
+                ->paginate($batchSize, ['*'], 'page', $demographicsPage);
+            $demographicsPage++;
+
+            // Retrieve typologies data for the current region
+            $typologiesData = Typology::whereIn('year', $demographicsData->pluck('year'))
+                ->whereIn('month', $demographicsData->pluck('month'))
+                ->where('region', $region)
+                ->get();
+
+            // Create a dictionary of typologies data for efficient lookup
+            $typologiesDict = [];
+            foreach ($typologiesData as $typology) {
+                $key = "{$typology->year}-{$typology->month}-{$typology->region}";
+                $typologiesDict[$key] = $typology->toArray();
+            }
+
+            // Merge and output data
+            foreach ($demographicsData as $demographic) {
+                $key = "{$demographic->year}-{$demographic->month}-{$demographic->region}";
+                $typologyRow = $typologiesDict[$key] ?? [];
+                $mergedRow = array_merge($demographic->toArray(), $typologyRow);
+
+                // Select only the specified columns
+                $selectedColumns = array_intersect_key($mergedRow, array_flip($columnsToExport));
+                fputcsv($file, $selectedColumns);
+            }
+        } while ($demographicsData->hasMorePages());
+    }
+
+    fclose($file);
+};
+
+return response()->stream($callback, 200, $headers);
+
+
+
+    }
+public function FetchMSMData(){
+        // Set batch size
+        $batchSize = 3000; // Adjust as needed
+
+        // Set headers for CSV file
+        $headers = [
+            'Content-Type' => 'text/csv',
+            'Content-Disposition' => 'attachment; filename="MSM_Consolidated.csv"',
+        ];
+
+        // Stream CSV file content directly to response
+        $callback = function () use ($batchSize, $headers) {
+            $file = fopen('php://output', 'w');
+
+            // Add column headers
+            $columnsToExport = [
+                'sno',
+                'month',
+                'year',
+                'region',
+                'county',
+                'sr_name',
+                'kp_name',
+                'hotspot',
+                'hotspot_typology',
+                'other_hotspot',
+                'subcounty',
+                'ward',
+                'kp_phone',
+                'kp_type',
+                'uic',
+                'age',
+                'yob',
+                'sex',
+                'first_contact_date',
+                'enrol_date',
+                'hiv_status_enrol',
+                'peer_educator',
+                'peer_educator_code',
+                'unique_identifier',
+
+                // Columns from typologies table
+                'received_peer_education',
+                'clinical_services',
+                'hiv_tested',
+                'hts_service_point',
+                'hiv_test_freq',
+                'hiv_status',
+                'self_test_hiv',
+                'pre_art',
+                'art_started',
+                'currently_art',
+                'current_facility_care',
+                'hiv_care_outcome',
+                'art_outcome',
+                'due_vl',
+                'vl_done',
+                'vl_result_received',
+                'att_vl_suppression',
+                'tb_screened',
+                'tb_diagonised',
+                'tb_treatment_started',
+                'hiv_exposure_72hr',
+                'pep_72',
+                'completed_pep',
+                'condom_nmbr_reqr',
+                'condom_distributed_nmbr',
+                'condom_prov_as_per_need',
+                'lubricant_req_nbr',
+                'lubricant_distr_nbr',
+                'lubricant_prov_per_need',
+                'nssp_nmbr',
+                'nssp_distributed_nbr',
+                'received_nssp_need',
+                'hepc_screened',
+                'hepc_status',
+                'hepc_treated',
+                'hepb_screening',
+                'hepb_status',
+                'on_hepb_treatment',
+                'hepb_vaccination',
+                'sti_screened',
+                'sti_diagnosied',
+                'sti_treated',
+                'drug_abuse_screened',
+                'prep_initated',
+                'on_prep',
+                'modern_fp_services',
+                'rssh',
+                'ebi',
+                'exp_violence',
+                'post_violence_support',
+                'program_status',
+                'tca',
+
+            ];
+            fputcsv($file, $columnsToExport);
+
+            // Paginate demographics data
+            $regions = Demographics::select('region')->distinct()->pluck('region');
+
+    // Loop through each region
+    foreach ($regions as $region) {
+        // Paginate demographics data for the current region
+        $demographicsPage = 1;
+        do {
+            $demographicsData = Demographics::where('region', $region)
+                ->where('kp_type','MSM')
+                ->paginate($batchSize, ['*'], 'page', $demographicsPage);
+            $demographicsPage++;
+
+            // Retrieve typologies data for the current region
+            $typologiesData = Typology::whereIn('year', $demographicsData->pluck('year'))
+                ->whereIn('month', $demographicsData->pluck('month'))
+                ->where('region', $region)
+                ->get();
+
+            // Create a dictionary of typologies data for efficient lookup
+            $typologiesDict = [];
+            foreach ($typologiesData as $typology) {
+                $key = "{$typology->year}-{$typology->month}-{$typology->region}";
+                $typologiesDict[$key] = $typology->toArray();
+            }
+
+            // Merge and output data
+            foreach ($demographicsData as $demographic) {
+                $key = "{$demographic->year}-{$demographic->month}-{$demographic->region}";
+                $typologyRow = $typologiesDict[$key] ?? [];
+                $mergedRow = array_merge($demographic->toArray(), $typologyRow);
+
+                // Select only the specified columns
+                $selectedColumns = array_intersect_key($mergedRow, array_flip($columnsToExport));
+                fputcsv($file, $selectedColumns);
+            }
+        } while ($demographicsData->hasMorePages());
+    }
+
+    fclose($file);
+};
+
+return response()->stream($callback, 200, $headers);
+
+
+
+    }
+    public function FetchTGData(){
+        // Set batch size
+        $batchSize = 3000; // Adjust as needed
+
+        // Set headers for CSV file
+        $headers = [
+            'Content-Type' => 'text/csv',
+            'Content-Disposition' => 'attachment; filename="TG_Consolidated.csv"',
+        ];
+
+        // Stream CSV file content directly to response
+        $callback = function () use ($batchSize, $headers) {
+            $file = fopen('php://output', 'w');
+
+            // Add column headers
+            $columnsToExport = [
+                'sno',
+                'month',
+                'year',
+                'region',
+                'county',
+                'sr_name',
+                'kp_name',
+                'hotspot',
+                'hotspot_typology',
+                'other_hotspot',
+                'subcounty',
+                'ward',
+                'kp_phone',
+                'kp_type',
+                'uic',
+                'age',
+                'yob',
+                'sex',
+                'first_contact_date',
+                'enrol_date',
+                'hiv_status_enrol',
+                'peer_educator',
+                'peer_educator_code',
+                'unique_identifier',
+
+                // Columns from typologies table
+                'received_peer_education',
+                'clinical_services',
+                'hiv_tested',
+                'hts_service_point',
+                'hiv_test_freq',
+                'hiv_status',
+                'self_test_hiv',
+                'pre_art',
+                'art_started',
+                'currently_art',
+                'current_facility_care',
+                'hiv_care_outcome',
+                'art_outcome',
+                'due_vl',
+                'vl_done',
+                'vl_result_received',
+                'att_vl_suppression',
+                'tb_screened',
+                'tb_diagonised',
+                'tb_treatment_started',
+                'hiv_exposure_72hr',
+                'pep_72',
+                'completed_pep',
+                'condom_nmbr_reqr',
+                'condom_distributed_nmbr',
+                'condom_prov_as_per_need',
+                'lubricant_req_nbr',
+                'lubricant_distr_nbr',
+                'lubricant_prov_per_need',
+                'nssp_nmbr',
+                'nssp_distributed_nbr',
+                'received_nssp_need',
+                'hepc_screened',
+                'hepc_status',
+                'hepc_treated',
+                'hepb_screening',
+                'hepb_status',
+                'on_hepb_treatment',
+                'hepb_vaccination',
+                'sti_screened',
+                'sti_diagnosied',
+                'sti_treated',
+                'drug_abuse_screened',
+                'prep_initated',
+                'on_prep',
+                'modern_fp_services',
+                'rssh',
+                'ebi',
+                'exp_violence',
+                'post_violence_support',
+                'program_status',
+                'tca',
+
+            ];
+            fputcsv($file, $columnsToExport);
+
+            // Paginate demographics data
+            $regions = Demographics::select('region')->distinct()->pluck('region');
+
+    // Loop through each region
+    foreach ($regions as $region) {
+        // Paginate demographics data for the current region
+        $demographicsPage = 1;
+        do {
+            $demographicsData = Demographics::where('region', $region)
+                ->where('kp_type','TG')
+                ->orWhere('kp_type','TRANS MAN')
+                ->orWhere('kp_type','TRANS WOMAN')
                 ->paginate($batchSize, ['*'], 'page', $demographicsPage);
             $demographicsPage++;
 
@@ -457,8 +750,152 @@ return response()->stream($callback, 200, $headers);
     }
 
 
+ public function FetchPWIDData(){
+        // Set batch size
+        $batchSize = 3000; // Adjust as needed
+
+        // Set headers for CSV file
+        $headers = [
+            'Content-Type' => 'text/csv',
+            'Content-Disposition' => 'attachment; filename="PWID_Consolidated.csv"',
+        ];
+
+        // Stream CSV file content directly to response
+        $callback = function () use ($batchSize, $headers) {
+            $file = fopen('php://output', 'w');
+
+            // Add column headers
+            $columnsToExport = [
+                'sno',
+                'month',
+                'year',
+                'region',
+                'county',
+                'sr_name',
+                'kp_name',
+                'hotspot',
+                'hotspot_typology',
+                'other_hotspot',
+                'subcounty',
+                'ward',
+                'kp_phone',
+                'kp_type',
+                'uic',
+                'age',
+                'yob',
+                'sex',
+                'first_contact_date',
+                'enrol_date',
+                'hiv_status_enrol',
+                'peer_educator',
+                'peer_educator_code',
+                'unique_identifier',
+
+                // Columns from typologies table
+                'received_peer_education',
+                'clinical_services',
+                'hiv_tested',
+                'hts_service_point',
+                'hiv_test_freq',
+                'hiv_status',
+                'self_test_hiv',
+                'pre_art',
+                'art_started',
+                'currently_art',
+                'current_facility_care',
+                'hiv_care_outcome',
+                'art_outcome',
+                'due_vl',
+                'vl_done',
+                'vl_result_received',
+                'att_vl_suppression',
+                'tb_screened',
+                'tb_diagonised',
+                'tb_treatment_started',
+                'hiv_exposure_72hr',
+                'pep_72',
+                'completed_pep',
+                'condom_nmbr_reqr',
+                'condom_distributed_nmbr',
+                'condom_prov_as_per_need',
+                'lubricant_req_nbr',
+                'lubricant_distr_nbr',
+                'lubricant_prov_per_need',
+                'nssp_nmbr',
+                'nssp_distributed_nbr',
+                'received_nssp_need',
+                'hepc_screened',
+                'hepc_status',
+                'hepc_treated',
+                'hepb_screening',
+                'hepb_status',
+                'on_hepb_treatment',
+                'hepb_vaccination',
+                'sti_screened',
+                'sti_diagnosied',
+                'sti_treated',
+                'drug_abuse_screened',
+                'prep_initated',
+                'on_prep',
+                'modern_fp_services',
+                'rssh',
+                'ebi',
+                'exp_violence',
+                'post_violence_support',
+                'program_status',
+                'tca',
+
+            ];
+            fputcsv($file, $columnsToExport);
+
+            // Paginate demographics data
+            $regions = Demographics::select('region')->distinct()->pluck('region');
+
+    // Loop through each region
+    foreach ($regions as $region) {
+        // Paginate demographics data for the current region
+        $demographicsPage = 1;
+        do {
+            $demographicsData = Demographics::where('region', $region)
+                ->where('kp_type','PWID')
+                ->paginate($batchSize, ['*'], 'page', $demographicsPage);
+            $demographicsPage++;
+
+            // Retrieve typologies data for the current region
+            $typologiesData = Typology::whereIn('year', $demographicsData->pluck('year'))
+                ->whereIn('month', $demographicsData->pluck('month'))
+                ->where('region', $region)
+                ->get();
+
+            // Create a dictionary of typologies data for efficient lookup
+            $typologiesDict = [];
+            foreach ($typologiesData as $typology) {
+                $key = "{$typology->year}-{$typology->month}-{$typology->region}";
+                $typologiesDict[$key] = $typology->toArray();
+            }
+
+            // Merge and output data
+            foreach ($demographicsData as $demographic) {
+                $key = "{$demographic->year}-{$demographic->month}-{$demographic->region}";
+                $typologyRow = $typologiesDict[$key] ?? [];
+                $mergedRow = array_merge($demographic->toArray(), $typologyRow);
+
+                // Select only the specified columns
+                $selectedColumns = array_intersect_key($mergedRow, array_flip($columnsToExport));
+                fputcsv($file, $selectedColumns);
+            }
+        } while ($demographicsData->hasMorePages());
+    }
+
+    fclose($file);
+};
+
+return response()->stream($callback, 200, $headers);
 
 
+
+    }
     
 }
+
 

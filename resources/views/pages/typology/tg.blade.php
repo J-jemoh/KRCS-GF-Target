@@ -9,8 +9,8 @@
           <div class="col-sm-6">
             <ol class="breadcrumb float-sm-right">
               <li class="breadcrumb-item"><a href="{{route('admin.dashboard')}}" class="text-white">Home</a></li>
-              <li class="breadcrumb-item active"><a href="#" class="text-white">Typology</a></li>
-               <li class="breadcrumb-item active"><a href="{{route('admin.fsw.index')}}" class="text-white">MSM</a></li>
+              <li class="breadcrumb-item active"><a href="{{route('admin.fsw.index')}}" class="text-white">Typology</a></li>
+               <li class="breadcrumb-item active"><a href="#" class="text-white">TG</a></li>
                 <li class="breadcrumb-item active"><a href="#" class="text-white">Reports</a></li>
             </ol>
           </div><!-- /.col -->
@@ -22,7 +22,7 @@
     <div class="container-fluid">
       <div class="row">
         <div class="col-4">
-          <a href="{{route('admin.msm.consolidated')}}" class="btn btn-info btn-block">Download/Export to CSV</a>
+          <a href="{{route('admin.tg.consolidated')}}" class="btn btn-info btn-block">Download/Export to CSV</a>
         </div>
          <div class="col-4">
              <a href="{{route('fsw.download-demographics-excel')}}" class="btn btn-info btn-block">Download/Export to Excel</a>
@@ -94,7 +94,7 @@
               <!-- <canvas id="container-speed" width="200" height="200"></canvas> -->
             </div>
              <div class="col-lg-4">
-               <b class="text-center">Sex workers initiated on Prep</b>
+               <b class="text-center">Transgender initiated on Prep</b>
               <div id="container-prep" style="width: 300px; height: 200px;"></div>
              </div>
               <div class="col-lg-4">
@@ -189,15 +189,15 @@
                   </thead>
                   <tbody>
                       <tr>
-                          <td>#of MSM reached with HIV prevention programs - defined package</td>
+                          <td>#of transgender reached with HIV prevention programs - defined package</td>
                           <td>{{ $definedPackage }}</td>
                       </tr>
                       <tr>
-                          <td># of eligible MSM who initiated oral antiretroviral PrEP during the reporting period</td>
+                          <td># of transgender people who received any PrEP product at least once during the reporting period</td>
                           <td>{{$prepInitiated }}</td>
                         </tr>
                       <tr>
-                          <td># of sex workers that have received an HIV test during the reporting period and know their results</td>
+                          <td># of transgender that have received an HIV test during the reporting period and know their results</td>
                           <td>{{$hivTested }}</td>
                         </tr>
                   </tbody>
@@ -301,5 +301,5 @@
       </div>
     </div>
 </section>
- @include('scripts.msm')
+ @include('scripts.tg')
 @endsection

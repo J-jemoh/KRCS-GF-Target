@@ -20,14 +20,18 @@ use DataTables;
 use App\Models\pfTarget;
 use Illuminate\Support\Facades\DB;
 
-class MSMController extends Controller
+class PWIDController extends Controller
 {
-    //
-    public function indexMSM(){
-        $srCount = Demographics::where('kp_type','MSM')->distinct()->count('sr_name');
-        $counties = Demographics::where('kp_type','MSM')->distinct()->count('county');
-        $region = Demographics::where('kp_type','MSM')->distinct()->count('region');
-        $enrolled = Demographics::where('kp_type','MSM')->distinct()->count('uic');
+    
+           public function indexPWID(){
+        $srCount = Demographics::where('kp_type','PWID')
+                                ->distinct()->count('sr_name');
+        $counties = Demographics::where('kp_type','PWID')
+                                ->distinct()->count('county');
+        $region = Demographics::where('kp_type','PWID')
+                                ->distinct()->count('region');
+        $enrolled = Demographics::where('kp_type','PWID')
+                                ->distinct()->count('uic');
         #show age distribution
         // Define age ranges
         $ageRanges = [
@@ -41,12 +45,12 @@ class MSMController extends Controller
         $results = [];
         foreach ($ageRanges as $range => $limits) {
             $count = Demographics::whereBetween('age', $limits)
-            ->where('kp_type','MSM')->count();
+            ->where('kp_type','PWID')->count();
             $results[$range] = $count;
         }
         #hiv status at enrollment
         $hivstatus = Demographics::select('hiv_status_enrol', DB::raw('COUNT(*) as count'))
-        ->where('kp_type','MSM')
+        ->where('kp_type','PWID')
         ->groupBy('hiv_status_enrol')
         ->get();
         #defined package
@@ -56,54 +60,58 @@ class MSMController extends Controller
             })
             ->where('sti_screened', 'yes')
             ->where(DB::raw('CAST(condom_distributed_nmbr AS UNSIGNED)'), '>', 0)
-            ->where('kp_type','MSM')
+            ->where('kp_type','PWID')
             ->count();
-        $prepInitiated= Typology::where('prep_initated','Yes')->where('kp_type','MSM')->count();
-        $hivTested= Typology::where('hiv_tested','Yes')->where('kp_type','MSM')->count();
+        $prepInitiated= Typology::where('prep_initated','Yes')
+                        ->where('kp_type','PWID')
+                        ->count();
+        $hivTested= Typology::where('hiv_tested','Yes')
+                    ->where('kp_type','PWID')
+                    ->count();
         $hivFreq = Typology::select('hiv_test_freq', DB::raw('COUNT(*) as count'))
-        ->where('kp_type','MSM')
+        ->where('kp_type','PWID')
         ->groupBy('hiv_test_freq')
         ->get();
-        $definedPackageTarget=29915;
-        $prepInitiatedTarget=6591;
-        $hivTestedTarget=20000;
+        $definedPackageTarget=6000;
+        $prepInitiatedTarget=2081;
+        $hivTestedTarget=6000;
         $hivExposure72 = Typology::select('hiv_exposure_72hr', DB::raw('COUNT(*) as count'))
-        ->where('kp_type','MSM')
+        ->where('kp_type','PWID')
         ->groupBy('hiv_exposure_72hr')
         ->get();
         $Pep72 = Typology::select('pep_72', DB::raw('COUNT(*) as count'))
-        ->where('kp_type','MSM')
+        ->where('kp_type','PWID')
         ->groupBy('pep_72')
         ->get();
          $CareOutcome = Typology::select('hiv_care_outcome', DB::raw('COUNT(*) as count'))
-         ->where('kp_type','MSM')
+         ->where('kp_type','PWID')
         ->groupBy('hiv_care_outcome')
         ->get();
         $ArtOutcome = Typology::select('art_outcome', DB::raw('COUNT(*) as count'))
-        ->where('kp_type','MSM')
+        ->where('kp_type','PWID')
         ->groupBy('art_outcome')
         ->get();
         $vlDue = Typology::select('due_vl', DB::raw('COUNT(*) as count'))
-        ->where('kp_type','MSM')
+        ->where('kp_type','PWID')
         ->groupBy('due_vl')
         ->get();
         $vlDone = Typology::select('vl_done', DB::raw('COUNT(*) as count'))
-        ->where('kp_type','MSM')
+        ->where('kp_type','PWID')
         ->groupBy('vl_done')
         ->get();
         $ReceivedVl = Typology::select('vl_result_received', DB::raw('COUNT(*) as count'))
-        ->where('kp_type','MSM')
+        ->where('kp_type','PWID')
         ->groupBy('vl_result_received')
         ->get();
         $hivStatus = Typology::select('hiv_status', DB::raw('COUNT(*) as count'))
-        ->where('kp_type','MSM')
+        ->where('kp_type','PWID')
         ->groupBy('hiv_status')
         ->get();
         $Cart = Typology::select('currently_art', DB::raw('COUNT(*) as count'))
-        ->where('kp_type','MSM')
+        ->where('kp_type','PWID')
         ->groupBy('currently_art')
         ->get();
 
-        return view('pages.typology.report_msm',compact('srCount','counties','region','enrolled','results','hivstatus','definedPackage','prepInitiated','hivTested','hivFreq','hivExposure72','Pep72','CareOutcome','ArtOutcome','vlDue','vlDone','ReceivedVl','hivStatus','Cart','definedPackageTarget','prepInitiatedTarget','hivTestedTarget'));
+        return view('pages.typology.pwid',compact('srCount','counties','region','enrolled','results','hivstatus','definedPackage','prepInitiated','hivTested','hivFreq','hivExposure72','Pep72','CareOutcome','ArtOutcome','vlDue','vlDone','ReceivedVl','hivStatus','Cart','definedPackageTarget','prepInitiatedTarget','hivTestedTarget'));
     }
 }

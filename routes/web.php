@@ -12,6 +12,8 @@ use App\Http\Controllers\Pages\GBVController;
 use App\Http\Controllers\Pages\TypologyController;
 use App\Http\Controllers\Pages\BackupController;
 use App\Http\Controllers\Pages\MSMController;
+use App\Http\Controllers\Pages\TGController;
+use App\Http\Controllers\Pages\PWIDController;
 /*
 |--------------------------------------------------------------------------
 | Web Routes
@@ -160,11 +162,20 @@ Route::group(['middleware' => ['auth','activity']], function () {
             Route::get('/typology/demo/download-excel', [TypologyController::class, 'downloadExcel'])->name('fsw.download-demographics-excel');
             Route::get('typology/data', [PagesController::class, 'fetchDemographics'])->name('demographics.data');
             Route::get('typology/export', [PagesController::class, 'export'])->name('demographics.export');
+
+            #DOWNLOADING DATASET
             Route::get('typology/consolidated', [TypologyController::class, 'RetrieveAllData'])->name('admin.fsw.consolidated');
+            Route::get('typology/msm/consolidated', [TypologyController::class, 'FetchMSMData'])->name('admin.msm.consolidated');
+            Route::get('typology/tg/consolidated', [TypologyController::class, 'FetchTGData'])->name('admin.tg.consolidated');
+            Route::get('typology/pwid/consolidated', [TypologyController::class, 'FetchPWIDData'])->name('admin.pwid.consolidated');
 
             #MSM routes
             Route::get('/typology/msm/reports', [MSMController::class, 'indexMSM'])
             ->name('admin.msm.report');
+
+            #PWID ROUTES
+            Route::get('/typology/pwid/home', [PWIDController::class, 'indexPWID'])
+            ->name('admin.pwid.index');
 
             #reions Route
             Route::get('/region/home',[RegionController::class,'index'])->name('admin.region.index');
@@ -179,6 +190,10 @@ Route::group(['middleware' => ['auth','activity']], function () {
             Route::get('/update-sti-screened', [RegionController::class, 'StiScreened'])->name('stiscreened.fetch');
             Route::get('/update-tb-screened', [RegionController::class, 'TbScreened'])->name('tbscreened.fetch');
             Route::get('/update-sr-names', [RegionController::class, 'SRnames'])->name('srname.fetch');
+
+            #TG Routes
+            Route::get('/typology/TG/home', [TGController::class, 'indexTG'])
+            ->name('admin.tg.index');
 
 
 

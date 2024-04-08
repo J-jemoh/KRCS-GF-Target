@@ -200,9 +200,21 @@
                 </a>
               </li>
               <li class="nav-item">
-                <a href="#" class="nav-link">
+                <a href="{{route('admin.tg.index')}}" class="nav-link">
+                  <i class="far fa-circle nav-icon"></i>
+                  <p>TG</p>
+                </a>
+              </li>
+              <li class="nav-item">
+                <a href="{{route('admin.pwid.index')}}" class="nav-link">
                   <i class="far fa-circle nav-icon"></i>
                   <p>PWID</p>
+                </a>
+              </li>
+              <li class="nav-item">
+                <a href="#" class="nav-link">
+                  <i class="far fa-circle nav-icon"></i>
+                  <p>TCS</p>
                 </a>
               </li>
               <li class="nav-item">
