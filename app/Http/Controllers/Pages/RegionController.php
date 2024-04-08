@@ -30,8 +30,8 @@ class RegionController extends Controller
         return redirect()->route('admin.regions')->with('success','Region Created successfully');
     }
     public function index(Request $request){
-         $regions=Demographics::distinct()->pluck('region');
-         $typology=Demographics::distinct()->pluck('kp_type');
+        $regions=Demographics::distinct()->pluck('region');
+        $typology=Demographics::distinct()->pluck('kp_type');
         $srCount = Demographics::distinct()->count('sr_name');
         $counties = Demographics::distinct()->count('county');
         $pe = Demographics::distinct()->count('peer_educator');
@@ -85,12 +85,13 @@ class RegionController extends Controller
      public function getCounts(Request $request)
     {
         $region = $request->input('region');
+        $typology=$request->input('kp_type');
 
         // Fetch counts based on the selected region
-        $srCount = Demographics::where('region', $region)->distinct()->count('sr_name');
-        $counties = Demographics::where('region', $region)->distinct()->count('county');
-        $pe = Demographics::where('region', $region)->distinct()->count('peer_educator');
-        $enrolled = Demographics::where('region', $region)->distinct()->count('uic');
+        $srCount = Demographics::where('region', $region)->where('kp_type',$typology)->distinct()->count('sr_name');
+        $counties = Demographics::where('region', $region)->where('kp_type',$typology)->distinct()->count('county');
+        $pe = Demographics::where('region', $region)->distinct()->where('kp_type',$typology)->count('peer_educator');
+        $enrolled = Demographics::where('region', $region)->where('kp_type',$typology)->distinct()->count('uic');
 
         return response()->json([
             'srCount' => $srCount,
@@ -98,10 +99,12 @@ class RegionController extends Controller
             'pe' => $pe,
             'enrolled' => $enrolled,
         ]);
+
     }
     public function displayAgeChart(Request $request)
 {
     $selectedRegion = $request->input('region');
+    $typology=$request->input('kp_type');
 
     $ageRanges = [
         '0-18' => [0, 18],
@@ -114,7 +117,7 @@ class RegionController extends Controller
     $results = array_fill_keys(array_keys($ageRanges), 0);
 
     // Query demographics data based on the selected region
-    $demographics = Demographics::where('region', $selectedRegion)->get();
+    $demographics = Demographics::where('region', $selectedRegion)->where('kp_type',$typology)->get();
 
     // Iterate over each record and count occurrences in the respective age range
     foreach ($demographics as $record) {
@@ -131,11 +134,13 @@ class RegionController extends Controller
 public function fetchByRegion(Request $request)
     {
         $selectedRegion = $request->input('region');
+        $typology=$request->input('kp_type');
 
         // Query HIV status data based on the selected region
         $hivstatus = Demographics::select('hiv_status_enrol', DB::raw('COUNT(*) as count'))
         ->groupBy('hiv_status_enrol')
         ->where('region',$selectedRegion)
+        ->where('kp_type',$typology)
         ->get();
 
         // Prepare data for the pie chart
@@ -151,11 +156,13 @@ public function fetchByRegion(Request $request)
     public function fetchByHivFreq(Request $request)
     {
         $selectedRegion = $request->input('region');
+        $typology=$request->input('kp_type');
 
         // Query HIV status data based on the selected region
         $hivFreq = Typology::select('hiv_test_freq', DB::raw('COUNT(*) as count'))
         ->groupBy('hiv_test_freq')
         ->where('region',$selectedRegion)
+        ->where('kp_type',$typology)
         ->get();
 
         // Prepare data for the pie chart
@@ -171,11 +178,13 @@ public function fetchByRegion(Request $request)
     public function fetchByHivStatus(Request $request)
     {
         $selectedRegion = $request->input('region');
+        $typology=$request->input('kp_type');
 
         // Query HIV status data based on the selected region
         $hivStatus = Typology::select('hiv_status', DB::raw('COUNT(*) as count'))
         ->groupBy('hiv_status')
         ->where('region',$selectedRegion)
+        ->where('kp_type',$typology)
         ->get();
 
         // Prepare data for the pie chart
@@ -191,11 +200,13 @@ public function fetchByRegion(Request $request)
      public function CurrentlyArt(Request $request)
     {
         $selectedRegion = $request->input('region');
+        $typology=$request->input('kp_type');
 
         // Query HIV status data based on the selected region
         $Cart = Typology::select('currently_art', DB::raw('COUNT(*) as count'))
         ->groupBy('currently_art')
         ->where('region',$selectedRegion)
+        ->where('kp_type',$typology)
         ->get();
 
         // Prepare data for the pie chart
@@ -211,11 +222,13 @@ public function fetchByRegion(Request $request)
         public function CareOutcome(Request $request)
     {
         $selectedRegion = $request->input('region');
+        $typology=$request->input('kp_type');
 
         // Query HIV status data based on the selected region
         $Careoutcome = Typology::select('hiv_care_outcome', DB::raw('COUNT(*) as count'))
         ->groupBy('hiv_care_outcome')
         ->where('region',$selectedRegion)
+        ->where('kp_type',$typology)
         ->get();
 
         // Prepare data for the pie chart
@@ -231,11 +244,13 @@ public function fetchByRegion(Request $request)
         public function PeerEducation(Request $request)
     {
         $selectedRegion = $request->input('region');
+        $typology=$request->input('kp_type');
 
         // Query HIV status data based on the selected region
         $PeEd = Typology::select('received_peer_education', DB::raw('COUNT(*) as count'))
         ->groupBy('received_peer_education')
         ->where('region',$selectedRegion)
+        ->where('kp_type',$typology)
         ->get();
 
         // Prepare data for the pie chart
@@ -251,11 +266,13 @@ public function fetchByRegion(Request $request)
         public function StiScreened(Request $request)
     {
         $selectedRegion = $request->input('region');
+        $typology=$request->input('kp_type');
 
         // Query HIV status data based on the selected region
         $StiScreened = Typology::select('sti_screened', DB::raw('COUNT(*) as count'))
         ->groupBy('sti_screened')
         ->where('region',$selectedRegion)
+        ->where('kp_type',$typology)
         ->get();
 
         // Prepare data for the pie chart
@@ -271,11 +288,13 @@ public function fetchByRegion(Request $request)
     public function TbScreened(Request $request)
     {
         $selectedRegion = $request->input('region');
+        $typology=$request->input('kp_type');
 
         // Query HIV status data based on the selected region
         $TbScreened = Typology::select('tb_screened', DB::raw('COUNT(*) as count'))
         ->groupBy('tb_screened')
         ->where('region',$selectedRegion)
+        ->where('kp_type',$typology)
         ->get();
 
         // Prepare data for the pie chart

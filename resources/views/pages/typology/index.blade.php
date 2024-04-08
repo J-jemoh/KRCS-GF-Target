@@ -40,7 +40,7 @@
           	<div class="col-6">
           		<form method="post" action="{{route('admin.fsw.fsw.post')}}" enctype="multipart/form-data">
           			@csrf
-          		<label>FSW data</label>
+          		<label>Typology data</label>
           		<div class="input-group mb-3">
 						  <input type="file" class="form-control" placeholder="upload file" aria-label="Recipient's username" aria-describedby="button-addon2" name="fswF" required>
 						  <button class="btn btn-outline-info" type="submit" id="button-addon2">Upload</button>

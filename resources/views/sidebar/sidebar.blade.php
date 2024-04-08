@@ -181,8 +181,14 @@
               </p>
             </a>
             <ul class="nav nav-treeview">
-              <li class="nav-item">
+               <li class="nav-item">
                 <a href="{{route('admin.fsw.index')}}" class="nav-link">
+                  <i class="far fa-circle nav-icon"></i>
+                  <p>Data Upload</p>
+                </a>
+              </li>
+              <li class="nav-item">
+                <a href="{{route('admin.fsw.report')}}" class="nav-link">
                   <i class="far fa-circle nav-icon"></i>
                   <p>FSW</p>
                 </a>

@@ -488,10 +488,10 @@ class PagesController extends Controller
         return view('pages.typology.index');
     }
     public function fswReports(){
-        $srCount = Demographics::distinct()->count('sr_name');
-        $counties = Demographics::distinct()->count('county');
-        $region = Demographics::distinct()->count('region');
-        $enrolled = Demographics::distinct()->count('uic');
+        $srCount = Demographics::where('kp_type','FSW')->distinct()->count('sr_name');
+        $counties = Demographics::where('kp_type','FSW')->distinct()->count('county');
+        $region = Demographics::where('kp_type','FSW')->distinct()->count('region');
+        $enrolled = Demographics::where('kp_type','FSW')->distinct()->count('uic');
         #show age distribution
         // Define age ranges
         $ageRanges = [
@@ -504,12 +504,14 @@ class PagesController extends Controller
         // Group by age ranges and count occurrences
         $results = [];
         foreach ($ageRanges as $range => $limits) {
-            $count = Demographics::whereBetween('age', $limits)->count();
+            $count = Demographics::whereBetween('age', $limits)->
+            where('kp_type','FSW')->count();
             $results[$range] = $count;
         }
         #hiv status at enrollment
         $hivstatus = Demographics::select('hiv_status_enrol', DB::raw('COUNT(*) as count'))
         ->groupBy('hiv_status_enrol')
+        ->where('kp_type','FSW')
         ->get();
         #defined package
         $definedPackage = Typology::where(function ($query) {
@@ -518,40 +520,51 @@ class PagesController extends Controller
             })
             ->where('sti_screened', 'yes')
             ->where(DB::raw('CAST(condom_distributed_nmbr AS UNSIGNED)'), '>', 0)
+            ->where('kp_type','FSW')
             ->count();
-        $prepInitiated= Typology::where('prep_initated','Yes')->count();
-        $hivTested= Typology::where('hiv_tested','Yes')->count();
+        $prepInitiated= Typology::where('prep_initated','Yes')->where('kp_type','FSW')->count();
+        $hivTested= Typology::where('hiv_tested','Yes')->where('kp_type','FSW')->count();
         $hivFreq = Typology::select('hiv_test_freq', DB::raw('COUNT(*) as count'))
+        ->where('kp_type','FSW')
         ->groupBy('hiv_test_freq')
         ->get();
         $definedPackageTarget=91029;
         $prepInitiatedTarget=23862;
         $hivTestedTarget=20000;
         $hivExposure72 = Typology::select('hiv_exposure_72hr', DB::raw('COUNT(*) as count'))
+        ->where('kp_type','FSW')
         ->groupBy('hiv_exposure_72hr')
         ->get();
         $Pep72 = Typology::select('pep_72', DB::raw('COUNT(*) as count'))
+        ->where('kp_type','FSW')
         ->groupBy('pep_72')
         ->get();
          $CareOutcome = Typology::select('hiv_care_outcome', DB::raw('COUNT(*) as count'))
+        ->where('kp_type','FSW')
         ->groupBy('hiv_care_outcome')
         ->get();
         $ArtOutcome = Typology::select('art_outcome', DB::raw('COUNT(*) as count'))
+        ->where('kp_type','FSW')
         ->groupBy('art_outcome')
         ->get();
         $vlDue = Typology::select('due_vl', DB::raw('COUNT(*) as count'))
+        ->where('kp_type','FSW')
         ->groupBy('due_vl')
         ->get();
         $vlDone = Typology::select('vl_done', DB::raw('COUNT(*) as count'))
+        ->where('kp_type','FSW')
         ->groupBy('vl_done')
         ->get();
         $ReceivedVl = Typology::select('vl_result_received', DB::raw('COUNT(*) as count'))
+        ->where('kp_type','FSW')
         ->groupBy('vl_result_received')
         ->get();
         $hivStatus = Typology::select('hiv_status', DB::raw('COUNT(*) as count'))
+         ->where('kp_type','FSW')
         ->groupBy('hiv_status')
         ->get();
         $Cart = Typology::select('currently_art', DB::raw('COUNT(*) as count'))
+         ->where('kp_type','FSW')
         ->groupBy('currently_art')
         ->get();
 

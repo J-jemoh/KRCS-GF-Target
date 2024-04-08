@@ -20,14 +20,6 @@
     <br>
    <section class="content">
     <div class="container-fluid">
-      <div class="row">
-        <div class="col-4">
-          <a href="{{route('admin.fsw.consolidated')}}" class="btn btn-info btn-block">Download/Export to CSV</a>
-        </div>
-         <div class="col-4">
-             <a href="#" class="btn btn-info btn-block">Download/Export to Excel</a>
-         </div>
-      </div>
       <br>
     	<table id="example2" class="table table-bordered table-striped">
             <thead>

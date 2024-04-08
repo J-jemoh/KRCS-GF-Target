@@ -1,42 +1,52 @@
 <script>
-    document.addEventListener('DOMContentLoaded', function() {
-        var defaultRegion = "LER"; // Initialize default region
+  document.addEventListener('DOMContentLoaded', function() {
+    var defaultRegion = "LER"; 
+    var defaultKPtype = "FSW"; // Initialize default KP type
 
-        function updateChart(selectedRegion) {
-            // Make an AJAX call to the server to fetch counts based on the selected region
-            var xhr = new XMLHttpRequest();
-            xhr.open('GET', '{{ route("get-counts") }}?region=' + selectedRegion, true);
-            xhr.onload = function() {
-                if (xhr.status === 200) {
-                    var data = JSON.parse(xhr.responseText);
-                    // Update HTML to display updated values
-                    document.getElementById('srCount').innerText = data.srCount;
-                    document.getElementById('counties').innerText = data.counties;
-                    document.getElementById('pe').innerText = data.pe;
-                    document.getElementById('enrolled').innerText = data.enrolled;
-                    // Your chart update logic goes here...
-                } else {
-                    console.error('Request failed. Status: ' + xhr.status);
-                }
-            };
-            xhr.send();
-        }
+    function updateChart(selectedRegion, selectedKPtype) {
+        // Make an AJAX call to the server to fetch counts based on the selected region and KP type
+        var xhr = new XMLHttpRequest();
+        xhr.open('GET', '{{ route("get-counts") }}?region=' + selectedRegion + '&kp_type=' + selectedKPtype, true);
+        xhr.onload = function() {
+            if (xhr.status === 200) {
+                var data = JSON.parse(xhr.responseText);
+                // Update HTML to display updated values
+                document.getElementById('srCount').innerText = data.srCount;
+                document.getElementById('counties').innerText = data.counties;
+                document.getElementById('pe').innerText = data.pe;
+                document.getElementById('enrolled').innerText = data.enrolled;
+                // Your chart update logic goes here...
+            } else {
+                console.error('Request failed. Status: ' + xhr.status);
+            }
+        };
+        xhr.send();
+    }
 
-        // Initial chart rendering
-        updateChart(defaultRegion);
+    // Initial chart rendering
+    updateChart(defaultRegion, defaultKPtype);
 
-        // Update chart and values based on selected region
-        document.getElementById('regionSelect').addEventListener('change', function() {
-            var selectedRegion = this.value;
-            updateChart(selectedRegion);
-        });
+    // Update chart and values based on selected region
+    document.getElementById('regionSelect').addEventListener('change', function() {
+        var selectedRegion = this.value;
+        var selectedKPtype = document.getElementById('kpTypeSelect').value; // Get selected KP type
+        updateChart(selectedRegion, selectedKPtype);
     });
+
+    // Update chart and values based on selected KP type
+    document.getElementById('kpTypeSelect').addEventListener('change', function() {
+        var selectedKPtype = this.value;
+        var selectedRegion = document.getElementById('regionSelect').value; // Get selected region
+        updateChart(selectedRegion, selectedKPtype);
+    });
+});
 
 var ageChart;
 var defaultRegion = "LER";
+var defaultKPtype = "FSW";
 
-function updateChart(selectedRegion) {
-    fetch('{{ route("agechart.fetch") }}?region=' + selectedRegion, {
+function updateChart(selectedRegion,selectedKPtype) {
+    fetch('{{ route("agechart.fetch") }}?region=' + selectedRegion + '&kp_type=' + selectedKPtype, {
         method: 'GET',
         headers: {
             'Content-Type': 'application/json',
@@ -94,11 +104,17 @@ document.addEventListener('DOMContentLoaded', function () {
             }
         }
     });
-    updateChart(defaultRegion);
+    updateChart(defaultRegion,defaultKPtype);
     // Add event listener to dropdown menu
     document.getElementById('regionSelect').addEventListener('change', function() {
         var selectedRegion = this.value;
-        updateChart(selectedRegion);
+        var selectedKPtype = document.getElementById('kpTypeSelect').value; // Get selected KP type
+        updateChart(selectedRegion, selectedKPtype);
+    });
+    document.getElementById('kpTypeSelect').addEventListener('change', function() {
+        var selectedKPtype = this.value;
+        var selectedRegion = document.getElementById('regionSelect').value; // Get selected region
+        updateChart(selectedRegion, selectedKPtype);
     });
 });
 
@@ -106,9 +122,10 @@ document.addEventListener('DOMContentLoaded', function () {
 document.addEventListener("DOMContentLoaded", function(){
     // Function to update the pie chart based on the selected region
     var defaultRegion = "LER";
-    function updatePieChart(selectedRegion) {
+    var defaultKPtype = "FSW";
+    function updatePieChart(selectedRegion,selectedKPtype) {
         // Fetch data for the selected region
-        fetch('{{ route("regionchart.fetch") }}?region=' + selectedRegion, {
+        fetch('{{ route("regionchart.fetch") }}?region=' + selectedRegion + '&kp_type=' + selectedKPtype, {
             method: 'GET',
             headers: {
                 'Content-Type': 'application/json',
@@ -170,11 +187,17 @@ document.addEventListener("DOMContentLoaded", function(){
         },
         options: options
     });
-      updatePieChart(defaultRegion);
+      updatePieChart(defaultRegion,defaultKPtype);
     // Event listener for the dropdown menu
     document.getElementById('regionSelect').addEventListener('change', function() {
         var selectedRegion = this.value;
-        updatePieChart(selectedRegion);
+        var selectedKPtype = document.getElementById('kpTypeSelect').value; // Get selected KP type
+        updatePieChart(selectedRegion, selectedKPtype);
+    });
+    document.getElementById('kpTypeSelect').addEventListener('change', function() {
+        var selectedKPtype = this.value;
+        var selectedRegion = document.getElementById('regionSelect').value; // Get selected region
+        updatePieChart(selectedRegion, selectedKPtype);
     });
 });
 
@@ -182,9 +205,10 @@ document.addEventListener("DOMContentLoaded", function(){
 document.addEventListener("DOMContentLoaded", function(){
     // Function to update the pie chart based on the selected region
     var defaultRegion = "LER";
-    function updatePieChart(selectedRegion) {
+    var defaultKPtype = "FSW";
+    function updatePieChart(selectedRegion,selectedKPtype) {
         // Fetch data for the selected region
-        fetch('{{ route("hivfreqchart.fetch") }}?region=' + selectedRegion, {
+        fetch('{{ route("hivfreqchart.fetch") }}?region=' + selectedRegion + '&kp_type=' + selectedKPtype, {
             method: 'GET',
             headers: {
                 'Content-Type': 'application/json',
@@ -213,7 +237,7 @@ document.addEventListener("DOMContentLoaded", function(){
 
     // Get the initial data for the pie chart
     var initialData = {
-        labels: {!! $hivFreq->pluck('hiv_status_enrol') !!},
+        labels: {!! $hivFreq->pluck('hiv_test_freq') !!},
         values: {!! $hivFreq->pluck('count') !!}
     };
 
@@ -249,20 +273,27 @@ document.addEventListener("DOMContentLoaded", function(){
         },
         options: options
     });
-      updatePieChart(defaultRegion);
+      updatePieChart(defaultRegion,defaultKPtype);
     // Event listener for the dropdown menu
     document.getElementById('regionSelect').addEventListener('change', function() {
         var selectedRegion = this.value;
-        updatePieChart(selectedRegion);
+        var selectedKPtype = document.getElementById('kpTypeSelect').value; // Get selected KP type
+        updatePieChart(selectedRegion, selectedKPtype);
+    });
+     document.getElementById('kpTypeSelect').addEventListener('change', function() {
+        var selectedKPtype = this.value;
+        var selectedRegion = document.getElementById('regionSelect').value; // Get selected region
+        updatePieChart(selectedRegion, selectedKPtype);
     });
 });
 
 document.addEventListener("DOMContentLoaded", function(){
     // Function to update the bar chart based on the selected region
     var defaultRegion = "LER";
-    function updateBarChart(selectedRegion) {
+    var defaultKPtype = "FSW";
+    function updateBarChart(selectedRegion,selectedKPtype) {
         // Fetch data for the selected region
-        fetch('{{ route("hivStatuschart.fetch") }}?region=' + selectedRegion, {
+        fetch('{{ route("hivStatuschart.fetch") }}?region=' + selectedRegion + '&kp_type=' + selectedKPtype, {
             method: 'GET',
             headers: {
                 'Content-Type': 'application/json',
@@ -291,7 +322,7 @@ document.addEventListener("DOMContentLoaded", function(){
 
     // Get the initial data for the bar chart
     var initialData = {
-        labels: {!! $hivStatus->pluck('hiv_status_enrol') !!},
+        labels: {!! $hivStatus->pluck('hiv_status') !!},
         values: {!! $hivStatus->pluck('count') !!}
     };
 
@@ -328,11 +359,17 @@ document.addEventListener("DOMContentLoaded", function(){
         },
         options: options
     });
-      updateBarChart(defaultRegion);
+      updateBarChart(defaultRegion,defaultKPtype);
     // Event listener for the dropdown menu
     document.getElementById('regionSelect').addEventListener('change', function() {
         var selectedRegion = this.value;
-        updateBarChart(selectedRegion);
+        var selectedKPtype = document.getElementById('kpTypeSelect').value; // Get selected KP type
+        updateBarChart(selectedRegion, selectedKPtype);
+    });
+     document.getElementById('kpTypeSelect').addEventListener('change', function() {
+        var selectedKPtype = this.value;
+        var selectedRegion = document.getElementById('regionSelect').value; // Get selected region
+        updateBarChart(selectedRegion, selectedKPtype);
     });
 });
 
@@ -340,9 +377,10 @@ document.addEventListener("DOMContentLoaded", function(){
 document.addEventListener("DOMContentLoaded", function(){
     // Function to update the pie chart based on the selected region
     var defaultRegion = "LER";
-    function updatePieChart(selectedRegion) {
+    var defaultKPtype = "FSW";
+    function updatePieChart(selectedRegion,selectedKPtype) {
         // Fetch data for the selected region
-        fetch('{{ route("cartchart.fetch") }}?region=' + selectedRegion, {
+        fetch('{{ route("cartchart.fetch") }}?region=' + selectedRegion + '&kp_type=' + selectedKPtype, {
             method: 'GET',
             headers: {
                 'Content-Type': 'application/json',
@@ -404,19 +442,26 @@ document.addEventListener("DOMContentLoaded", function(){
         },
         options: options
     });
-      updatePieChart(defaultRegion);
+      updatePieChart(defaultRegion,defaultKPtype);
     // Event listener for the dropdown menu
     document.getElementById('regionSelect').addEventListener('change', function() {
         var selectedRegion = this.value;
-        updatePieChart(selectedRegion);
+        var selectedKPtype = document.getElementById('kpTypeSelect').value; // Get selected KP type
+        updatePieChart(selectedRegion, selectedKPtype);
+    });
+    document.getElementById('kpTypeSelect').addEventListener('change', function() {
+        var selectedKPtype = this.value;
+        var selectedRegion = document.getElementById('regionSelect').value; // Get selected region
+        updatePieChart(selectedRegion, selectedKPtype);
     });
 });
 document.addEventListener("DOMContentLoaded", function(){
     // Function to update the pie chart based on the selected region
     var defaultRegion = "LER";
-    function updatePieChart(selectedRegion) {
+    var defaultKPtype = "FSW";
+    function updatePieChart(selectedRegion,selectedKPtype) {
         // Fetch data for the selected region
-        fetch('{{ route("carechart.fetch") }}?region=' + selectedRegion, {
+        fetch('{{ route("carechart.fetch") }}?region=' + selectedRegion +'&kp_type=' + selectedKPtype, {
             method: 'GET',
             headers: {
                 'Content-Type': 'application/json',
@@ -478,19 +523,26 @@ document.addEventListener("DOMContentLoaded", function(){
         },
         options: options
     });
-      updatePieChart(defaultRegion);
+      updatePieChart(defaultRegion,defaultKPtype);
     // Event listener for the dropdown menu
     document.getElementById('regionSelect').addEventListener('change', function() {
         var selectedRegion = this.value;
-        updatePieChart(selectedRegion);
+        var selectedKPtype = document.getElementById('kpTypeSelect').value; // Get selected KP type
+        updatePieChart(selectedRegion, selectedKPtype);
+    });
+    document.getElementById('kpTypeSelect').addEventListener('change', function() {
+        var selectedKPtype = this.value;
+        var selectedRegion = document.getElementById('regionSelect').value; // Get selected region
+        updatePieChart(selectedRegion, selectedKPtype);
     });
 });
 document.addEventListener("DOMContentLoaded", function(){
     // Function to update the pie chart based on the selected region
     var defaultRegion = "LER";
-    function updatePieChart(selectedRegion) {
+    var defaultKPtype = "FSW";
+    function updatePieChart(selectedRegion,selectedKPtype) {
         // Fetch data for the selected region
-        fetch('{{ route("peereducation.fetch") }}?region=' + selectedRegion, {
+        fetch('{{ route("peereducation.fetch") }}?region=' + selectedRegion +'&kp_type=' + selectedKPtype, {
             method: 'GET',
             headers: {
                 'Content-Type': 'application/json',
@@ -552,19 +604,26 @@ document.addEventListener("DOMContentLoaded", function(){
         },
         options: options
     });
-      updatePieChart(defaultRegion);
+      updatePieChart(defaultRegion,defaultKPtype);
     // Event listener for the dropdown menu
     document.getElementById('regionSelect').addEventListener('change', function() {
         var selectedRegion = this.value;
-        updatePieChart(selectedRegion);
+        var selectedKPtype = document.getElementById('kpTypeSelect').value; // Get selected KP type
+        updatePieChart(selectedRegion, selectedKPtype);
+    });
+     document.getElementById('kpTypeSelect').addEventListener('change', function() {
+        var selectedKPtype = this.value;
+        var selectedRegion = document.getElementById('regionSelect').value; // Get selected region
+        updatePieChart(selectedRegion, selectedKPtype);
     });
 });
 document.addEventListener("DOMContentLoaded", function(){
     // Function to update the pie chart based on the selected region
     var defaultRegion = "LER";
-    function updatePieChart(selectedRegion) {
+    var defaultKPtype = "FSW";
+    function updatePieChart(selectedRegion,selectedKPtype) {
         // Fetch data for the selected region
-        fetch('{{ route("stiscreened.fetch") }}?region=' + selectedRegion, {
+        fetch('{{ route("stiscreened.fetch") }}?region=' + selectedRegion +'&kp_type=' + selectedKPtype, {
             method: 'GET',
             headers: {
                 'Content-Type': 'application/json',
@@ -626,19 +685,26 @@ document.addEventListener("DOMContentLoaded", function(){
         },
         options: options
     });
-      updatePieChart(defaultRegion);
+      updatePieChart(defaultRegion,defaultKPtype);
     // Event listener for the dropdown menu
     document.getElementById('regionSelect').addEventListener('change', function() {
         var selectedRegion = this.value;
-        updatePieChart(selectedRegion);
+        var selectedKPtype = document.getElementById('kpTypeSelect').value; // Get selected KP type
+        updatePieChart(selectedRegion, selectedKPtype);
+    });
+    document.getElementById('kpTypeSelect').addEventListener('change', function() {
+        var selectedKPtype = this.value;
+        var selectedRegion = document.getElementById('regionSelect').value; // Get selected region
+        updatePieChart(selectedRegion, selectedKPtype);
     });
 });
 document.addEventListener("DOMContentLoaded", function(){
     // Function to update the pie chart based on the selected region
     var defaultRegion = "LER";
-    function updatePieChart(selectedRegion) {
+    var defaultKPtype = "FSW";
+    function updatePieChart(selectedRegion,selectedKPtype) {
         // Fetch data for the selected region
-        fetch('{{ route("tbscreened.fetch") }}?region=' + selectedRegion, {
+        fetch('{{ route("tbscreened.fetch") }}?region=' + selectedRegion +'&kp_type=' + selectedKPtype, {
             method: 'GET',
             headers: {
                 'Content-Type': 'application/json',
@@ -700,11 +766,18 @@ document.addEventListener("DOMContentLoaded", function(){
         },
         options: options
     });
-      updatePieChart(defaultRegion);
+      updatePieChart(defaultRegion,defaultKPtype);
     // Event listener for the dropdown menu
     document.getElementById('regionSelect').addEventListener('change', function() {
         var selectedRegion = this.value;
-        updatePieChart(selectedRegion);
+        var selectedKPtype = document.getElementById('kpTypeSelect').value; // Get selected KP type
+        updatePieChart(selectedRegion, selectedKPtype);
+
+    });
+    document.getElementById('kpTypeSelect').addEventListener('change', function() {
+        var selectedKPtype = this.value;
+        var selectedRegion = document.getElementById('regionSelect').value; // Get selected region
+        updatePieChart(selectedRegion, selectedKPtype);
     });
 });
 

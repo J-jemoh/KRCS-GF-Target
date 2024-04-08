@@ -37,8 +37,7 @@
 		        </select>
 		    </div>
 		      <div class="col-md-6">
-		        <select name="region" class="form-control">
-		            <option>Select Typology</option>
+		        <select name="kp_type" class="form-control" id="kpTypeSelect">
 		            @foreach($typology as $kp_type)
 		            <option value="{{$kp_type}}">{{$kp_type}}</option>
 		            @endforeach

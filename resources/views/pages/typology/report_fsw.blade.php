@@ -10,7 +10,7 @@
             <ol class="breadcrumb float-sm-right">
               <li class="breadcrumb-item"><a href="{{route('admin.dashboard')}}" class="text-white">Home</a></li>
               <li class="breadcrumb-item active"><a href="#" class="text-white">Typology</a></li>
-               <li class="breadcrumb-item active"><a href="{{route('admin.fsw.index')}}" class="text-white">MSM</a></li>
+               <li class="breadcrumb-item active"><a href="{{route('admin.fsw.index')}}" class="text-white">FSW</a></li>
                 <li class="breadcrumb-item active"><a href="#" class="text-white">Reports</a></li>
             </ol>
           </div><!-- /.col -->
@@ -189,11 +189,11 @@
                   </thead>
                   <tbody>
                       <tr>
-                          <td>#of MSM reached with HIV prevention programs - defined package</td>
+                          <td>#of sex workers reached with HIV prevention programs - defined package</td>
                           <td>{{ $definedPackage }}</td>
                       </tr>
                       <tr>
-                          <td># of eligible MSM who initiated oral antiretroviral PrEP during the reporting period</td>
+                          <td># of eligible sex workers who initiated oral antiretroviral PrEP during the reporting period</td>
                           <td>{{$prepInitiated }}</td>
                         </tr>
                       <tr>
@@ -301,5 +301,5 @@
       </div>
     </div>
 </section>
- @include('scripts.msm')
+ @include('scripts.fsw')
 @endsection
