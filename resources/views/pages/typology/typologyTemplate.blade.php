@@ -36,7 +36,7 @@
             <th>Month</th>
             <th>Region</th>
             <th>KP Type</th>
-            <th>Peer Educator Code</th>
+            <th>UIC</th>
             <th>Received Peer Education</th>
             <th>Clinical Services</th>
             <th>HIV Tested</th>

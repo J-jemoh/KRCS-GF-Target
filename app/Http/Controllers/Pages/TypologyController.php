@@ -133,7 +133,7 @@ public function uploadPartInfo(Request $request)
                 'Month'=>'month',
                 'Region'=>'region',
                 'KP Type' => 'kp_type',
-                'Peer Educator Code' => 'peer_educator_code',
+                'UIC' => 'peer_educator_code',
                 'Received Peer Education' => 'received_peer_education',
                 'Clinical Services' => 'clinical_services',
                 'HIV Tested' => 'hiv_tested',
@@ -203,18 +203,20 @@ public function uploadPartInfo(Request $request)
                             $rowData[$columnName] = mb_convert_encoding($data[$index], 'UTF-8', 'UTF-8');
                         }
                     }
+                    $uniqueIdentifier = $rowData['year'] . '-' . $rowData['month'] . '-' . $rowData['region'] . '-' . $rowData['kp_type'] . '-' . $rowData['peer_educator_code'];
+                    $rowData['unique_identifier'] = $uniqueIdentifier;
                     $rowData['user_id'] = $user_id;
                     $batch[] = $rowData;
                     $data = fgetcsv($handle);
                 }
 
                 // Insert batch data into the database
-                Typology::upsert($batch, ['id','year', 'month', 'region','peer_educator_code'], array_keys($batch[0]));
+                Typology::upsert($batch, uniqueBy:['unique_identifier'], update:array_keys($batch[0]));
             }
 
             fclose($handle);
 
-            return redirect()->route('admin.fsw.index')->with('success', 'Your Demographics file has been uploaded successfully.');
+            return redirect()->route('admin.fsw.index')->with('success', 'Your Typology file has been uploaded successfully.');
         } else {
             return redirect()->route('admin.fsw.index')->with('error', 'Unable to open the CSV file.');
         }
@@ -789,7 +791,6 @@ return response()->stream($callback, 200, $headers);
                 'hiv_status_enrol',
                 'peer_educator',
                 'peer_educator_code',
-                'unique_identifier',
 
                 // Columns from typologies table
                 'received_peer_education',

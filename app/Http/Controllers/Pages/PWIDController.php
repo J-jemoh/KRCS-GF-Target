@@ -72,9 +72,9 @@ class PWIDController extends Controller
         ->where('kp_type','PWID')
         ->groupBy('hiv_test_freq')
         ->get();
-        $definedPackageTarget=6000;
+        $definedPackageTarget=17483;
         $prepInitiatedTarget=2081;
-        $hivTestedTarget=6000;
+        $hivTestedTarget=14869;
         $hivExposure72 = Typology::select('hiv_exposure_72hr', DB::raw('COUNT(*) as count'))
         ->where('kp_type','PWID')
         ->groupBy('hiv_exposure_72hr')

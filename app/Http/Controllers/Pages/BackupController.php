@@ -13,7 +13,8 @@ class BackupController extends Controller
      public function backup(Request $request)
     {
         try {
-            $config= config('backup.backup');
+            $config= config('backup.backup.source.databases');
+            dd($config);
             // Create a new backup job
             // dd($config);
             Log::info($config);

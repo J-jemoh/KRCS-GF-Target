@@ -13,7 +13,7 @@ return new class extends Migration
     {
         Schema::table('typologies', function (Blueprint $table) {
             //
-            $table->string('kp_type')->nullable();
+             $table->string('unique_identifier')->unique();
         });
     }
 
@@ -23,7 +23,6 @@ return new class extends Migration
     public function down(): void
     {
         Schema::table('typologies', function (Blueprint $table) {
-            // $table->string('kp_type')->nullable();
             //
         });
     }

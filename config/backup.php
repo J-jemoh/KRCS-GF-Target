@@ -81,7 +81,10 @@ return [
              */
             'databases' => [
 
-                'mysql',
+                'mysql' => [
+                    'use-db-connection' => 'mysql', // Specify the database connection name
+                    'tables' => [], // Specify the tables you want to backup, empty array means all tables
+            ],
             ],
         ],
 
