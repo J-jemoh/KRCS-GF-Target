@@ -16,6 +16,7 @@ use App\Http\Controllers\Pages\TGController;
 use App\Http\Controllers\Pages\PWIDController;
 use App\Http\Controllers\Pages\AYPController;
 use App\Http\Controllers\Pages\TCSController;
+use App\Http\Controllers\Pages\PMTCTController;
 /*
 |--------------------------------------------------------------------------
 | Web Routes
@@ -214,6 +215,14 @@ Route::group(['middleware' => ['auth','activity']], function () {
             ->name('admin.tcs.index');
             Route::get('/typology/TCS/reports', [TCSController::class, 'TCSReports'])
             ->name('admin.tcs.reports');
+
+            #PMTCT Routes
+            Route::get('/typology/PMTCT/home', [PMTCTController::class, 'pmtctTemplate'])
+            ->name('admin.pmtct.index');
+            Route::post('/typology/PMTCT/home', [PMTCTController::class, 'uploadPmtct'])
+            ->name('admin.pmtct.post');
+            Route::get('/typology/PMTCT/report', [PMTCTController::class, 'pmtctReports'])
+            ->name('admin.pmtct.reports');
 
 
 

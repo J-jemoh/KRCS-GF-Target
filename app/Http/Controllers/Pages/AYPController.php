@@ -133,7 +133,7 @@ class AYPController extends Controller
 
             fclose($handle);
 
-            return redirect()->route('admin.ayp.index')->with('success', 'Your AYP Demographics file has been uploaded successfully.');
+            return redirect()->route('admin.ayp.index')->with('success', 'Your AYP Data file has been uploaded successfully.');
         } else {
             return redirect()->route('admin.ayp.index')->with('error', 'Unable to open the CSV file.');
         }

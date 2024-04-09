@@ -21,7 +21,7 @@
     <div class="container-fluid">
       @include('messages.flash_messages')
       <div class="card card-info">
-        <div class="card-header">Upload  file</div>
+        <div class="card-header">Upload  file for [FSW,MSM,TG,PWID]</div>
         <div class="card-body">
           <div class="row">
           	<div class="col-6">
@@ -46,6 +46,28 @@
 						  <button class="btn btn-outline-info" type="submit" id="button-addon2">Upload</button>
 						</div>
 					</form>
+          	</div>
+          </div>
+        </div>
+        <div class="card-footer">
+        </div>
+      </div>
+        <div class="card card-info">
+        <div class="card-header">Upload  file for [PMTCT]</div>
+        <div class="card-body">
+          <div class="row">
+          	<div class="col-12">
+          		<form></form>
+          		<form method="post" action="{{route('admin.pmtct.post')}}" enctype="multipart/form-data">
+          			@csrf
+          		<label>PMCT Integrated data</label>
+          		<div class="input-group mb-3">
+
+						  <input type="file" class="form-control" placeholder="upload file" aria-label="Recipient's username" aria-describedby="button-addon2" 
+						  name="pmctF" required>
+						  <button class="btn btn-outline-info" type="submit">Upload</button>
+						</div>
+						</form>
           	</div>
           </div>
         </div>
@@ -105,7 +127,7 @@
 			              </a>
 			            </div>
     				</div>
-    				<div class="col-6">
+    				<div class="col-4">
     					<!-- small card -->
 			            <div class="small-box bg-primary">
 			              <div class="inner">
@@ -121,11 +143,11 @@
 			              </a>
 			            </div>
     				</div>
-    				<div class="col-6">
+    				<div class="col-4">
     					<!-- small card -->
 			            <div class="small-box bg-dark">
 			              <div class="inner">
-			                <h3>FSW Template</h3>
+			                <h3>Typology Template</h3>
 
 			                <p>Reports</p>
 			              </div>
@@ -133,6 +155,22 @@
 			                <i class="fas fa-shopping-cart"></i>
 			              </div>
 			              <a href="{{route('admin.fsw.template.fsw')}}" class="small-box-footer">
+			                More info <i class="fas fa-arrow-circle-right"></i>
+			              </a>
+			            </div>
+    				</div>
+    				<div class="col-4">
+    					<!-- small card -->
+			            <div class="small-box bg-danger">
+			              <div class="inner">
+			                <h3>PMTCT Template</h3>
+
+			                <p>Reports</p>
+			              </div>
+			              <div class="icon">
+			                <i class="fas fa-shopping-cart"></i>
+			              </div>
+			              <a href="{{route('admin.pmtct.index')}}" class="small-box-footer">
 			                More info <i class="fas fa-arrow-circle-right"></i>
 			              </a>
 			            </div>
