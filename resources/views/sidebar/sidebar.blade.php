@@ -176,7 +176,7 @@
             <a href="#" class="nav-link">
               <i class="nav-icon fas fa-edit"></i>
               <p class="text-warning">
-                Typologies
+                KP Typologies
                 <i class="fas fa-angle-left right"></i>
               </p>
             </a>
@@ -212,13 +212,13 @@
                 </a>
               </li>
                <li class="nav-item">
-                <a href="#" class="nav-link">
+                <a href="{{route('admin.ayp.index')}}" class="nav-link">
                   <i class="far fa-circle nav-icon"></i>
                   <p>AYP</p>
                 </a>
               </li>
               <li class="nav-item">
-                <a href="#" class="nav-link">
+                <a href="{{route('admin.tcs.index')}}" class="nav-link">
                   <i class="far fa-circle nav-icon"></i>
                   <p>TCS</p>
                 </a>
@@ -228,6 +228,48 @@
                   <i class="far fa-circle nav-icon"></i>
                   <p>Template</p>
                 </a>
+              </li>
+            </ul>
+          </li>
+          <li class="nav-item">
+            <a href="#" class="nav-link">
+              <i class="nav-icon fas fa-edit"></i>
+              <p class="text-warning">
+                VP Typologies
+                <i class="fas fa-angle-left right"></i>
+              </p>
+            </a>
+            <ul class="nav nav-treeview">
+               <li class="nav-item">
+                <a href="{{route('admin.vp.index')}}" class="nav-link">
+                  <i class="far fa-circle nav-icon"></i>
+                  <p>Data Upload</p>
+                </a>
+              </li>
+              <li class="nav-item">
+                <a href="{{route('admin.fsw.report')}}" class="nav-link">
+                  <i class="far fa-circle nav-icon"></i>
+                  <p>DC</p>
+                </a>
+              </li>
+              <li class="nav-item">
+                <a href="{{route('admin.msm.report')}}" class="nav-link">
+                  <i class="far fa-circle nav-icon"></i>
+                  <p>FISHERFOLKS</p>
+                </a>
+              </li>
+              <li class="nav-item">
+                <a href="{{route('admin.tg.index')}}" class="nav-link">
+                  <i class="far fa-circle nav-icon"></i>
+                  <p>TRUCKERS</p>
+                </a>
+              </li>
+              <li class="nav-item">
+                <a href="{{route('admin.pwid.index')}}" class="nav-link">
+                  <i class="far fa-circle nav-icon"></i>
+                  <p>People in Prison</p>
+                </a>
+              </li>
               </li>
             </ul>
           </li>

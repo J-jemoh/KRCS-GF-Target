@@ -521,12 +521,14 @@ class PagesController extends Controller
             ->where('sti_screened', 'yes')
             ->where(DB::raw('CAST(condom_distributed_nmbr AS UNSIGNED)'), '>', 0)
             ->where('kp_type','FSW')
-            ->count();
-        $prepInitiated= Typology::where('prep_initated','Yes')->where('kp_type','FSW')->count();
-        $hivTested= Typology::where('hiv_tested','Yes')->where('kp_type','FSW')->count();
+            ->distinct()
+            ->count('peer_educator_code');
+        $prepInitiated= Typology::where('prep_initated','Yes')->where('kp_type','FSW')->distinct()->count('peer_educator_code');
+        $hivTested= Typology::where('hiv_tested','Yes')->where('kp_type','FSW')->distinct()->count('peer_educator_code');
         $hivFreq = Typology::select('hiv_test_freq', DB::raw('COUNT(*) as count'))
         ->where('kp_type','FSW')
         ->groupBy('hiv_test_freq')
+        ->distinct()
         ->get();
         $definedPackageTarget=91029;
         $prepInitiatedTarget=23862;
@@ -617,6 +619,10 @@ class PagesController extends Controller
     public function pfTarget(){
         $pftargets=pfTarget::get();
         return view('pages.gc7.pfTarget',compact('pftargets'));
+    }
+     public function vpIndex(){
+
+        return view('pages.vp.index');
     }
 
 

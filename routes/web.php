@@ -14,6 +14,8 @@ use App\Http\Controllers\Pages\BackupController;
 use App\Http\Controllers\Pages\MSMController;
 use App\Http\Controllers\Pages\TGController;
 use App\Http\Controllers\Pages\PWIDController;
+use App\Http\Controllers\Pages\AYPController;
+use App\Http\Controllers\Pages\TCSController;
 /*
 |--------------------------------------------------------------------------
 | Web Routes
@@ -177,6 +179,10 @@ Route::group(['middleware' => ['auth','activity']], function () {
             Route::get('/typology/pwid/home', [PWIDController::class, 'indexPWID'])
             ->name('admin.pwid.index');
 
+            #VP routes
+            Route::get('/typology/vp/home', [PagesController::class, 'vpIndex'])
+            ->name('admin.vp.index');
+
             #reions Route
             Route::get('/region/home',[RegionController::class,'index'])->name('admin.region.index');
             Route::get('/get-counts', [RegionController::class, 'getCounts'])->name('get-counts');
@@ -194,6 +200,20 @@ Route::group(['middleware' => ['auth','activity']], function () {
             #TG Routes
             Route::get('/typology/TG/home', [TGController::class, 'indexTG'])
             ->name('admin.tg.index');
+
+            #AYP ROUTES
+            Route::get('/typology/AYP/home', [AYPController::class, 'AYPindex'])
+            ->name('admin.ayp.index');
+            Route::post('/typology/AYP/demo', [AYPController::class, 'uploadDemo'])
+            ->name('admin.ayp.post.demo');
+            Route::get('/typology/AYP/template', [AYPController::class, 'aypTemplate'])
+            ->name('admin.ayp.template');
+
+            #TCS Routes
+            Route::get('/typology/TCS/home', [TCSController::class, 'indexTCS'])
+            ->name('admin.tcs.index');
+            Route::get('/typology/TCS/reports', [TCSController::class, 'TCSReports'])
+            ->name('admin.tcs.reports');
 
 
 
