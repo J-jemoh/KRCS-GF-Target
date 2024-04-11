@@ -19,7 +19,8 @@ use App\Models\Typology;
 use DataTables;
 use App\Models\pfTarget;
 use Illuminate\Support\Facades\DB;
-
+use App\Models\AYP;
+use App\Models\PMTCT;
 class PagesController extends Controller
 {
 
@@ -527,14 +528,25 @@ class PagesController extends Controller
         $hivTested= Typology::where('hiv_tested','Yes')->where('kp_type','FSW')->distinct()->count('peer_educator_code');
         $hivFreq = Typology::select('hiv_test_freq', DB::raw('COUNT(*) as count'))
         ->where('kp_type','FSW')
+        ->whereIn('peer_educator_code', function($query) {
+                        $query->select('peer_educator_code')
+                              ->distinct()
+                              ->from('typologies');
+                    })
         ->groupBy('hiv_test_freq')
         ->distinct()
         ->get();
+
         $definedPackageTarget=91029;
         $prepInitiatedTarget=23862;
         $hivTestedTarget=20000;
         $hivExposure72 = Typology::select('hiv_exposure_72hr', DB::raw('COUNT(*) as count'))
         ->where('kp_type','FSW')
+        ->whereIn('peer_educator_code', function($query) {
+                        $query->select('peer_educator_code')
+                              ->distinct()
+                              ->from('typologies');
+                    })
         ->groupBy('hiv_exposure_72hr')
         ->get();
         $Pep72 = Typology::select('pep_72', DB::raw('COUNT(*) as count'))
@@ -625,6 +637,162 @@ class PagesController extends Controller
         return view('pages.vp.index');
     }
 
+    public function CommunityReached(){
+        $kpTypes = Demographics::select('kp_type')
+                        ->groupBy('kp_type')
+                        ->pluck('kp_type');
+         $kpTypeCounts = [];
+            foreach ($kpTypes as $kpType) {
+                $kpTypeCounts[$kpType]['kp_type'] = $kpType;
+                $kpTypeCounts[$kpType]['male_count5'] = DB::table('demographics')
+                    ->whereBetween('age', [0, 5])
+                    ->where('sex', 'Male')
+                    ->where('kp_type', $kpType)
+                    ->count('uic');
+                $kpTypeCounts[$kpType]['female_count5'] = DB::table('demographics')
+                    ->whereBetween('age', [0, 5])
+                    ->where('sex', 'Female')
+                    ->where('kp_type', $kpType)
+                    ->count('uic');
+                $kpTypeCounts[$kpType]['male_count12'] = DB::table('demographics')
+                    ->whereBetween('age', [6, 12])
+                    ->where('sex', 'Male')
+                    ->where('kp_type', $kpType)
+                    ->count('uic');
+                $kpTypeCounts[$kpType]['female_count12'] = DB::table('demographics')
+                    ->whereBetween('age', [6, 12])
+                    ->where('sex', 'Female')
+                    ->where('kp_type', $kpType)
+                    ->count('uic');
+                $kpTypeCounts[$kpType]['female_count'] = DB::table('demographics')
+                    ->whereBetween('age', [13, 17])
+                    ->where('sex', 'Female')
+                    ->where('kp_type', $kpType)
+                    ->count('uic');
+
+                $kpTypeCounts[$kpType]['male_count'] = DB::table('demographics')
+                    ->whereBetween('age', [13, 17])
+                    ->where('sex', 'Male')
+                    ->where('kp_type', $kpType)
+                    ->count('uic');
+                $kpTypeCounts[$kpType]['male_count29'] = DB::table('demographics')
+                    ->whereBetween('age', [18, 29])
+                    ->where('sex', 'Male')
+                    ->where('kp_type', $kpType)
+                    ->count('uic');
+                $kpTypeCounts[$kpType]['Female_count29'] = DB::table('demographics')
+                    ->whereBetween('age', [18, 29])
+                    ->where('sex', 'Female')
+                    ->where('kp_type', $kpType)
+                    ->count('uic');
+                $kpTypeCounts[$kpType]['m_count39'] = DB::table('demographics')
+                    ->whereBetween('age', [30, 39])
+                    ->where('sex', 'Male')
+                    ->where('kp_type', $kpType)
+                    ->count('uic');
+                $kpTypeCounts[$kpType]['f_count39'] = DB::table('demographics')
+                    ->whereBetween('age', [30, 39])
+                    ->where('sex', 'Female')
+                    ->where('kp_type', $kpType)
+                    ->count('uic');
+                $kpTypeCounts[$kpType]['m_count49'] = DB::table('demographics')
+                    ->whereBetween('age', [40, 49])
+                    ->where('sex', 'Male')
+                    ->where('kp_type', $kpType)
+                    ->count('uic');
+                $kpTypeCounts[$kpType]['f_count49'] = DB::table('demographics')
+                    ->whereBetween('age', [40, 49])
+                    ->where('sex', 'Female')
+                    ->where('kp_type', $kpType)
+                    ->count('uic');
+                $kpTypeCounts[$kpType]['m_count59'] = DB::table('demographics')
+                    ->whereBetween('age', [50, 59])
+                    ->where('sex', 'Male')
+                    ->where('kp_type', $kpType)
+                    ->count('uic');
+                 $kpTypeCounts[$kpType]['f_count59'] = DB::table('demographics')
+                    ->whereBetween('age', [50, 59])
+                    ->where('sex', 'Female')
+                    ->where('kp_type', $kpType)
+                    ->count('uic');
+                 $kpTypeCounts[$kpType]['m_count69'] = DB::table('demographics')
+                    ->whereBetween('age', [60, 69])
+                    ->where('sex', 'Male')
+                    ->where('kp_type', $kpType)
+                    ->count('uic');
+                $kpTypeCounts[$kpType]['f_count69'] = DB::table('demographics')
+                    ->whereBetween('age', [60, 69])
+                    ->where('sex', 'Male')
+                    ->where('kp_type', $kpType)
+                    ->count('uic');
+                 $kpTypeCounts[$kpType]['m_count79'] = DB::table('demographics')
+                    ->whereBetween('age', [70, 49])
+                    ->where('sex', 'Male')
+                    ->where('kp_type', $kpType)
+                    ->count('uic');
+                $kpTypeCounts[$kpType]['f_count79'] = DB::table('demographics')
+                    ->whereBetween('age', [70, 79])
+                    ->where('sex', 'Female')
+                    ->where('kp_type', $kpType)
+                    ->count('uic');
+                $kpTypeCounts[$kpType]['countm80'] = DB::table('demographics')
+                    ->where('age','>=',80)
+                    ->where('sex', 'Male')
+                    ->where('kp_type', $kpType)
+                    ->count('uic');
+                 $kpTypeCounts[$kpType]['countf80'] = DB::table('demographics')
+                    ->where('age','>=',80)
+                    ->where('sex', 'Female')
+                    ->where('kp_type', $kpType)
+                    ->count('uic');
+                $kpTypeCounts[$kpType]['countmm'] = DB::table('demographics')
+                    ->where('age','>=',0)
+                    ->where('sex', 'Male')
+                    ->where('kp_type', $kpType)
+                    ->count('uic');
+                $kpTypeCounts[$kpType]['countff'] = DB::table('demographics')
+                    ->where('age','>=',0)
+                    ->where('sex', 'Female')
+                    ->where('kp_type', $kpType)
+                    ->count('uic');
+            }
+        // $kpTypes = ['MSM', 'FSW','TG', 'PWID','TRANS WOMAN','TRANS MAN'];
+        $countsPMTCT = [];
+            $ageRanges = [[0,5],[6,12],[13,17],[18,29],[30,39],[40,49],[50,59],[60,69],[70,79],[80,150]];
+            $sexes = ['Male', 'Female'];
+            foreach ($ageRanges as $range) {
+                foreach ($sexes as $sex) {
+                    $countsPMTCT["pmtct{$range[0]}{$range[1]}{$sex[0]}"] = PMTCT::whereBetween('age', $range)
+                        ->where('sex', $sex)
+                        ->count('unique_identifier');
+                }
+            }
+
+        $ayp5m=AYP::whereBetween('age',[0,5])->Where('sex','Male')->count('peer_name');
+        $ayp5f=AYP::whereBetween('age',[0,5])->Where('sex','Female')->count('peer_name');
+        $ayp12m=AYP::whereBetween('age',[6,12])->Where('sex','Male')->count('peer_name');
+        $ayp12f=AYP::whereBetween('age',[6,12])->Where('sex','Female')->count('peer_name');
+        $ayp17m=AYP::whereBetween('age',[13,17])->Where('sex','Male')->count('peer_name');
+        $ayp17f=AYP::whereBetween('age',[13,17])->Where('sex','Female')->count('peer_name');
+        $ayp29m=AYP::whereBetween('age',[18,29])->Where('sex','Male')->count('peer_name');
+        $ayp29f=AYP::whereBetween('age',[18,29])->Where('sex','Female')->count('peer_name');
+        $ayp39m=AYP::whereBetween('age',[30,39])->Where('sex','Male')->count('peer_name');
+        $ayp39f=AYP::whereBetween('age',[30,39])->Where('sex','Female')->count('peer_name');
+        $ayp49m=AYP::whereBetween('age',[40,49])->Where('sex','Male')->count('peer_name');
+        $ayp49f=AYP::whereBetween('age',[40,49])->Where('sex','Female')->count('peer_name');
+        $ayp59m=AYP::whereBetween('age',[50,59])->Where('sex','Male')->count('peer_name');
+        $ayp59f=AYP::whereBetween('age',[50,59])->Where('sex','Female')->count('peer_name');
+        $ayp69m=AYP::whereBetween('age',[60,69])->Where('sex','Male')->count('peer_name');
+        $ayp69f=AYP::whereBetween('age',[60,69])->Where('sex','Female')->count('peer_name');
+        $ayp79m=AYP::whereBetween('age',[70,79])->Where('sex','Male')->count('peer_name');
+        $ayp79f=AYP::whereBetween('age',[70,79])->Where('sex','Female')->count('peer_name');
+        $ayp80m=AYP::where('age','>=',80)->where('sex','Male')->count('peer_name');
+        $ayp80f=AYP::where('age','>=',80)->where('sex','Female')->count('peer_name');
+        $ayptotalm=AYP::where('age','>=',0)->where('sex','Male')->count('peer_name');
+        $ayptotalf=AYP::where('age','>=',0)->where('sex','Female')->count('peer_name');
+
+        return view('reports.community_Members_reached',compact('kpTypes','kpTypeCounts','ayp5m','ayp5f','ayp12m','ayp12f','ayp17m','ayp17f','ayp29m','ayp29f','ayp39m','ayp39f','ayp49m','ayp49f','ayp59m','ayp59f','ayp69m','ayp69f','ayp79m','ayp79f','ayp80m','ayp80f','ayptotalf','ayptotalm','countsPMTCT'));
+    }
 
 
 }

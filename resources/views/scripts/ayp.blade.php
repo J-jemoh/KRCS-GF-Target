@@ -48,9 +48,9 @@
         // Data for the pie chart
       document.addEventListener("DOMContentLoaded", function(){
         var data = {
-            labels: {!! $lactatingstatus->pluck('lactating') !!},
+            labels: {!! $disabledstatus->pluck('disabled') !!},
             datasets: [{
-                data: {!! $lactatingstatus->pluck('count') !!},
+                data: {!! $disabledstatus->pluck('count') !!},
                 backgroundColor: [
                     'rgba(255, 99, 132, 0.5)',
                     'rgba(54, 162, 235, 0.5)',
@@ -73,12 +73,12 @@
             maintainAspectRatio: false,
             title: {
                 display: true,
-                text: 'Lactating Mothers'
+                text: 'Disabled'
             }
         };
 
         // Get the canvas element
-        var ctx = document.getElementById('hivStatusPieChart').getContext('2d');
+        var ctx = document.getElementById('disabledPieChart').getContext('2d');
 
         // Create the pie chart
         var hivStatusPieChart = new Chart(ctx, {
@@ -93,9 +93,9 @@
         // Data for the pie chart
       document.addEventListener("DOMContentLoaded", function(){
         var data = {
-            labels: {!! $PregnantStatus->pluck('pregnant') !!},
+            labels: {!! $testedHivStatus->pluck('tested_hiv') !!},
             datasets: [{
-                data: {!! $PregnantStatus->pluck('count') !!},
+                data: {!! $testedHivStatus->pluck('count') !!},
                 backgroundColor: [
                     'rgba(255, 99, 132, 0.5)',
                     'rgba(54, 162, 235, 0.5)',
@@ -123,7 +123,7 @@
         };
 
         // Get the canvas element
-        var ctx = document.getElementById('hivFreqPieChart').getContext('2d');
+        var ctx = document.getElementById('hivTestPieChart').getContext('2d');
 
         // Create the pie chart
         var hivStatusPieChart = new Chart(ctx, {
@@ -137,8 +137,8 @@
      <script>
     // Data for the pie chart
     document.addEventListener("DOMContentLoaded", function(){
-        var labels = {!! $expertMothers->pluck('reached_by_expert_mother') !!};
-        var counts = {!! $expertMothers->pluck('count') !!};
+        var labels = {!! $artInitiated->pluck('art_initiated') !!};
+        var counts = {!! $artInitiated->pluck('count') !!};
 
         var dynamicColors = [];
         for (var i = 0; i < counts.length; i++) {
@@ -164,12 +164,12 @@
             maintainAspectRatio: false,
             title: {
                 display: true,
-                text: 'Reached by Expert Mothers'
+                text: 'Initiated on ART'
             }
         };
 
         // Get the canvas element
-        var ctx = document.getElementById('hivExpPieChart').getContext('2d');
+        var ctx = document.getElementById('artInitaitedPieChart').getContext('2d');
 
         // Create the pie chart
         var hivStatusPieChart = new Chart(ctx, {
@@ -183,8 +183,8 @@
      <script>
     // Data for the pie chart
     document.addEventListener("DOMContentLoaded", function(){
-        var labels = {!! $artStatus->pluck('art_status') !!};
-        var counts = {!! $artStatus->pluck('count') !!};
+        var labels = {!! $stiScreeneed->pluck('sti_screening') !!};
+        var counts = {!! $stiScreeneed->pluck('count') !!};
 
         var dynamicColors = [];
         for (var i = 0; i < counts.length; i++) {
@@ -210,12 +210,12 @@
             maintainAspectRatio: false,
             title: {
                 display: true,
-                text: 'ART Status'
+                text: 'STI Screened'
             }
         };
 
         // Get the canvas element
-        var ctx = document.getElementById('hivPepPieChart').getContext('2d');
+        var ctx = document.getElementById('stiScreenedPieChart').getContext('2d');
 
         // Create the pie chart
         var hivStatusPieChart = new Chart(ctx, {
@@ -229,8 +229,8 @@
 <script>
     // Data for the bar chart
     document.addEventListener("DOMContentLoaded", function(){
-        var labels = {!! $dueVL->pluck('due_for_vl') !!};
-        var counts = {!! $dueVL->pluck('count') !!};
+        var labels = {!! $stiTreated->pluck('treated_sti') !!};
+        var counts = {!! $stiTreated->pluck('count') !!};
 
         var dynamicColors = [];
         for (var i = 0; i < counts.length; i++) {
@@ -256,7 +256,7 @@
             maintainAspectRatio: false,
             title: {
                 display: true,
-                text: 'Due for VL'
+                text: 'Treated for STI'
             },
             scales: {
                 yAxes: [{
@@ -268,7 +268,7 @@
         };
 
         // Get the canvas element
-        var ctx = document.getElementById('VLStatus').getContext('2d');
+        var ctx = document.getElementById('stiTreated').getContext('2d');
 
         // Create the bar chart
         var hivStatusBarChart = new Chart(ctx, {
@@ -282,8 +282,8 @@
 <script>
     // Data for the bar chart
     document.addEventListener("DOMContentLoaded", function(){
-        var labels = {!! $vlReceived->pluck('received_vl_result') !!};
-        var counts = {!! $vlReceived->pluck('count') !!};
+        var labels = {!! $tbScreenedd->pluck('tb_screened') !!};
+        var counts = {!! $tbScreenedd->pluck('count') !!};
 
         var dynamicColors = [];
         for (var i = 0; i < counts.length; i++) {
@@ -309,7 +309,7 @@
             maintainAspectRatio: false,
             title: {
                 display: true,
-                text: 'Received VL result'
+                text: 'Screened for TB'
             },
             scales: {
                 yAxes: [{
@@ -321,7 +321,7 @@
         };
 
         // Get the canvas element
-        var ctx = document.getElementById('vlResult').getContext('2d');
+        var ctx = document.getElementById('tbScreened').getContext('2d');
 
         // Create the bar chart
         var hivStatusBarChart = new Chart(ctx, {

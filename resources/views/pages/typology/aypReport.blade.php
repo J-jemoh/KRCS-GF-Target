@@ -9,8 +9,8 @@
           <div class="col-sm-6">
             <ol class="breadcrumb float-sm-right">
               <li class="breadcrumb-item"><a href="{{route('admin.dashboard')}}" class="text-white">Home</a></li>
-              <li class="breadcrumb-item active"><a href="{{route('admin.fsw.index')}}" class="text-white">Typology</a></li>
-               <li class="breadcrumb-item active"><a href="#" class="text-white">PMTCT</a></li>
+              <li class="breadcrumb-item active"><a href="{{route('admin.ayp.index')}}" class="text-white">Typology</a></li>
+               <li class="breadcrumb-item active"><a href="#" class="text-white">AYP</a></li>
                 <li class="breadcrumb-item active"><a href="#" class="text-white">Reports</a></li>
             </ol>
           </div><!-- /.col -->
@@ -22,7 +22,7 @@
     <div class="container-fluid">
       <div class="row">
         <div class="col-4">
-          <a href="{{route('admin.pmtct.reports.download')}}" class="btn btn-info btn-block">Download/Export to CSV</a>
+          <a href="{{route('admin.ayp.reports.download')}}" class="btn btn-info btn-block">Download/Export to CSV</a>
         </div>
          <div class="col-4">
              <a href="#" class="btn btn-info btn-block">Download/Export to Excel</a>
@@ -122,14 +122,14 @@
                 <table class="table table-bordered table-striped table-condensed">
                   <thead>
                       <tr>
-                          <th>Lactating Mothers</th>
+                          <th>Disabled</th>
                           <th>Count</th>
                       </tr>
                   </thead>
                   <tbody>
-                      @foreach($lactatingstatus as $status)
+                      @foreach($disabledstatus as $status)
                       <tr>
-                          <td>{{ $status->lactating }}</td>
+                          <td>{{ $status->disabled }}</td>
                           <td>{{ $status->count }}</td>
                       </tr>
                       @endforeach
@@ -138,7 +138,7 @@
               </div>
               <div class="col-sm-6">
                 <div style="width: 100%;">
-                  <canvas id="hivStatusPieChart"></canvas>
+                  <canvas id="disabledPieChart"></canvas>
               </div>
               </div>
             </div>
@@ -151,41 +151,49 @@
             <div class="row">
               <div class="col-lg-4">
                 <div class="card card-body bg-light">
-                <p><b>Pregnant Mothers Status</b></p>
+                <p><b>Tested for HIV</b></p>
                 <div style="width: 100%;">
-                  <canvas id="hivFreqPieChart"></canvas>
+                  <canvas id="hivTestPieChart"></canvas>
               </div>
             </div>
               </div>
               <div class="col-lg-4">
                 <div class="card card-body bg-light">
-                <p><b> Reached by Expert Mothers</b></p>
+                <p><b> Initiated on ART</b></p>
                 <div style="width: 100%;">
-                  <canvas id="hivExpPieChart"></canvas>
+                  <canvas id="artInitaitedPieChart"></canvas>
               </div>
               </div>
               </div>
                <div class="col-lg-4">
                  <div class="card card-body bg-light">
-                <p><b>ART Status</b></p>
+                <p><b>Screened for STI</b></p>
                 <div style="width: 100%;">
-                  <canvas id="hivPepPieChart"></canvas>
+                  <canvas id="stiScreenedPieChart"></canvas>
               </div>
               </div>
               </div>
-               <div class="col-lg-6">
+               <div class="col-lg-4">
                  <div class="card card-body bg-light">
-                <p><b>Due for Viral Load</b></p>
+                <p><b>Treated for STI</b></p>
                 <div style="width: 100%;">
-                  <canvas id="VLStatus" height="500"></canvas>
+                  <canvas id="stiTreated" height="500"></canvas>
               </div>
               </div>
               </div>
-               <div class="col-lg-6">
+               <div class="col-lg-4">
                  <div class="card card-body bg-light">
-                <p><b>Received VL Results</b></p>
+                <p><b>Screened for TB</b></p>
                 <div style="width: 100%;">
-                  <canvas id="vlResult" height="500"></canvas>
+                  <canvas id="tbScreened" height="500"></canvas>
+              </div>
+              </div>
+              </div>
+              <div class="col-lg-4">
+                 <div class="card card-body bg-light">
+                <p><b>Treated for TB</b></p>
+                <div style="width: 100%;">
+                  <canvas id="tbTreated" height="500"></canvas>
               </div>
               </div>
               </div>
@@ -235,5 +243,5 @@
       </div>
     </div>
 </section>
- @include('scripts.pmtct')
+ @include('scripts.ayp')
 @endsection

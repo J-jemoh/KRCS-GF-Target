@@ -337,6 +337,12 @@
               <p>User Management</p>
             </a>
           </li>
+          <li class="nav-item">
+              <a class="nav-link" href="{{route('admin.reports.CommunityReached')}}" >
+               <i class="nav-icon fas fa-users-cog"></i>
+               Community Members Reached Report
+              </a>
+          </li>
           <!--  <li class="nav-item {{Request::is('logs*')?' active':''}}">
               <a class="nav-link {{ Request::is('logs') ? 'active' : null }}" href="{{ url('/logs') }}" > <i class="nav-icon fas fa-clipboard-list"></i>System Logs
               </a>

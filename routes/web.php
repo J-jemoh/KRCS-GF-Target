@@ -63,6 +63,8 @@ Route::group(['middleware' => ['auth','activity']], function () {
             ->name('admin.target.reports.tg');
             Route::get('target/reports/tcs',[PagesController::class,'tcsdata'])
             ->name('admin.target.reports.tcs');
+            Route::get('reports/community_members-reached',[PagesController::class,'CommunityReached'])
+            ->name('admin.reports.CommunityReached');
 
             // Target Contoller routes here...
             Route::post('/target/save',[TargetController::class,'uploadTarget'])
@@ -209,6 +211,10 @@ Route::group(['middleware' => ['auth','activity']], function () {
             ->name('admin.ayp.post.demo');
             Route::get('/typology/AYP/template', [AYPController::class, 'aypTemplate'])
             ->name('admin.ayp.template');
+            Route::get('/typology/AYP/reports', [AYPController::class, 'aypReports'])
+            ->name('admin.ayp.reports');
+            Route::get('/typology/AYP/reports/download', [AYPController::class, 'AYPData'])
+            ->name('admin.ayp.reports.download');
 
             #TCS Routes
             Route::get('/typology/TCS/home', [TCSController::class, 'indexTCS'])
@@ -223,6 +229,8 @@ Route::group(['middleware' => ['auth','activity']], function () {
             ->name('admin.pmtct.post');
             Route::get('/typology/PMTCT/report', [PMTCTController::class, 'pmtctReports'])
             ->name('admin.pmtct.reports');
+            Route::get('/typology/PMTCT/report/download', [PMTCTController::class, 'PMTCTData'])
+            ->name('admin.pmtct.reports.download');
 
 
 

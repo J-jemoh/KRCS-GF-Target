@@ -79,7 +79,7 @@
 			              <div class="icon">
 			                <i class="fas fa-shopping-cart"></i>
 			              </div>
-			              <a href="{{route('admin.fsw.report')}}" class="small-box-footer">
+			              <a href="{{route('admin.ayp.reports')}}" class="small-box-footer">
 			                More info <i class="fas fa-arrow-circle-right"></i>
 			              </a>
 			            </div>
@@ -94,7 +94,7 @@
 			              <div class="icon">
 			                <i class="fas fa-shopping-cart"></i>
 			              </div>
-			              <a href="{{route('admin.region.index')}}" class="small-box-footer">
+			              <a href="#" class="small-box-footer">
 			                More info <i class="fas fa-arrow-circle-right"></i>
 			              </a>
 			            </div>
@@ -110,7 +110,7 @@
 			              <div class="icon">
 			                <i class="fas fa-shopping-cart"></i>
 			              </div>
-			              <a href="{{route('admin.fsw.consolidated')}}" class="small-box-footer">
+			              <a href="#" class="small-box-footer">
 			                More info <i class="fas fa-arrow-circle-right"></i>
 			              </a>
 			            </div>
