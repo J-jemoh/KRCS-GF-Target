@@ -193,6 +193,21 @@ Route::group(['middleware' => ['auth','activity']], function () {
             ->name('admin.vp.dc.upload');
             Route::get('/typology/VP/reports', [VPController::class, 'DCReports'])
             ->name('admin.vp.dc.reports');
+            Route::get('/typology/VP/reports/download', [VPController::class, 'DCData'])
+            ->name('admin.vp.dc.reports.download');
+            Route::get('/typology/VP/Eban/demoTemplate', [VPController::class, 'EbanDemo'])
+            ->name('admin.vp.eban.demo');
+            Route::get('/typology/VP/Eban/serviceTemplate', [VPController::class, 'ServiceDemo'])
+            ->name('admin.vp.eban.service');
+            Route::get('/typology/VP/reports/Eban', [VPController::class, 'EbanReport'])
+            ->name('admin.vp.eban.reports');
+            Route::post('/typology/VP/Eban/demo/upload', [VPController::class, 'uploadEbanDemo'])
+            ->name('admin.vp.eban.demo.upload');
+             Route::post('/typology/VP/Eban/service/upload', [VPController::class, 'uploadEbanService'])
+            ->name('admin.vp.eban.service.upload');
+            Route::get('/typology/VP/reports/eban/download', [VPController::class, 'ebanDownload'])
+            ->name('admin.vp.reports.eban.download');
+
 
             #reions Route
             Route::get('/region/home',[RegionController::class,'index'])->name('admin.region.index');

@@ -259,6 +259,12 @@
                 </a>
               </li>
               <li class="nav-item">
+                <a href="{{route('admin.vp.eban.reports')}}" class="nav-link">
+                  <i class="far fa-circle nav-icon"></i>
+                  <p>EBAN</p>
+                </a>
+              </li>
+              <li class="nav-item">
                 <a href="{{route('admin.msm.report')}}" class="nav-link">
                   <i class="far fa-circle nav-icon"></i>
                   <p>FISHERFOLKS</p>
