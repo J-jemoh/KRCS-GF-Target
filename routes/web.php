@@ -17,7 +17,9 @@ use App\Http\Controllers\Pages\PWIDController;
 use App\Http\Controllers\Pages\AYPController;
 use App\Http\Controllers\Pages\TCSController;
 use App\Http\Controllers\Pages\PMTCTController;
+use App\Http\Controllers\Pages\VPController;
 /*
+
 |--------------------------------------------------------------------------
 | Web Routes
 |--------------------------------------------------------------------------
@@ -185,6 +187,12 @@ Route::group(['middleware' => ['auth','activity']], function () {
             #VP routes
             Route::get('/typology/vp/home', [PagesController::class, 'vpIndex'])
             ->name('admin.vp.index');
+             Route::get('/typology/VP/dcTemplate', [VPController::class, 'dcTemplate'])
+            ->name('admin.vp.dc.template');
+            Route::post('/typology/VP/upload', [VPController::class, 'uploadDC'])
+            ->name('admin.vp.dc.upload');
+            Route::get('/typology/VP/reports', [VPController::class, 'DCReports'])
+            ->name('admin.vp.dc.reports');
 
             #reions Route
             Route::get('/region/home',[RegionController::class,'index'])->name('admin.region.index');
@@ -231,6 +239,9 @@ Route::group(['middleware' => ['auth','activity']], function () {
             ->name('admin.pmtct.reports');
             Route::get('/typology/PMTCT/report/download', [PMTCTController::class, 'PMTCTData'])
             ->name('admin.pmtct.reports.download');
+
+            #VP ROUTES
+           
 
 
 

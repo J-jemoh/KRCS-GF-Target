@@ -10,7 +10,7 @@
             <ol class="breadcrumb float-sm-right">
               <li class="breadcrumb-item"><a href="#" class="text-white">Home</a></li>
               <li class="breadcrumb-item active text-white">TYPOLOGY</li>
-               <li class="breadcrumb-item active text-white">FSW</li>
+               <li class="breadcrumb-item active text-white">VP</li>
             </ol>
           </div><!-- /.col -->
         </div><!-- /.row -->
@@ -26,19 +26,19 @@
           <div class="row">
           	<div class="col-6">
           		<form></form>
-          		<form method="post" action="{{route('admin.fsw.demo.post')}}" enctype="multipart/form-data">
+          		<form method="post" action="{{route('admin.vp.dc.upload')}}" enctype="multipart/form-data">
           			@csrf
-          		<label>Demographics data</label>
+          		<label>DC Data upload(Use this to upload DC data)</label>
           		<div class="input-group mb-3">
 
 						  <input type="file" class="form-control" placeholder="upload file" aria-label="Recipient's username" aria-describedby="button-addon2" 
-						  name="demoF" required>
+						  name="dcF" required>
 						  <button class="btn btn-outline-info" type="submit">Upload</button>
 						</div>
 						</form>
           	</div>
           	<div class="col-6">
-          		<form method="post" action="{{route('admin.fsw.fsw.post')}}" enctype="multipart/form-data">
+          		<form method="post" action="#" enctype="multipart/form-data">
           			@csrf
           		<label>Typology data</label>
           		<div class="input-group mb-3">
@@ -95,7 +95,7 @@
 			              <div class="inner">
 			                <h3>Download Data</h3>
 
-			                <p>FSW Consolidated</p>
+			                <p>VP consolidated</p>
 			              </div>
 			              <div class="icon">
 			                <i class="fas fa-shopping-cart"></i>
@@ -116,7 +116,7 @@
 			              <div class="icon">
 			                <i class="fas fa-shopping-cart"></i>
 			              </div>
-			              <a href="{{route('admin.fsw.template.demo')}}" class="small-box-footer">
+			              <a href="#" class="small-box-footer">
 			                More info <i class="fas fa-arrow-circle-right"></i>
 			              </a>
 			            </div>
@@ -125,14 +125,14 @@
     					<!-- small card -->
 			            <div class="small-box bg-dark">
 			              <div class="inner">
-			                <h3>FSW Template</h3>
+			                <h3>VP Template</h3>
 
 			                <p>Reports</p>
 			              </div>
 			              <div class="icon">
 			                <i class="fas fa-shopping-cart"></i>
 			              </div>
-			              <a href="{{route('admin.fsw.template.fsw')}}" class="small-box-footer">
+			              <a href="{{route('admin.vp.dc.template')}}" class="small-box-footer">
 			                More info <i class="fas fa-arrow-circle-right"></i>
 			              </a>
 			            </div>

@@ -317,9 +317,9 @@
 			    <td>{{ $countsPMTCT['pmtct7079F'] }}</td>
 			    <td>{{ $countsPMTCT['pmtct80150M'] }}</td>
 			    <td>{{ $countsPMTCT['pmtct80150F'] }}</td>
-			    <td></td>
-			    <td></td>
-			    <td></td>
+			    <td>{{ $countsPMTCT['pmtct0150M'] }}</td>
+			    <td>{{ $countsPMTCT['pmtct0150F'] }}</td>
+			    <td>{{ $countsPMTCT['pmtct0150F'] + $countsPMTCT['pmtct0150M'] }}</td>
 			</tr>
 			</tr>
 				<tr>

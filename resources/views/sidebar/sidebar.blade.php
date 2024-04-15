@@ -253,7 +253,7 @@
                 </a>
               </li>
               <li class="nav-item">
-                <a href="{{route('admin.fsw.report')}}" class="nav-link">
+                <a href="{{route('admin.vp.dc.reports')}}" class="nav-link">
                   <i class="far fa-circle nav-icon"></i>
                   <p>DC</p>
                 </a>

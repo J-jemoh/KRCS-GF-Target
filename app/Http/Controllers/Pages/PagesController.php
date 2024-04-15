@@ -758,7 +758,7 @@ class PagesController extends Controller
             }
         // $kpTypes = ['MSM', 'FSW','TG', 'PWID','TRANS WOMAN','TRANS MAN'];
         $countsPMTCT = [];
-            $ageRanges = [[0,5],[6,12],[13,17],[18,29],[30,39],[40,49],[50,59],[60,69],[70,79],[80,150]];
+            $ageRanges = [[0,5],[6,12],[13,17],[18,29],[30,39],[40,49],[50,59],[60,69],[70,79],[80,150],[0,150]];
             $sexes = ['Male', 'Female'];
             foreach ($ageRanges as $range) {
                 foreach ($sexes as $sex) {
@@ -793,6 +793,7 @@ class PagesController extends Controller
 
         return view('reports.community_Members_reached',compact('kpTypes','kpTypeCounts','ayp5m','ayp5f','ayp12m','ayp12f','ayp17m','ayp17f','ayp29m','ayp29f','ayp39m','ayp39f','ayp49m','ayp49f','ayp59m','ayp59f','ayp69m','ayp69f','ayp79m','ayp79f','ayp80m','ayp80f','ayptotalf','ayptotalm','countsPMTCT'));
     }
+    
 
 
 }
