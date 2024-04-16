@@ -55,7 +55,9 @@ class TGController extends Controller
             $count = Demographics::whereBetween('age', $limits)
             ->where('kp_type','TG')
             ->orWhere('kp_type','TRANS WOMAN')
-            ->orWhere('kp_type','TRANS MAN')->count();
+            ->orWhere('kp_type','TRANS MAN')
+            ->distinct('uic')
+            ->count('uic');
             $results[$range] = $count;
         }
         #hiv status at enrollment
@@ -71,7 +73,7 @@ class TGController extends Controller
             ->orWhere('rssh', 'yes');
             })
             ->where('sti_screened', 'yes')
-            ->where(DB::raw('CAST(condom_distributed_nmbr AS UNSIGNED)'), '>', 0)
+            ->where(DB::raw('CAST(condom_distributed_nmbr AS INTEGER)'), '>', 0)
             ->where('kp_type','TG')
             ->orWhere('kp_type','TRANS MAN')
             ->orWhere('kp_type','TRANS WOMAN')

@@ -67,6 +67,12 @@ return new class extends Migration
             $table->string('post_violence_support')->nullable();
             $table->text('program_status')->nullable();
             $table->string('tca')->nullable();
+            $table->timestamps();
+            $table->string('month');
+            $table->integer('year');
+            $table->text('region');
+            $table->string('kp_type')->nullable();
+            $table->string('unique_identifier')->unique();
 
             
         });

@@ -26,16 +26,16 @@ class PagesController extends Controller
 
     public function dashboard():View{
         $threshold = Carbon::now()->subMinutes(5); 
-        $barData = Target::select('reqion', 'module')
-                        ->selectRaw('avg(defined_performance) as avg_performance')
-                        ->groupBy('reqion', 'module')
-                        ->get();
+        $barData = $barData = Target::select('reqion', 'module')
+                 ->selectRaw('avg(CAST(defined_performance AS DECIMAL)) AS avg_performance')
+                 ->groupBy('reqion', 'module')
+                 ->get();;
         $barDataHts = Target::select('reqion', 'module')
-                        ->selectRaw('avg(hts_performance) as avg_performance_hts')
+                        ->selectRaw('avg(CAST(hts_performance AS DECIMAL)) as avg_performance_hts')
                         ->groupBy('reqion', 'module')
                         ->get();
         $barDataPrep = Target::select('reqion', 'module')
-                        ->selectRaw('avg(prep_performance) as avg_performance_prep')
+                        ->selectRaw('avg(CAST(prep_performance AS DECIMAL)) as avg_performance_prep')
                         ->groupBy('reqion', 'module')
                         ->get();
         $users=User::orderBy('created_at','desc')->limit(5)->get();
@@ -51,7 +51,7 @@ class PagesController extends Controller
         $regions = $targets->pluck('reqion')->unique()->count();
         $sr = $targets->pluck('sr')->unique()->count();
         $barALL = Target::select('reqion', 'module')
-                        ->selectRaw('avg(defined_performance) as avg_performance')
+                        ->selectRaw('avg(CAST(defined_performance AS DECIMAL)) as avg_performance')
                         ->groupBy('reqion','module')
                         ->get();
         return view('pages.target.allTargets',compact('targets','counties','regions','sr','barALL'));
@@ -67,12 +67,12 @@ class PagesController extends Controller
         $sr = $msmdata->pluck('sr')->unique()->count();
         $barMSM = Target::select('reqion', 'module')
                         ->where('module','MSM')
-                        ->selectRaw('avg(defined_performance) as avg_performance')
+                        ->selectRaw('avg(CAST(defined_performance AS DECIMAL)) as avg_performance')
                         ->groupBy('reqion','module')
                         ->get();
         $barMSMCounty = Target::select('county', 'module')
                         ->where('module','MSM')
-                        ->selectRaw('avg(defined_performance) as avg_performance')
+                        ->selectRaw('avg(CAST(defined_performance AS DECIMAL)) as avg_performance')
                         ->groupBy('module','county')
                         ->get();
         return view('pages.target.msm',compact('msmdata','counties','regions','sr','barMSM','barMSMCounty'));
@@ -84,12 +84,12 @@ class PagesController extends Controller
         $sr = $fswdata->pluck('sr')->unique()->count();
         $barFSW = Target::select('reqion', 'module')
                         ->where('module','FSW')
-                        ->selectRaw('avg(defined_performance) as avg_performance')
+                        ->selectRaw('avg(CAST(defined_performance AS DECIMAL)) as avg_performance')
                         ->groupBy('reqion','module')
                         ->get();
         $barFSWCounty = Target::select('county', 'module')
                         ->where('module','FSW')
-                        ->selectRaw('avg(defined_performance) as avg_performance')
+                        ->selectRaw('avg(CAST(defined_performance AS DECIMAL)) as avg_performance')
                         ->groupBy('module','county')
                         ->get();
         return view('pages.target.fsw',compact('fswdata','counties','regions','sr','barFSW','barFSWCounty'));
@@ -101,12 +101,12 @@ class PagesController extends Controller
         $sr = $pwiddata->pluck('sr')->unique()->count();
         $barPWID = Target::select('reqion', 'module')
                         ->where('module','PWID')
-                        ->selectRaw('avg(defined_performance) as avg_performance')
+                        ->selectRaw('avg(CAST(defined_performance AS DECIMAL)) as avg_performance')
                         ->groupBy('reqion','module')
                         ->get();
         $barPWIDCounty = Target::select('county', 'module')
                         ->where('module','PWID')
-                        ->selectRaw('avg(defined_performance) as avg_performance')
+                        ->selectRaw('avg(CAST(defined_performance AS DECIMAL)) as avg_performance')
                         ->groupBy('module','county')
                         ->get();
         return view('pages.target.pwid',compact('pwiddata','counties','regions','sr','barPWID','barPWIDCounty'));
@@ -118,12 +118,12 @@ class PagesController extends Controller
         $sr = $tgdata->pluck('sr')->unique()->count();
         $barTG = Target::select('reqion', 'module')
                         ->where('module','TG')
-                        ->selectRaw('avg(defined_performance) as avg_performance')
+                        ->selectRaw('avg(CAST(defined_performance AS DECIMAL)) as avg_performance')
                         ->groupBy('reqion','module')
                         ->get();
         $barTGCounty = Target::select('county', 'module')
                         ->where('module','TG')
-                        ->selectRaw('avg(defined_performance) as avg_performance')
+                        ->selectRaw('avg(CAST(defined_performance AS DECIMAL)) as avg_performance')
                         ->groupBy('module','county')
                         ->get();
         return view('pages.target.tg',compact('tgdata','counties','regions','sr','barTG','barTGCounty'));
@@ -135,12 +135,12 @@ class PagesController extends Controller
         $sr = $tcsdata->pluck('sr')->unique()->count();
         $barTCS = Target::select('reqion', 'module')
                         ->where('module','TCS')
-                        ->selectRaw('avg(defined_performance) as avg_performance')
+                        ->selectRaw('avg(CAST(defined_performance AS DECIMAL)) as avg_performance')
                         ->groupBy('reqion','module')
                         ->get();
         $barTCSCounty = Target::select('county', 'module')
                         ->where('module','TCS')
-                        ->selectRaw('avg(defined_performance) as avg_performance')
+                        ->selectRaw('avg(CAST(defined_performance AS DECIMAL)) as avg_performance')
                         ->groupBy('module','county')
                         ->get();
         return view('pages.target.tcs',compact('tcsdata','counties','regions','sr','barTCS','barTCSCounty'));
@@ -213,18 +213,18 @@ class PagesController extends Controller
         $agyw=QPMM::where('target_group','AGYW')->get();
         $barPt = QPMM::select('region', 'target_group')
                         ->where('target_group','AGYW')
-                        ->selectRaw('avg(pt_total) as avg_pt_total')
+                        ->selectRaw('avg(CAST(pt_total AS DECIMAL)) as avg_pt_total')
                         ->groupBy('region','target_group')
                         ->get();
         $barPa = QPMM::select('region', 'target_group')
                         ->where('target_group','AGYW')
-                        ->selectRaw('avg(pa_total) as avg_pa_total')
+                        ->selectRaw('avg(CAST(pa_total AS DECIMAL)) as avg_pa_total')
                         ->groupBy('region','target_group')
                         ->get();
         $barCombined = QPMM::select('region', 'target_group')
                         ->where('target_group','AGYW')
-                        ->selectRaw('avg(pa_total) as avg_pa_total')
-                        ->selectRaw('avg(pt_total) as avg_pt_total')
+                        ->selectRaw('avg(CAST(pa_total AS DECIMAL)) as avg_pa_total')
+                        ->selectRaw('avg(CAST(pt_total AS DECIMAL)) as avg_pt_total')
                         ->groupBy('region','target_group')
                         ->get();
         return view('pages.qpmm.agyw',compact('agyw','barPt','barPa','barCombined'));
@@ -232,16 +232,16 @@ class PagesController extends Controller
     public function allReports(){
         $qpmms=QPMM::get();
         $barPt = QPMM::select('region', 'target_group')
-                        ->selectRaw('avg(pt_total) as avg_pt_total')
+                        ->selectRaw('avg(CAST(pt_total AS DECIMAL)) as avg_pt_total')
                         ->groupBy('region','target_group')
                         ->get();
         $barPa = QPMM::select('region', 'target_group')
-                        ->selectRaw('avg(pa_total) as avg_pa_total')
+                        ->selectRaw('avg(CAST(pa_total AS DECIMAL)) as avg_pa_total')
                         ->groupBy('region','target_group')
                         ->get();
         $barCombined = QPMM::select('region', 'target_group')
-                        ->selectRaw('avg(pa_total) as avg_pa_total')
-                        ->selectRaw('avg(pt_total) as avg_pt_total')
+                        ->selectRaw('avg(CAST(pa_total AS DECIMAL)) as avg_pa_total')
+                        ->selectRaw('avg(CAST(pt_total AS DECIMAL)) as avg_pt_total')
                         ->groupBy('region','target_group')
                         ->get();
         return view('pages.qpmm.allReports',compact('qpmms','barPt','barPa','barCombined'));
@@ -253,18 +253,18 @@ class PagesController extends Controller
         $tcs=QPMM::where('target_group','TCS')->get();
         $barPt = QPMM::select('region', 'target_group')
                         ->where('target_group','TCS')
-                        ->selectRaw('avg(pt_total) as avg_pt_total')
+                        ->selectRaw('avg(CAST(pt_total AS DECIMAL)) as avg_pt_total')
                         ->groupBy('region','target_group')
                         ->get();
         $barPa = QPMM::select('region', 'target_group')
                         ->where('target_group','TCS')
-                        ->selectRaw('avg(pa_total) as avg_pa_total')
+                        ->selectRaw('avg(CAST(pa_total AS DECIMAL)) as avg_pa_total')
                         ->groupBy('region','target_group')
                         ->get();
         $barCombined = QPMM::select('region', 'target_group')
                         ->where('target_group','TCS')
-                        ->selectRaw('avg(pa_total) as avg_pa_total')
-                        ->selectRaw('avg(pt_total) as avg_pt_total')
+                        ->selectRaw('avg(CAST(pa_total AS DECIMAL)) as avg_pa_total')
+                        ->selectRaw('avg(CAST(pt_total AS DECIMAL)) as avg_pt_total')
                         ->groupBy('region','target_group')
                         ->get();
         return view('pages.qpmm.tcs',compact('tcs','barPt','barPa','barCombined'));
@@ -273,18 +273,18 @@ class PagesController extends Controller
         $pmtct=QPMM::where('target_group','PMTCT')->get();
         $barPt = QPMM::select('region', 'target_group')
                         ->where('target_group','PMTCT')
-                        ->selectRaw('avg(pt_total) as avg_pt_total')
+                        ->selectRaw('avg(CAST(pt_total AS DECIMAL)) as avg_pt_total')
                         ->groupBy('region','target_group')
                         ->get();
         $barPa = QPMM::select('region', 'target_group')
                         ->where('target_group','PMTCT')
-                        ->selectRaw('avg(pa_total) as avg_pa_total')
+                        ->selectRaw('avg(CAST(pa_total AS DECIMAL)) as avg_pa_total')
                         ->groupBy('region','target_group')
                         ->get();
         $barCombined = QPMM::select('region', 'target_group')
                         ->where('target_group','PMTCT')
-                        ->selectRaw('avg(pa_total) as avg_pa_total')
-                        ->selectRaw('avg(pt_total) as avg_pt_total')
+                        ->selectRaw('avg(CAST(pa_total AS DECIMAL)) as avg_pa_total')
+                        ->selectRaw('avg(CAST(pt_total AS DECIMAL)) as avg_pt_total')
                         ->groupBy('region','target_group')
                         ->get();
         return view('pages.qpmm.pmtct',compact('pmtct','barPt','barPa','barCombined'));
@@ -293,18 +293,18 @@ class PagesController extends Controller
         $fsw=QPMM::where('target_group','FSW')->get();
         $barPt = QPMM::select('region', 'target_group')
                         ->where('target_group','FSW')
-                        ->selectRaw('avg(pt_total) as avg_pt_total')
+                        ->selectRaw('avg(CAST(pt_total AS DECIMAL)) as avg_pt_total')
                         ->groupBy('region','target_group')
                         ->get();
         $barPa = QPMM::select('region', 'target_group')
                         ->where('target_group','FSW')
-                        ->selectRaw('avg(pa_total) as avg_pa_total')
+                        ->selectRaw('avg(CAST(pa_total AS DECIMAL)) as avg_pa_total')
                         ->groupBy('region','target_group')
                         ->get();
         $barCombined = QPMM::select('region', 'target_group')
                         ->where('target_group','FSW')
-                        ->selectRaw('avg(pa_total) as avg_pa_total')
-                        ->selectRaw('avg(pt_total) as avg_pt_total')
+                        ->selectRaw('avg(CAST(pa_total AS DECIMAL)) as avg_pa_total')
+                        ->selectRaw('avg(CAST(pt_total AS DECIMAL)) as avg_pt_total')
                         ->groupBy('region','target_group')
                         ->get();
         return view('pages.qpmm.fsw',compact('fsw','barPt','barPa','barCombined'));
@@ -333,18 +333,18 @@ class PagesController extends Controller
         $pwid=QPMM::where('target_group','PWID')->get();
         $barPt = QPMM::select('region', 'target_group')
                         ->where('target_group','PWID')
-                        ->selectRaw('avg(pt_total) as avg_pt_total')
+                        ->selectRaw('avg(CAST(pt_total AS DECIMAL)) as avg_pt_total')
                         ->groupBy('region','target_group')
                         ->get();
         $barPa = QPMM::select('region', 'target_group')
                         ->where('target_group','PWID')
-                        ->selectRaw('avg(pa_total) as avg_pa_total')
+                        ->selectRaw('avg(CAST(pa_total AS DECIMAL)) as avg_pa_total')
                         ->groupBy('region','target_group')
                         ->get();
         $barCombined = QPMM::select('region', 'target_group')
                         ->where('target_group','PWID')
-                        ->selectRaw('avg(pa_total) as avg_pa_total')
-                        ->selectRaw('avg(pt_total) as avg_pt_total')
+                        ->selectRaw('avg(CAST(pa_total AS DECIMAL)) as avg_pa_total')
+                        ->selectRaw('avg(CAST(pt_total AS DECIMAL)) as avg_pt_total')
                         ->groupBy('region','target_group')
                         ->get();
         return view('pages.qpmm.pwid',compact('pwid','barPt','barPa','barCombined'));
@@ -353,18 +353,18 @@ class PagesController extends Controller
         $tg=QPMM::where('target_group','TG')->get();
         $barPt = QPMM::select('region', 'target_group')
                         ->where('target_group','TG')
-                        ->selectRaw('avg(pt_total) as avg_pt_total')
+                        ->selectRaw('avg(CAST(pt_total AS DECIMAL)) as avg_pt_total')
                         ->groupBy('region','target_group')
                         ->get();
         $barPa = QPMM::select('region', 'target_group')
                         ->where('target_group','TG')
-                        ->selectRaw('avg(pa_total) as avg_pa_total')
+                        ->selectRaw('avg(CAST(pa_total AS DECIMAL)) as avg_pa_total')
                         ->groupBy('region','target_group')
                         ->get();
         $barCombined = QPMM::select('region', 'target_group')
                         ->where('target_group','TG')
-                        ->selectRaw('avg(pa_total) as avg_pa_total')
-                        ->selectRaw('avg(pt_total) as avg_pt_total')
+                        ->selectRaw('avg(CAST(pa_total AS DECIMAL)) as avg_pa_total')
+                        ->selectRaw('avg(CAST(pt_total AS DECIMAL)) as avg_pt_total')
                         ->groupBy('region','target_group')
                         ->get();
         return view('pages.qpmm.tg',compact('tg','barPt','barPa','barCombined'));
@@ -373,18 +373,18 @@ class PagesController extends Controller
         $truckers=QPMM::where('target_group','TRUCKERS')->get();
         $barPt = QPMM::select('region', 'target_group')
                         ->where('target_group','TRUCKERS')
-                        ->selectRaw('avg(pt_total) as avg_pt_total')
+                        ->selectRaw('avg(CAST(pt_total AS DECIMAL)) as avg_pt_total')
                         ->groupBy('region','target_group')
                         ->get();
         $barPa = QPMM::select('region', 'target_group')
                         ->where('target_group','TRUCKERS')
-                        ->selectRaw('avg(pa_total) as avg_pa_total')
+                        ->selectRaw('avg(CAST(pa_total AS DECIMAL)) as avg_pa_total')
                         ->groupBy('region','target_group')
                         ->get();
         $barCombined = QPMM::select('region', 'target_group')
                         ->where('target_group','TRUCKERS')
-                        ->selectRaw('avg(pa_total) as avg_pa_total')
-                        ->selectRaw('avg(pt_total) as avg_pt_total')
+                        ->selectRaw('avg(CAST(pa_total AS DECIMAL)) as avg_pa_total')
+                        ->selectRaw('avg(CAST(pt_total AS DECIMAL)) as avg_pt_total')
                         ->groupBy('region','target_group')
                         ->get();
         return view('pages.qpmm.truckers',compact('truckers','barPt','barPa','barCombined'));
@@ -393,18 +393,18 @@ class PagesController extends Controller
         $fisherfolk=QPMM::where('target_group','FISHERFOLKS')->get();
         $barPt = QPMM::select('region', 'target_group')
                         ->where('target_group','FISHERFOLKS')
-                        ->selectRaw('avg(pt_total) as avg_pt_total')
+                        ->selectRaw('avg(CAST(pt_total AS DECIMAL)) as avg_pt_total')
                         ->groupBy('region','target_group')
                         ->get();
         $barPa = QPMM::select('region', 'target_group')
                         ->where('target_group','FISHERFOLKS')
-                        ->selectRaw('avg(pa_total) as avg_pa_total')
+                        ->selectRaw('avg(CAST(pa_total AS DECIMAL)) as avg_pa_total')
                         ->groupBy('region','target_group')
                         ->get();
         $barCombined = QPMM::select('region', 'target_group')
                         ->where('target_group','FISHERFOLKS')
-                        ->selectRaw('avg(pa_total) as avg_pa_total')
-                        ->selectRaw('avg(pt_total) as avg_pt_total')
+                        ->selectRaw('avg(CAST(pa_total AS DECIMAL)) as avg_pa_total')
+                        ->selectRaw('avg(CAST(pt_total AS DECIMAL)) as avg_pt_total')
                         ->groupBy('region','target_group')
                         ->get();
         return view('pages.qpmm.fisherfolk',compact('fisherfolk','barPt','barPa','barCombined'));
@@ -413,18 +413,18 @@ class PagesController extends Controller
         $dc=QPMM::where('target_group','DCS')->get();
         $barPt = QPMM::select('region', 'target_group')
                         ->where('target_group','DCS')
-                        ->selectRaw('avg(pt_total) as avg_pt_total')
+                        ->selectRaw('avg(CAST(pt_total AS DECIMAL)) as avg_pt_total')
                         ->groupBy('region','target_group')
                         ->get();
         $barPa = QPMM::select('region', 'target_group')
                         ->where('target_group','DCS')
-                        ->selectRaw('avg(pa_total) as avg_pa_total')
+                        ->selectRaw('avg(CAST(pa_total AS DECIMAL)) as avg_pa_total')
                         ->groupBy('region','target_group')
                         ->get();
         $barCombined = QPMM::select('region', 'target_group')
                         ->where('target_group','DCS')
-                        ->selectRaw('avg(pa_total) as avg_pa_total')
-                        ->selectRaw('avg(pt_total) as avg_pt_total')
+                        ->selectRaw('avg(CAST(pa_total AS DECIMAL)) as avg_pa_total')
+                        ->selectRaw('avg(CAST(pt_total AS DECIMAL)) as avg_pt_total')
                         ->groupBy('region','target_group')
                         ->get();
         return view('pages.qpmm.dc',compact('dc','barPt','barPa','barCombined'));
@@ -433,18 +433,18 @@ class PagesController extends Controller
         $mhrs=QPMM::where('target_group','MHRS')->get();
         $barPt = QPMM::select('region', 'target_group')
                         ->where('target_group','MHRS')
-                        ->selectRaw('avg(pt_total) as avg_pt_total')
+                        ->selectRaw('avg(CAST(pt_total AS DECIMAL)) as avg_pt_total')
                         ->groupBy('region','target_group')
                         ->get();
         $barPa = QPMM::select('region', 'target_group')
                         ->where('target_group','MHRS')
-                        ->selectRaw('avg(pa_total) as avg_pa_total')
+                        ->selectRaw('avg(CAST(pa_total AS DECIMAL)) as avg_pa_total')
                         ->groupBy('region','target_group')
                         ->get();
         $barCombined = QPMM::select('region', 'target_group')
                         ->where('target_group','MHRS')
-                        ->selectRaw('avg(pa_total) as avg_pa_total')
-                        ->selectRaw('avg(pt_total) as avg_pt_total')
+                        ->selectRaw('avg(CAST(pa_total AS DECIMAL)) as avg_pa_total')
+                        ->selectRaw('avg(CAST(pt_total AS DECIMAL)) as avg_pt_total')
                         ->groupBy('region','target_group')
                         ->get();
         return view('pages.qpmm.mhrs',compact('mhrs','barPt','barPa','barCombined'));
@@ -520,7 +520,7 @@ class PagesController extends Controller
             ->orWhere('rssh', 'yes');
             })
             ->where('sti_screened', 'yes')
-            ->where(DB::raw('CAST(condom_distributed_nmbr AS UNSIGNED)'), '>', 0)
+            ->where(DB::raw('CAST(condom_distributed_nmbr AS INTEGER)'), '>', 0)
             ->where('kp_type','FSW')
             ->distinct()
             ->count('peer_educator_code');

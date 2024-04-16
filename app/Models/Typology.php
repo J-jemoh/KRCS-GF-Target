@@ -8,6 +8,9 @@ use Illuminate\Database\Eloquent\Model;
 class Typology extends Model
 {
     use HasFactory;
+    protected $casts = [
+            'tca' => 'string',
+        ];
 
     protected $table = 'typologies';
 

@@ -29,7 +29,7 @@ return new class extends Migration
             $table->string('kp_phone')->nullable();
             $table->string('kp_type');
             $table->string('uic');
-            $table->integer('age');
+            $table->unsignedInteger('age')->nullable();
             $table->string('yob');
             $table->string('sex');
             $table->string('first_contact_date');
@@ -38,6 +38,7 @@ return new class extends Migration
             $table->string('peer_educator');
             $table->text('peer_educator_code');
             $table->timestamps();
+            $table->string('unique_identifier')->unique();
         });
     }
 

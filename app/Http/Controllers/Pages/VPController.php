@@ -55,8 +55,8 @@ public function uploadDC(Request $request)
                 'Year' => 'year',
                 'Implementing partner' => 'implementing_partner',
                 'Region' => 'region',
-                'County' => 'County',
-                'Subcounty' => 'Subcounty',
+                'County' => 'county',
+                'Subcounty' => 'subcounty',
                 'Name of peer educator' => 'peer_educator',
                 'Name of peer' => 'peer_name',
                 'Facility' => 'facility',
@@ -226,27 +226,6 @@ public function DCReports(){
                     })
                     ->groupBy('received_vl_test')
                     ->get();
-        $vlReceivedC = VP_DC::select(
-                    DB::raw('CASE
-                                WHEN vl_copies = "LDL" THEN "LDL"
-                                WHEN vl_copies = "AWAITING  RESULTS" THEN "Awaiting results"
-                                WHEN vl_copies = "NOT SUPPRESSED" THEN "Suppressed"
-                                WHEN vl_copies = "SUPPRESSED" THEN "Not Suppressed"
-                                WHEN vl_copies = "NA" THEN "NA"
-                                WHEN CAST(vl_copies AS UNSIGNED) < 200 THEN "< 200 copies"
-                                WHEN CAST(vl_copies AS UNSIGNED) > 1000 THEN "> 200 copies"
-                                ELSE vl_copies
-                             END as vl_copies_category'),
-                    DB::raw('COUNT(*) as count')
-                )
-                ->whereIn('peer_name', function($query) {
-                    $query->select('peer_name')
-                          ->distinct()
-                          ->from('v_p__d_c_s');
-                })
-                ->groupBy('vl_copies_category')
-                ->orderByRaw('CASE WHEN vl_copies_category = "LDL" THEN 1 WHEN vl_copies_category = "Awaiting results" THEN 2 WHEN vl_copies_category = "Suppressed" THEN 3 WHEN vl_copies_category = "< 200 copies" THEN 4 ELSE 5 END')
-                ->get();
 
         $vlDone = Typology::select('vl_done', DB::raw('COUNT(*) as count'))
         ->where('kp_type','FSW')
@@ -265,7 +244,7 @@ public function DCReports(){
         ->groupBy('currently_art')
         ->get();
 
-        return view('pages.vp.dc_report',compact('srCount','counties','region','enrolled','results','HIVstatEnrol','HEducation','HIVTested','TestFreq','HIVStatus','SART','CART','vlReceived','vlDue','vlDone','ReceivedVl','hivStatus','Cart','vlReceivedC'));
+        return view('pages.vp.dc_report',compact('srCount','counties','region','enrolled','results','HIVstatEnrol','HEducation','HIVTested','TestFreq','HIVStatus','SART','CART','vlReceived','vlDue','vlDone','ReceivedVl','hivStatus','Cart'));
 }
 
 public function DCData()
@@ -287,11 +266,11 @@ public function DCData()
         $columnsToExport = [
            'sno',
             'month',
-            'Year',
+            'year',
             'implementing_partner',
             'region',
-            'County',
-            'Subcounty',
+            'county',
+            'subcounty',
             'peer_educator',
             'peer_name',
             'facility',

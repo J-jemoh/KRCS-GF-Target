@@ -17,11 +17,11 @@ return new class extends Migration
             $table->string('unique_identifier')->unique();
             $table->string('sno');
             $table->string('month');
-            $table->string('Year');
+            $table->string('year');
             $table->string('implementing_partner');
             $table->text('region');
-            $table->string('County');
-            $table->text('Subcounty');
+            $table->string('county');
+            $table->text('subcounty');
             $table->string('peer_educator');
             $table->string('peer_name');
             $table->text('facility');

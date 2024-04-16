@@ -8,7 +8,7 @@ return [
     |--------------------------------------------------------------------------
     */
 
-    'loggerDatabaseConnection'  => 'mysql',
+    'loggerDatabaseConnection'  => 'pgsql',
     'loggerDatabaseTable'       => 'laravel_logger_activity',
 
     /*

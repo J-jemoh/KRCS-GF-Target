@@ -45,7 +45,9 @@ class PWIDController extends Controller
         $results = [];
         foreach ($ageRanges as $range => $limits) {
             $count = Demographics::whereBetween('age', $limits)
-            ->where('kp_type','PWID')->count();
+            ->where('kp_type','PWID')
+            ->distinct('uic')
+            ->count();
             $results[$range] = $count;
         }
         #hiv status at enrollment
@@ -55,18 +57,21 @@ class PWIDController extends Controller
         ->get();
         #defined package
         $definedPackage = Typology::where(function ($query) {
-        $query->where('received_peer_education', 'yes')
-            ->orWhere('rssh', 'yes');
+        $query->where('received_peer_education', 'Yes')
+            ->orWhere('rssh', 'Yes');
             })
-            ->where('sti_screened', 'yes')
-            ->where(DB::raw('CAST(condom_distributed_nmbr AS UNSIGNED)'), '>', 0)
+            ->where('sti_screened', 'Yes')
+            ->where(DB::raw('CAST(condom_distributed_nmbr AS INTEGER)'), '>', 0)
             ->where('kp_type','PWID')
+            ->distinct('peer_educator_code')
             ->count();
         $prepInitiated= Typology::where('prep_initated','Yes')
                         ->where('kp_type','PWID')
+                        ->distinct('peer_educator_code')
                         ->count();
         $hivTested= Typology::where('hiv_tested','Yes')
                     ->where('kp_type','PWID')
+                    ->distinct('peer_educator_code')
                     ->count();
         $hivFreq = Typology::select('hiv_test_freq', DB::raw('COUNT(*) as count'))
         ->where('kp_type','PWID')

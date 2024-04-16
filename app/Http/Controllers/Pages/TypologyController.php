@@ -352,7 +352,6 @@ public function uploadPartInfo(Request $request)
                 'hiv_status_enrol',
                 'peer_educator',
                 'peer_educator_code',
-                'unique_identifier',
 
                 // Columns from typologies table
                 'received_peer_education',
@@ -497,7 +496,6 @@ public function FetchMSMData(){
                 'hiv_status_enrol',
                 'peer_educator',
                 'peer_educator_code',
-                'unique_identifier',
 
                 // Columns from typologies table
                 'received_peer_education',
@@ -642,7 +640,6 @@ return response()->stream($callback, 200, $headers);
                 'hiv_status_enrol',
                 'peer_educator',
                 'peer_educator_code',
-                'unique_identifier',
 
                 // Columns from typologies table
                 'received_peer_education',
@@ -696,7 +693,7 @@ return response()->stream($callback, 200, $headers);
                 'exp_violence',
                 'post_violence_support',
                 'program_status',
-                'tca',
+                'tca'
 
             ];
             fputcsv($file, $columnsToExport);
@@ -844,7 +841,7 @@ return response()->stream($callback, 200, $headers);
                 'exp_violence',
                 'post_violence_support',
                 'program_status',
-                'tca',
+                'tca'
 
             ];
             fputcsv($file, $columnsToExport);

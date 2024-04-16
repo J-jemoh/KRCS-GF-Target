@@ -94,7 +94,7 @@
               <!-- <canvas id="container-speed" width="200" height="200"></canvas> -->
             </div>
              <div class="col-lg-4">
-               <b class="text-center">Sex workers initiated on Prep</b>
+               <b class="text-center">#MSM initiated on Prep</b>
               <div id="container-prep" style="width: 300px; height: 200px;"></div>
              </div>
               <div class="col-lg-4">

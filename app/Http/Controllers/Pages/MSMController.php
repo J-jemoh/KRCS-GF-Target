@@ -51,12 +51,13 @@ class MSMController extends Controller
         ->get();
         #defined package
         $definedPackage = Typology::where(function ($query) {
-        $query->where('received_peer_education', 'yes')
-            ->orWhere('rssh', 'yes');
+        $query->where('received_peer_education', 'Yes')
+            ->orWhere('rssh', 'Yes');
             })
-            ->where('sti_screened', 'yes')
-            ->where(DB::raw('CAST(condom_distributed_nmbr AS UNSIGNED)'), '>', 0)
+            ->where('sti_screened', 'Yes')
+            ->where(DB::raw('CAST(condom_distributed_nmbr AS INTEGER)'), '>', 0)
             ->where('kp_type','MSM')
+            ->distinct('peer_educator_code')
             ->count();
         $prepInitiated= Typology::where('prep_initated','Yes')->where('kp_type','MSM')->count();
         $hivTested= Typology::where('hiv_tested','Yes')->where('kp_type','MSM')->count();
