@@ -129,6 +129,7 @@ public function uploadPartInfo(Request $request)
 
             // Define mapping between CSV headers and database columns
             $mapping = [
+                'SNo'=>'sno',
                 'Year'=>'year',
                 'Month'=>'month',
                 'Region'=>'region',
@@ -203,7 +204,7 @@ public function uploadPartInfo(Request $request)
                             $rowData[$columnName] = mb_convert_encoding($data[$index], 'UTF-8', 'UTF-8');
                         }
                     }
-                    $uniqueIdentifier = $rowData['year'] . '-' . $rowData['month'] . '-' . $rowData['region'] . '-' . $rowData['kp_type'] . '-' . $rowData['peer_educator_code'];
+                    $uniqueIdentifier = $rowData['sno'] . '-' . $rowData['month'] . '-' . $rowData['year'] . '-' . $rowData['region'] . '-' . $rowData['peer_educator_code'];
                     $rowData['unique_identifier'] = $uniqueIdentifier;
                     $rowData['user_id'] = $user_id;
                     $batch[] = $rowData;
@@ -424,27 +425,27 @@ public function uploadPartInfo(Request $request)
             $demographicsPage++;
 
             // Retrieve typologies data for the current region
-            $typologiesData = Typology::whereIn('year', $demographicsData->pluck('year'))
-                ->whereIn('month', $demographicsData->pluck('month'))
-                ->where('region', $region)
+            // Retrieve typologies data for the current region
+            $typologiesData = Typology::whereIn('unique_identifier', $demographicsData->pluck('unique_identifier'))
                 ->get();
 
             // Create a dictionary of typologies data for efficient lookup
             $typologiesDict = [];
             foreach ($typologiesData as $typology) {
-                $key = "{$typology->year}-{$typology->month}-{$typology->region}";
-                $typologiesDict[$key] = $typology->toArray();
+                $typologiesDict[$typology->unique_identifier] = $typology->toArray();
             }
 
             // Merge and output data
             foreach ($demographicsData as $demographic) {
-                $key = "{$demographic->year}-{$demographic->month}-{$demographic->region}";
-                $typologyRow = $typologiesDict[$key] ?? [];
-                $mergedRow = array_merge($demographic->toArray(), $typologyRow);
+                  $uniqueIdentifier = $demographic->unique_identifier;
+                    $typologyRow = $typologiesDict[$uniqueIdentifier] ?? [];
 
-                // Select only the specified columns
-                $selectedColumns = array_intersect_key($mergedRow, array_flip($columnsToExport));
-                fputcsv($file, $selectedColumns);
+                    // Merge demographics and typology data
+                    $mergedRow = array_merge($demographic->toArray(), $typologyRow);
+
+                    // Select only the specified columns
+                    $selectedColumns = array_intersect_key($mergedRow, array_flip($columnsToExport));
+                    fputcsv($file, $selectedColumns);
             }
         } while ($demographicsData->hasMorePages());
     }
@@ -568,27 +569,27 @@ public function FetchMSMData(){
             $demographicsPage++;
 
             // Retrieve typologies data for the current region
-            $typologiesData = Typology::whereIn('year', $demographicsData->pluck('year'))
-                ->whereIn('month', $demographicsData->pluck('month'))
-                ->where('region', $region)
+            // Retrieve typologies data for the current region
+            $typologiesData = Typology::whereIn('unique_identifier', $demographicsData->pluck('unique_identifier'))
                 ->get();
 
             // Create a dictionary of typologies data for efficient lookup
             $typologiesDict = [];
             foreach ($typologiesData as $typology) {
-                $key = "{$typology->year}-{$typology->month}-{$typology->region}";
-                $typologiesDict[$key] = $typology->toArray();
+                $typologiesDict[$typology->unique_identifier] = $typology->toArray();
             }
 
             // Merge and output data
             foreach ($demographicsData as $demographic) {
-                $key = "{$demographic->year}-{$demographic->month}-{$demographic->region}";
-                $typologyRow = $typologiesDict[$key] ?? [];
-                $mergedRow = array_merge($demographic->toArray(), $typologyRow);
+                  $uniqueIdentifier = $demographic->unique_identifier;
+                    $typologyRow = $typologiesDict[$uniqueIdentifier] ?? [];
 
-                // Select only the specified columns
-                $selectedColumns = array_intersect_key($mergedRow, array_flip($columnsToExport));
-                fputcsv($file, $selectedColumns);
+                    // Merge demographics and typology data
+                    $mergedRow = array_merge($demographic->toArray(), $typologyRow);
+
+                    // Select only the specified columns
+                    $selectedColumns = array_intersect_key($mergedRow, array_flip($columnsToExport));
+                    fputcsv($file, $selectedColumns);
             }
         } while ($demographicsData->hasMorePages());
     }
@@ -693,7 +694,8 @@ return response()->stream($callback, 200, $headers);
                 'exp_violence',
                 'post_violence_support',
                 'program_status',
-                'tca'
+                'tca',
+
 
             ];
             fputcsv($file, $columnsToExport);
@@ -707,34 +709,31 @@ return response()->stream($callback, 200, $headers);
         $demographicsPage = 1;
         do {
             $demographicsData = Demographics::where('region', $region)
-                ->where('kp_type','TG')
-                ->orWhere('kp_type','TRANS MAN')
-                ->orWhere('kp_type','TRANS WOMAN')
+                ->whereIn('kp_type', ['TG', 'TRANS MAN', 'TRANS WOMAN'])
                 ->paginate($batchSize, ['*'], 'page', $demographicsPage);
             $demographicsPage++;
 
             // Retrieve typologies data for the current region
-            $typologiesData = Typology::whereIn('year', $demographicsData->pluck('year'))
-                ->whereIn('month', $demographicsData->pluck('month'))
-                ->where('region', $region)
+            $typologiesData = Typology::whereIn('unique_identifier', $demographicsData->pluck('unique_identifier'))
                 ->get();
 
             // Create a dictionary of typologies data for efficient lookup
             $typologiesDict = [];
             foreach ($typologiesData as $typology) {
-                $key = "{$typology->year}-{$typology->month}-{$typology->region}";
-                $typologiesDict[$key] = $typology->toArray();
+                $typologiesDict[$typology->unique_identifier] = $typology->toArray();
             }
 
             // Merge and output data
             foreach ($demographicsData as $demographic) {
-                $key = "{$demographic->year}-{$demographic->month}-{$demographic->region}";
-                $typologyRow = $typologiesDict[$key] ?? [];
-                $mergedRow = array_merge($demographic->toArray(), $typologyRow);
+                  $uniqueIdentifier = $demographic->unique_identifier;
+                    $typologyRow = $typologiesDict[$uniqueIdentifier] ?? [];
 
-                // Select only the specified columns
-                $selectedColumns = array_intersect_key($mergedRow, array_flip($columnsToExport));
-                fputcsv($file, $selectedColumns);
+                    // Merge demographics and typology data
+                    $mergedRow = array_merge($demographic->toArray(), $typologyRow);
+
+                    // Select only the specified columns
+                    $selectedColumns = array_intersect_key($mergedRow, array_flip($columnsToExport));
+                    fputcsv($file, $selectedColumns);
             }
         } while ($demographicsData->hasMorePages());
     }
@@ -860,27 +859,27 @@ return response()->stream($callback, 200, $headers);
             $demographicsPage++;
 
             // Retrieve typologies data for the current region
-            $typologiesData = Typology::whereIn('year', $demographicsData->pluck('year'))
-                ->whereIn('month', $demographicsData->pluck('month'))
-                ->where('region', $region)
+           // Retrieve typologies data for the current region
+            $typologiesData = Typology::whereIn('unique_identifier', $demographicsData->pluck('unique_identifier'))
                 ->get();
 
             // Create a dictionary of typologies data for efficient lookup
             $typologiesDict = [];
             foreach ($typologiesData as $typology) {
-                $key = "{$typology->year}-{$typology->month}-{$typology->region}";
-                $typologiesDict[$key] = $typology->toArray();
+                $typologiesDict[$typology->unique_identifier] = $typology->toArray();
             }
 
             // Merge and output data
             foreach ($demographicsData as $demographic) {
-                $key = "{$demographic->year}-{$demographic->month}-{$demographic->region}";
-                $typologyRow = $typologiesDict[$key] ?? [];
-                $mergedRow = array_merge($demographic->toArray(), $typologyRow);
+                  $uniqueIdentifier = $demographic->unique_identifier;
+                    $typologyRow = $typologiesDict[$uniqueIdentifier] ?? [];
 
-                // Select only the specified columns
-                $selectedColumns = array_intersect_key($mergedRow, array_flip($columnsToExport));
-                fputcsv($file, $selectedColumns);
+                    // Merge demographics and typology data
+                    $mergedRow = array_merge($demographic->toArray(), $typologyRow);
+
+                    // Select only the specified columns
+                    $selectedColumns = array_intersect_key($mergedRow, array_flip($columnsToExport));
+                    fputcsv($file, $selectedColumns);
             }
         } while ($demographicsData->hasMorePages());
     }

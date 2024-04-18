@@ -38,6 +38,6 @@ class Demographics extends Model
     ];
     public function typology()
     {
-      return $this->hasOne(Typology::class,'peer_educator_code', 'uic');
+      return $this->hasOne(Typology::class,'unique_identifier', 'uic');
     }
 }

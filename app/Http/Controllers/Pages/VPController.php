@@ -680,28 +680,28 @@ public function ebanDownload(){
                 ->paginate($batchSize, ['*'], 'page', $demographicsPage);
             $demographicsPage++;
 
-            // Retrieve typologies data for the current region
-            $typologiesData = EbanService::whereIn('year', $demographicsData->pluck('year'))
-                ->whereIn('month', $demographicsData->pluck('month'))
-                ->where('region', $region)
+            // Retrieve typologies data for the current regio
+            // Create a dictionary of typologies data for efficient lookup
+            $typologiesData = EbanService::whereIn('unique_identifier', $demographicsData->pluck('unique_identifier'))
                 ->get();
 
             // Create a dictionary of typologies data for efficient lookup
             $typologiesDict = [];
             foreach ($typologiesData as $typology) {
-                $key = "{$typology->year}-{$typology->month}-{$typology->region}";
-                $typologiesDict[$key] = $typology->toArray();
+                $typologiesDict[$typology->unique_identifier] = $typology->toArray();
             }
 
             // Merge and output data
             foreach ($demographicsData as $demographic) {
-                $key = "{$demographic->year}-{$demographic->month}-{$demographic->region}";
-                $typologyRow = $typologiesDict[$key] ?? [];
-                $mergedRow = array_merge($demographic->toArray(), $typologyRow);
+                  $uniqueIdentifier = $demographic->unique_identifier;
+                    $typologyRow = $typologiesDict[$uniqueIdentifier] ?? [];
 
-                // Select only the specified columns
-                $selectedColumns = array_intersect_key($mergedRow, array_flip($columnsToExport));
-                fputcsv($file, $selectedColumns);
+                    // Merge demographics and typology data
+                    $mergedRow = array_merge($demographic->toArray(), $typologyRow);
+
+                    // Select only the specified columns
+                    $selectedColumns = array_intersect_key($mergedRow, array_flip($columnsToExport));
+                    fputcsv($file, $selectedColumns);
             }
         } while ($demographicsData->hasMorePages());
     }

@@ -12,10 +12,8 @@ class Typology extends Model
             'tca' => 'string',
         ];
 
-    protected $table = 'typologies';
-
     protected $fillable=[
-
+        'sno',
         'user_id',
         'peer_educator_code',
         'received_peer_education',
@@ -76,6 +74,6 @@ class Typology extends Model
     ];
         public function demographic()
     {
-       return $this->belongsTo(Demographics::class, 'uic');
+       return $this->belongsTo(Demographics::class, 'unique_identifier');
     }
 }

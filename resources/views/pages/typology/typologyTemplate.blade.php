@@ -32,6 +32,7 @@
     	<table id="example2" class="table table-bordered table-striped">
             <thead>
             <tr>
+            <th>SNo</th>
             <th>Year</th>
             <th>Month</th>
             <th>Region</th>

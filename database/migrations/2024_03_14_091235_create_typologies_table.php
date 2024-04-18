@@ -14,6 +14,7 @@ return new class extends Migration
         Schema::create('typologies', function (Blueprint $table) {
             $table->id();
             $table->integer('user_id');
+            $table->integer('sno');
             $table->text('peer_educator_code');
             $table->string('received_peer_education')->nullable();
             $table->text('clinical_services')->nullable();
