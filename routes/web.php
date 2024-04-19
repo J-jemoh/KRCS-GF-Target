@@ -244,6 +244,12 @@ Route::group(['middleware' => ['auth','activity']], function () {
             ->name('admin.tcs.index');
             Route::get('/typology/TCS/reports', [TCSController::class, 'TCSReports'])
             ->name('admin.tcs.reports');
+            Route::get('/typology/TCS/template', [TCSController::class, 'tcsTemplate'])
+            ->name('admin.tcs.template');
+            Route::post('/typology/TCS/upload', [TCSController::class, 'uploadTCS'])
+            ->name('admin.tcs.data.upload');
+            Route::get('/typology/TCS/visualize', [TCSController::class, 'tcsvisualize'])
+            ->name('admin.tcs.data.visualize');
 
             #PMTCT Routes
             Route::get('/typology/PMTCT/home', [PMTCTController::class, 'pmtctTemplate'])
