@@ -67,6 +67,10 @@ Route::group(['middleware' => ['auth','activity']], function () {
             ->name('admin.target.reports.tcs');
             Route::get('reports/community_members-reached',[PagesController::class,'CommunityReached'])
             ->name('admin.reports.CommunityReached');
+            Route::get('users/profile/changePassword',[PagesController::class,'changePassword'])
+            ->name('admin.user.passwordchange');
+            Route::post('users/profile/changePassword',[PagesController::class,'PasswordChange'])
+            ->name('admin.user.password.change');
 
             // Target Contoller routes here...
             Route::post('/target/save',[TargetController::class,'uploadTarget'])

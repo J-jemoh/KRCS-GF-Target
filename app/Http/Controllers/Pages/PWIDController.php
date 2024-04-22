@@ -23,7 +23,8 @@ use Illuminate\Support\Facades\DB;
 class PWIDController extends Controller
 {
     
-           public function indexPWID(){
+    public function indexPWID(){
+        
         $srCount = Demographics::where('kp_type','PWID')
                                 ->distinct()->count('sr_name');
         $counties = Demographics::where('kp_type','PWID')

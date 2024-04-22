@@ -55,7 +55,7 @@
 
               <div class="info-box-content">
                 <span class="info-box-text">No of Regions</span>
-                <span class="info-box-number">{{$region}}</span>
+                <span class="info-box-number">{{$regions}}</span>
               </div>
               <!-- /.info-box-content -->
             </div>
@@ -156,7 +156,7 @@
     				</div>
     				<div class="col-4">
     					<div class="card card-body bg-light">
-		                <p><b>Gender Distribution</b></p>
+		                <p><b> Distribution by Gender</b></p>
 		                <div style="width: 100%;">
 		                  <canvas id="genderPieChart"></canvas>
 		              </div>
@@ -164,15 +164,23 @@
     				</div>
     				<div class="col-4">
     					<div class="card card-body bg-light">
-		                <p><b>Region Distribution</b></p>
+		                <p><b> Distribution by Region</b></p>
 		                <div style="width: 100%;">
 		                  <canvas id="regionPieChart"></canvas>
 		              </div>
 		            </div>
     				</div>
+    				<div class="col-6">
+    					<div class="card card-body bg-light">
+		                <p><b>Tracing outcome(Overall)</b></p>
+		                <div style="width: 100%;height: 250px;">
+		                  <canvas id="tracingChart"></canvas>
+		              </div>
+		            </div>
+    				</div>
     				<div class="col-12">
     					<div class="card card-body bg-light">
-		                <p><b>County Distribution</b></p>
+		                <p><b> Distribution by County</b></p>
 		                <div style="width: 100%; height: 400px;">
 		                  <canvas id="countyPieChart"></canvas>
 		              </div>

@@ -38,7 +38,7 @@ class TCSController extends Controller
      public function tcsvisualize(){
         $srCount = TCS::distinct()->count('sr');
         $counties = TCS::distinct()->count('county');
-        $region = TCS::distinct()->count('region');
+        $regions = TCS::distinct()->count('region');
         $enrolled = TCS::count();
 
         $ageRanges = [
@@ -56,9 +56,10 @@ class TCSController extends Controller
         }
         $Gender = TCS::select('sex', DB::raw('COUNT(*) as count'))->groupBy('sex')->get();
         $region = TCS::select('region', DB::raw('COUNT(*) as count'))->groupBy('region')->get();
-        $county = TCS::select('county', DB::raw('COUNT(*) as count'))->groupBy('county')->get();
+        $county = TCS::select('county', DB::raw('COUNT(*) as count'))->groupBy('county')->orderBy('count','DESC')->get();
+        $tracingOutcome=TCS::select('tracing_outcome_3', DB::raw('COUNT(*) as count'))->groupBy('tracing_outcome_3')->orderBy('count','DESC')->get();
 
-        return view('pages.typology.tcsVisualize',compact('srCount','counties','region','enrolled','results','Gender','region','county'));
+        return view('pages.typology.tcsVisualize',compact('srCount','counties','regions','enrolled','results','Gender','region','county','tracingOutcome'));
     }
     public function uploadTCS(Request $request){
 

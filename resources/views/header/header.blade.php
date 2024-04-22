@@ -96,6 +96,11 @@
                                         @csrf
                                     </form>
                 </div>
+                <div class="float-left">
+                  <a href="{{route('admin.user.passwordchange')}}" class="btn btn-danger btn-flat">
+                                       Change Paasword</a>
+                                       
+                </div>
               </li>
             </ul>
           </li>

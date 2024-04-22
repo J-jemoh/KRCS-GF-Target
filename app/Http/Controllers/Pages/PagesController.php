@@ -21,6 +21,10 @@ use App\Models\pfTarget;
 use Illuminate\Support\Facades\DB;
 use App\Models\AYP;
 use App\Models\PMTCT;
+use Auth;
+use Illuminate\Support\Facades\Hash;
+
+
 class PagesController extends Controller
 {
 
@@ -792,6 +796,29 @@ class PagesController extends Controller
         $ayptotalf=AYP::where('age','>=',0)->where('sex','Female')->count('peer_name');
 
         return view('reports.community_Members_reached',compact('kpTypes','kpTypeCounts','ayp5m','ayp5f','ayp12m','ayp12f','ayp17m','ayp17f','ayp29m','ayp29f','ayp39m','ayp39f','ayp49m','ayp49f','ayp59m','ayp59f','ayp69m','ayp69f','ayp79m','ayp79f','ayp80m','ayp80f','ayptotalf','ayptotalm','countsPMTCT'));
+    }
+    public function changePassword(){
+
+        return view('auth.passwords.changepassword');
+    }
+     public function PasswordChange(Request $request){
+
+        $request->validate([
+            'current_password' => 'required',
+            'password' => 'required|confirmed|min:8',
+        ]);
+
+        $user = Auth::user();
+
+        if (!Hash::check($request->current_password, $user->password)) {
+            return redirect()->back()->withErrors(['current_password' => 'The provided current password does not match our records.']);
+        }
+
+        $user->password = Hash::make($request->password);
+        $user->save();
+        return redirect()->back()->with('success','Your password has been changed successfully');
+
+        
     }
     
 

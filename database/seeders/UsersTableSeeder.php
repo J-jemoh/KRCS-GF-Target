@@ -41,7 +41,7 @@ class UsersTableSeeder extends Seeder {
                 'updated_at' => '2024-01-23 08:01:47',
             ),
             2 => array(
-                'id' => 5,
+                'id' => 3,
                 'name' => 'Sandra Serune',
                 'email' => 'sandra.serune@redcross.or.ke',
                 'region'=>'HQ',
