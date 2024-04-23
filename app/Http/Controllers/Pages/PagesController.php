@@ -22,6 +22,8 @@ use Illuminate\Support\Facades\DB;
 use App\Models\AYP;
 use App\Models\PMTCT;
 use Auth;
+use App\Models\AYPMentorship;
+use App\Models\TCS;
 use Illuminate\Support\Facades\Hash;
 
 
@@ -771,31 +773,42 @@ class PagesController extends Controller
                         ->count('unique_identifier');
                 }
             }
+            #county AYP Mentorships
+            $countsAYPM = [];
+            $ageRanges = [[0,5],[6,12],[13,17],[18,29],[30,39],[40,49],[50,59],[60,69],[70,79],[80,150],[0,150]];
+            $sexes = ['M', 'F'];
+            foreach ($ageRanges as $range) {
+                foreach ($sexes as $sex) {
+                    $countsAYPM["aypm{$range[0]}{$range[1]}{$sex[0]}"] = AYPMentorship::whereBetween('age', $range)
+                        ->where('sex', $sex)
+                        ->count('unique_id');
+                }
+            }
+            #TCS
+            $countsTCS = [];
+            $ageRanges = [[0,5],[6,12],[13,17],[18,29],[30,39],[40,49],[50,59],[60,69],[70,79],[80,150],[0,150]];
+            $sexes = ['M', 'F'];
+            foreach ($ageRanges as $range) {
+                foreach ($sexes as $sex) {
+                    $countsTCS["tcs{$range[0]}{$range[1]}{$sex[0]}"] = TCS::whereBetween('age', $range)
+                        ->where('sex', $sex)
+                        ->count('unique_identifier');
+                }
+            }
+             #AYPS
+            $countsAYPS = [];
+            $ageRanges = [[0,5],[6,12],[13,17],[18,29],[30,39],[40,49],[50,59],[60,69],[70,79],[80,150],[0,150]];
+            $sexes = ['Male', 'Female'];
+            foreach ($ageRanges as $range) {
+                foreach ($sexes as $sex) {
+                    $countsAYPS["ayp{$range[0]}{$range[1]}{$sex[0]}"] = AYP::whereBetween('age', $range)
+                        ->where('sex', $sex)
+                        ->count('peer_name');
+                }
+            }
 
-        $ayp5m=AYP::whereBetween('age',[0,5])->Where('sex','Male')->count('peer_name');
-        $ayp5f=AYP::whereBetween('age',[0,5])->Where('sex','Female')->count('peer_name');
-        $ayp12m=AYP::whereBetween('age',[6,12])->Where('sex','Male')->count('peer_name');
-        $ayp12f=AYP::whereBetween('age',[6,12])->Where('sex','Female')->count('peer_name');
-        $ayp17m=AYP::whereBetween('age',[13,17])->Where('sex','Male')->count('peer_name');
-        $ayp17f=AYP::whereBetween('age',[13,17])->Where('sex','Female')->count('peer_name');
-        $ayp29m=AYP::whereBetween('age',[18,29])->Where('sex','Male')->count('peer_name');
-        $ayp29f=AYP::whereBetween('age',[18,29])->Where('sex','Female')->count('peer_name');
-        $ayp39m=AYP::whereBetween('age',[30,39])->Where('sex','Male')->count('peer_name');
-        $ayp39f=AYP::whereBetween('age',[30,39])->Where('sex','Female')->count('peer_name');
-        $ayp49m=AYP::whereBetween('age',[40,49])->Where('sex','Male')->count('peer_name');
-        $ayp49f=AYP::whereBetween('age',[40,49])->Where('sex','Female')->count('peer_name');
-        $ayp59m=AYP::whereBetween('age',[50,59])->Where('sex','Male')->count('peer_name');
-        $ayp59f=AYP::whereBetween('age',[50,59])->Where('sex','Female')->count('peer_name');
-        $ayp69m=AYP::whereBetween('age',[60,69])->Where('sex','Male')->count('peer_name');
-        $ayp69f=AYP::whereBetween('age',[60,69])->Where('sex','Female')->count('peer_name');
-        $ayp79m=AYP::whereBetween('age',[70,79])->Where('sex','Male')->count('peer_name');
-        $ayp79f=AYP::whereBetween('age',[70,79])->Where('sex','Female')->count('peer_name');
-        $ayp80m=AYP::where('age','>=',80)->where('sex','Male')->count('peer_name');
-        $ayp80f=AYP::where('age','>=',80)->where('sex','Female')->count('peer_name');
-        $ayptotalm=AYP::where('age','>=',0)->where('sex','Male')->count('peer_name');
-        $ayptotalf=AYP::where('age','>=',0)->where('sex','Female')->count('peer_name');
 
-        return view('reports.community_Members_reached',compact('kpTypes','kpTypeCounts','ayp5m','ayp5f','ayp12m','ayp12f','ayp17m','ayp17f','ayp29m','ayp29f','ayp39m','ayp39f','ayp49m','ayp49f','ayp59m','ayp59f','ayp69m','ayp69f','ayp79m','ayp79f','ayp80m','ayp80f','ayptotalf','ayptotalm','countsPMTCT'));
+        return view('reports.community_Members_reached',compact('kpTypes','kpTypeCounts','countsAYPS','countsAYPM','countsTCS','countsPMTCT'));
     }
     public function changePassword(){
 

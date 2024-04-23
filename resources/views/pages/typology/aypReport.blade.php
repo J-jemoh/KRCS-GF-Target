@@ -20,224 +20,25 @@
     <br>
    <section class="content">
     <div class="container-fluid">
-      <div class="row">
-        <div class="col-4">
-          <a href="{{route('admin.ayp.reports.download')}}" class="btn btn-info btn-block">Download/Export to CSV</a>
-        </div>
-         <div class="col-4">
-             <a href="#" class="btn btn-info btn-block">Download/Export to Excel</a>
-         </div>
+      <nav>
+      <div class="nav nav-tabs" id="nav-tab" role="tablist">
+        <button class="nav-link active" id="nav-home-tab" data-bs-toggle="tab" data-bs-target="#nav-home" type="button" role="tab" aria-controls="nav-home" aria-selected="true">AYP Integrated</button>
+        <button class="nav-link" id="nav-profile-tab" data-bs-toggle="tab" data-bs-target="#nav-profile" type="button" role="tab" aria-controls="nav-profile" aria-selected="false">AYP mentroship</button>
+        <button class="nav-link" id="nav-contact-tab" data-bs-toggle="tab" data-bs-target="#nav-contact" type="button" role="tab" aria-controls="nav-contact" aria-selected="false">AYP EBIS</button>
       </div>
-      <br>
-      <div class="row">
-     
-         <div class="col-12 col-sm-6 col-md-3">
-            <div class="info-box">
-              <span class="info-box-icon bg-info elevation-1"><i class="fas fa-cog"></i></span>
-
-              <div class="info-box-content">
-                <span class="info-box-text">Total No of SR'S</span>
-                <span class="info-box-number">
-                  {{$srCount}}
-                  <small></small>
-                </span>
-              </div>
-              <!-- /.info-box-content -->
-            </div>
-            <!-- /.info-box -->
-          </div>
-            <div class="col-12 col-sm-6 col-md-3">
-            <div class="info-box mb-3">
-              <span class="info-box-icon bg-danger elevation-1"><i class="fas fa-bars"></i></span>
-
-              <div class="info-box-content">
-                <span class="info-box-text">No of Counties</span>
-                <span class="info-box-number">{{$counties}}</span>
-              </div>
-              <!-- /.info-box-content -->
-            </div>
-            <!-- /.info-box -->
-          </div>
-          <div class="col-12 col-sm-6 col-md-3">
-            <div class="info-box mb-3">
-              <span class="info-box-icon bg-danger elevation-1"><i class="fas fa-bars"></i></span>
-
-              <div class="info-box-content">
-                <span class="info-box-text">No of Regions</span>
-                <span class="info-box-number">{{$region}}</span>
-              </div>
-              <!-- /.info-box-content -->
-            </div>
-            <!-- /.info-box -->
-          </div>
-          <div class="col-12 col-sm-6 col-md-3">
-            <div class="info-box mb-3">
-              <span class="info-box-icon bg-danger elevation-1"><i class="fas fa-bars"></i></span>
-
-              <div class="info-box-content">
-                <span class="info-box-text">Enrolled</span>
-                <span class="info-box-number">{{$enrolled}}</span>
-              </div>
-              <!-- /.info-box-content -->
-            </div>
-            <!-- /.info-box -->
-          </div>
+    </nav>
+    <div class="tab-content" id="nav-tabContent">
+      <div class="tab-pane fade show active" id="nav-home" role="tabpanel" aria-labelledby="nav-home-tab">
+        <br>
+        @include('pages.typology.ayps.intergrated')
       </div>
+      <div class="tab-pane fade" id="nav-profile" role="tabpanel" aria-labelledby="nav-profile-tab">
+        <br>
+        @include('pages.typology.ayps.mentorship')
+      </div>
+      <div class="tab-pane fade" id="nav-contact" role="tabpanel" aria-labelledby="nav-contact-tab">...</div>
+    </div>
 
-      <div class="card card-info">
-        <div class="card-header">Visualizations by Age</div>
-          <div class="card-body">
-            <div class="row">
-              <div class="col-sm-6">
-                <table class="table table-bordered table-striped table-condensed">
-                  <thead>
-                      <tr>
-                          <th>Age Range</th>
-                          <th>Count</th>
-                      </tr>
-                  </thead>
-                  <tbody>
-                      @foreach($results as $range => $count)
-                      <tr>
-                          <td>{{ $range }}</td>
-                          <td>{{ $count }}</td>
-                      </tr>
-                      @endforeach
-                  </tbody>
-              </table>
-              </div>
-              <div class="col-sm-6">
-                <div style="width: 100%;">
-                  <canvas id="agePieChart"></canvas>
-              </div>
-              </div>
-            </div>
-          </div>
-        </div>
-          <div class="card card-info">
-        <div class="card-header">Other Visualization</div>
-          <div class="card-body">
-            <div class="row">
-              <div class="col-sm-6">
-                <table class="table table-bordered table-striped table-condensed">
-                  <thead>
-                      <tr>
-                          <th>Disabled</th>
-                          <th>Count</th>
-                      </tr>
-                  </thead>
-                  <tbody>
-                      @foreach($disabledstatus as $status)
-                      <tr>
-                          <td>{{ $status->disabled }}</td>
-                          <td>{{ $status->count }}</td>
-                      </tr>
-                      @endforeach
-                  </tbody>
-              </table>
-              </div>
-              <div class="col-sm-6">
-                <div style="width: 100%;">
-                  <canvas id="disabledPieChart"></canvas>
-              </div>
-              </div>
-            </div>
-          </div>
-        </div>
-
-      <div class="card card-info">
-        <div class="card-header">More visualizations</div>
-          <div class="card-body">
-            <div class="row">
-              <div class="col-lg-4">
-                <div class="card card-body bg-light">
-                <p><b>Tested for HIV</b></p>
-                <div style="width: 100%;">
-                  <canvas id="hivTestPieChart"></canvas>
-              </div>
-            </div>
-              </div>
-              <div class="col-lg-4">
-                <div class="card card-body bg-light">
-                <p><b> Initiated on ART</b></p>
-                <div style="width: 100%;">
-                  <canvas id="artInitaitedPieChart"></canvas>
-              </div>
-              </div>
-              </div>
-               <div class="col-lg-4">
-                 <div class="card card-body bg-light">
-                <p><b>Screened for STI</b></p>
-                <div style="width: 100%;">
-                  <canvas id="stiScreenedPieChart"></canvas>
-              </div>
-              </div>
-              </div>
-               <div class="col-lg-4">
-                 <div class="card card-body bg-light">
-                <p><b>Treated for STI</b></p>
-                <div style="width: 100%;">
-                  <canvas id="stiTreated" height="500"></canvas>
-              </div>
-              </div>
-              </div>
-               <div class="col-lg-4">
-                 <div class="card card-body bg-light">
-                <p><b>Screened for TB</b></p>
-                <div style="width: 100%;">
-                  <canvas id="tbScreened" height="500"></canvas>
-              </div>
-              </div>
-              </div>
-              <div class="col-lg-4">
-                 <div class="card card-body bg-light">
-                <p><b>Treated for TB</b></p>
-                <div style="width: 100%;">
-                  <canvas id="tbTreated" height="500"></canvas>
-              </div>
-              </div>
-              </div>
-             <!--  <div class="col-lg-6">
-                 <div class="card card-body bg-light">
-                <p><b>HIV Care Outcome</b></p>
-                <div style="width: 100%;">
-                  <canvas id="hivCareBarChart" height="500"></canvas>
-              </div>
-              </div>
-              </div>
-              <div class="col-lg-6">
-                 <div class="card card-body bg-light">
-                <p><b>ART Outcome</b></p>
-                <div style="width: 100%;">
-                  <canvas id="ArtBarChart" height="500"></canvas>
-              </div>
-              </div>
-              </div>
-              <div class="col-lg-4">
-                 <div class="card card-body bg-light">
-                <p><b>Due for Viral Load</b></p>
-                <div style="width: 100%;">
-                  <canvas id="dueBarChart" height="500"></canvas>
-              </div>
-              </div>
-              </div>
-               <div class="col-lg-4">
-                 <div class="card card-body bg-light">
-                <p><b>Viral Load Done</b></p>
-                <div style="width: 100%;">
-                  <canvas id="VlDoneBarChart" height="500"></canvas>
-              </div>
-              </div>
-              </div>
-              <div class="col-lg-4">
-                 <div class="card card-body bg-light">
-                <p><b>Received Viral Load Result</b></p>
-                <div style="width: 100%;">
-                  <canvas id="VlRBarChart" height="500"></canvas>
-              </div> -->
-              </div>
-              </div>
-            </div>
           </div>
         </div>
       </div>

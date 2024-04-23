@@ -242,6 +242,11 @@ Route::group(['middleware' => ['auth','activity']], function () {
             ->name('admin.ayp.reports');
             Route::get('/typology/AYP/reports/download', [AYPController::class, 'AYPData'])
             ->name('admin.ayp.reports.download');
+            Route::get('/typology/AYP/template/Mentorship', [AYPController::class, 'aypMentorshipTemplate'])
+            ->name('admin.ayp.template.mentorship');
+            Route::post('/typology/AYP/upload/Mentorship', [AYPController::class, 'uploadAYPMentorship'])
+            ->name('admin.ayp.upload.mentorship');
+
 
             #TCS Routes
             Route::get('/typology/TCS/home', [TCSController::class, 'indexTCS'])

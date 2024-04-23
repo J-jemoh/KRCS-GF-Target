@@ -14,6 +14,7 @@ use PhpOffice\PhpSpreadsheet\Spreadsheet;
 use PhpOffice\PhpSpreadsheet\Writer\Xlsx;
 use Illuminate\Support\Facades\File;
 use Auth;
+use App\Models\AYPMentorship;
 use Illuminate\Support\Facades\Log;
 
 
@@ -27,6 +28,9 @@ class AYPController extends Controller
 
     public function aypTemplate(){
         return view('pages.typology.aypTemplate');
+    }
+    public function aypMentorshipTemplate(){
+        return view('pages.typology.aypMentorshipTemplate');
     }
 
     public function uploadDemo(Request $request)
@@ -148,6 +152,12 @@ class AYPController extends Controller
         $counties = AYP::distinct()->count('county');
         $region = AYP::distinct()->count('region');
         $enrolled = AYP::distinct()->count('peer_name');
+
+        #AYP Mentorship
+        $srCounts = AYPMentorship::distinct()->count('implementingpartner');
+        $county = AYPMentorship::distinct()->count('counties');
+        $regionss = AYPMentorship::distinct()->count('region');
+        $enrolledss = AYPMentorship::count('uniqueidentifier');
         #show age distribution
         // Define age ranges
         $ageRanges = [
@@ -234,7 +244,7 @@ class AYPController extends Controller
         ->groupBy('currently_art')
         ->get();
 
-        return view('pages.typology.aypReport',compact('srCount','counties','region','enrolled','results','disabledstatus','testedHivStatus','artInitiated','stiScreeneed','stiTreated','tbScreenedd','vlDue','vlDone','ReceivedVl','hivStatus','Cart'));
+        return view('pages.typology.aypReport',compact('srCount','srCounts','county','regionss','enrolledss','counties','region','enrolled','results','disabledstatus','testedHivStatus','artInitiated','stiScreeneed','stiTreated','tbScreenedd','vlDue','vlDone','ReceivedVl','hivStatus','Cart'));
 }
 
 public function AYPData()
@@ -322,6 +332,102 @@ public function AYPData()
     };
 
     return response()->stream($callback, 200, $headers);
+}
+    public function uploadAYPMentorship(Request $request)
+    {
+    $request->validate([
+        'aypMF' => 'required|mimes:csv',
+    ]);
+
+    if ($request->file('aypMF')->isValid()) {
+        $file = $request->file('aypMF');
+        $path = $file->getRealPath();
+
+        // Log the file path for debugging
+        Log::info('File path: ' . $path);
+
+        // Open the CSV file for reading
+        if (($handle = fopen($path, 'r')) !== false) {
+            // Remove header if exists and store it
+            $headers = fgetcsv($handle);
+
+            if (!$headers) {
+                return redirect()->route('admin.ayp.index')->with('error', 'CSV file is empty.');
+            }
+
+            // Define mapping between CSV headers and database columns
+            $mapping = [
+            'SNo' => 'sno',
+            'Month' => 'month',
+            'Year' => 'year',
+            'Region' => 'region',
+            'Counties' => 'counties',
+            'Sub county' => 'subcounty',
+            'Ward' => 'ward',
+            'Venue' => 'venue',
+            'Implementing partner' => 'implementingpartner',
+            'Name Mentor 1' => 'nementor1',
+            'Name Mentor 2' => 'nementor2',
+            'Cohort Number' => 'cohortnumber',
+            'Mentee Name' => 'menteename',
+            'DOB' => 'dob',
+            'Age' => 'age',
+            'Sex' => 'sex',
+            'Telephone Number' => 'phonenumber',
+            'Village' => 'village',
+            'Unique Identifier' => 'uniqueidentifier',
+            'Start Date' => 'start_date',
+            'End Date' => 'end_date',
+            'Session 1' => 'session1',
+            'Session 2' => 'session2',
+            'Session 3' => 'session3',
+            'Session 4' => 'session4',
+            'Session 5' => 'session5',
+            'Make Up Session' => 'makeup_session',
+            'Completed All Sessions Status' => 'complete_session',
+            'Services Referred' => 'services_referred',
+            'Services Accessed' => 'services_accessed',
+            'Attended Outreach' => 'attended_outreach',
+            'Attended EBI' => 'attended_ebi',
+            'Comments' => 'comments'
+            ];
+
+            $user_id = Auth::id();
+            $batchSize = 1000; // Adjust the batch size as needed
+
+            // Process CSV data in batches
+            while (($data = fgetcsv($handle)) !== false) {
+                $batch = [];
+                for ($i = 0; $i < $batchSize && $data !== false; $i++) {
+                    $rowData = [];
+                    foreach ($headers as $index => $header) {
+                        $columnName = $mapping[$header] ?? null;
+                        if ($columnName) {
+                            // Convert encoding to UTF-8
+                            $rowData[$columnName] = mb_convert_encoding($data[$index], 'UTF-8', 'UTF-8');
+                        }
+                    }
+                    $uniqueIdentifier = $rowData['sno'] . '-' . $rowData['month'] . '-' . $rowData['year'] . '-' . $rowData['region'] . '-' . $rowData['uniqueidentifier'];
+                    $rowData['unique_id'] = $uniqueIdentifier;
+                    $rowData['user_id'] = $user_id;
+                    $batch[] = $rowData;
+                    $data = fgetcsv($handle);
+                }
+                
+
+                // Insert batch data into the database
+                AYPMentorship::upsert($batch, uniqueBy:['unique_id'], update:array_keys($batch[0]));
+            }
+
+            fclose($handle);
+
+            return redirect()->route('admin.ayp.index')->with('success', 'Your AYP Data file has been uploaded successfully.');
+        } else {
+            return redirect()->route('admin.ayp.index')->with('error', 'Unable to open the CSV file.');
+        }
+    }
+
+    return redirect()->route('admin.ayp.index')->with('error', 'Invalid file.');
 }
 
 

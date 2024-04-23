@@ -24,7 +24,7 @@
         <div class="card-header">Upload AYP Data</div>
         <div class="card-body">
           <div class="row">
-          	<div class="col-4">
+          	<div class="col-6">
           		<form></form>
           		<form method="post" action="#" enctype="multipart/form-data">
           			@csrf
@@ -37,7 +37,7 @@
 						</div>
 						</form>
           	</div>
-          	<div class="col-4">
+          	<div class="col-6">
           		<form method="post" action="#" enctype="multipart/form-data">
           			@csrf
           		<label>MHMC Data</label>
@@ -47,7 +47,17 @@
 						</div>
 					</form>
           	</div>
-          	<div class="col-4">
+          <div class="col-6">
+          		<form method="post" action="{{route('admin.ayp.upload.mentorship')}}" enctype="multipart/form-data">
+          			@csrf
+          		<label>AYP  Mentorship data</label>
+          		<div class="input-group mb-3">
+						  <input type="file" class="form-control" placeholder="upload file" aria-label="Recipient's username" aria-describedby="button-addon2" name="aypMF" required>
+						  <button class="btn btn-outline-info btn-info text-white" type="submit" id="button-addon2">Upload</button>
+						</div>
+					</form>
+          	</div>
+          	<div class="col-6">
           		<form method="post" action="{{route('admin.ayp.post.demo')}}" enctype="multipart/form-data">
           			@csrf
           		<label>AYP  Integrated Tracker data</label>
@@ -115,11 +125,27 @@
 			              </a>
 			            </div>
     				</div>
-    				<div class="col-6">
+    				<div class="col-4">
+    					<!-- small card -->
+			            <div class="small-box bg-danger">
+			              <div class="inner">
+			                <h3>AYP Mentorhship</h3>
+
+			                <p>Reports</p>
+			              </div>
+			              <div class="icon">
+			                <i class="fas fa-shopping-cart"></i>
+			              </div>
+			              <a href="{{route('admin.ayp.template.mentorship')}}" class="small-box-footer">
+			                More info <i class="fas fa-arrow-circle-right"></i>
+			              </a>
+			            </div>
+    				</div>
+    					<div class="col-4">
     					<!-- small card -->
 			            <div class="small-box bg-primary">
 			              <div class="inner">
-			                <h3>Intergrated</h3>
+			                <h3>AYP Intergrated</h3>
 
 			                <p>Reports</p>
 			              </div>
@@ -131,7 +157,7 @@
 			              </a>
 			            </div>
     				</div>
-    				<div class="col-6">
+    				<div class="col-4">
     					<!-- small card -->
 			            <div class="small-box bg-dark">
 			              <div class="inner">

@@ -53,55 +53,55 @@
             <tbody>
             	<tr>
 			    <td>AYP - Outreaches</td>
-			    <td>{{$ayp5m}}</td>
-			    <td>{{$ayp5f}}</td>
-			    <td>{{$ayp12m}}</td>
-			    <td>{{$ayp12f}}</td>
-			    <td>{{$ayp17m}}</td>
-			    <td>{{$ayp17f}}</td>
-			    <td>{{$ayp29m}}</td>
-			    <td>{{$ayp29f}}</td>
-			    <td>{{$ayp39m}}</td>
-			    <td>{{$ayp39f}}</td>
-			    <td>{{$ayp49m}}</td>
-			    <td>{{$ayp49f}}</td>
-			    <td>{{$ayp59m}}</td>
-			    <td>{{$ayp59f}}</td>
-			    <td>{{$ayp69m}}</td>
-			    <td>{{$ayp69f}}</td>
-			    <td>{{$ayp79m}}</td>
-			    <td>{{$ayp79f}}</td>
-			    <td>{{$ayp80m}}</td>
-			    <td>{{$ayp80f}}</td>
-			    <td>{{$ayptotalm}}</td>
-			    <td>{{$ayptotalf}}</td>
-			    <td>{{$ayptotalm + $ayptotalf}}</td>
+			    <td>{{ $countsAYPS['ayp05M'] }}</td>
+			    <td>{{ $countsAYPS['ayp05F'] }}</td>
+			    <td>{{ $countsAYPS['ayp612M'] }}</td>
+			    <td>{{ $countsAYPS['ayp612F'] }}</td>
+			    <td>{{ $countsAYPS['ayp1317M'] }}</td>
+			    <td>{{ $countsAYPS['ayp1317F'] }}</td>
+			    <td>{{ $countsAYPS['ayp1829M'] }}</td>
+			    <td>{{ $countsAYPS['ayp1829F'] }}</td>
+			    <td>{{ $countsAYPS['ayp3039M'] }}</td>
+			    <td>{{ $countsAYPS['ayp3039F'] }}</td>
+			    <td>{{ $countsAYPS['ayp4049M'] }}</td>
+			    <td>{{ $countsAYPS['ayp4049F'] }}</td>
+			    <td>{{ $countsAYPS['ayp5059M'] }}</td>
+			    <td>{{ $countsAYPS['ayp5059F'] }}</td>
+			    <td>{{ $countsAYPS['ayp6069M'] }}</td>
+			    <td>{{ $countsAYPS['ayp6069F'] }}</td>
+			    <td>{{ $countsAYPS['ayp7079M'] }}</td>
+			    <td>{{ $countsAYPS['ayp7079F'] }}</td>
+			    <td>{{ $countsAYPS['ayp80150M'] }}</td>
+			    <td>{{ $countsAYPS['ayp80150F'] }}</td>
+			    <td>{{ $countsAYPS['ayp0150M'] }}</td>
+			    <td>{{ $countsAYPS['ayp0150F'] }}</td>
+			    <td>{{$countsAYPS['ayp0150F'] + $countsAYPS['ayp0150M'] }}</td>
 			</tr>
 				<tr>
 			    <td>AYP - Mentorship</td>
-			    <td></td>
-			    <td></td>
-			    <td></td>
-			    <td></td>
-			    <td></td>
-			    <td></td>
-			    <td></td>
-			    <td></td>
-			    <td></td>
-			    <td></td>
-			    <td></td>
-			    <td></td>
-			    <td></td>
-			    <td></td>
-			    <td></td>
-			    <td></td>
-			    <td></td>
-			    <td></td>
-			    <td></td>
-			    <td></td>
-			    <td></td>
-			    <td></td>
-			    <td></td>
+			    <td>{{ $countsAYPM['aypm05M'] }}</td>
+			    <td>{{ $countsAYPM['aypm05F'] }}</td>
+			    <td>{{ $countsAYPM['aypm612M'] }}</td>
+			    <td>{{ $countsAYPM['aypm612F'] }}</td>
+			    <td>{{ $countsAYPM['aypm1317M'] }}</td>
+			    <td>{{ $countsAYPM['aypm1317F'] }}</td>
+			    <td>{{ $countsAYPM['aypm1829M'] }}</td>
+			    <td>{{ $countsAYPM['aypm1829F'] }}</td>
+			    <td>{{ $countsAYPM['aypm3039M'] }}</td>
+			    <td>{{ $countsAYPM['aypm3039F'] }}</td>
+			    <td>{{ $countsAYPM['aypm4049M'] }}</td>
+			    <td>{{ $countsAYPM['aypm4049F'] }}</td>
+			    <td>{{ $countsAYPM['aypm5059M'] }}</td>
+			    <td>{{ $countsAYPM['aypm5059F'] }}</td>
+			    <td>{{ $countsAYPM['aypm6069M'] }}</td>
+			    <td>{{ $countsAYPM['aypm6069F'] }}</td>
+			    <td>{{ $countsAYPM['aypm7079M'] }}</td>
+			    <td>{{ $countsAYPM['aypm7079F'] }}</td>
+			    <td>{{ $countsAYPM['aypm80150M'] }}</td>
+			    <td>{{ $countsAYPM['aypm80150F'] }}</td>
+			    <td>{{ $countsAYPM['aypm0150M'] }}</td>
+			    <td>{{ $countsAYPM['aypm0150F'] }}</td>
+			    <td>{{$countsAYPM['aypm0150F'] + $countsAYPM['aypm0150M'] }}</td>
 			</tr>
 			</tr>
 				<tr>
@@ -189,29 +189,29 @@
 			</tr>
 				<tr>
 			    <td>TCS</td>
-			    <td></td>
-			    <td></td>
-			    <td></td>
-			    <td></td>
-			    <td></td>
-			    <td></td>
-			    <td></td>
-			    <td></td>
-			    <td></td>
-			    <td></td>
-			    <td></td>
-			    <td></td>
-			    <td></td>
-			    <td></td>
-			    <td></td>
-			    <td></td>
-			    <td></td>
-			    <td></td>
-			    <td></td>
-			    <td></td>
-			    <td></td>
-			    <td></td>
-			    <td></td>
+			    <td>{{ $countsTCS['tcs05M'] }}</td>
+			    <td>{{ $countsTCS['tcs05F'] }}</td>
+			    <td>{{ $countsTCS['tcs612M'] }}</td>
+			    <td>{{ $countsTCS['tcs612F'] }}</td>
+			    <td>{{ $countsTCS['tcs1317M'] }}</td>
+			    <td>{{ $countsTCS['tcs1317F'] }}</td>
+			    <td>{{ $countsTCS['tcs1829M'] }}</td>
+			    <td>{{ $countsTCS['tcs1829F'] }}</td>
+			    <td>{{ $countsTCS['tcs3039M'] }}</td>
+			    <td>{{ $countsTCS['tcs3039F'] }}</td>
+			    <td>{{ $countsTCS['tcs4049M'] }}</td>
+			    <td>{{ $countsTCS['tcs4049F'] }}</td>
+			    <td>{{ $countsTCS['tcs5059M'] }}</td>
+			    <td>{{ $countsTCS['tcs5059F'] }}</td>
+			    <td>{{ $countsTCS['tcs6069M'] }}</td>
+			    <td>{{ $countsTCS['tcs6069F'] }}</td>
+			    <td>{{ $countsTCS['tcs7079M'] }}</td>
+			    <td>{{ $countsTCS['tcs7079F'] }}</td>
+			    <td>{{ $countsTCS['tcs80150M'] }}</td>
+			    <td>{{ $countsTCS['tcs80150F'] }}</td>
+			    <td>{{ $countsTCS['tcs0150M'] }}</td>
+			    <td>{{ $countsTCS['tcs0150F'] }}</td>
+			    <td>{{ $countsTCS['tcs0150F'] + $countsTCS['tcs0150M'] }}</td>
 			</tr>
 			</tr>
 				<tr>
