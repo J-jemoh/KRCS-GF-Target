@@ -145,7 +145,11 @@ class PMTCTController extends Controller
 }
 
     public function pmtctReports(){
-        $srCount = PMTCT::distinct()->count('sr_name');
+
+        $loggeduser=Auth::user()->region;
+        if($loggeduser =='HQ'){
+
+            $srCount = PMTCT::distinct()->count('sr_name');
         $counties = PMTCT::distinct()->count('county');
         $region = PMTCT::distinct()->count('region');
         $enrolled = PMTCT::distinct()->count('mother_ccc_no');
@@ -234,6 +238,99 @@ class PMTCTController extends Controller
          ->where('kp_type','FSW')
         ->groupBy('currently_art')
         ->get();
+        }
+        else{
+        $srCount = PMTCT::where('region',$loggeduser)->distinct()->count('sr_name');
+        $counties = PMTCT::where('region',$loggeduser)->distinct()->count('county');
+        $region = PMTCT::where('region',$loggeduser)->distinct()->count('region');
+        $enrolled = PMTCT::where('region',$loggeduser)->distinct()->count('mother_ccc_no');
+        #show age distribution
+        // Define age ranges
+        $ageRanges = [
+            '0-18' => [0, 18],
+            '19-24' => [19, 24],
+            '25-50' => [25, 50],
+            'Above 50' => [51, 999], // Adjust upper limit accordingly
+        ];
+
+        // Group by age ranges and count occurrences
+        $results = [];
+        foreach ($ageRanges as $range => $limits) {
+            $count = PMTCT::where('region',$loggeduser)->whereBetween('age', $limits)->
+            distinct()->count('mother_ccc_no');
+            $results[$range] = $count;
+        }
+        #hiv status at enrollment
+        $lactatingstatus = PMTCT::where('region',$loggeduser)->select('lactating', DB::raw('COUNT(*) as count'))
+                    ->whereIn('mother_ccc_no', function($query) {
+                        $query->select('mother_ccc_no')
+                              ->distinct()
+                              ->from('p_m_t_c_t_s');
+                    })
+                    ->groupBy('lactating')
+                    ->get();
+        $PregnantStatus = PMTCT::where('region',$loggeduser)->select('pregnant', DB::raw('COUNT(*) as count'))
+                    ->whereIn('mother_ccc_no', function($query) {
+                        $query->select('mother_ccc_no')
+                              ->distinct()
+                              ->from('p_m_t_c_t_s');
+                    })
+                    ->groupBy('pregnant')
+                    ->get();
+        $expertMothers = PMTCT::where('region',$loggeduser)->select('reached_by_expert_mother', DB::raw('COUNT(*) as count'))
+                    ->whereIn('mother_ccc_no', function($query) {
+                        $query->select('mother_ccc_no')
+                              ->distinct()
+                              ->from('p_m_t_c_t_s');
+                    })
+                    ->groupBy('reached_by_expert_mother')
+                    ->get();
+        $artStatus = PMTCT::where('region',$loggeduser)->select('art_status', DB::raw('COUNT(*) as count'))
+                    ->whereIn('mother_ccc_no', function($query) {
+                        $query->select('mother_ccc_no')
+                              ->distinct()
+                              ->from('p_m_t_c_t_s');
+                    })
+                    ->groupBy('art_status')
+                    ->get();
+         $dueVL = PMTCT::where('region',$loggeduser)->select('due_for_vl', DB::raw('COUNT(*) as count'))
+                    ->whereIn('mother_ccc_no', function($query) {
+                        $query->select('mother_ccc_no')
+                              ->distinct()
+                              ->from('p_m_t_c_t_s');
+                    })
+                    ->groupBy('due_for_vl')
+                    ->get();
+       $vlReceived = PMTCT::select('received_vl_result', DB::raw('COUNT(*) as count'))
+                    ->whereIn('mother_ccc_no', function($query) {
+                        $query->select('mother_ccc_no')
+                              ->distinct()
+                              ->from('p_m_t_c_t_s');
+                    })
+                    ->groupBy('received_vl_result')
+                    ->get();
+        $vlDue = Typology::select('due_vl', DB::raw('COUNT(*) as count'))
+        ->where('kp_type','FSW')
+        ->groupBy('due_vl')
+        ->get();
+        $vlDone = Typology::select('vl_done', DB::raw('COUNT(*) as count'))
+        ->where('kp_type','FSW')
+        ->groupBy('vl_done')
+        ->get();
+        $ReceivedVl = Typology::select('vl_result_received', DB::raw('COUNT(*) as count'))
+        ->where('kp_type','FSW')
+        ->groupBy('vl_result_received')
+        ->get();
+        $hivStatus = Typology::select('hiv_status', DB::raw('COUNT(*) as count'))
+         ->where('kp_type','FSW')
+        ->groupBy('hiv_status')
+        ->get();
+        $Cart = Typology::select('currently_art', DB::raw('COUNT(*) as count'))
+         ->where('kp_type','FSW')
+        ->groupBy('currently_art')
+        ->get();
+        }
+        
 
         return view('pages.typology.pmtct',compact('srCount','counties','region','enrolled','results','lactatingstatus','PregnantStatus','expertMothers','artStatus','dueVL','vlReceived','vlDue','vlDone','ReceivedVl','hivStatus','Cart'));
 }
@@ -309,19 +406,28 @@ public function PMTCTData()
         'remarks_comments',
     ];
         fputcsv($file, $columnsToExport);
+        $loggedregion=Auth::user()->region;
+       $query = PMTCT::query();
 
-        $demographicsPage = 1;
-        do {
-            $demographicsData = PMTCT::paginate($batchSize, $columnsToExport, 'page', $demographicsPage);
-            $demographicsPage++;
-
-            foreach ($demographicsData as $demographic) {
-                fputcsv($file, $demographic->toArray());
+            if ($loggedregion != 'HQ') {
+                $query->where('region', $loggedregion);
             }
-        } while ($demographicsData->hasMorePages());
 
-        fclose($file);
-    };
+            // Chunk the query results and process each chunk
+            $query->chunk($batchSize, function ($demographicsData) use ($file,$columnsToExport) {
+                foreach ($demographicsData as $demographic) {
+                    $rowData = [];
+                    foreach ($columnsToExport as $column) {
+                        $rowData[] = $demographic->{$column};
+                    }
+                    fputcsv($file, $rowData);
+                }
+            });
+
+            fclose($file);
+        };
+
+        
 
     return response()->stream($callback, 200, $headers);
 }

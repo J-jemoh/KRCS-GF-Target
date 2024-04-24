@@ -1,6 +1,6 @@
       <div class="row">
         <div class="col-4">
-          <a href="{{route('admin.ayp.reports.download')}}" class="btn btn-info btn-block">Download/Export to CSV</a>
+          <a href="{{route('admin.ayp.reports.mentorship')}}" class="btn btn-info btn-block">Download/Export to CSV</a>
         </div>
          <div class="col-4">
              <a href="#" class="btn btn-info btn-block">Download/Export to Excel</a>

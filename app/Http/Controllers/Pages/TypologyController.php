@@ -412,7 +412,17 @@ public function uploadPartInfo(Request $request)
             fputcsv($file, $columnsToExport);
 
             // Paginate demographics data
-            $regions = Demographics::select('region')->distinct()->pluck('region');
+            $regions = [];
+
+            // Check if the logged-in user's region is HQ
+            $loggedRegion = Auth::user()->region;
+            if ($loggedRegion === 'HQ') {
+                // If HQ, retrieve all regions
+                $regions = Demographics::select('region')->distinct()->pluck('region');
+            } else {
+                // If not HQ, retrieve only the logged-in user's region
+                $regions = [$loggedRegion];
+            }
 
     // Loop through each region
     foreach ($regions as $region) {
@@ -556,7 +566,17 @@ public function FetchMSMData(){
             fputcsv($file, $columnsToExport);
 
             // Paginate demographics data
-            $regions = Demographics::select('region')->distinct()->pluck('region');
+            $regions = [];
+
+            // Check if the logged-in user's region is HQ
+            $loggedRegion = Auth::user()->region;
+            if ($loggedRegion === 'HQ') {
+                // If HQ, retrieve all regions
+                $regions = Demographics::select('region')->distinct()->pluck('region');
+            } else {
+                // If not HQ, retrieve only the logged-in user's region
+                $regions = [$loggedRegion];
+            }
 
     // Loop through each region
     foreach ($regions as $region) {
@@ -699,9 +719,18 @@ return response()->stream($callback, 200, $headers);
 
             ];
             fputcsv($file, $columnsToExport);
+            $regions = [];
 
+            // Check if the logged-in user's region is HQ
+            $loggedRegion = Auth::user()->region;
+            if ($loggedRegion === 'HQ') {
+                // If HQ, retrieve all regions
+                $regions = Demographics::select('region')->distinct()->pluck('region');
+            } else {
+                // If not HQ, retrieve only the logged-in user's region
+                $regions = [$loggedRegion];
+            }
             // Paginate demographics data
-            $regions = Demographics::select('region')->distinct()->pluck('region');
 
     // Loop through each region
     foreach ($regions as $region) {
@@ -844,9 +873,18 @@ return response()->stream($callback, 200, $headers);
 
             ];
             fputcsv($file, $columnsToExport);
+            $regions = [];
 
+            // Check if the logged-in user's region is HQ
+            $loggedRegion = Auth::user()->region;
+            if ($loggedRegion === 'HQ') {
+                // If HQ, retrieve all regions
+                $regions = Demographics::select('region')->distinct()->pluck('region');
+            } else {
+                // If not HQ, retrieve only the logged-in user's region
+                $regions = [$loggedRegion];
+            }
             // Paginate demographics data
-            $regions = Demographics::select('region')->distinct()->pluck('region');
 
     // Loop through each region
     foreach ($regions as $region) {

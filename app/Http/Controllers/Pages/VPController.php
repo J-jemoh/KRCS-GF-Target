@@ -133,116 +133,235 @@ public function uploadDC(Request $request)
     return redirect()->route('admin.vp.index')->with('error', 'Invalid file.');
 }
 public function DCReports(){
-        $srCount = VP_DC::distinct()->count('implementing_partner');
-        $counties = VP_DC::distinct()->count('county');
-        $region = VP_DC::distinct()->count('region');
-        $enrolled = VP_DC::distinct()->count('peer_name');
-        #show age distribution
-        // Define age ranges
-        $ageRanges = [
-            '0-18' => [0, 18],
-            '19-24' => [19, 24],
-            '25-50' => [25, 50],
-            'Above 50' => [51, 999], // Adjust upper limit accordingly
-        ];
+        $logedregion=Auth::user()->region;
+        if($logedregion=='HQ'){
 
-        // Group by age ranges and count occurrences
-        $results = [];
-        foreach ($ageRanges as $range => $limits) {
-            $count = VP_DC::whereBetween('age', $limits)->
-            distinct()->count('peer_name');
-            $results[$range] = $count;
+                $srCount = VP_DC::distinct()->count('implementing_partner');
+                $counties = VP_DC::distinct()->count('county');
+                $region = VP_DC::distinct()->count('region');
+                $enrolled = VP_DC::distinct()->count('peer_name');
+                #show age distribution
+                // Define age ranges
+                $ageRanges = [
+                    '0-18' => [0, 18],
+                    '19-24' => [19, 24],
+                    '25-50' => [25, 50],
+                    'Above 50' => [51, 999], // Adjust upper limit accordingly
+                ];
+
+                // Group by age ranges and count occurrences
+                $results = [];
+                foreach ($ageRanges as $range => $limits) {
+                    $count = VP_DC::whereBetween('age', $limits)->
+                    distinct()->count('peer_name');
+                    $results[$range] = $count;
+                }
+                #hiv status at enrollment
+                $HIVstatEnrol = VP_DC::select('hiv_status_at_enrollment', DB::raw('COUNT(*) as count'))
+                            ->whereIn('peer_name', function($query) {
+                                $query->select('peer_name')
+                                      ->distinct()
+                                      ->from('v_p__d_c_s');
+                            })
+                            ->groupBy('hiv_status_at_enrollment')
+                            ->get();
+                $HEducation = VP_DC::select('received_health_education', DB::raw('COUNT(*) as count'))
+                            ->whereIn('peer_name', function($query) {
+                                $query->select('peer_name')
+                                      ->distinct()
+                                      ->from('v_p__d_c_s');
+                            })
+                            ->groupBy('received_health_education')
+                            ->get();
+                $HIVTested = VP_DC::select('tested_hiv', DB::raw('COUNT(*) as count'))
+                            ->whereIn('peer_name', function($query) {
+                                $query->select('peer_name')
+                                      ->distinct()
+                                      ->from('v_p__d_c_s');
+                            })
+                            ->groupBy('tested_hiv')
+                            ->get();
+                $TestFreq = VP_DC::select('frequency_of_hiv_test', DB::raw('COUNT(*) as count'))
+                            ->whereIn('peer_name', function($query) {
+                                $query->select('peer_name')
+                                      ->distinct()
+                                      ->from('v_p__d_c_s');
+                            })
+                            ->groupBy('frequency_of_hiv_test')
+                            ->get();
+                $HIVStatus = VP_DC::select('hiv_status', DB::raw('COUNT(*) as count'))
+                            ->whereIn('peer_name', function($query) {
+                                $query->select('peer_name')
+                                      ->distinct()
+                                      ->from('v_p__d_c_s');
+                            })
+                            ->groupBy('hiv_status')
+                            ->get();
+                $SART = VP_DC::select('started_on_art', DB::raw('COUNT(*) as count'))
+                            ->whereIn('peer_name', function($query) {
+                                $query->select('peer_name')
+                                      ->distinct()
+                                      ->from('v_p__d_c_s');
+                            })
+                            ->groupBy('started_on_art')
+                            ->get();
+                $CART = VP_DC::select('currently_on_art', DB::raw('COUNT(*) as count'))
+                            ->whereIn('peer_name', function($query) {
+                                $query->select('peer_name')
+                                      ->distinct()
+                                      ->from('v_p__d_c_s');
+                            })
+                            ->groupBy('currently_on_art')
+                            ->get();
+                $vlDue = VP_DC::select('due_for_vl', DB::raw('COUNT(*) as count'))
+                            ->whereIn('peer_name', function($query) {
+                                $query->select('peer_name')
+                                      ->distinct()
+                                      ->from('v_p__d_c_s');
+                            })
+                            ->groupBy('due_for_vl')
+                            ->get();
+               $vlReceived = VP_DC::select('received_vl_test', DB::raw('COUNT(*) as count'))
+                            ->whereIn('peer_name', function($query) {
+                                $query->select('peer_name')
+                                      ->distinct()
+                                      ->from('v_p__d_c_s');
+                            })
+                            ->groupBy('received_vl_test')
+                            ->get();
+
+                $vlDone = Typology::select('vl_done', DB::raw('COUNT(*) as count'))
+                ->where('kp_type','FSW')
+                ->groupBy('vl_done')
+                ->get();
+                $ReceivedVl = Typology::select('vl_result_received', DB::raw('COUNT(*) as count'))
+                ->where('kp_type','FSW')
+                ->groupBy('vl_result_received')
+                ->get();
+                $hivStatus = Typology::select('hiv_status', DB::raw('COUNT(*) as count'))
+                 ->where('kp_type','FSW')
+                ->groupBy('hiv_status')
+                ->get();
+                $Cart = Typology::select('currently_art', DB::raw('COUNT(*) as count'))
+                 ->where('kp_type','FSW')
+                ->groupBy('currently_art')
+                ->get();
         }
-        #hiv status at enrollment
-        $HIVstatEnrol = VP_DC::select('hiv_status_at_enrollment', DB::raw('COUNT(*) as count'))
-                    ->whereIn('peer_name', function($query) {
-                        $query->select('peer_name')
-                              ->distinct()
-                              ->from('v_p__d_c_s');
-                    })
-                    ->groupBy('hiv_status_at_enrollment')
-                    ->get();
-        $HEducation = VP_DC::select('received_health_education', DB::raw('COUNT(*) as count'))
-                    ->whereIn('peer_name', function($query) {
-                        $query->select('peer_name')
-                              ->distinct()
-                              ->from('v_p__d_c_s');
-                    })
-                    ->groupBy('received_health_education')
-                    ->get();
-        $HIVTested = VP_DC::select('tested_hiv', DB::raw('COUNT(*) as count'))
-                    ->whereIn('peer_name', function($query) {
-                        $query->select('peer_name')
-                              ->distinct()
-                              ->from('v_p__d_c_s');
-                    })
-                    ->groupBy('tested_hiv')
-                    ->get();
-        $TestFreq = VP_DC::select('frequency_of_hiv_test', DB::raw('COUNT(*) as count'))
-                    ->whereIn('peer_name', function($query) {
-                        $query->select('peer_name')
-                              ->distinct()
-                              ->from('v_p__d_c_s');
-                    })
-                    ->groupBy('frequency_of_hiv_test')
-                    ->get();
-        $HIVStatus = VP_DC::select('hiv_status', DB::raw('COUNT(*) as count'))
-                    ->whereIn('peer_name', function($query) {
-                        $query->select('peer_name')
-                              ->distinct()
-                              ->from('v_p__d_c_s');
-                    })
-                    ->groupBy('hiv_status')
-                    ->get();
-        $SART = VP_DC::select('started_on_art', DB::raw('COUNT(*) as count'))
-                    ->whereIn('peer_name', function($query) {
-                        $query->select('peer_name')
-                              ->distinct()
-                              ->from('v_p__d_c_s');
-                    })
-                    ->groupBy('started_on_art')
-                    ->get();
-        $CART = VP_DC::select('currently_on_art', DB::raw('COUNT(*) as count'))
-                    ->whereIn('peer_name', function($query) {
-                        $query->select('peer_name')
-                              ->distinct()
-                              ->from('v_p__d_c_s');
-                    })
-                    ->groupBy('currently_on_art')
-                    ->get();
-        $vlDue = VP_DC::select('due_for_vl', DB::raw('COUNT(*) as count'))
-                    ->whereIn('peer_name', function($query) {
-                        $query->select('peer_name')
-                              ->distinct()
-                              ->from('v_p__d_c_s');
-                    })
-                    ->groupBy('due_for_vl')
-                    ->get();
-       $vlReceived = VP_DC::select('received_vl_test', DB::raw('COUNT(*) as count'))
-                    ->whereIn('peer_name', function($query) {
-                        $query->select('peer_name')
-                              ->distinct()
-                              ->from('v_p__d_c_s');
-                    })
-                    ->groupBy('received_vl_test')
-                    ->get();
+        else{
 
-        $vlDone = Typology::select('vl_done', DB::raw('COUNT(*) as count'))
-        ->where('kp_type','FSW')
-        ->groupBy('vl_done')
-        ->get();
-        $ReceivedVl = Typology::select('vl_result_received', DB::raw('COUNT(*) as count'))
-        ->where('kp_type','FSW')
-        ->groupBy('vl_result_received')
-        ->get();
-        $hivStatus = Typology::select('hiv_status', DB::raw('COUNT(*) as count'))
-         ->where('kp_type','FSW')
-        ->groupBy('hiv_status')
-        ->get();
-        $Cart = Typology::select('currently_art', DB::raw('COUNT(*) as count'))
-         ->where('kp_type','FSW')
-        ->groupBy('currently_art')
-        ->get();
+                $srCount = VP_DC::where('region',$logedregion)->distinct()->count('implementing_partner');
+                $counties = VP_DC::where('region',$logedregion)->distinct()->count('county');
+                $region = VP_DC::where('region',$logedregion)->distinct()->count('region');
+                $enrolled = VP_DC::where('region',$logedregion)->distinct()->count('peer_name');
+                #show age distribution
+                // Define age ranges
+                $ageRanges = [
+                    '0-18' => [0, 18],
+                    '19-24' => [19, 24],
+                    '25-50' => [25, 50],
+                    'Above 50' => [51, 999], // Adjust upper limit accordingly
+                ];
+
+                // Group by age ranges and count occurrences
+                $results = [];
+                foreach ($ageRanges as $range => $limits) {
+                    $count = VP_DC::where('region',$logedregion)->whereBetween('age', $limits)->
+                    distinct()->count('peer_name');
+                    $results[$range] = $count;
+                }
+                #hiv status at enrollment
+                $HIVstatEnrol = VP_DC::where('region',$logedregion)->select('hiv_status_at_enrollment', DB::raw('COUNT(*) as count'))
+                            ->whereIn('peer_name', function($query) {
+                                $query->select('peer_name')
+                                      ->distinct()
+                                      ->from('v_p__d_c_s');
+                            })
+                            ->groupBy('hiv_status_at_enrollment')
+                            ->get();
+                $HEducation = VP_DC::where('region',$logedregion)->select('received_health_education', DB::raw('COUNT(*) as count'))
+                            ->whereIn('peer_name', function($query) {
+                                $query->select('peer_name')
+                                      ->distinct()
+                                      ->from('v_p__d_c_s');
+                            })
+                            ->groupBy('received_health_education')
+                            ->get();
+                $HIVTested = VP_DC::where('region',$logedregion)->select('tested_hiv', DB::raw('COUNT(*) as count'))
+                            ->whereIn('peer_name', function($query) {
+                                $query->select('peer_name')
+                                      ->distinct()
+                                      ->from('v_p__d_c_s');
+                            })
+                            ->groupBy('tested_hiv')
+                            ->get();
+                $TestFreq = VP_DC::where('region',$logedregion)->select('frequency_of_hiv_test', DB::raw('COUNT(*) as count'))
+                            ->whereIn('peer_name', function($query) {
+                                $query->select('peer_name')
+                                      ->distinct()
+                                      ->from('v_p__d_c_s');
+                            })
+                            ->groupBy('frequency_of_hiv_test')
+                            ->get();
+                $HIVStatus = VP_DC::where('region',$logedregion)->select('hiv_status', DB::raw('COUNT(*) as count'))
+                            ->whereIn('peer_name', function($query) {
+                                $query->select('peer_name')
+                                      ->distinct()
+                                      ->from('v_p__d_c_s');
+                            })
+                            ->groupBy('hiv_status')
+                            ->get();
+                $SART = VP_DC::where('region',$logedregion)->select('started_on_art', DB::raw('COUNT(*) as count'))
+                            ->whereIn('peer_name', function($query) {
+                                $query->select('peer_name')
+                                      ->distinct()
+                                      ->from('v_p__d_c_s');
+                            })
+                            ->groupBy('started_on_art')
+                            ->get();
+                $CART = VP_DC::where('region',$logedregion)->select('currently_on_art', DB::raw('COUNT(*) as count'))
+                            ->whereIn('peer_name', function($query) {
+                                $query->select('peer_name')
+                                      ->distinct()
+                                      ->from('v_p__d_c_s');
+                            })
+                            ->groupBy('currently_on_art')
+                            ->get();
+                $vlDue = VP_DC::where('region',$logedregion)->select('due_for_vl', DB::raw('COUNT(*) as count'))
+                            ->whereIn('peer_name', function($query) {
+                                $query->select('peer_name')
+                                      ->distinct()
+                                      ->from('v_p__d_c_s');
+                            })
+                            ->groupBy('due_for_vl')
+                            ->get();
+               $vlReceived = VP_DC::where('region',$logedregion)->select('received_vl_test', DB::raw('COUNT(*) as count'))
+                            ->whereIn('peer_name', function($query) {
+                                $query->select('peer_name')
+                                      ->distinct()
+                                      ->from('v_p__d_c_s');
+                            })
+                            ->groupBy('received_vl_test')
+                            ->get();
+
+                $vlDone = Typology::select('vl_done', DB::raw('COUNT(*) as count'))
+                ->where('kp_type','FSW')
+                ->groupBy('vl_done')
+                ->get();
+                $ReceivedVl = Typology::select('vl_result_received', DB::raw('COUNT(*) as count'))
+                ->where('kp_type','FSW')
+                ->groupBy('vl_result_received')
+                ->get();
+                $hivStatus = Typology::select('hiv_status', DB::raw('COUNT(*) as count'))
+                 ->where('kp_type','FSW')
+                ->groupBy('hiv_status')
+                ->get();
+                $Cart = Typology::select('currently_art', DB::raw('COUNT(*) as count'))
+                 ->where('kp_type','FSW')
+                ->groupBy('currently_art')
+                ->get();
+        }
+
+        
 
         return view('pages.vp.dc_report',compact('srCount','counties','region','enrolled','results','HIVstatEnrol','HEducation','HIVTested','TestFreq','HIVStatus','SART','CART','vlReceived','vlDue','vlDone','ReceivedVl','hivStatus','Cart'));
 }
@@ -309,20 +428,27 @@ public function DCData()
 
         ];
         fputcsv($file, $columnsToExport);
+        $loggedregion=Auth::user()->region;
+       $query = VP_DC::query();
 
-        // Paginate and output AYP data
-       $demographicsPage = 1;
-        do {
-            $demographicsData = VP_DC::paginate($batchSize, $columnsToExport, 'page', $demographicsPage);
-            $demographicsPage++;
-
-            foreach ($demographicsData as $demographic) {
-                fputcsv($file, $demographic->toArray());
+            if ($loggedregion != 'HQ') {
+                $query->where('region', $loggedregion);
             }
-        } while ($demographicsData->hasMorePages());
 
-        fclose($file);
-    };
+            // Chunk the query results and process each chunk
+            $query->chunk($batchSize, function ($demographicsData) use ($file,$columnsToExport) {
+                foreach ($demographicsData as $demographic) {
+                    $rowData = [];
+                    foreach ($columnsToExport as $column) {
+                        $rowData[] = $demographic->{$column};
+                    }
+                    fputcsv($file, $rowData);
+                }
+            });
+
+            fclose($file);
+        };
+      
 
     return response()->stream($callback, 200, $headers);
 }
@@ -529,59 +655,118 @@ public function uploadEbanService(Request $request)
 }
 
 public function EbanReport(){
+        $logedregion=Auth::user()->region;
+        if($logedregion=='HQ'){
+                $srCount = EbanDemographic::distinct()->count('implementing_partner');
+                $counties = EbanDemographic::distinct()->count('counties');
+                $region = EbanDemographic::distinct()->count('region');
+                $enrolled = EbanDemographic::distinct()->count();
+                #show age distribution
+                // Define age ranges
+                $ageRanges = [
+                    '0-18' => [0, 18],
+                    '19-24' => [19, 24],
+                    '25-50' => [25, 50],
+                    'Above 50' => [51, 999], // Adjust upper limit accordingly
+                ];
 
-        $srCount = EbanDemographic::distinct()->count('implementing_partner');
-        $counties = EbanDemographic::distinct()->count('counties');
-        $region = EbanDemographic::distinct()->count('region');
-        $enrolled = EbanDemographic::distinct()->count();
-        #show age distribution
-        // Define age ranges
-        $ageRanges = [
-            '0-18' => [0, 18],
-            '19-24' => [19, 24],
-            '25-50' => [25, 50],
-            'Above 50' => [51, 999], // Adjust upper limit accordingly
-        ];
+                // Group by age ranges and count occurrences
+                $results = [];
+                foreach ($ageRanges as $range => $limits) {
+                    $count = EbanDemographic::whereBetween('age', $limits)->
+                    distinct()->count('participant_name');
+                    $results[$range] = $count;
+                }
+                $HIVStatus = EbanDemographic::select('hiv_status', DB::raw('COUNT(*) as count'))
+                            ->whereIn('participant_name', function($query) {
+                                $query->select('participant_name')
+                                      ->distinct()
+                                      ->from('eban_demographics');
+                            })
+                            ->groupBy('hiv_status')
+                            ->get();
+                $SexStatus = EbanDemographic::select('sex', DB::raw('COUNT(*) as count'))
+                            ->whereIn('participant_name', function($query) {
+                                $query->select('participant_name')
+                                      ->distinct()
+                                      ->from('eban_demographics');
+                            })
+                            ->groupBy('sex')
+                            ->get();
+                 $PCondom = EbanService::select('provide_with_condom', DB::raw('COUNT(*) as count'))
+                            ->whereIn('unique_identifier', function($query) {
+                                $query->select('unique_identifier')
+                                      ->distinct()
+                                      ->from('eban_services');
+                            })
+                            ->groupBy('provide_with_condom')
+                            ->get();
+                $Csessions = EbanService::select('complete_session', DB::raw('COUNT(*) as count'))
+                            ->whereIn('unique_identifier', function($query) {
+                                $query->select('unique_identifier')
+                                      ->distinct()
+                                      ->from('eban_services');
+                            })
+                            ->groupBy('complete_session')
+                            ->get();
 
-        // Group by age ranges and count occurrences
-        $results = [];
-        foreach ($ageRanges as $range => $limits) {
-            $count = EbanDemographic::whereBetween('age', $limits)->
-            distinct()->count('participant_name');
-            $results[$range] = $count;
         }
-        $HIVStatus = EbanDemographic::select('hiv_status', DB::raw('COUNT(*) as count'))
-                    ->whereIn('participant_name', function($query) {
-                        $query->select('participant_name')
-                              ->distinct()
-                              ->from('eban_demographics');
-                    })
-                    ->groupBy('hiv_status')
-                    ->get();
-        $SexStatus = EbanDemographic::select('sex', DB::raw('COUNT(*) as count'))
-                    ->whereIn('participant_name', function($query) {
-                        $query->select('participant_name')
-                              ->distinct()
-                              ->from('eban_demographics');
-                    })
-                    ->groupBy('sex')
-                    ->get();
-         $PCondom = EbanService::select('provide_with_condom', DB::raw('COUNT(*) as count'))
-                    ->whereIn('unique_identifier', function($query) {
-                        $query->select('unique_identifier')
-                              ->distinct()
-                              ->from('eban_services');
-                    })
-                    ->groupBy('provide_with_condom')
-                    ->get();
-        $Csessions = EbanService::select('complete_session', DB::raw('COUNT(*) as count'))
-                    ->whereIn('unique_identifier', function($query) {
-                        $query->select('unique_identifier')
-                              ->distinct()
-                              ->from('eban_services');
-                    })
-                    ->groupBy('complete_session')
-                    ->get();
+        else{
+
+                    $srCount = EbanDemographic::where('region',$logedregion)->distinct()->count('implementing_partner');
+                    $counties = EbanDemographic::where('region',$logedregion)->distinct()->count('counties');
+                    $region = EbanDemographic::where('region',$logedregion)->distinct()->count('region');
+                    $enrolled = EbanDemographic::where('region',$logedregion)->distinct()->count();
+                    #show age distribution
+                    // Define age ranges
+                    $ageRanges = [
+                        '0-18' => [0, 18],
+                        '19-24' => [19, 24],
+                        '25-50' => [25, 50],
+                        'Above 50' => [51, 999], // Adjust upper limit accordingly
+                    ];
+
+                    // Group by age ranges and count occurrences
+                    $results = [];
+                    foreach ($ageRanges as $range => $limits) {
+                        $count = EbanDemographic::where('region',$logedregion)->whereBetween('age', $limits)->
+                        distinct()->count('participant_name');
+                        $results[$range] = $count;
+                    }
+                    $HIVStatus = EbanDemographic::where('region',$logedregion)->select('hiv_status', DB::raw('COUNT(*) as count'))
+                                ->whereIn('participant_name', function($query) {
+                                    $query->select('participant_name')
+                                          ->distinct()
+                                          ->from('eban_demographics');
+                                })
+                                ->groupBy('hiv_status')
+                                ->get();
+                    $SexStatus = EbanDemographic::where('region',$logedregion)->select('sex', DB::raw('COUNT(*) as count'))
+                                ->whereIn('participant_name', function($query) {
+                                    $query->select('participant_name')
+                                          ->distinct()
+                                          ->from('eban_demographics');
+                                })
+                                ->groupBy('sex')
+                                ->get();
+                     $PCondom = EbanService::where('region',$logedregion)->select('provide_with_condom', DB::raw('COUNT(*) as count'))
+                                ->whereIn('unique_identifier', function($query) {
+                                    $query->select('unique_identifier')
+                                          ->distinct()
+                                          ->from('eban_services');
+                                })
+                                ->groupBy('provide_with_condom')
+                                ->get();
+                    $Csessions = EbanService::where('region',$logedregion)->select('complete_session', DB::raw('COUNT(*) as count'))
+                                ->whereIn('unique_identifier', function($query) {
+                                    $query->select('unique_identifier')
+                                          ->distinct()
+                                          ->from('eban_services');
+                                })
+                                ->groupBy('complete_session')
+                                ->get();
+        }
+        
 
     return view('pages.vp.eban_Report',compact('srCount','counties','region','enrolled','results','HIVStatus','SexStatus','PCondom','Csessions'));
 }

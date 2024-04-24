@@ -36,11 +36,21 @@ class TCSController extends Controller
         return view('pages.typology.tcsTemplate');
     }
      public function tcsvisualize(){
+        $logedregion= Auth::user()->region;
+        if($logedregion=='HQ'){
         $srCount = TCS::distinct()->count('sr');
         $counties = TCS::distinct()->count('county');
         $regions = TCS::distinct()->count('region');
         $enrolled = TCS::count();
+        }
+        else{
+        $srCount = TCS::where('region',$logedregion)->distinct()->count('sr');
+        $counties = TCS::where('region',$logedregion)->distinct()->count('county');
+        $regions = TCS::where('region',$logedregion)->distinct()->count('region');
+        $enrolled = TCS::where('region',$logedregion)->count();
+        }
 
+        if($logedregion=='HQ'){
         $ageRanges = [
             '0-18' => [0, 18],
             '19-24' => [19, 24],
@@ -58,6 +68,27 @@ class TCSController extends Controller
         $region = TCS::select('region', DB::raw('COUNT(*) as count'))->groupBy('region')->get();
         $county = TCS::select('county', DB::raw('COUNT(*) as count'))->groupBy('county')->orderBy('count','DESC')->get();
         $tracingOutcome=TCS::select('tracing_outcome_3', DB::raw('COUNT(*) as count'))->groupBy('tracing_outcome_3')->orderBy('count','DESC')->get();
+        }
+        else{
+            $ageRanges = [
+            '0-18' => [0, 18],
+            '19-24' => [19, 24],
+            '25-50' => [25, 50],
+            'Above 50' => [51, 999], // Adjust upper limit accordingly
+        ];
+
+        // Group by age ranges and count occurrences
+        $results = [];
+        foreach ($ageRanges as $range => $limits) {
+            $count = TCS::where('region',$logedregion)->whereBetween('age', $limits)->count();
+            $results[$range] = $count;
+        }
+        $Gender = TCS::where('region',$logedregion)->select('sex', DB::raw('COUNT(*) as count'))->groupBy('sex')->get();
+        $region = TCS::where('region',$logedregion)->select('region', DB::raw('COUNT(*) as count'))->groupBy('region')->get();
+        $county = TCS::where('region',$logedregion)->select('county', DB::raw('COUNT(*) as count'))->groupBy('county')->orderBy('count','DESC')->get();
+        $tracingOutcome=TCS::where('region',$logedregion)->select('tracing_outcome_3', DB::raw('COUNT(*) as count'))->groupBy('tracing_outcome_3')->orderBy('count','DESC')->get();
+        }
+        
 
         return view('pages.typology.tcsVisualize',compact('srCount','counties','regions','enrolled','results','Gender','region','county','tracingOutcome'));
     }
@@ -151,4 +182,73 @@ class TCSController extends Controller
     return redirect()->route('admin.tcs.index')->with('error', 'Invalid file.');
 
     }
+    public function TCSdata()
+{
+  
+    // Set batch size
+    $batchSize = 3000; // Adjust as needed
+
+    // Set headers for CSV file
+    $headers = [
+        'Content-Type' => 'text/csv',
+        'Content-Disposition' => 'attachment; filename="TCS_Consolidated.csv"',
+    ];
+
+    // Stream CSV file content directly to response
+    $callback = function () use ($batchSize) {
+        $file = fopen('php://output', 'w');
+
+        // Add column headers
+        $columnsToExport = [
+            'sno',
+            'month',
+            'year',
+            'region',
+            'sr',
+            'county',
+            'sub_county',
+            'health_facility',
+            'community_tracing_focal_person',
+            'ccc_number',
+            'dob',
+            'age',
+            'sex',
+            'pregnant_lactating',
+            'missed_appointment_date',
+            'date_listed_as_defaulter',
+            'date_of_community_tracing',
+            'tracing_outcome',
+            'date_of_community_tracing_2',
+            'tracing_outcome_2',
+            'date_of_community_tracing_3',
+            'tracing_outcome_3',
+            'linked_facility',
+            'date_received_at_linked_facility',
+            'remarks',
+        ];
+
+        fputcsv($file, $columnsToExport);
+        $loggedregion=Auth::user()->region;
+       $query = TCS::query();
+
+            if ($loggedregion != 'HQ') {
+                $query->where('region', $loggedregion);
+            }
+
+            // Chunk the query results and process each chunk
+            $query->chunk($batchSize, function ($demographicsData) use ($file,$columnsToExport) {
+                foreach ($demographicsData as $demographic) {
+                    $rowData = [];
+                    foreach ($columnsToExport as $column) {
+                        $rowData[] = $demographic->{$column};
+                    }
+                    fputcsv($file, $rowData);
+                }
+            });
+
+            fclose($file);
+        };
+
+        return response()->stream($callback, 200, $headers);
+}
 }

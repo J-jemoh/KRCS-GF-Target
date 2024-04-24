@@ -246,6 +246,8 @@ Route::group(['middleware' => ['auth','activity']], function () {
             ->name('admin.ayp.template.mentorship');
             Route::post('/typology/AYP/upload/Mentorship', [AYPController::class, 'uploadAYPMentorship'])
             ->name('admin.ayp.upload.mentorship');
+            Route::get('/typology/AYP/mentorship/download', [AYPController::class, 'AYPMentorshipData'])
+            ->name('admin.ayp.reports.mentorship');
 
 
             #TCS Routes
@@ -259,6 +261,8 @@ Route::group(['middleware' => ['auth','activity']], function () {
             ->name('admin.tcs.data.upload');
             Route::get('/typology/TCS/visualize', [TCSController::class, 'tcsvisualize'])
             ->name('admin.tcs.data.visualize');
+            Route::get('/typology/TCS/download', [TCSController::class, 'TCSdata'])
+            ->name('admin.tcs.data.download');
 
             #PMTCT Routes
             Route::get('/typology/PMTCT/home', [PMTCTController::class, 'pmtctTemplate'])

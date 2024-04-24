@@ -148,101 +148,206 @@ class AYPController extends Controller
 }
 
  public function aypReports(){
-        $srCount = AYP::distinct()->count('sr_name');
-        $counties = AYP::distinct()->count('county');
-        $region = AYP::distinct()->count('region');
-        $enrolled = AYP::distinct()->count('peer_name');
 
-        #AYP Mentorship
-        $srCounts = AYPMentorship::distinct()->count('implementingpartner');
-        $county = AYPMentorship::distinct()->count('counties');
-        $regionss = AYPMentorship::distinct()->count('region');
-        $enrolledss = AYPMentorship::count('uniqueidentifier');
-        #show age distribution
-        // Define age ranges
-        $ageRanges = [
-            '0-18' => [0, 18],
-            '19-24' => [19, 24],
-            '25-50' => [25, 50],
-            'Above 50' => [51, 999], // Adjust upper limit accordingly
-        ];
+        $loggedregion=Auth::user()->region;
+        if($loggedregion=='HQ'){
 
-        // Group by age ranges and count occurrences
-        $results = [];
-        foreach ($ageRanges as $range => $limits) {
-            $count = AYP::whereBetween('age', $limits)->
-            distinct()->count('peer_name');
-            $results[$range] = $count;
+            $srCount = AYP::distinct()->count('sr_name');
+            $counties = AYP::distinct()->count('county');
+            $region = AYP::distinct()->count('region');
+            $enrolled = AYP::distinct()->count('peer_name');
+
+            #AYP Mentorship
+            $srCounts = AYPMentorship::distinct()->count('implementingpartner');
+            $county = AYPMentorship::distinct()->count('counties');
+            $regionss = AYPMentorship::distinct()->count('region');
+            $enrolledss = AYPMentorship::count('uniqueidentifier');
+            #show age distribution
+            // Define age ranges
+            $ageRanges = [
+                '0-18' => [0, 18],
+                '19-24' => [19, 24],
+                '25-50' => [25, 50],
+                'Above 50' => [51, 999], // Adjust upper limit accordingly
+            ];
+
+            // Group by age ranges and count occurrences
+            $results = [];
+            foreach ($ageRanges as $range => $limits) {
+                $count = AYP::whereBetween('age', $limits)->
+                distinct()->count('peer_name');
+                $results[$range] = $count;
+            }
+            #hiv status at enrollment
+            $disabledstatus = AYP::select('disabled', DB::raw('COUNT(*) as count'))
+                        ->whereIn('ccc_number', function($query) {
+                            $query->select('ccc_number')
+                                  ->distinct()
+                                  ->from('a_y_p_s');
+                        })
+                        ->groupBy('disabled')
+                        ->get();
+            $testedHivStatus = AYP::select('tested_hiv', DB::raw('COUNT(*) as count'))
+                        ->whereIn('ccc_number', function($query) {
+                            $query->select('ccc_number')
+                                  ->distinct()
+                                  ->from('a_y_p_s');
+                        })
+                        ->groupBy('tested_hiv')
+                        ->get();
+            $artInitiated = AYP::select('art_initiated', DB::raw('COUNT(*) as count'))
+                        ->whereIn('ccc_number', function($query) {
+                            $query->select('ccc_number')
+                                  ->distinct()
+                                  ->from('a_y_p_s');
+                        })
+                        ->groupBy('art_initiated')
+                        ->get();
+            $stiScreeneed = AYP::select('sti_screening', DB::raw('COUNT(*) as count'))
+                        ->whereIn('ccc_number', function($query) {
+                            $query->select('ccc_number')
+                                  ->distinct()
+                                  ->from('a_y_p_s');
+                        })
+                        ->groupBy('sti_screening')
+                        ->get();
+             $stiTreated = AYP::select('treated_sti', DB::raw('COUNT(*) as count'))
+                        ->whereIn('ccc_number', function($query) {
+                            $query->select('ccc_number')
+                                  ->distinct()
+                                  ->from('a_y_p_s');
+                        })
+                        ->groupBy('treated_sti')
+                        ->get();
+           $tbScreenedd = AYP::select('tb_screened', DB::raw('COUNT(*) as count'))
+                        ->whereIn('ccc_number', function($query) {
+                            $query->select('ccc_number')
+                                  ->distinct()
+                                  ->from('a_y_p_s');
+                        })
+                        ->groupBy('tb_screened')
+                        ->get();
+            $vlDue = Typology::select('due_vl', DB::raw('COUNT(*) as count'))
+            ->where('kp_type','FSW')
+            ->groupBy('due_vl')
+            ->get();
+            $vlDone = Typology::select('vl_done', DB::raw('COUNT(*) as count'))
+            ->where('kp_type','FSW')
+            ->groupBy('vl_done')
+            ->get();
+            $ReceivedVl = Typology::select('vl_result_received', DB::raw('COUNT(*) as count'))
+            ->where('kp_type','FSW')
+            ->groupBy('vl_result_received')
+            ->get();
+            $hivStatus = Typology::select('hiv_status', DB::raw('COUNT(*) as count'))
+             ->where('kp_type','FSW')
+            ->groupBy('hiv_status')
+            ->get();
+            $Cart = Typology::select('currently_art', DB::raw('COUNT(*) as count'))
+             ->where('kp_type','FSW')
+            ->groupBy('currently_art')
+            ->get();
         }
-        #hiv status at enrollment
-        $disabledstatus = AYP::select('disabled', DB::raw('COUNT(*) as count'))
-                    ->whereIn('ccc_number', function($query) {
-                        $query->select('ccc_number')
-                              ->distinct()
-                              ->from('a_y_p_s');
-                    })
-                    ->groupBy('disabled')
-                    ->get();
-        $testedHivStatus = AYP::select('tested_hiv', DB::raw('COUNT(*) as count'))
-                    ->whereIn('ccc_number', function($query) {
-                        $query->select('ccc_number')
-                              ->distinct()
-                              ->from('a_y_p_s');
-                    })
-                    ->groupBy('tested_hiv')
-                    ->get();
-        $artInitiated = AYP::select('art_initiated', DB::raw('COUNT(*) as count'))
-                    ->whereIn('ccc_number', function($query) {
-                        $query->select('ccc_number')
-                              ->distinct()
-                              ->from('a_y_p_s');
-                    })
-                    ->groupBy('art_initiated')
-                    ->get();
-        $stiScreeneed = AYP::select('sti_screening', DB::raw('COUNT(*) as count'))
-                    ->whereIn('ccc_number', function($query) {
-                        $query->select('ccc_number')
-                              ->distinct()
-                              ->from('a_y_p_s');
-                    })
-                    ->groupBy('sti_screening')
-                    ->get();
-         $stiTreated = AYP::select('treated_sti', DB::raw('COUNT(*) as count'))
-                    ->whereIn('ccc_number', function($query) {
-                        $query->select('ccc_number')
-                              ->distinct()
-                              ->from('a_y_p_s');
-                    })
-                    ->groupBy('treated_sti')
-                    ->get();
-       $tbScreenedd = AYP::select('tb_screened', DB::raw('COUNT(*) as count'))
-                    ->whereIn('ccc_number', function($query) {
-                        $query->select('ccc_number')
-                              ->distinct()
-                              ->from('a_y_p_s');
-                    })
-                    ->groupBy('tb_screened')
-                    ->get();
-        $vlDue = Typology::select('due_vl', DB::raw('COUNT(*) as count'))
-        ->where('kp_type','FSW')
-        ->groupBy('due_vl')
-        ->get();
-        $vlDone = Typology::select('vl_done', DB::raw('COUNT(*) as count'))
-        ->where('kp_type','FSW')
-        ->groupBy('vl_done')
-        ->get();
-        $ReceivedVl = Typology::select('vl_result_received', DB::raw('COUNT(*) as count'))
-        ->where('kp_type','FSW')
-        ->groupBy('vl_result_received')
-        ->get();
-        $hivStatus = Typology::select('hiv_status', DB::raw('COUNT(*) as count'))
-         ->where('kp_type','FSW')
-        ->groupBy('hiv_status')
-        ->get();
-        $Cart = Typology::select('currently_art', DB::raw('COUNT(*) as count'))
-         ->where('kp_type','FSW')
-        ->groupBy('currently_art')
-        ->get();
+        else{
+
+            $srCount = AYP::where('region',$loggedregion)->distinct()->count('sr_name');
+            $counties = AYP::where('region',$loggedregion)->distinct()->count('county');
+            $region = AYP::where('region',$loggedregion)->distinct()->count('region');
+            $enrolled = AYP::where('region',$loggedregion)->distinct()->count('peer_name');
+
+            #AYP Mentorship
+            $srCounts = AYPMentorship::where('region',$loggedregion)->distinct()->count('implementingpartner');
+            $county = AYPMentorship::where('region',$loggedregion)->distinct()->count('counties');
+            $regionss = AYPMentorship::where('region',$loggedregion)->distinct()->count('region');
+            $enrolledss = AYPMentorship::where('region',$loggedregion)->count('uniqueidentifier');
+            #show age distribution
+            // Define age ranges
+            $ageRanges = [
+                '0-18' => [0, 18],
+                '19-24' => [19, 24],
+                '25-50' => [25, 50],
+                'Above 50' => [51, 999], // Adjust upper limit accordingly
+            ];
+
+            // Group by age ranges and count occurrences
+            $results = [];
+            foreach ($ageRanges as $range => $limits) {
+                $count = AYP::where('region',$loggedregion)->whereBetween('age', $limits)->
+                distinct()->count('peer_name');
+                $results[$range] = $count;
+            }
+            #hiv status at enrollment
+            $disabledstatus = AYP::where('region',$loggedregion)->select('disabled', DB::raw('COUNT(*) as count'))
+                        ->whereIn('ccc_number', function($query) {
+                            $query->select('ccc_number')
+                                  ->distinct()
+                                  ->from('a_y_p_s');
+                        })
+                        ->groupBy('disabled')
+                        ->get();
+            $testedHivStatus = AYP::where('region',$loggedregion)->select('tested_hiv', DB::raw('COUNT(*) as count'))
+                        ->whereIn('ccc_number', function($query) {
+                            $query->select('ccc_number')
+                                  ->distinct()
+                                  ->from('a_y_p_s');
+                        })
+                        ->groupBy('tested_hiv')
+                        ->get();
+            $artInitiated = AYP::where('region',$loggedregion)->select('art_initiated', DB::raw('COUNT(*) as count'))
+                        ->whereIn('ccc_number', function($query) {
+                            $query->select('ccc_number')
+                                  ->distinct()
+                                  ->from('a_y_p_s');
+                        })
+                        ->groupBy('art_initiated')
+                        ->get();
+            $stiScreeneed = AYP::where('region',$loggedregion)->select('sti_screening', DB::raw('COUNT(*) as count'))
+                        ->whereIn('ccc_number', function($query) {
+                            $query->select('ccc_number')
+                                  ->distinct()
+                                  ->from('a_y_p_s');
+                        })
+                        ->groupBy('sti_screening')
+                        ->get();
+             $stiTreated = AYP::where('region',$loggedregion)->select('treated_sti', DB::raw('COUNT(*) as count'))
+                        ->whereIn('ccc_number', function($query) {
+                            $query->select('ccc_number')
+                                  ->distinct()
+                                  ->from('a_y_p_s');
+                        })
+                        ->groupBy('treated_sti')
+                        ->get();
+           $tbScreenedd = AYP::where('region',$loggedregion)->select('tb_screened', DB::raw('COUNT(*) as count'))
+                        ->whereIn('ccc_number', function($query) {
+                            $query->select('ccc_number')
+                                  ->distinct()
+                                  ->from('a_y_p_s');
+                        })
+                        ->groupBy('tb_screened')
+                        ->get();
+            $vlDue = Typology::select('due_vl', DB::raw('COUNT(*) as count'))
+            ->where('kp_type','FSW')
+            ->groupBy('due_vl')
+            ->get();
+            $vlDone = Typology::select('vl_done', DB::raw('COUNT(*) as count'))
+            ->where('kp_type','FSW')
+            ->groupBy('vl_done')
+            ->get();
+            $ReceivedVl = Typology::select('vl_result_received', DB::raw('COUNT(*) as count'))
+            ->where('kp_type','FSW')
+            ->groupBy('vl_result_received')
+            ->get();
+            $hivStatus = Typology::select('hiv_status', DB::raw('COUNT(*) as count'))
+             ->where('kp_type','FSW')
+            ->groupBy('hiv_status')
+            ->get();
+            $Cart = Typology::select('currently_art', DB::raw('COUNT(*) as count'))
+             ->where('kp_type','FSW')
+            ->groupBy('currently_art')
+            ->get();
+
+        }
+        
 
         return view('pages.typology.aypReport',compact('srCount','srCounts','county','regionss','enrolledss','counties','region','enrolled','results','disabledstatus','testedHivStatus','artInitiated','stiScreeneed','stiTreated','tbScreenedd','vlDue','vlDone','ReceivedVl','hivStatus','Cart'));
 }
@@ -428,6 +533,83 @@ public function AYPData()
     }
 
     return redirect()->route('admin.ayp.index')->with('error', 'Invalid file.');
+}
+public function AYPMentorshipData()
+{
+  
+    // Set batch size
+    $batchSize = 3000; // Adjust as needed
+
+    // Set headers for CSV file
+    $headers = [
+        'Content-Type' => 'text/csv',
+        'Content-Disposition' => 'attachment; filename="AYP_Mentorship_Consolidated.csv"',
+    ];
+
+    // Stream CSV file content directly to response
+    $callback = function () use ($batchSize) {
+        $file = fopen('php://output', 'w');
+
+        // Add column headers
+        $columnsToExport = [
+            'sno',
+            'month',
+           'year',
+            'region',
+            'counties',
+            'subcounty',
+            'ward',
+            'venue',
+            'implementingpartner',
+            'nementor1',
+            'nementor2',
+           'cohortnumber',
+            'menteename',
+             'dob',
+             'age',
+            'sex',
+            'phonenumber',
+            'village',
+            'uniqueidentifier',
+             'start_date',
+            'end_date',
+            'session1',
+            'session2',
+             'session3',
+            'session4',
+            'session5',
+            'makeup_session',
+             'complete_session',
+             'services_referred',
+           'services_accessed',
+            'attended_outreach',
+           'attended_ebi',
+            'comments'
+        ];
+
+        fputcsv($file, $columnsToExport);
+        $loggedregion=Auth::user()->region;
+       $query = AYPMentorship::query();
+
+            if ($loggedregion != 'HQ') {
+                $query->where('region', $loggedregion);
+            }
+
+            // Chunk the query results and process each chunk
+            $query->chunk($batchSize, function ($demographicsData) use ($file,$columnsToExport) {
+                foreach ($demographicsData as $demographic) {
+                    $rowData = [];
+                    foreach ($columnsToExport as $column) {
+                        $rowData[] = $demographic->{$column};
+                    }
+                    fputcsv($file, $rowData);
+                }
+            });
+
+            fclose($file);
+        };
+
+        return response()->stream($callback, 200, $headers);
 }
 
 

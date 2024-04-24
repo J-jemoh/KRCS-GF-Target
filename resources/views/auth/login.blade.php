@@ -14,12 +14,15 @@
   <!-- Theme style -->
   <link rel="stylesheet" href="{{asset('admin/dist/css/adminlte.min.css')}}">
 </head>
-<body class="hold-transition login-page">
+<body class="hold-transition login-page" style="overflow: hidden;">
 <div class="login-box">
+   <div class="login-logo" style="margin-bottom:2px;">
+    <img src="{{asset('admin/logo/logo.png')}}">
+  </div>
   <!-- /.login-logo -->
-  <div class="card card-outline card-primary">
+  <div class="card card-outline card-danger">
     <div class="card-header text-center">
-      <a href="../../index2.html" class="h1"><b>KRCS-</b>GF</a>
+      <a href="#" class="h3 text-danger"><b>GF-Unit</b></a>
     </div>
     <div class="card-body">
       <p class="login-box-msg">Sign in to start your session</p>
@@ -30,7 +33,7 @@
           <input type="email" class="form-control @error('email') is-invalid @enderror" placeholder="Email" name="email" value="{{ old('email') }}" required>
           <div class="input-group-append">
             <div class="input-group-text">
-              <span class="fas fa-envelope"></span>
+              <span class="fas fa-envelope text-danger"></span>
             </div>
           </div>
            @error('email')
@@ -43,7 +46,7 @@
           <input type="password" class="form-control @error('password') is-invalid @enderror" placeholder="Password" name="password" required autocomplete="current-password">
           <div class="input-group-append">
             <div class="input-group-text">
-              <span class="fas fa-lock"></span>
+              <span class="fas fa-lock text-danger"></span>
             </div>
           </div>
           @error('password')
@@ -63,7 +66,7 @@
           </div>
           <!-- /.col -->
           <div class="col-4">
-            <button type="submit" class="btn btn-primary btn-block">Sign In</button>
+            <button type="submit" class="btn btn-danger btn-block">Sign In</button>
           </div>
           <!-- /.col -->
         </div>
@@ -72,7 +75,7 @@
       <!-- /.social-auth-links -->
 
       <p class="mb-1">
-        <a href="{{ route('password.request') }}">I forgot my password</a>
+        <a href="{{ route('password.request') }}" class="text-danger">I forgot my password</a>
       </p>
      
     </div>
