@@ -18,6 +18,7 @@ use App\Http\Controllers\Pages\AYPController;
 use App\Http\Controllers\Pages\TCSController;
 use App\Http\Controllers\Pages\PMTCTController;
 use App\Http\Controllers\Pages\VPController;
+use App\Http\Controllers\Pages\TwoFactorAuthController;
 /*
 
 |--------------------------------------------------------------------------
@@ -40,7 +41,7 @@ Auth::routes(['register' => false]);
 // Route::get('/home', [App\Http\Controllers\HomeController::class, 'index'])->name('home');
 
 #Dashboard routes
-Route::group(['middleware' => ['auth','activity']], function () {
+Route::group(['middleware' => ['auth','google2fa','activity']], function () {
 
     Route::group(['prefix' => 'admin/dashboard'],function(){
             #dashboard routes
@@ -100,10 +101,13 @@ Route::group(['middleware' => ['auth','activity']], function () {
             ->name('admin.users');
             Route::get('/users/newUser',[PagesController::class,'addUser'])
             ->name('admin.users.new');
+            Route::get('/users/profile',[UserController::class,'userProfile'])
+            ->name('admin.users.profile');
             Route::post('/users/newUser/create', [UserController::class, 'createUser'])
             ->name('admin.user.save');
             Route::get('/users/edit/{id}',[UserController::class,'editUser'])->name('admin.user.edit');
             Route::post('/users/edit/{id}',[UserController::class,'UpdateUser'])->name('admin.user.update');
+
 
             #QPMM routes
             Route::get('/qpmm', [PagesController::class, 'qpmm'])
@@ -277,11 +281,12 @@ Route::group(['middleware' => ['auth','activity']], function () {
             #VP ROUTES
            
 
-
-
 #backup routes
             Route::get('/database/backup',[PagesController::class,'backups'])->name('admin.db.backup');
             Route::post('/database/backup',[BackupController::class,'backup'])->name('admin.db.backup.post');
+
+
+            
 
 
 
@@ -290,18 +295,24 @@ Route::group(['middleware' => ['auth','activity']], function () {
     Route::group(['prefix' => 'activity', 'namespace' => 'jeremykenedy\LaravelLogger\App\Http\Controllers', 'middleware' => ['auth', 'activity']], function () {
 
     // Dashboards
-    Route::get('/', 'LaravelLoggerController@showAccessLog')->name('activity');
-    Route::get('/cleared', ['uses' => 'LaravelLoggerController@showClearedActivityLog'])->name('cleared');
+        Route::get('/', 'LaravelLoggerController@showAccessLog')->name('activity');
+        Route::get('/cleared', ['uses' => 'LaravelLoggerController@showClearedActivityLog'])->name('cleared');
 
-    // Drill Downs
-    Route::get('/log/{id}', 'LaravelLoggerController@showAccessLogEntry');
-    Route::get('/cleared/log/{id}', 'LaravelLoggerController@showClearedAccessLogEntry');
+        // Drill Downs
+        Route::get('/log/{id}', 'LaravelLoggerController@showAccessLogEntry');
+        Route::get('/cleared/log/{id}', 'LaravelLoggerController@showClearedAccessLogEntry');
 
-    // Forms
-    Route::delete('/clear-activity', ['uses' => 'LaravelLoggerController@clearActivityLog'])->name('clear-activity');
-    Route::delete('/destroy-activity', ['uses' => 'LaravelLoggerController@destroyActivityLog'])->name('destroy-activity');
-    Route::post('/restore-log', ['uses' => 'LaravelLoggerController@restoreClearedActivityLog'])->name('restore-activity');
+        // Forms
+        Route::delete('/clear-activity', ['uses' => 'LaravelLoggerController@clearActivityLog'])->name('clear-activity');
+        Route::delete('/destroy-activity', ['uses' => 'LaravelLoggerController@destroyActivityLog'])->name('destroy-activity');
+        Route::post('/restore-log', ['uses' => 'LaravelLoggerController@restoreClearedActivityLog'])->name('restore-activity');
 });
+
+    #TWO factor aunthenticatoom
+
+    Route::get('/2fa/setup', [TwoFactorAuthController::class,'show2faForm'])->name('2fa.setup');
+    Route::post('/2fa/setup', [TwoFactorAuthController::class,'verifyGoogleAuthenticator'])->name('2fa.verify');
+
 
 
 });

@@ -25,6 +25,7 @@ use Auth;
 use App\Models\AYPMentorship;
 use App\Models\TCS;
 use Illuminate\Support\Facades\Hash;
+use Illuminate\Validation\Rules\Password;
 
 
 class PagesController extends Controller
@@ -919,7 +920,7 @@ class PagesController extends Controller
 
         $request->validate([
             'current_password' => 'required',
-            'password' => 'required|confirmed|min:8',
+            'password' => ['required','string','confirmed',Password::min(8)->mixedCase()->letters()->numbers()->symbols()->uncompromised()],
         ]);
 
         $user = Auth::user();

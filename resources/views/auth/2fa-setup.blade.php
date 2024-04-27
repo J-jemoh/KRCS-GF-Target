@@ -1,0 +1,1 @@
+2fa-setup.blade.php

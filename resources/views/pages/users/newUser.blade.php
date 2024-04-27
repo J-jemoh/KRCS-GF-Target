@@ -19,7 +19,16 @@
     <br>
 <section class="content">
     <div class="container-fluid">
-    	@include('messages.flash_messages')
+    	<!-- @include('messages.flash_messages') -->
+    	@if ($errors->any())
+		    <div class="alert alert-danger">
+		        <ul>
+		            @foreach ($errors->all() as $error)
+		                <li>{{ $error }}</li>
+		            @endforeach
+		        </ul>
+		    </div>
+		@endif
     	<div class="card card-info">
     		<div class="card-header">Ensure you fill all the information</div>
     		<div class="card-body">
@@ -128,6 +137,7 @@
 					        </div>
 
     					</div>
+
     					<div class="col-6">
     						   <div class="icheck-primary">
 				              <input type="checkbox" id="agreeTerms" name="terms" value="agree">
@@ -136,8 +146,18 @@
 				              </label>
 				            </div>
     					</div>
-    					<div class="col-6">
-    						<button type="submit" class="btn btn-info float-sm-right">Register</button>
+    					<div class="col-12">
+    						<p><b>Password must</b></p>
+    						 <ul>
+					        <li>Be at least 8 characters long.rs</li>
+					        <li>Not contain any personal information — specifically, your real name,username or your company name</li>
+					        <li>Be unique from your previously used passwords</li>
+					        <li>Not contain any word spelled completely.</li>
+					        <li>Contain different types of characters, including uppercase letters, lowercase letters, numbers and special characters.</li>
+					    </ul>
+    					</div>
+    					<div class="col-12">
+    						<button type="submit" class="btn btn-info float-sm-right">Register user</button>
     					</div>
     				</div>
     			</form>

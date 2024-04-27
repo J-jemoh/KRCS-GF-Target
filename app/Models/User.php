@@ -10,6 +10,9 @@ use Laravel\Sanctum\HasApiTokens;
 use Illuminate\Database\Eloquent\SoftDeletes;
 use Spatie\Permission\Traits\HasRoles;
 
+
+
+
 class User extends Authenticatable
 {
     use HasApiTokens, HasFactory, Notifiable,SoftDeletes,HasRoles;
@@ -25,6 +28,7 @@ class User extends Authenticatable
         'password',
         'region',
         'destination',
+        'google2fa_secret'
     ];
 
     /**
@@ -46,4 +50,10 @@ class User extends Authenticatable
         'email_verified_at' => 'datetime',
         'password' => 'hashed',
     ];
+
+     public function hasVerifiedTwoFactorAuthentication()
+    {
+        // Check if the user has completed the two-factor authentication setup
+        return !is_null($this->google2fa_secret); // Assuming google2fa_secret is where you store the secret key
+    }
 }
