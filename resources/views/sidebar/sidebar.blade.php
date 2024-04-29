@@ -337,12 +337,31 @@
             </a>
           </li>
           @can('Manage Users')
-          <li class="nav-item">
-            <a href="{{route('admin.users')}}" class="nav-link">
-              <i class="nav-icon far fa-user text-warning"></i>
-              <p>User Management</p>
+           <li class="nav-item">
+            <a href="#" class="nav-link">
+              <i class="nav-icon fas fa-edit"></i>
+              <p class="text-warning">
+                Manage Users
+                <i class="fas fa-angle-left right"></i>
+              </p>
             </a>
-          </li>
+            <ul class="nav nav-treeview">
+               <li class="nav-item">
+                <a href="{{route('admin.users')}}" class="nav-link">
+                  <i class="far fa-user nav-icon"></i>
+                  <p>Active users</p>
+                </a>
+              </li>
+              <li class="nav-item">
+                <a href="{{route('admin.user.trashed')}}" class="nav-link">
+                  <i class="far fa-user nav-icon"></i>
+                  <p>Trashed users</p>
+                </a>
+              </li>
+
+            </ul>
+              </li>
+
           <li class="nav-item">
               <a class="nav-link" href="{{route('admin.reports.CommunityReached')}}" >
                <i class="nav-icon fas fa-users-cog"></i>

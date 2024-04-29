@@ -20,8 +20,7 @@
   	@include('messages.flash_messages')
     <div class="container-fluid">
     	<div class="card card-info">
-    		<div class="card-header"><b>All Users</b>
-    			<a href="{{route('admin.users.new')}}" class="btn btn-danger float-sm-right">Add  New User</a>
+    		<div class="card-header"><b>All Trashed Users</b>
     		</div>
     		<div class="card-body">
     			 <table id="example1" class="table table-bordered table-striped">
@@ -36,7 +35,7 @@
     			 		</tr>
     			 	</thead>
     			 	<tbody>
-    			 		@foreach($users as $user)
+    			 		@foreach($softDeletedUsers as $user)
     			 		<tr>
     			 			<td>{{$user->id}}</td>
     			 			<td>{{$user->name}}</td>
@@ -45,13 +44,14 @@
     			 			<td>{{$user->region}}</td>
     			 			<td>
     			 				<div class="btn-group" role="group" aria-label="Basic example">
-				                    <a type="button" class="btn btn-info" href="{{route('admin.user.edit',$user->id)}}"><i class="fa fa-edit"></i></a>
+				                    <a type="a" href="#" class="btn btn-info" data-bs-toggle="modal" data-bs-target="#restore-{{$user->id}}"><i class="fa-solid fa-recycle"></i></a>
 				                    <a type="button" class="btn btn-warning" href="#"><i class="fa fa-eye"></i></a>
-				                    <a type="a" href="#" class="btn btn-danger" data-bs-toggle="modal" data-bs-target="#delete-{{$user->id}}"><i class="fa fa-trash"></i></a>
+				                    <a type="button" class="btn btn-danger"data-bs-toggle="modal" data-bs-target="#deletem-{{$user->id}}" href="#"><i class="fa fa-trash"></i></a>
 				                  </div>
     			 			</td>
     			 		</tr>
-              @include('pages.users.deleteModal')
+    			 		@include('pages.users.restoreModal')
+    			 		@include('pages.users.deleteParmanent')
     			 		@endforeach
     			 	</tbody>
     			 </table>

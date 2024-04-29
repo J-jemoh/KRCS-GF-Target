@@ -12,6 +12,8 @@ use Spatie\Permission\Models\Role;
 use Illuminate\Validation\Rules\Password;
 use PragmaRX\Google2FA\Google2FA;
 use Illuminate\Support\Facades\Auth;
+use App\Mail\WelcomeEmail;
+use Illuminate\Support\Facades\Mail;
 
 class UserController extends Controller
 {
@@ -50,6 +52,8 @@ class UserController extends Controller
         'region' => $request->input('region'),
         'google2fa_secret'=>$secret,
     ]);
+
+     Mail::to($user->email)->send(new WelcomeEmail($user));
     $roles = $request['roles']; //Retrieving the roles field
         //Checking if a role was selected
         if (isset($roles)) {
@@ -59,6 +63,7 @@ class UserController extends Controller
                 $user->assignRole($role_r); //Assigning role to user
             }
         }
+
 
         //Redirect to the users.index view and display message
         return redirect()->route('admin.users')
@@ -103,4 +108,27 @@ class UserController extends Controller
                 'User successfully edited.');
             }
 
+    public function SoftDelete($id){
+        $user=User::find($id);
+        $user->delete();
+        return redirect()->back()->with('success','User temporarily deleted from the system');
+
+
+    }
+    public function viewDeleted(){
+    $softDeletedUsers = User::onlyTrashed()->get();
+    return view('pages.users.trashed',compact('softDeletedUsers'));
+
+    }
+    public function restoreDeleted($id){
+        $user = User::withTrashed()->find($id);
+        $user->restore();
+        return redirect()->back()->with('success','User restored successfully');
+    }
+    public function deleteParmanently($id){
+        $user = User::withTrashed()->findOrFail($id);
+        $user->forceDelete();
+        return redirect()->back()->with('success','user parmanently deleted from the system');
+
+    }
 }
