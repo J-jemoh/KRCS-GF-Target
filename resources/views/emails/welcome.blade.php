@@ -17,12 +17,12 @@
 <body class="hold-transition login-page">
 	<div class="card card-outline card-danger">
     <div class="card-header text-center">
-      <a href="#" class="h3 text-danger"><b>Dear {{$user->name}}}</b></a>
+      <a href="#" class="h3 text-danger"><b>Dear {{$user->name}}</b></a>
     </div>
      <div class="card-body">
      	<p>
      		Your account has been successfully created. Here are your login details</p>
-     		<p>Username: {{user->email}}</p>
+     		<p>Username: {{$user->email}}</p>
      		<p>Google Aunthenticor Code: {{ $user->google2fa_secret}}</p>
      		<p>For security reasons, we don't include your password in this email. If you forget your password, you can reset it using the "Forgot Password" link on our website.</p>
      		<p>Thank you for using our system.</p>

@@ -42,7 +42,7 @@ class WelcomeEmail extends Mailable
     {
         return new Content(
             markdown: 'emails.welcome',
-            with:['user'=>$this->$user],
+            with:['user'=>$this->user],
         );
     }
 
