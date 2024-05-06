@@ -25,7 +25,7 @@
           <a href="{{route('admin.msm.consolidated')}}" class="btn btn-info btn-block">Download/Export to CSV</a>
         </div>
          <div class="col-4">
-             <a href="{{route('fsw.download-demographics-excel')}}" class="btn btn-info btn-block">Download/Export to Excel</a>
+             <a href="#" class="btn btn-info btn-block">Download/Export to Excel</a>
          </div>
       </div>
       <br>

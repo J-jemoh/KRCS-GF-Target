@@ -163,6 +163,8 @@ Route::group(['middleware' => ['auth','google2fa','activity']], function () {
             ->name('admin.gbv.visualize');
              Route::post('/gbv/upload', [GBVController::class, 'uploadGBV'])
             ->name('admin.gbv.post');
+            Route::get('/gbv/download/csv', [GBVController::class, 'downloadGBV'])
+            ->name('admin.gbv.download');
 
             #Typology dataset
             Route::get('/typology/fsw', [PagesController::class, 'fswIndex'])

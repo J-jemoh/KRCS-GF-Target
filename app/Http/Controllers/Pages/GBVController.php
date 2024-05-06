@@ -97,4 +97,76 @@ class GBVController extends Controller
         return redirect()->route('admin.gbv.index')->with('error', 'Invalid file.');
 
     }
+    public function downloadGBV(){
+
+        $batchSize = 3000; // Adjust as needed
+
+    // Set headers for CSV file
+        $headers = [
+            'Content-Type' => 'text/csv',
+            'Content-Disposition' => 'attachment; filename="GBV_Consolidated.csv"',
+        ];
+
+        // Stream CSV file content directly to response
+        $callback = function () use ($batchSize) {
+            $file = fopen('php://output', 'w');
+
+            // Add column headers
+            $columnsToExport = [
+            'sno',
+            'year',
+            'quater',
+            'region',
+            'sr_name',
+            'county',
+            'subcounty',
+            'ward',
+            'village',
+            'report_month',
+            'paralegal',
+            'bname',
+            'dob',
+            'age',
+            'sex',
+            'typology',
+            'disability',
+            'disability_type',
+            'phone',
+            'confidant_no',
+            'abuse',
+            'perpetrator',
+            'legal_clinic',
+            'litigation',
+            'legal_counsel',
+            'referral',
+            'care_status',
+            'comment',
+            'abuse_date'
+        ];
+            fputcsv($file, $columnsToExport);
+            $loggedregion=Auth::user()->region;
+           $query = GBV::query();
+
+                if ($loggedregion != 'HQ') {
+                    $query->where('region', $loggedregion);
+                }
+
+                // Chunk the query results and process each chunk
+                $query->chunk($batchSize, function ($demographicsData) use ($file,$columnsToExport) {
+                    foreach ($demographicsData as $demographic) {
+                        $rowData = [];
+                        foreach ($columnsToExport as $column) {
+                            $rowData[] = $demographic->{$column};
+                        }
+                        fputcsv($file, $rowData);
+                    }
+                });
+
+                fclose($file);
+            };
+
+            
+
+        return response()->stream($callback, 200, $headers);
+    }
 }

@@ -15,6 +15,7 @@ use Illuminate\Support\Facades\Schema;
 use PhpOffice\PhpSpreadsheet\Spreadsheet;
 use PhpOffice\PhpSpreadsheet\Writer\Xlsx;
 use Illuminate\Support\Facades\File;
+use Illuminate\Support\Facades\Crypt;
 
 class TypologyController extends Controller
 {
@@ -780,15 +781,16 @@ return response()->stream($callback, 200, $headers);
  public function FetchPWIDData(){
         // Set batch size
         $batchSize = 3000; // Adjust as needed
+        $encryptionKey = 'PWKRCS#@2024';
 
         // Set headers for CSV file
         $headers = [
             'Content-Type' => 'text/csv',
             'Content-Disposition' => 'attachment; filename="PWID_Consolidated.csv"',
+            'Encryption-Key' => Crypt::encryptString($encryptionKey),
         ];
-
         // Stream CSV file content directly to response
-        $callback = function () use ($batchSize, $headers) {
+        $callback = function () use ($batchSize, $headers,$encryptionKey) {
             $file = fopen('php://output', 'w');
 
             // Add column headers

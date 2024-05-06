@@ -20,6 +20,15 @@
     <br>
    <section class="content">
     <div class="container-fluid">
+    <div class="row">
+        <div class="col-4">
+          <a href="{{route('admin.gbv.download')}}" class="btn btn-info btn-block">Download/Export to CSV</a>
+        </div>
+         <div class="col-4">
+             <a href="#" class="btn btn-info btn-block">Download/Export to Excel</a>
+         </div>
+      </div>
+      <br>
     	<div class="card card-info">
     		<div class="card-header">CONSOLIDATED GBV REPORTS</div>
     		<div class="card-body">
@@ -29,9 +38,9 @@
     						<th>SNo</th>
     						<th>Year</th>
     						<th>Quater</th>
-                <th>Region</th>
-                <th>SR Name</th>
-                <th>County</th>
+                            <th>Region</th>
+                            <th>SR Name</th>
+                            <th>County</th>
     						<th>Sub County</th>
     						<th>Ward</th>
     						<th>Village</th>
@@ -43,7 +52,7 @@
     						<th>Sex</th>
     						<th>Typology</th>
     						<th>Disability</th>
-                <th>Disability Type</th>
+                            <th>Disability Type</th>
     						<th>Phone</th>
     						<th>Confidant No</th>
     						<th>Abuse/Violation</th>
@@ -57,7 +66,7 @@
     					</tr>
     				</thead>
             <tbody>
-              @foreach($gbvdata as $gbv)
+              <!-- @foreach($gbvdata as $gbv)
               <tr>
                 <td>{{$gbv->id}}</td>
                 <td>{{$gbv->year}}</td>
@@ -88,7 +97,7 @@
                 <td>{{$gbv->care_status}}</td>
                 <td>{{$gbv->comment}}</td>
               </tr>
-              @endforeach
+              @endforeach -->
             </tbody>
     			</table>
     		</div>

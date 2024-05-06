@@ -149,11 +149,11 @@
     					<div class="col-12">
     						<p><b>Password must</b></p>
     						 <ul>
-					        <li>Be at least 8 characters long.rs</li>
-					        <li>Not contain any personal information — specifically, your real name,username or your company name</li>
-					        <li>Be unique from your previously used passwords</li>
-					        <li>Not contain any word spelled completely.</li>
-					        <li>Contain different types of characters, including uppercase letters, lowercase letters, numbers and special characters.</li>
+					        <li>Be at least 8 characters long</li>
+					        <li>Have an uppercase and Lowercase</li>
+					        <li>Contain atleast one symbol</li>
+					        <li>MustContain atleast one character</li>
+					        <li>Must contain atleast one number.</li>
 					    </ul>
     					</div>
     					<div class="col-12">
