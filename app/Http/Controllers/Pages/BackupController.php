@@ -6,6 +6,7 @@ use App\Http\Controllers\Controller;
 use Illuminate\Http\Request;
 use Spatie\Backup\Tasks\Backup\BackupJobFactory;
 use Illuminate\Support\Facades\Log;
+use Illuminate\Support\Facades\Artisan;
 
 class BackupController extends Controller
 {
@@ -13,7 +14,7 @@ class BackupController extends Controller
      public function backup(Request $request)
     {
         try {
-            $config= config('backup.backup.source.databases');
+            $config= config('backup.backup.source');
             dd($config);
             // Create a new backup job
             // dd($config);
