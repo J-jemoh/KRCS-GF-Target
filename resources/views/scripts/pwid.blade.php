@@ -754,7 +754,7 @@
             min: 0,
             max: 2081,
             title: {
-                text: 'Initiated on prep'
+                text: 'NSP Per PWID'
             }
         },
         credits: {

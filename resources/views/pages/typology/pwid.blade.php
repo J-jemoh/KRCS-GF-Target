@@ -95,7 +95,7 @@
               <!-- <canvas id="container-speed" width="200" height="200"></canvas> -->
             </div>
              <div class="col-lg-4">
-               <b class="text-center">PWID  initiated on Prep</b>
+               <b class="text-center"> #of needles and syringes distributed per PWID</b>
               <div id="container-prep" style="width: 300px; height: 200px;"></div>
              </div>
               <div class="col-lg-4">
@@ -194,8 +194,8 @@
                           <td>{{ $definedPackage }}</td>
                       </tr>
                       <tr>
-                          <td># of PWID who received any PrEP product at least once during the reporting period</td>
-                          <td>{{$prepInitiated }}</td>
+                          <td># of needles and syringes distributed per person  who injects drugs per year by needle and syringe program</td>
+                          <td>{{round($prepInitiated,0) }}</td>
                         </tr>
                       <tr>
                           <td># of PWID that have received an HIV test during the reporting period and know their results</td>

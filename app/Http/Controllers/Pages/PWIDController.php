@@ -68,10 +68,9 @@ class PWIDController extends Controller
             ->where('kp_type','PWID')
             ->distinct('peer_educator_code')
             ->count();
-        $prepInitiated= Typology::where('prep_initated','Yes')
-                        ->where('kp_type','PWID')
-                        ->distinct('peer_educator_code')
-                        ->count();
+        $totalneedles = Typology::where('kp_type','PWID')->where(DB::raw('CAST(nssp_distributed_nbr AS INTEGER)'), '>', 0)->sum(DB::raw('CAST(nssp_distributed_nbr AS INTEGER)'));
+        $nsspreceived=Typology::where('kp_type','PWID')->where(DB::raw('CAST(nssp_distributed_nbr AS INTEGER)'), '>', 0)->distinct()->count();
+        $prepInitiated= ($totalneedles/$nsspreceived);
         $hivTested= Typology::where('hiv_tested','Yes')
                     ->where('kp_type','PWID')
                     ->distinct('peer_educator_code')
@@ -164,11 +163,9 @@ class PWIDController extends Controller
             ->where('region',$loggeduser)
             ->distinct('peer_educator_code')
             ->count();
-        $prepInitiated= Typology::where('prep_initated','Yes')
-                        ->where('kp_type','PWID')
-                        ->distinct('peer_educator_code')
-                        ->where('region',$loggeduser)
-                        ->count();
+        $totalneedles = Typology::where('kp_type','PWID')->where(DB::raw('CAST(nssp_distributed_nbr AS INTEGER)'), '>', 0)->sum(DB::raw('CAST(nssp_distributed_nbr AS INTEGER)'));
+        $nsspreceived=Typology::where('kp_type','PWID')->where(DB::raw('CAST(nssp_distributed_nbr AS INTEGER)'), '>', 0)->distinct()->count();
+        $prepInitiated= ($totalneedles/$nsspreceived);
         $hivTested= Typology::where('hiv_tested','Yes')
                     ->where('kp_type','PWID')
                     ->distinct('peer_educator_code')
