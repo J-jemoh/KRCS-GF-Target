@@ -26,7 +26,7 @@
           <div class="row">
           	<div class="col-6">
           		<form></form>
-          		<form method="post" action="#" enctype="multipart/form-data">
+          		<form method="post" action="{{route('admin.ayp.upload.hcbf')}}" enctype="multipart/form-data">
           			@csrf
           		<label>HCBF Data</label>
           		<div class="input-group mb-3">
@@ -99,12 +99,12 @@
 			            <div class="small-box bg-success">
 			              <div class="inner">
 			                <h3>HCBF</h3>
-			                <p>Reports</p>
+			                <p>Template</p>
 			              </div>
 			              <div class="icon">
 			                <i class="fas fa-shopping-cart"></i>
 			              </div>
-			              <a href="#" class="small-box-footer">
+			              <a href="{{route('admin.ayp.template.hcbf')}}" class="small-box-footer">
 			                More info <i class="fas fa-arrow-circle-right"></i>
 			              </a>
 			            </div>
@@ -115,7 +115,7 @@
 			              <div class="inner">
 			                <h3>MHMC</h3>
 
-			                <p>Reports</p>
+			                <p>Template</p>
 			              </div>
 			              <div class="icon">
 			                <i class="fas fa-shopping-cart"></i>
@@ -131,7 +131,7 @@
 			              <div class="inner">
 			                <h3>AYP Mentorhship</h3>
 
-			                <p>Reports</p>
+			                <p>Template</p>
 			              </div>
 			              <div class="icon">
 			                <i class="fas fa-shopping-cart"></i>
@@ -147,7 +147,7 @@
 			              <div class="inner">
 			                <h3>AYP Intergrated</h3>
 
-			                <p>Reports</p>
+			                <p>Template</p>
 			              </div>
 			              <div class="icon">
 			                <i class="fas fa-shopping-cart"></i>

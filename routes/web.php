@@ -259,6 +259,10 @@ Route::group(['middleware' => ['auth','google2fa','activity']], function () {
             ->name('admin.ayp.upload.mentorship');
             Route::get('/typology/AYP/mentorship/download', [AYPController::class, 'AYPMentorshipData'])
             ->name('admin.ayp.reports.mentorship');
+            Route::get('/typology/AYP/Template/HCBF',[AYPController::class,'aypHCBFTemplate'])
+            ->name('admin.ayp.template.hcbf');
+            Route::post('/typology/AYP/upload/HCBF',[AYPController::class,'uploadHCBF'])
+            ->name('admin.ayp.upload.hcbf');
 
 
             #TCS Routes

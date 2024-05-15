@@ -15,6 +15,7 @@ use PhpOffice\PhpSpreadsheet\Writer\Xlsx;
 use Illuminate\Support\Facades\File;
 use Auth;
 use App\Models\AYPMentorship;
+use App\Models\AYP_HCBF;
 use Illuminate\Support\Facades\Log;
 
 
@@ -31,6 +32,9 @@ class AYPController extends Controller
     }
     public function aypMentorshipTemplate(){
         return view('pages.typology.aypMentorshipTemplate');
+    }
+    public function aypHCBFTemplate(){
+        return view('pages.typology.aypHCBFTemplate');
     }
 
     public function uploadDemo(Request $request)
@@ -534,6 +538,126 @@ public function AYPData()
 
     return redirect()->route('admin.ayp.index')->with('error', 'Invalid file.');
 }
+
+public function uploadHCBF(Request $request)
+    {
+    $request->validate([
+        'hcbfF' => 'required|mimes:csv',
+    ]);
+
+    if ($request->file('hcbfF')->isValid()) {
+        $file = $request->file('hcbfF');
+        $path = $file->getRealPath();
+
+        // Log the file path for debugging
+        Log::info('File path: ' . $path);
+
+        // Open the CSV file for reading
+        if (($handle = fopen($path, 'r')) !== false) {
+            // Remove header if exists and store it
+            $headers = fgetcsv($handle);
+
+            if (!$headers) {
+                return redirect()->route('admin.ayp.index')->with('error', 'CSV file is empty.');
+            }
+
+            // Define mapping between CSV headers and database columns
+            $mapping = [
+                'SNo' => 'sno',
+                'Month' => 'month',
+                'Year' => 'year',
+                'Region' => 'region',
+                'County' => 'county',
+                'Sub County' => 'sub_county',
+                'Ward' => 'ward',
+                'Venue' => 'venue',
+                'Implementing Partner' => 'implementing_partner',
+                'Facilitator 1' => 'facilitator_1',
+                'Facilitator 2' => 'facilitator_2',
+                'Start Date' => 'start_date',
+                'End Date' => 'end_date',
+                'Name' => 'name',
+                'Age' => 'age',
+                'Sex' => 'sex',
+                'Session 1' => 'session1',
+                'Session 2' => 'session2',
+                'Session 3' => 'session3',
+                'Session 4' => 'session4',
+                'Session 5' => 'ssssion5',
+                'Session 6' => 'session6',
+                'Session 7' => 'session7',
+                'Make Up Session Date' => 'make_up_session_date',
+                'Complete Sessions' => 'complete_sessions',
+                'Provided Condoms' => 'provided_condoms',
+                'Risk Assessment R' => 'risk_assessment_r',
+                'Risk Assessment C' => 'risk_assessment_c',
+                'Vmmc R' => 'vmmc_r',
+                'Vmmc C' => 'vmmc_c',
+                'Ovc R' => 'ovc_r',
+                'Ovc C' => 'ovc_c',
+                'Prc R' => 'prc_r',
+                'Prc C' => 'prc_c',
+                'Pss R' => 'pss_r',
+                'Pss C' => 'pss_c',
+                'Hts R' => 'hts_r',
+                'Hts C' => 'hts_c',
+                'Sti Screening R' => 'sti_screening_r',
+                'Sti Screening C' => 'sti_screening_c',
+                'Sti Treatment R' => 'sti_treatment_r',
+                'Sti Treatment C' => 'sti_treatment_c',
+                'Legal Aid R' => 'legal_aid_r',
+                'Legal Aid C' => 'legal_aid_c',
+                'Pep R' => 'pep_r',
+                'Pep C' => 'pep_c',
+                'Pmtct R' => 'pmtct_r',
+                'Pmtct C' => 'pmtct_c',
+                'Fp R' => 'fp_r',
+                'Fp C' => 'fp_c',
+                'Others R' => 'others_r',
+                'Others C' => 'others_c',
+                'Comments' => 'comments'
+];
+
+            
+
+            $user_id = Auth::id();
+            $batchSize = 1000; // Adjust the batch size as needed
+
+            // Process CSV data in batches
+            while (($data = fgetcsv($handle)) !== false) {
+                $batch = [];
+                for ($i = 0; $i < $batchSize && $data !== false; $i++) {
+                    $rowData = [];
+                    foreach ($headers as $index => $header) {
+                        $columnName = $mapping[$header] ?? null;
+                        if ($columnName) {
+                            // Convert encoding to UTF-8
+                            $rowData[$columnName] = mb_convert_encoding($data[$index], 'UTF-8', 'UTF-8');
+                        }
+                    }
+                    $uniqueIdentifier = $rowData['sno'] . '-' . $rowData['month'] . '-' . $rowData['year'] . '-' . $rowData['region'] . '-' . $rowData['name'];
+                    $rowData['unique_identifier'] = $uniqueIdentifier;
+                    $rowData['user_id'] = $user_id;
+                    $batch[] = $rowData;
+                    $data = fgetcsv($handle);
+                }
+                
+
+                // Insert batch data into the database
+                AYP_HCBF::upsert($batch, uniqueBy:['unique_identifier'], update:array_keys($batch[0]));
+            }
+
+            fclose($handle);
+
+            return redirect()->route('admin.ayp.index')->with('success', 'Your AYP HCBF Data file has been uploaded successfully.');
+        } else {
+            return redirect()->route('admin.ayp.index')->with('error', 'Unable to open the CSV file.');
+        }
+    }
+
+    return redirect()->route('admin.ayp.index')->with('error', 'Invalid file.');
+}
+
 public function AYPMentorshipData()
 {
   
