@@ -263,6 +263,15 @@ Route::group(['middleware' => ['auth','google2fa','activity']], function () {
             ->name('admin.ayp.template.hcbf');
             Route::post('/typology/AYP/upload/HCBF',[AYPController::class,'uploadHCBF'])
             ->name('admin.ayp.upload.hcbf');
+            Route::get('/typology/AYP/Reports/HCBF',[AYPController::class,'AYPHCBFData'])
+            ->name('admin.ayp.download.hcbf');
+            Route::get('/typology/AYP/Template/MHMC',[AYPController::class,'aypMHMCTemplate'])
+            ->name('admin.ayp.template.mhmc');
+            Route::post('/typology/AYP/upload/MHMC',[AYPController::class,'uploadMHMC'])
+            ->name('admin.ayp.upload.mhmc');
+            Route::get('/typology/AYP/Reports/MHMC',[AYPController::class,'AYPMHMCData'])
+            ->name('admin.ayp.download.mhmc');
+
 
 
             #TCS Routes

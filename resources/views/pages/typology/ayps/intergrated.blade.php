@@ -16,7 +16,7 @@
               <div class="info-box-content">
                 <span class="info-box-text">Total No of SR'S</span>
                 <span class="info-box-number">
-                  {{$srCount}}
+                  {{$aypCounts->srcount}}
                   <small></small>
                 </span>
               </div>
@@ -30,7 +30,7 @@
 
               <div class="info-box-content">
                 <span class="info-box-text">No of Counties</span>
-                <span class="info-box-number">{{$counties}}</span>
+                <span class="info-box-number">{{$aypCounts->countycount}}</span>
               </div>
               <!-- /.info-box-content -->
             </div>
@@ -42,7 +42,7 @@
 
               <div class="info-box-content">
                 <span class="info-box-text">No of Regions</span>
-                <span class="info-box-number">{{$region}}</span>
+                <span class="info-box-number">{{$aypCounts->regioncount}}</span>
               </div>
               <!-- /.info-box-content -->
             </div>
@@ -54,7 +54,7 @@
 
               <div class="info-box-content">
                 <span class="info-box-text">Enrolled</span>
-                <span class="info-box-number">{{$enrolled}}</span>
+                <span class="info-box-number">{{$aypCounts->enrolledcount}}</span>
               </div>
               <!-- /.info-box-content -->
             </div>
@@ -62,38 +62,8 @@
           </div>
       </div>
 
-      <div class="card card-info">
-        <div class="card-header">Visualizations by Age</div>
-          <div class="card-body">
-            <div class="row">
-              <div class="col-sm-6">
-                <table class="table table-bordered table-striped table-condensed">
-                  <thead>
-                      <tr>
-                          <th>Age Range</th>
-                          <th>Count</th>
-                      </tr>
-                  </thead>
-                  <tbody>
-                      @foreach($results as $range => $count)
-                      <tr>
-                          <td>{{ $range }}</td>
-                          <td>{{ $count }}</td>
-                      </tr>
-                      @endforeach
-                  </tbody>
-              </table>
-              </div>
-              <div class="col-sm-6">
-                <div style="width: 100%;">
-                  <canvas id="agePieChart"></canvas>
-              </div>
-              </div>
-            </div>
-          </div>
-        </div>
           <div class="card card-info">
-        <div class="card-header">Other Visualization</div>
+        <div class="card-header"> Visualizations</div>
           <div class="card-body">
             <div class="row">
               <div class="col-sm-6">

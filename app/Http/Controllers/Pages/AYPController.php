@@ -16,6 +16,7 @@ use Illuminate\Support\Facades\File;
 use Auth;
 use App\Models\AYPMentorship;
 use App\Models\AYP_HCBF;
+use App\Models\AYP_MHMC;
 use Illuminate\Support\Facades\Log;
 
 
@@ -36,7 +37,9 @@ class AYPController extends Controller
     public function aypHCBFTemplate(){
         return view('pages.typology.aypHCBFTemplate');
     }
-
+    public function aypMHMCTemplate(){
+        return view('pages.typology.aypMHMCTemplate');
+    }
     public function uploadDemo(Request $request)
     {
     $request->validate([
@@ -156,16 +159,17 @@ class AYPController extends Controller
         $loggedregion=Auth::user()->region;
         if($loggedregion=='HQ'){
 
-            $srCount = AYP::distinct()->count('sr_name');
-            $counties = AYP::distinct()->count('county');
-            $region = AYP::distinct()->count('region');
-            $enrolled = AYP::distinct()->count('peer_name');
+            $aypCounts = AYP::selectRaw('COUNT(DISTINCT sr_name) AS srCount, COUNT(DISTINCT county) AS countyCount, COUNT(DISTINCT region) AS regionCount, COUNT(DISTINCT peer_name) AS enrolledCount')
+                ->first();
 
             #AYP Mentorship
-            $srCounts = AYPMentorship::distinct()->count('implementingpartner');
-            $county = AYPMentorship::distinct()->count('counties');
-            $regionss = AYPMentorship::distinct()->count('region');
-            $enrolledss = AYPMentorship::count('uniqueidentifier');
+            $aypMentorshipCounts = AYPMentorship::selectRaw('COUNT(DISTINCT implementingpartner) AS srCount, COUNT(DISTINCT counties) AS countyCount, COUNT(DISTINCT region) AS regionCount, COUNT(uniqueidentifier) AS enrolledCount')
+                ->first();
+             #AYP HCBF
+            $aypHCBFCounts = AYP_HCBF::selectRaw('COUNT(DISTINCT implementing_partner) AS srCount, COUNT(DISTINCT county) AS countyCount, COUNT(DISTINCT region) AS regionCount, COUNT(unique_identifier) AS enrolledCount')
+                ->first();
+            $aypMHMCCounts = AYP_MHMC::selectRaw('COUNT(DISTINCT implementing_partner) AS srCount, COUNT(DISTINCT county) AS countyCount, COUNT(DISTINCT region) AS regionCount, COUNT(unique_identifier) AS enrolledCount')
+                ->first();
             #show age distribution
             // Define age ranges
             $ageRanges = [
@@ -178,10 +182,130 @@ class AYPController extends Controller
             // Group by age ranges and count occurrences
             $results = [];
             foreach ($ageRanges as $range => $limits) {
-                $count = AYP::whereBetween('age', $limits)->
+                $aypCount = AYP::whereBetween('age', $limits)->
                 distinct()->count('peer_name');
-                $results[$range] = $count;
+                $mentorshipCount = AYPMentorship::whereBetween('age', $limits)
+                                    ->distinct()
+                                    ->count('menteename');
+                $hcbfCount = AYP_HCBF::whereBetween('age', $limits)
+                                    ->distinct()
+                                    ->count('name');
+                $mhmcCount = AYP_MHMC::whereBetween('age', $limits)
+                                    ->distinct()
+                                    ->count('unique_identifier');
+                $results[$range] = [
+
+                    'ayp' => $aypCount,
+                    'mentorship' => $mentorshipCount,
+                    'hcbfd'=>$hcbfCount,
+                    'mhmcd' => $mhmcCount
+                ];
             }
+            #gendercount
+            $gendercount=AYPMentorship::select('sex', DB::raw('COUNT(*) as count'))
+                        ->whereIn('menteename', function($query) {
+                            $query->select('menteename')
+                                  ->distinct()
+                                  ->from('a_y_p_mentorships');
+                        })
+                        ->groupBy('sex')
+                        ->get();
+            $genderhcbf=AYP_HCBF::select('sex', DB::raw('COUNT(*) as count'))
+                        ->whereIn('unique_identifier', function($query) {
+                            $query->select('unique_identifier')
+                                  ->distinct()
+                                  ->from('a_y_p__h_c_b_f_s');
+                        })
+                        ->groupBy('sex')
+                        ->get();
+            $gendermhmc=AYP_MHMC::select('sex', DB::raw('COUNT(*) as count'))
+                        ->whereIn('unique_identifier', function($query) {
+                            $query->select('unique_identifier')
+                                  ->distinct()
+                                  ->from('a_y_p__m_h_m_c_s');
+                        })
+                        ->groupBy('sex')
+                        ->get();
+            $completeSessions=AYPMentorship::select('complete_session', DB::raw('COUNT(*) as count'))
+                        ->whereIn('menteename', function($query) {
+                            $query->select('menteename')
+                                  ->distinct()
+                                  ->from('a_y_p_mentorships');
+                        })
+                        ->groupBy('complete_session')
+                        ->get();
+            $completeSessionshcbf=AYP_HCBF::select('complete_sessions', DB::raw('COUNT(*) as count'))
+                        ->whereIn('unique_identifier', function($query) {
+                            $query->select('unique_identifier')
+                                  ->distinct()
+                                  ->from('a_y_p__h_c_b_f_s');
+                        })
+                        ->groupBy('complete_sessions')
+                        ->get();
+             $completeSessionsmhmc=AYP_MHMC::select('complete_sessions', DB::raw('COUNT(*) as count'))
+                        ->whereIn('unique_identifier', function($query) {
+                            $query->select('unique_identifier')
+                                  ->distinct()
+                                  ->from('a_y_p__m_h_m_c_s');
+                        })
+                        ->groupBy('complete_sessions')
+                        ->get();
+            $attendedOutreach=AYPMentorship::select('attended_outreach', DB::raw('COUNT(*) as count'))
+                        ->whereIn('menteename', function($query) {
+                            $query->select('menteename')
+                                  ->distinct()
+                                  ->from('a_y_p_mentorships');
+                        })
+                        ->groupBy('attended_outreach')
+                        ->get();
+            $ebiStatus=AYPMentorship::select('attended_ebi', DB::raw('COUNT(*) as count'))
+                        ->whereIn('menteename', function($query) {
+                            $query->select('menteename')
+                                  ->distinct()
+                                  ->from('a_y_p_mentorships');
+                        })
+                        ->groupBy('attended_ebi')
+                        ->get();
+            $Countycount=AYPMentorship::select('counties', DB::raw('COUNT(*) as count'))
+                        ->whereIn('menteename', function($query) {
+                            $query->select('menteename')
+                                  ->distinct()
+                                  ->from('a_y_p_mentorships');
+                        })
+                        ->groupBy('counties')
+                        ->get();
+            $Countycountmhmc=AYP_MHMC::select('county', DB::raw('COUNT(*) as count'))
+                        ->whereIn('unique_identifier', function($query) {
+                            $query->select('unique_identifier')
+                                  ->distinct()
+                                  ->from('a_y_p__m_h_m_c_s');
+                        })
+                        ->groupBy('county')
+                        ->get();
+             $Countycounthcbf=AYP_HCBF::select('county', DB::raw('COUNT(*) as count'))
+                        ->whereIn('unique_identifier', function($query) {
+                            $query->select('unique_identifier')
+                                  ->distinct()
+                                  ->from('a_y_p__h_c_b_f_s');
+                        })
+                        ->groupBy('county')
+                        ->get();
+            $SRcountmhmc=AYP_MHMC::select('implementing_partner', DB::raw('COUNT(*) as count'))
+                        ->whereIn('unique_identifier', function($query) {
+                            $query->select('unique_identifier')
+                                  ->distinct()
+                                  ->from('a_y_p__m_h_m_c_s');
+                        })
+                        ->groupBy('implementing_partner')
+                        ->get();
+            $SRcounthcbf=AYP_HCBF::select('implementing_partner', DB::raw('COUNT(*) as count'))
+                        ->whereIn('unique_identifier', function($query) {
+                            $query->select('unique_identifier')
+                                  ->distinct()
+                                  ->from('a_y_p__h_c_b_f_s');
+                        })
+                        ->groupBy('implementing_partner')
+                        ->get();
             #hiv status at enrollment
             $disabledstatus = AYP::select('disabled', DB::raw('COUNT(*) as count'))
                         ->whereIn('ccc_number', function($query) {
@@ -254,16 +378,21 @@ class AYPController extends Controller
         }
         else{
 
-            $srCount = AYP::where('region',$loggedregion)->distinct()->count('sr_name');
-            $counties = AYP::where('region',$loggedregion)->distinct()->count('county');
-            $region = AYP::where('region',$loggedregion)->distinct()->count('region');
-            $enrolled = AYP::where('region',$loggedregion)->distinct()->count('peer_name');
+            $aypCounts = AYP::selectRaw('COUNT(DISTINCT sr_name) AS srCount, COUNT(DISTINCT county) AS countyCount, COUNT(DISTINCT region) AS regionCount, COUNT(DISTINCT peer_name) AS enrolledCount')
+                ->where('region', $loggedregion)
+                ->first();
 
             #AYP Mentorship
-            $srCounts = AYPMentorship::where('region',$loggedregion)->distinct()->count('implementingpartner');
-            $county = AYPMentorship::where('region',$loggedregion)->distinct()->count('counties');
-            $regionss = AYPMentorship::where('region',$loggedregion)->distinct()->count('region');
-            $enrolledss = AYPMentorship::where('region',$loggedregion)->count('uniqueidentifier');
+             $aypMentorshipCounts = AYPMentorship::selectRaw('COUNT(DISTINCT implementingpartner) AS srCount, COUNT(DISTINCT counties) AS countyCount, COUNT(DISTINCT region) AS regionCount, COUNT(uniqueidentifier) AS enrolledCount')
+                ->where('region', $loggedregion)
+                ->first();
+            #ayp hcbf;
+            $aypHCBFCounts = AYP_HCBF::selectRaw('COUNT(DISTINCT implementing_partner) AS srCount, COUNT(DISTINCT county) AS countyCount, COUNT(DISTINCT region) AS regionCount, COUNT(unique_identifier) AS enrolledCount')
+                 ->where('region', $loggedregion)
+                ->first();
+            $aypMHMCCounts = AYP_MHMC::selectRaw('COUNT(DISTINCT implementing_partner) AS srCount, COUNT(DISTINCT county) AS countyCount, COUNT(DISTINCT region) AS regionCount, COUNT(unique_identifier) AS enrolledCount')
+                ->where('region', $loggedregion)
+                ->first();
             #show age distribution
             // Define age ranges
             $ageRanges = [
@@ -276,10 +405,133 @@ class AYPController extends Controller
             // Group by age ranges and count occurrences
             $results = [];
             foreach ($ageRanges as $range => $limits) {
-                $count = AYP::where('region',$loggedregion)->whereBetween('age', $limits)->
+                $aypCount = AYP::where('region',$loggedregion)->whereBetween('age', $limits)->
                 distinct()->count('peer_name');
-                $results[$range] = $count;
+                $mentorshipCount = AYPMentorship::where('region', $loggedregion)
+                                    ->whereBetween('age', $limits)
+                                    ->distinct()
+                                    ->count('menteename');
+                $hcbfCount = AYP_HCBF::where('region', $loggedregion)
+                                    ->whereBetween('age', $limits)
+                                    ->distinct()
+                                    ->count('name');
+                $mhmcCount = AYP_MHMC::where('region', $loggedregion)
+                                    ->whereBetween('age', $limits)
+                                    ->distinct()
+                                    ->count('unique_identifier');
+                $results[$range] = [
+
+                    'ayp' => $aypCount,
+                    'mentorship' => $mentorshipCount,
+                    'hcbfd' => $hcbfCount,
+                    'mhmcd'=> $mhmcCount
+                ];
             }
+             #gendercount
+            $gendercount=AYPMentorship::where('region',$loggedregion)->select('sex', DB::raw('COUNT(*) as count'))
+                        ->whereIn('menteename', function($query) {
+                            $query->select('menteename')
+                                  ->distinct()
+                                  ->from('a_y_p_mentorships');
+                        })
+                        ->groupBy('sex')
+                        ->get();
+            $genderhcbf=AYP_HCBF::where('region',$loggedregion)->select('sex', DB::raw('COUNT(*) as count'))
+                        ->whereIn('unique_identifier', function($query) {
+                            $query->select('unique_identifier')
+                                  ->distinct()
+                                  ->from('a_y_p__h_c_b_f_s');
+                        })
+                        ->groupBy('sex')
+                        ->get();
+            $gendermhmc=AYP_MHMC::select('sex', DB::raw('COUNT(*) as count'))
+                        ->whereIn('unique_identifier', function($query) {
+                            $query->select('unique_identifier')
+                                  ->distinct()
+                                  ->from('a_y_p__m_h_m_c_s');
+                        })
+                        ->groupBy('sex')
+                        ->get();
+            $completeSessions=AYPMentorship::where('region',$loggedregion)->select('complete_session', DB::raw('COUNT(*) as count'))
+                        ->whereIn('menteename', function($query) {
+                            $query->select('menteename')
+                                  ->distinct()
+                                  ->from('a_y_p_mentorships');
+                        })
+                        ->groupBy('complete_session')
+                        ->get();
+            $completeSessionshcbf=AYP_HCBF::where('region',$loggedregion)->select('complete_sessions', DB::raw('COUNT(*) as count'))
+                        ->whereIn('unique_identifier', function($query) {
+                            $query->select('unique_identifier')
+                                  ->distinct()
+                                  ->from('a_y_p__h_c_b_f_s');
+                        })
+                        ->groupBy('complete_sessions')
+                        ->get();
+            $completeSessionsmhmc=AYP_MHMC::where('region',$loggedregion)->select('complete_sessions', DB::raw('COUNT(*) as count'))
+                        ->whereIn('unique_identifier', function($query) {
+                            $query->select('unique_identifier')
+                                  ->distinct()
+                                  ->from('a_y_p__m_h_m_c_s');
+                        })
+                        ->groupBy('complete_sessions')
+                        ->get();
+            $attendedOutreach=AYPMentorship::where('region',$loggedregion)->select('attended_outreach', DB::raw('COUNT(*) as count'))
+                        ->whereIn('menteename', function($query) {
+                            $query->select('menteename')
+                                  ->distinct()
+                                  ->from('a_y_p_mentorships');
+                        })
+                        ->groupBy('attended_outreach')
+                        ->get();
+            $ebiStatus=AYPMentorship::where('region',$loggedregion)->select('attended_ebi', DB::raw('COUNT(*) as count'))
+                        ->whereIn('menteename', function($query) {
+                            $query->select('menteename')
+                                  ->distinct()
+                                  ->from('a_y_p_mentorships');
+                        })
+                        ->groupBy('attended_ebi')
+                        ->get();
+            $Countycount=AYPMentorship::where('region',$loggedregion)->select('counties', DB::raw('COUNT(*) as count'))
+                        ->whereIn('menteename', function($query) {
+                            $query->select('menteename')
+                                  ->distinct()
+                                  ->from('a_y_p_mentorships');
+                        })
+                        ->groupBy('counties')
+                        ->get();
+            $Countycountmhmc=AYP_MHMC::where('region',$loggedregion)->select('county', DB::raw('COUNT(*) as count'))
+                        ->whereIn('unique_identifier', function($query) {
+                            $query->select('unique_identifier')
+                                  ->distinct()
+                                  ->from('a_y_p__m_h_m_c_s');
+                        })
+                        ->groupBy('county')
+                        ->get();
+            $Countycounthcbf=AYP_HCBF::where('region',$loggedregion)->select('county', DB::raw('COUNT(*) as count'))
+                        ->whereIn('unique_identifier', function($query) {
+                            $query->select('unique_identifier')
+                                  ->distinct()
+                                  ->from('a_y_p__h_c_b_f_s');
+                        })
+                        ->groupBy('county')
+                        ->get();
+            $SRcountmhmc=AYP_MHMC::where('region',$loggedregion)->select('implementing_partner', DB::raw('COUNT(*) as count'))
+                        ->whereIn('unique_identifier', function($query) {
+                            $query->select('unique_identifier')
+                                  ->distinct()
+                                  ->from('a_y_p__m_h_m_c_s');
+                        })
+                        ->groupBy('implementing_partner')
+                        ->get();
+            $SRcounthcbf=AYP_HCBF::where('region',$loggedregion)->select('implementing_partner', DB::raw('COUNT(*) as count'))
+                        ->whereIn('unique_identifier', function($query) {
+                            $query->select('unique_identifier')
+                                  ->distinct()
+                                  ->from('a_y_p__h_c_b_f_s');
+                        })
+                        ->groupBy('implementing_partner')
+                        ->get();
             #hiv status at enrollment
             $disabledstatus = AYP::where('region',$loggedregion)->select('disabled', DB::raw('COUNT(*) as count'))
                         ->whereIn('ccc_number', function($query) {
@@ -353,7 +605,7 @@ class AYPController extends Controller
         }
         
 
-        return view('pages.typology.aypReport',compact('srCount','srCounts','county','regionss','enrolledss','counties','region','enrolled','results','disabledstatus','testedHivStatus','artInitiated','stiScreeneed','stiTreated','tbScreenedd','vlDue','vlDone','ReceivedVl','hivStatus','Cart'));
+        return view('pages.typology.aypReport',compact('aypCounts','aypMentorshipCounts','aypHCBFCounts','aypMHMCCounts','results','disabledstatus','completeSessions','attendedOutreach','ebiStatus','Countycount','genderhcbf','completeSessionshcbf','gendermhmc','completeSessionsmhmc','Countycountmhmc','SRcountmhmc','SRcounthcbf','Countycounthcbf','testedHivStatus','artInitiated','stiScreeneed','stiTreated','tbScreenedd','vlDue','vlDone','ReceivedVl','hivStatus','Cart','gendercount'));
 }
 
 public function AYPData()
@@ -658,6 +910,122 @@ public function uploadHCBF(Request $request)
     return redirect()->route('admin.ayp.index')->with('error', 'Invalid file.');
 }
 
+public function uploadMHMC(Request $request)
+    {
+    $request->validate([
+        'mhmcF' => 'required|mimes:csv',
+    ]);
+
+    if ($request->file('mhmcF')->isValid()) {
+        $file = $request->file('mhmcF');
+        $path = $file->getRealPath();
+
+        // Log the file path for debugging
+        Log::info('File path: ' . $path);
+
+        // Open the CSV file for reading
+        if (($handle = fopen($path, 'r')) !== false) {
+            // Remove header if exists and store it
+            $headers = fgetcsv($handle);
+
+            if (!$headers) {
+                return redirect()->route('admin.ayp.index')->with('error', 'CSV file is empty.');
+            }
+
+            // Define mapping between CSV headers and database columns
+            $mapping = [
+                'SNo' => 'sno',
+                'Month' => 'month',
+                'Year' => 'year',
+                'Region' => 'region',
+                'County' => 'county',
+                'Sub County' => 'sub_county',
+                'Ward' => 'ward',
+                'Venue' => 'venue',
+                'Implementing Partner' => 'implementing_partner',
+                'Facilitator 1' => 'facilitator_1',
+                'Facilitator 2' => 'facilitator_2',
+                'Start Date' => 'start_date',
+                'End Date' => 'end_date',
+                'Name' => 'name',
+                'Age' => 'age',
+                'Sex' => 'sex',
+                'Session 1' => 'session1',
+                'Session 2' => 'session2',
+                'Session 3' => 'session3',
+                'Session 4' => 'session4',
+                'Make Up Session Date' => 'make_up_session_date',
+                'Complete Sessions' => 'complete_sessions',
+                'Provided Condoms' => 'provided_condoms',
+                'Risk Assessment R' => 'risk_assessment_r',
+                'Risk Assessment C' => 'risk_assessment_c',
+                'Vmmc R' => 'vmmc_r',
+                'Vmmc C' => 'vmmc_c',
+                'Ovc R' => 'ovc_r',
+                'Ovc C' => 'ovc_c',
+                'Prc R' => 'prc_r',
+                'Prc C' => 'prc_c',
+                'Pss R' => 'pss_r',
+                'Pss C' => 'pss_c',
+                'Hts R' => 'hts_r',
+                'Hts C' => 'hts_c',
+                'Sti Screening R' => 'sti_screening_r',
+                'Sti Screening C' => 'sti_screening_c',
+                'Sti Treatment R' => 'sti_treatment_r',
+                'Sti Treatment C' => 'sti_treatment_c',
+                'Legal Aid R' => 'legal_aid_r',
+                'Legal Aid C' => 'legal_aid_c',
+                'Pep R' => 'pep_r',
+                'Pep C' => 'pep_c',
+                'Pmtct R' => 'pmtct_r',
+                'Pmtct C' => 'pmtct_c',
+                'Fp R' => 'fp_r',
+                'Fp C' => 'fp_c',
+                'Others R' => 'others_r',
+                'Others C' => 'others_c',
+                'Comments' => 'comments'
+];
+
+            
+
+            $user_id = Auth::id();
+            $batchSize = 1000; // Adjust the batch size as needed
+
+            // Process CSV data in batches
+            while (($data = fgetcsv($handle)) !== false) {
+                $batch = [];
+                for ($i = 0; $i < $batchSize && $data !== false; $i++) {
+                    $rowData = [];
+                    foreach ($headers as $index => $header) {
+                        $columnName = $mapping[$header] ?? null;
+                        if ($columnName) {
+                            // Convert encoding to UTF-8
+                            $rowData[$columnName] = mb_convert_encoding($data[$index], 'UTF-8', 'UTF-8');
+                        }
+                    }
+                    $uniqueIdentifier = $rowData['sno'] . '-' . $rowData['month'] . '-' . $rowData['year'] . '-' . $rowData['region'] . '-' . $rowData['name'];
+                    $rowData['unique_identifier'] = $uniqueIdentifier;
+                    $rowData['user_id'] = $user_id;
+                    $batch[] = $rowData;
+                    $data = fgetcsv($handle);
+                }
+                
+
+                // Insert batch data into the database
+                AYP_MHMC::upsert($batch, uniqueBy:['unique_identifier'], update:array_keys($batch[0]));
+            }
+
+            fclose($handle);
+
+            return redirect()->route('admin.ayp.index')->with('success', 'Your AYP MHMC Data file has been uploaded successfully.');
+        } else {
+            return redirect()->route('admin.ayp.index')->with('error', 'Unable to open the CSV file.');
+        }
+    }
+
+    return redirect()->route('admin.ayp.index')->with('error', 'Invalid file.');
+}
+
 public function AYPMentorshipData()
 {
   
@@ -736,5 +1104,196 @@ public function AYPMentorshipData()
         return response()->stream($callback, 200, $headers);
 }
 
+public function AYPHCBFData()
+{
+  
+    // Set batch size
+    $batchSize = 3000; // Adjust as needed
+
+    // Set headers for CSV file
+    $headers = [
+        'Content-Type' => 'text/csv',
+        'Content-Disposition' => 'attachment; filename="AYP_HCBF_Consolidated.csv"',
+    ];
+
+    // Stream CSV file content directly to response
+    $callback = function () use ($batchSize) {
+        $file = fopen('php://output', 'w');
+
+        // Add column headers
+        $columnsToExport = [
+            'sno',
+            'month',
+            'year',
+            'region',
+            'county',
+            'sub_county',
+            'ward',
+            'venue',
+            'implementing_partner',
+            'facilitator_1',
+            'facilitator_2',
+            'start_date',
+            'end_date',
+            'name',
+            'age',
+            'sex',
+            'session1',
+            'session2',
+            'session3',
+            'session4',
+            'sssssion5',
+            'session6',
+            'session7',
+            'make_up_session_date',
+            'complete_sessions',
+            'provided_condoms',
+            'risk_assessment_r',
+            'risk_assessment_c',
+            'vmmc_r',
+            'vmmc_c',
+            'ovc_r',
+            'ovc_c',
+            'prc_r',
+            'prc_c',
+            'pss_r',
+            'pss_c',
+            'hts_r',
+            'hts_c',
+            'sti_screening_r',
+            'sti_screening_c',
+            'sti_treatment_r',
+            'sti_treatment_c',
+            'legal_aid_r',
+            'legal_aid_c',
+            'pep_r',
+            'pep_c',
+            'pmtct_r',
+            'pmtct_c',
+            'fp_r',
+            'fp_c',
+            'others_r',
+            'others_c',
+            'comments'
+        ];
+
+        fputcsv($file, $columnsToExport);
+        $loggedregion=Auth::user()->region;
+       $query = AYP_HCBF::query();
+
+            if ($loggedregion != 'HQ') {
+                $query->where('region', $loggedregion);
+            }
+
+            // Chunk the query results and process each chunk
+            $query->chunk($batchSize, function ($demographicsData) use ($file,$columnsToExport) {
+                foreach ($demographicsData as $demographic) {
+                    $rowData = [];
+                    foreach ($columnsToExport as $column) {
+                        $rowData[] = $demographic->{$column};
+                    }
+                    fputcsv($file, $rowData);
+                }
+            });
+
+            fclose($file);
+        };
+
+        return response()->stream($callback, 200, $headers);
+}
+public function AYPMHMCData()
+{
+  
+    // Set batch size
+    $batchSize = 3000; // Adjust as needed
+
+    // Set headers for CSV file
+    $headers = [
+        'Content-Type' => 'text/csv',
+        'Content-Disposition' => 'attachment; filename="AYP_MHMC_Consolidated.csv"',
+    ];
+
+    // Stream CSV file content directly to response
+    $callback = function () use ($batchSize) {
+        $file = fopen('php://output', 'w');
+
+        // Add column headers
+        $columnsToExport = [
+            'sno',
+            'month',
+            'year',
+            'region',
+            'county',
+            'sub_county',
+            'ward',
+            'venue',
+            'implementing_partner',
+            'facilitator_1',
+            'facilitator_2',
+            'start_date',
+            'end_date',
+            'name',
+            'age',
+            'sex',
+            'session1',
+            'session2',
+            'session3',
+            'session4',
+            'make_up_session_date',
+            'complete_sessions',
+            'provided_condoms',
+            'risk_assessment_r',
+            'risk_assessment_c',
+            'vmmc_r',
+            'vmmc_c',
+            'ovc_r',
+            'ovc_c',
+            'prc_r',
+            'prc_c',
+            'pss_r',
+            'pss_c',
+            'hts_r',
+            'hts_c',
+            'sti_screening_r',
+            'sti_screening_c',
+            'sti_treatment_r',
+            'sti_treatment_c',
+            'legal_aid_r',
+            'legal_aid_c',
+            'pep_r',
+            'pep_c',
+            'pmtct_r',
+            'pmtct_c',
+            'fp_r',
+            'fp_c',
+            'others_r',
+            'others_c',
+            'comments'
+        ];
+
+        fputcsv($file, $columnsToExport);
+        $loggedregion=Auth::user()->region;
+       $query = AYP_MHMC::query();
+
+            if ($loggedregion != 'HQ') {
+                $query->where('region', $loggedregion);
+            }
+
+            // Chunk the query results and process each chunk
+            $query->chunk($batchSize, function ($demographicsData) use ($file,$columnsToExport) {
+                foreach ($demographicsData as $demographic) {
+                    $rowData = [];
+                    foreach ($columnsToExport as $column) {
+                        $rowData[] = $demographic->{$column};
+                    }
+                    fputcsv($file, $rowData);
+                }
+            });
+
+            fclose($file);
+        };
+
+        return response()->stream($callback, 200, $headers);
+}
 
 }

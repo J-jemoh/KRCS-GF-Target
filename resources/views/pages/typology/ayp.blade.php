@@ -38,7 +38,7 @@
 						</form>
           	</div>
           	<div class="col-6">
-          		<form method="post" action="#" enctype="multipart/form-data">
+          		<form method="post" action="{{route('admin.ayp.upload.mhmc')}}" enctype="multipart/form-data">
           			@csrf
           		<label>MHMC Data</label>
           		<div class="input-group mb-3">
@@ -120,7 +120,7 @@
 			              <div class="icon">
 			                <i class="fas fa-shopping-cart"></i>
 			              </div>
-			              <a href="#" class="small-box-footer">
+			              <a href="{{route('admin.ayp.template.mhmc')}}" class="small-box-footer">
 			                More info <i class="fas fa-arrow-circle-right"></i>
 			              </a>
 			            </div>

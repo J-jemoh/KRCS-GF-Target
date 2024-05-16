@@ -1,6 +1,6 @@
       <div class="row">
         <div class="col-4">
-          <a href="{{route('admin.ayp.reports.mentorship')}}" class="btn btn-info btn-block">Download/Export to CSV</a>
+          <a href="{{route('admin.ayp.download.mhmc')}}" class="btn btn-info btn-block">Download/Export to CSV</a>
         </div>
          <div class="col-4">
              <a href="#" class="btn btn-info btn-block">Download/Export to Excel</a>
@@ -16,7 +16,7 @@
               <div class="info-box-content">
                 <span class="info-box-text">Total No of SR'S</span>
                 <span class="info-box-number">
-                  {{$aypMentorshipCounts->srcount}}
+                  {{$aypMHMCCounts->srcount}}
                   <small></small>
                 </span>
               </div>
@@ -30,7 +30,7 @@
 
               <div class="info-box-content">
                 <span class="info-box-text">No of Counties</span>
-                <span class="info-box-number">{{$aypMentorshipCounts->countycount}}</span>
+                <span class="info-box-number">{{$aypMHMCCounts->countycount}}</span>
               </div>
               <!-- /.info-box-content -->
             </div>
@@ -42,7 +42,7 @@
 
               <div class="info-box-content">
                 <span class="info-box-text">No of Regions</span>
-                <span class="info-box-number">{{$aypMentorshipCounts->regioncount}}</span>
+                <span class="info-box-number">{{$aypMHMCCounts->regioncount}}</span>
               </div>
               <!-- /.info-box-content -->
             </div>
@@ -54,7 +54,7 @@
 
               <div class="info-box-content">
                 <span class="info-box-text">Enrolled</span>
-                <span class="info-box-number">{{$aypMentorshipCounts->enrolledcount}}</span>
+                <span class="info-box-number">{{$aypMHMCCounts->enrolledcount}}</span>
               </div>
               <!-- /.info-box-content -->
             </div>
@@ -62,62 +62,54 @@
           </div>
       </div>
 
-          <div class="card card-info">
-        <div class="card-header">Other Visualization</div>
+      <div class="card card-info">
+        <div class="card-header">Visualizations</div>
           <div class="card-body">
             <div class="row">
-              <div class="col-sm-4">
+                <div class="col-sm-4">
                 <b class="text-center">Gender Distribution</b>
                 <div style="width: 100%;">
-                  <canvas id="genderPieChart"></canvas>
+                  <canvas id="gendermPieChart"></canvas>
               </div>
               </div>
-               <div class="col-sm-4">
-                <b class="text-center">Age Distribution</b>
+              <div class="col-sm-4">
+                 <b class="text-center">Age distribution</b>
                 <div style="width: 100%;">
-                  <canvas id="agePieChart"></canvas>
+                  <canvas id="agemPieChart"></canvas>
               </div>
               </div>
               <div class="col-sm-4">
                 <b class="text-center">Completed sessions Distribution</b>
                 <div style="width: 100%;">
-                  <canvas id="CsessionsPieChart"></canvas>
+                  <canvas id="CsessionmPieChart"></canvas>
               </div>
               </div>
             </div>
           </div>
         </div>
 
+
       <div class="card card-info">
         <div class="card-header">More visualizations</div>
           <div class="card-body">
             <div class="row">
-              <div class="col-lg-4">
+              <div class="col-lg-6">
                 <div class="card card-body bg-light">
-                <p><b>Attended Outreach</b></p>
-                <div style="width: 100%;">
-                  <canvas id="outreachPieChart"></canvas>
-              </div>
-            </div>
-              </div>
-              <div class="col-lg-4">
-                <div class="card card-body bg-light">
-                <p><b> Attended EBI</b></p>
-                <div style="width: 100%;">
-                  <canvas id="ebiPieChart"></canvas>
-              </div>
-              </div>
-              </div>
-               <div class="col-lg-4">
-                 <div class="card card-body bg-light">
                 <p><b>By County Distribution</b></p>
                 <div style="width: 100%;">
-                  <canvas id="CountybarChart"></canvas>
+                  <canvas id="countymPieChart"></canvas>
+              </div>
+            </div>
+              </div>
+              <div class="col-lg-6">
+                <div class="card card-body bg-light">
+                <p><b> By SR Distribution</b></p>
+                <div style="width: 100%;">
+                  <canvas id="SRdistributionChart"></canvas>
               </div>
               </div>
               </div>
-
               </div>
               </div>
             </div>
-            @include('scripts.mentorship')
+            @include('scripts.mhmc')
