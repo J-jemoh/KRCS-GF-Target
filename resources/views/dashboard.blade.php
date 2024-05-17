@@ -24,10 +24,10 @@
               <span class="info-box-icon bg-info elevation-1"><i class="fas fa-cog"></i></span>
 
               <div class="info-box-content">
-                <span class="info-box-text">Targets</span>
+                <span class="info-box-text">Total KP'S(Cummulative)</span>
                 <span class="info-box-number">
-                  0
-                  <small>%</small>
+                  {{$totalKps}}
+                  <small></small>
                 </span>
               </div>
               <!-- /.info-box-content -->
@@ -39,7 +39,19 @@
               <span class="info-box-icon bg-danger elevation-1"><i class="fas fa-bars"></i></span>
 
               <div class="info-box-content">
-                <span class="info-box-text">QPMM</span>
+                <span class="info-box-text">Total TCS(Cummulative)</span>
+                <span class="info-box-number">{{$totalTCS}}</span>
+              </div>
+              <!-- /.info-box-content -->
+            </div>
+            <!-- /.info-box -->
+          </div>
+          <div class="col-12 col-sm-6 col-md-3">
+            <div class="info-box mb-3">
+              <span class="info-box-icon bg-danger elevation-1"><i class="fas fa-bars"></i></span>
+
+              <div class="info-box-content">
+                <span class="info-box-text">Total VPS</span>
                 <span class="info-box-number">0</span>
               </div>
               <!-- /.info-box-content -->
@@ -51,20 +63,8 @@
               <span class="info-box-icon bg-danger elevation-1"><i class="fas fa-bars"></i></span>
 
               <div class="info-box-content">
-                <span class="info-box-text">GBV</span>
-                <span class="info-box-number">0</span>
-              </div>
-              <!-- /.info-box-content -->
-            </div>
-            <!-- /.info-box -->
-          </div>
-          <div class="col-12 col-sm-6 col-md-3">
-            <div class="info-box mb-3">
-              <span class="info-box-icon bg-danger elevation-1"><i class="fas fa-bars"></i></span>
-
-              <div class="info-box-content">
-                <span class="info-box-text">HRG</span>
-                <span class="info-box-number">0</span>
+                <span class="info-box-text">Total System Users</span>
+                <span class="info-box-number">{{$totalUser}}</span>
               </div>
               <!-- /.info-box-content -->
             </div>

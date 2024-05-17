@@ -265,19 +265,19 @@
                 </a>
               </li>
               <li class="nav-item">
-                <a href="{{route('admin.msm.report')}}" class="nav-link">
+                <a href="{{route('admin.typology.vp.ff')}}" class="nav-link">
                   <i class="far fa-circle nav-icon"></i>
                   <p>FISHERFOLKS</p>
                 </a>
               </li>
               <li class="nav-item">
-                <a href="{{route('admin.tg.index')}}" class="nav-link">
+                <a href="#" class="nav-link">
                   <i class="far fa-circle nav-icon"></i>
                   <p>TRUCKERS</p>
                 </a>
               </li>
               <li class="nav-item">
-                <a href="{{route('admin.pwid.index')}}" class="nav-link">
+                <a href="#" class="nav-link">
                   <i class="far fa-circle nav-icon"></i>
                   <p>People in Prison</p>
                 </a>

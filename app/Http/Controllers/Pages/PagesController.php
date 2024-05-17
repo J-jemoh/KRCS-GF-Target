@@ -48,7 +48,11 @@ class PagesController extends Controller
                         ->groupBy('reqion', 'module')
                         ->get();
         $users=User::orderBy('created_at','desc')->limit(5)->get();
-         return view('dashboard',compact('barData','barDataHts','barDataPrep','users','threshold'));
+        $totalUser=User::count();
+        $totalKps=Typology::count();
+        $totalTCS=TCS::count();
+      
+         return view('dashboard',compact('barData','barDataHts','barDataPrep','users','threshold','totalUser','totalKps','totalTCS'));
 
     }
     public function targetIndex():View{

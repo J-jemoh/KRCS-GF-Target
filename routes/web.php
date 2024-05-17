@@ -18,6 +18,7 @@ use App\Http\Controllers\Pages\AYPController;
 use App\Http\Controllers\Pages\TCSController;
 use App\Http\Controllers\Pages\PMTCTController;
 use App\Http\Controllers\Pages\VPController;
+use App\Http\Controllers\Pages\FisherFolkController;
 use App\Http\Controllers\Pages\TwoFactorAuthController;
 /*
 
@@ -222,6 +223,10 @@ Route::group(['middleware' => ['auth','google2fa','activity']], function () {
             ->name('admin.vp.eban.service.upload');
             Route::get('/typology/VP/reports/eban/download', [VPController::class, 'ebanDownload'])
             ->name('admin.vp.reports.eban.download');
+
+            ##VP Fisherfolkes route
+            Route::get('/typology/vp/fisherfolks',[FisherFolkController::class,'indexFF'])
+            ->name('admin.typology.vp.ff');
 
 
             #reions Route

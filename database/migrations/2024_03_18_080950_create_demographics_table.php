@@ -31,7 +31,7 @@ return new class extends Migration
             $table->string('uic');
             $table->unsignedInteger('age')->nullable();
             $table->string('yob');
-            $table->string('sex');
+            $table->enum('sex',['Male','Female']);
             $table->string('first_contact_date');
             $table->string('enrol_date');
             $table->text('hiv_status_enrol');
