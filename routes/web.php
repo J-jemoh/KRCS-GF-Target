@@ -19,6 +19,7 @@ use App\Http\Controllers\Pages\TCSController;
 use App\Http\Controllers\Pages\PMTCTController;
 use App\Http\Controllers\Pages\VPController;
 use App\Http\Controllers\Pages\FisherFolkController;
+use App\Http\Controllers\Pages\SettingsController;
 use App\Http\Controllers\Pages\TwoFactorAuthController;
 /*
 
@@ -177,9 +178,9 @@ Route::group(['middleware' => ['auth','google2fa','activity']], function () {
              Route::get('/typology/template/fsw', [PagesController::class, 'fswTemplate'])
             ->name('admin.fsw.template.fsw');
             Route::post('/typology/demo/upload', [TypologyController::class, 'uploadDemo'])
-            ->name('admin.fsw.demo.post');
+            ->name('admin.fsw.demo.post')->middleware('check.upload.period');
             Route::post('/typology/fsw/upload', [TypologyController::class, 'uploadPartInfo'])
-            ->name('admin.fsw.fsw.post');
+            ->name('admin.fsw.fsw.post')->middleware('check.upload.period');
             Route::get('/typology/demo/download-csv', [TypologyController::class, 'downloadCSV'])
             ->name('fsw.download-demographics-csv');
             Route::get('/typology/demo/download-excel', [TypologyController::class, 'downloadExcel'])->name('fsw.download-demographics-excel');
@@ -206,7 +207,7 @@ Route::group(['middleware' => ['auth','google2fa','activity']], function () {
              Route::get('/typology/VP/dcTemplate', [VPController::class, 'dcTemplate'])
             ->name('admin.vp.dc.template');
             Route::post('/typology/VP/upload', [VPController::class, 'uploadDC'])
-            ->name('admin.vp.dc.upload');
+            ->name('admin.vp.dc.upload')->middleware('check.upload.period');
             Route::get('/typology/VP/reports', [VPController::class, 'DCReports'])
             ->name('admin.vp.dc.reports');
             Route::get('/typology/VP/reports/download', [VPController::class, 'DCData'])
@@ -218,15 +219,17 @@ Route::group(['middleware' => ['auth','google2fa','activity']], function () {
             Route::get('/typology/VP/reports/Eban', [VPController::class, 'EbanReport'])
             ->name('admin.vp.eban.reports');
             Route::post('/typology/VP/Eban/demo/upload', [VPController::class, 'uploadEbanDemo'])
-            ->name('admin.vp.eban.demo.upload');
+            ->name('admin.vp.eban.demo.upload')->middleware('check.upload.period');
              Route::post('/typology/VP/Eban/service/upload', [VPController::class, 'uploadEbanService'])
-            ->name('admin.vp.eban.service.upload');
+            ->name('admin.vp.eban.service.upload')->middleware('check.upload.period');
             Route::get('/typology/VP/reports/eban/download', [VPController::class, 'ebanDownload'])
             ->name('admin.vp.reports.eban.download');
 
             ##VP Fisherfolkes route
             Route::get('/typology/vp/fisherfolks',[FisherFolkController::class,'indexFF'])
             ->name('admin.typology.vp.ff');
+             Route::get('/typology/vp/report/fisherfolks',[FisherFolkController::class,'FetchFFData'])
+            ->name('admin.typology.vp.ff.download');
 
 
             #reions Route
@@ -251,7 +254,7 @@ Route::group(['middleware' => ['auth','google2fa','activity']], function () {
             Route::get('/typology/AYP/home', [AYPController::class, 'AYPindex'])
             ->name('admin.ayp.index');
             Route::post('/typology/AYP/demo', [AYPController::class, 'uploadDemo'])
-            ->name('admin.ayp.post.demo');
+            ->name('admin.ayp.post.demo')->middleware('check.upload.period');
             Route::get('/typology/AYP/template', [AYPController::class, 'aypTemplate'])
             ->name('admin.ayp.template');
             Route::get('/typology/AYP/reports', [AYPController::class, 'aypReports'])
@@ -261,19 +264,19 @@ Route::group(['middleware' => ['auth','google2fa','activity']], function () {
             Route::get('/typology/AYP/template/Mentorship', [AYPController::class, 'aypMentorshipTemplate'])
             ->name('admin.ayp.template.mentorship');
             Route::post('/typology/AYP/upload/Mentorship', [AYPController::class, 'uploadAYPMentorship'])
-            ->name('admin.ayp.upload.mentorship');
+            ->name('admin.ayp.upload.mentorship')->middleware('check.upload.period');
             Route::get('/typology/AYP/mentorship/download', [AYPController::class, 'AYPMentorshipData'])
             ->name('admin.ayp.reports.mentorship');
             Route::get('/typology/AYP/Template/HCBF',[AYPController::class,'aypHCBFTemplate'])
             ->name('admin.ayp.template.hcbf');
             Route::post('/typology/AYP/upload/HCBF',[AYPController::class,'uploadHCBF'])
-            ->name('admin.ayp.upload.hcbf');
+            ->name('admin.ayp.upload.hcbf')->middleware('check.upload.period');
             Route::get('/typology/AYP/Reports/HCBF',[AYPController::class,'AYPHCBFData'])
             ->name('admin.ayp.download.hcbf');
             Route::get('/typology/AYP/Template/MHMC',[AYPController::class,'aypMHMCTemplate'])
             ->name('admin.ayp.template.mhmc');
             Route::post('/typology/AYP/upload/MHMC',[AYPController::class,'uploadMHMC'])
-            ->name('admin.ayp.upload.mhmc');
+            ->name('admin.ayp.upload.mhmc')->middleware('check.upload.period');
             Route::get('/typology/AYP/Reports/MHMC',[AYPController::class,'AYPMHMCData'])
             ->name('admin.ayp.download.mhmc');
 
@@ -287,7 +290,7 @@ Route::group(['middleware' => ['auth','google2fa','activity']], function () {
             Route::get('/typology/TCS/template', [TCSController::class, 'tcsTemplate'])
             ->name('admin.tcs.template');
             Route::post('/typology/TCS/upload', [TCSController::class, 'uploadTCS'])
-            ->name('admin.tcs.data.upload');
+            ->name('admin.tcs.data.upload')->middleware('check.upload.period');
             Route::get('/typology/TCS/visualize', [TCSController::class, 'tcsvisualize'])
             ->name('admin.tcs.data.visualize');
             Route::get('/typology/TCS/download', [TCSController::class, 'TCSdata'])
@@ -297,7 +300,7 @@ Route::group(['middleware' => ['auth','google2fa','activity']], function () {
             Route::get('/typology/PMTCT/home', [PMTCTController::class, 'pmtctTemplate'])
             ->name('admin.pmtct.index');
             Route::post('/typology/PMTCT/home', [PMTCTController::class, 'uploadPmtct'])
-            ->name('admin.pmtct.post');
+            ->name('admin.pmtct.post')->middleware('check.upload.period');
             Route::get('/typology/PMTCT/report', [PMTCTController::class, 'pmtctReports'])
             ->name('admin.pmtct.reports');
             Route::get('/typology/PMTCT/report/download', [PMTCTController::class, 'PMTCTData'])
@@ -309,6 +312,12 @@ Route::group(['middleware' => ['auth','google2fa','activity']], function () {
 #backup routes
             Route::get('/database/backup',[PagesController::class,'backups'])->name('admin.db.backup');
             Route::post('/database/backup',[BackupController::class,'backup'])->name('admin.db.backup.post');
+
+        #for settings controller
+            Route::get('/admin/manage/settings',[SettingsController::class,'index'])
+            ->name('admin.manage.settings');
+            Route::post('/admin/manage/settings',[SettingsController::class,'storeUploadSetting'])
+            ->name('admin.manage.settings.save');
 
 
             
@@ -337,6 +346,9 @@ Route::group(['middleware' => ['auth','google2fa','activity']], function () {
 
     Route::get('/2fa/setup', [TwoFactorAuthController::class,'show2faForm'])->name('2fa.setup');
     Route::post('/2fa/setup', [TwoFactorAuthController::class,'verifyGoogleAuthenticator'])->name('2fa.verify');
+
+   
+
 
 
 

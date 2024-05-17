@@ -382,10 +382,16 @@
                   <p>Database Backup</p>
                 </a>
               </li>
+           <li class="nav-item">
+                <a href="{{route('admin.manage.settings')}}" class="nav-link">
+                  <i class="fa fa-cog nav-icon"></i>
+                  <p>Settings</p>
+                </a>
+              </li>
           @endcan
           <li class="nav-item">
                 <a href="{{route('admin.users.profile')}}" class="nav-link">
-                  <i class="far fa-file nav-icon"></i>
+                  <i class="far fa-user nav-icon"></i>
                   <p>User Profile</p>
                 </a>
               </li>

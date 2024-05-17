@@ -29,7 +29,7 @@ class FisherFolkController extends Controller
         $srCount = Demographics::where('kp_type','FISHERFOLK')->distinct()->count('sr_name');
         $counties = Demographics::where('kp_type','FISHERFOLK')->distinct()->count('county');
         $region = Demographics::where('kp_type','FISHERFOLK')->distinct()->count('region');
-        $enrolled = Demographics::where('kp_type','FISHERFOLK')->distinct()->count('uic');
+        $enrolled = Demographics::where('kp_type','FISHERFOLK')->count('unique_identifier');
         #show age distribution
         // Define age ranges
         $ageRanges = [
@@ -194,5 +194,159 @@ class FisherFolkController extends Controller
         }
         
         return view('pages.typology.report_ff',compact('srCount','counties','region','enrolled','results','hivstatus','definedPackage','prepInitiated','hivTested','hivFreq','hivExposure72','Pep72','CareOutcome','ArtOutcome','vlDue','vlDone','ReceivedVl','hivStatus','Cart','definedPackageTarget','prepInitiatedTarget','hivTestedTarget'));
+    }
+    public function FetchFFData(){
+        // Set batch size
+        $batchSize = 3000; // Adjust as needed
+
+        // Set headers for CSV file
+        $headers = [
+            'Content-Type' => 'text/csv',
+            'Content-Disposition' => 'attachment; filename="FisherFolk_Consolidated.csv"',
+        ];
+
+        // Stream CSV file content directly to response
+        $callback = function () use ($batchSize, $headers) {
+            $file = fopen('php://output', 'w');
+
+            // Add column headers
+            $columnsToExport = [
+                'sno',
+                'month',
+                'year',
+                'region',
+                'county',
+                'sr_name',
+                'kp_name',
+                'hotspot',
+                'hotspot_typology',
+                'other_hotspot',
+                'subcounty',
+                'ward',
+                'kp_phone',
+                'kp_type',
+                'uic',
+                'age',
+                'yob',
+                'sex',
+                'first_contact_date',
+                'enrol_date',
+                'hiv_status_enrol',
+                'peer_educator',
+                'peer_educator_code',
+
+                // Columns from typologies table
+                'received_peer_education',
+                'clinical_services',
+                'hiv_tested',
+                'hts_service_point',
+                'hiv_test_freq',
+                'hiv_status',
+                'self_test_hiv',
+                'pre_art',
+                'art_started',
+                'currently_art',
+                'current_facility_care',
+                'hiv_care_outcome',
+                'art_outcome',
+                'due_vl',
+                'vl_done',
+                'vl_result_received',
+                'att_vl_suppression',
+                'tb_screened',
+                'tb_diagonised',
+                'tb_treatment_started',
+                'hiv_exposure_72hr',
+                'pep_72',
+                'completed_pep',
+                'condom_nmbr_reqr',
+                'condom_distributed_nmbr',
+                'condom_prov_as_per_need',
+                'lubricant_req_nbr',
+                'lubricant_distr_nbr',
+                'lubricant_prov_per_need',
+                'nssp_nmbr',
+                'nssp_distributed_nbr',
+                'received_nssp_need',
+                'hepc_screened',
+                'hepc_status',
+                'hepc_treated',
+                'hepb_screening',
+                'hepb_status',
+                'on_hepb_treatment',
+                'hepb_vaccination',
+                'sti_screened',
+                'sti_diagnosied',
+                'sti_treated',
+                'drug_abuse_screened',
+                'prep_initated',
+                'on_prep',
+                'modern_fp_services',
+                'rssh',
+                'ebi',
+                'exp_violence',
+                'post_violence_support',
+                'program_status',
+                'tca',
+
+            ];
+            fputcsv($file, $columnsToExport);
+
+            // Paginate demographics data
+            $regions = [];
+
+            // Check if the logged-in user's region is HQ
+            $loggedRegion = Auth::user()->region;
+            if ($loggedRegion === 'HQ') {
+                // If HQ, retrieve all regions
+                $regions = Demographics::select('region')->distinct()->pluck('region');
+            } else {
+                // If not HQ, retrieve only the logged-in user's region
+                $regions = [$loggedRegion];
+            }
+
+    // Loop through each region
+    foreach ($regions as $region) {
+        // Paginate demographics data for the current region
+        $demographicsPage = 1;
+        do {
+            $demographicsData = Demographics::where('region', $region)
+                ->where('kp_type','FISHERFOLK')
+                ->paginate($batchSize, ['*'], 'page', $demographicsPage);
+            $demographicsPage++;
+
+            // Retrieve typologies data for the current region
+            // Retrieve typologies data for the current region
+            $typologiesData = Typology::whereIn('unique_identifier', $demographicsData->pluck('unique_identifier'))
+                ->get();
+
+            // Create a dictionary of typologies data for efficient lookup
+            $typologiesDict = [];
+            foreach ($typologiesData as $typology) {
+                $typologiesDict[$typology->unique_identifier] = $typology->toArray();
+            }
+
+            // Merge and output data
+            foreach ($demographicsData as $demographic) {
+                  $uniqueIdentifier = $demographic->unique_identifier;
+                    $typologyRow = $typologiesDict[$uniqueIdentifier] ?? [];
+
+                    // Merge demographics and typology data
+                    $mergedRow = array_merge($demographic->toArray(), $typologyRow);
+
+                    // Select only the specified columns
+                    $selectedColumns = array_intersect_key($mergedRow, array_flip($columnsToExport));
+                    fputcsv($file, $selectedColumns);
+            }
+        } while ($demographicsData->hasMorePages());
+    }
+
+    fclose($file);
+};
+
+return response()->stream($callback, 200, $headers);
+
+
+
     }
 }

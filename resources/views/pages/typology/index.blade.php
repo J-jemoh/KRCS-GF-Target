@@ -21,7 +21,7 @@
     <div class="container-fluid">
       @include('messages.flash_messages')
       <div class="card card-info">
-        <div class="card-header">Upload  file for [FSW,MSM,TG,PWID]</div>
+        <div class="card-header">Upload  file for [FSW,MSM,TG,PWID,FF,TRUCKERS]</div>
         <div class="card-body">
           <div class="row">
           	<div class="col-6">
