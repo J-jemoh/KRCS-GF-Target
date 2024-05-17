@@ -23,6 +23,8 @@ use App\Models\AYP;
 use App\Models\PMTCT;
 use Auth;
 use App\Models\AYPMentorship;
+use App\Models\AYP_HCBF;
+use App\Models\AYP_MHMC;
 use App\Models\TCS;
 use Illuminate\Support\Facades\Hash;
 use Illuminate\Validation\Rules\Password;
@@ -908,9 +910,31 @@ class PagesController extends Controller
                         ->count('peer_name');
                 }
             }
+             #AYPS-HCBF
+            $countsAYPSHCBF = [];
+            $ageRanges = [[0,5],[6,12],[13,17],[18,29],[30,39],[40,49],[50,59],[60,69],[70,79],[80,150],[0,150]];
+            $sexes = ['M', 'F'];
+            foreach ($ageRanges as $range) {
+                foreach ($sexes as $sex) {
+                    $countsAYPSHCBF["ayphcbf{$range[0]}{$range[1]}{$sex[0]}"] = AYP_HCBF::whereBetween('age', $range)
+                        ->where('sex', $sex)
+                        ->count('unique_identifier');
+                }
+            }
 
+            #AYPS-MHMC
+            $countsAYPSMHMC = [];
+            $ageRanges = [[0,5],[6,12],[13,17],[18,29],[30,39],[40,49],[50,59],[60,69],[70,79],[80,150],[0,150]];
+            $sexes = ['M', 'F'];
+            foreach ($ageRanges as $range) {
+                foreach ($sexes as $sex) {
+                    $countsAYPSMHMC["aypmhmc{$range[0]}{$range[1]}{$sex[0]}"] = AYP_MHMC::whereBetween('age', $range)
+                        ->where('sex', $sex)
+                        ->count('unique_identifier');
+                }
+            }
 
-        return view('reports.community_Members_reached',compact('kpTypes','kpTypeCounts','countsAYPS','countsAYPM','countsTCS','countsPMTCT'));
+        return view('reports.community_Members_reached',compact('kpTypes','kpTypeCounts','countsAYPS','countsAYPM','countsTCS','countsPMTCT','countsAYPSHCBF','countsAYPSMHMC'));
     }
     public function changePassword(){
 

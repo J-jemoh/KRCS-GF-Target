@@ -106,56 +106,56 @@
 			</tr>
 				<tr>
 			    <td>AYP -MHMC</td>
-			    <td></td>
-			    <td></td>
-			    <td></td>
-			    <td></td>
-			    <td></td>
-			    <td></td>
-			    <td></td>
-			    <td></td>
-			    <td></td>
-			    <td></td>
-			    <td></td>
-			    <td></td>
-			    <td></td>
-			    <td></td>
-			    <td></td>
-			    <td></td>
-			    <td></td>
-			    <td></td>
-			    <td></td>
-			    <td></td>
-			    <td></td>
-			    <td></td>
-			    <td></td>
+			    <td>{{ $countsAYPSMHMC['aypmhmc05M'] }}</td>
+			    <td>{{ $countsAYPSMHMC['aypmhmc05F'] }}</td>
+			    <td>{{ $countsAYPSMHMC['aypmhmc612M'] }}</td>
+			    <td>{{ $countsAYPSMHMC['aypmhmc612F'] }}</td>
+			    <td>{{ $countsAYPSMHMC['aypmhmc1317M'] }}</td>
+			    <td>{{ $countsAYPSMHMC['aypmhmc1317F'] }}</td>
+			    <td>{{ $countsAYPSMHMC['aypmhmc1829M'] }}</td>
+			    <td>{{ $countsAYPSMHMC['aypmhmc1829F'] }}</td>
+			    <td>{{ $countsAYPSMHMC['aypmhmc3039M'] }}</td>
+			    <td>{{ $countsAYPSMHMC['aypmhmc3039F'] }}</td>
+			    <td>{{ $countsAYPSMHMC['aypmhmc4049M'] }}</td>
+			    <td>{{ $countsAYPSMHMC['aypmhmc4049F'] }}</td>
+			    <td>{{ $countsAYPSMHMC['aypmhmc5059M'] }}</td>
+			    <td>{{ $countsAYPSMHMC['aypmhmc5059F'] }}</td>
+			    <td>{{ $countsAYPSMHMC['aypmhmc6069M'] }}</td>
+			    <td>{{ $countsAYPSMHMC['aypmhmc6069F'] }}</td>
+			    <td>{{ $countsAYPSMHMC['aypmhmc7079M'] }}</td>
+			    <td>{{ $countsAYPSMHMC['aypmhmc7079F'] }}</td>
+			    <td>{{ $countsAYPSMHMC['aypmhmc80150M'] }}</td>
+			    <td>{{ $countsAYPSMHMC['aypmhmc80150F'] }}</td>
+			    <td>{{ $countsAYPSMHMC['aypmhmc0150M'] }}</td>
+			    <td>{{ $countsAYPSMHMC['aypmhmc0150F'] }}</td>
+			    <td>{{ $countsAYPSMHMC['aypmhmc0150F'] + $countsAYPSMHMC['aypmhmc0150M'] }}</td>
 			</tr>
 			</tr>
 				<tr>
 			    <td>AYP - HCBF</td>
-			    <td></td>
-			    <td></td>
-			    <td></td>
-			    <td></td>
-			    <td></td>
-			    <td></td>
-			    <td></td>
-			    <td></td>
-			    <td></td>
-			    <td></td>
-			    <td></td>
-			    <td></td>
-			    <td></td>
-			    <td></td>
-			    <td></td>
-			    <td></td>
-			    <td></td>
-			    <td></td>
-			    <td></td>
-			    <td></td>
-			    <td></td>
-			    <td></td>
-			    <td></td>
+			    <td>{{ $countsAYPSHCBF['ayphcbf05M'] }}</td>
+			    <td>{{ $countsAYPSHCBF['ayphcbf05F'] }}</td>
+			    <td>{{ $countsAYPSHCBF['ayphcbf612M'] }}</td>
+			    <td>{{ $countsAYPSHCBF['ayphcbf612F'] }}</td>
+			    <td>{{ $countsAYPSHCBF['ayphcbf1317M'] }}</td>
+			    <td>{{ $countsAYPSHCBF['ayphcbf1317F'] }}</td>
+			    <td>{{ $countsAYPSHCBF['ayphcbf1829M'] }}</td>
+			    <td>{{ $countsAYPSHCBF['ayphcbf1829F'] }}</td>
+			    <td>{{ $countsAYPSHCBF['ayphcbf3039M'] }}</td>
+			    <td>{{ $countsAYPSHCBF['ayphcbf3039F'] }}</td>
+			    <td>{{ $countsAYPSHCBF['ayphcbf4049M'] }}</td>
+			    <td>{{ $countsAYPSHCBF['ayphcbf4049F'] }}</td>
+			    <td>{{ $countsAYPSHCBF['ayphcbf5059M'] }}</td>
+			    <td>{{ $countsAYPSHCBF['ayphcbf5059F'] }}</td>
+			    <td>{{ $countsAYPSHCBF['ayphcbf6069M'] }}</td>
+			    <td>{{ $countsAYPSHCBF['ayphcbf6069F'] }}</td>
+			    <td>{{ $countsAYPSHCBF['ayphcbf7079M'] }}</td>
+			    <td>{{ $countsAYPSHCBF['ayphcbf7079F'] }}</td>
+			    <td>{{ $countsAYPSHCBF['ayphcbf80150M'] }}</td>
+			    <td>{{ $countsAYPSHCBF['ayphcbf80150F'] }}</td>
+			    <td>{{ $countsAYPSHCBF['ayphcbf0150M'] }}</td>
+			    <td>{{ $countsAYPSHCBF['ayphcbf0150F'] }}</td>
+			    <td>{{ $countsAYPSHCBF['ayphcbf0150F'] + $countsAYPSHCBF['ayphcbf0150M'] }}</td>
 			</tr>
 			</tr>
 			@foreach($kpTypeCounts as $demo)
