@@ -12,8 +12,10 @@ class SettingsController extends Controller
     //
 
     public function index(){
-  
-        return view('settings.index');
+
+        $settings=UploadSettings::orderBy('end_date','desc')->get();
+
+        return view('settings.index',compact('settings'));
     }
 
     public function storeUploadSetting(Request $request){
@@ -35,6 +37,19 @@ class SettingsController extends Controller
 
         ]);
       return redirect()->back()->with('success','Setting saved successfully');
+
+    }
+    public function updateSetting(Request $request, $id){
+
+        $setting=UploadSettings::find($id)->update([
+            'user_id' => Auth::user()->id,
+            'month' =>$request->month,
+            'year' =>$request->year,
+            'start_date' =>$request->start_date,
+            'end_date' =>$request->end_date
+        ]);
+
+        return redirect()->back()->with('success','settings updated successfully');
 
     }
 

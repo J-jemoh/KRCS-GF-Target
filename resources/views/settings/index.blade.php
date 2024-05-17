@@ -66,7 +66,7 @@
     					</form>
     				</div>
 					
-					<div class="col-sm-6 bg-info">
+					<div class="col-sm-6 bg-light">
 						<table class="table table-condensed table-stripped" id="example1">
 							<thead>
 								<tr>
@@ -74,8 +74,23 @@
 									<th>Year</th>
 									<th>Start Date</th>
 									<th>End Date</th>
+									<th>Action</th>
 								</tr>
 							</thead>
+							<tbody>
+								@foreach($settings as $setting)
+								<tr>
+									<td>{{$setting->month}}</td>
+									<td>{{$setting->year}}</td>
+									<td>{{$setting->start_date}}</td>
+									<td>{{$setting->end_date}}</td>
+									<td>
+										<a href="#" class="btn btn-danger" data-toggle="modal" data-target="#setting-{{$setting->id}}"><i class="fa fa-edit"></i></a>
+									</td>
+								</tr>
+								@include('settings.editModal')
+								@endforeach
+							</tbody>
 						</table>
 					</div>
     			</div>

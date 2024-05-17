@@ -318,6 +318,8 @@ Route::group(['middleware' => ['auth','google2fa','activity']], function () {
             ->name('admin.manage.settings');
             Route::post('/admin/manage/settings',[SettingsController::class,'storeUploadSetting'])
             ->name('admin.manage.settings.save');
+            Route::post('/admin/update/settings/{id}',[SettingsController::class,'updateSetting'])
+            ->name('admin.manage.settings.update');
 
 
             
