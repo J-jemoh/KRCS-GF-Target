@@ -21,6 +21,7 @@ use App\Models\pfTarget;
 use Illuminate\Support\Facades\DB;
 use App\Models\AYP;
 use App\Models\PMTCT;
+use App\Models\VP_DC;
 use Auth;
 use App\Models\AYPMentorship;
 use App\Models\AYP_HCBF;
@@ -937,8 +938,19 @@ class PagesController extends Controller
                         ->count('unique_identifier');
                 }
             }
+            #VP-DC
+            $countsVPDC = [];
+            $ageRanges = [[0,5],[6,12],[13,17],[18,29],[30,39],[40,49],[50,59],[60,69],[70,79],[80,150],[0,150]];
+            $sexes = ['Male', 'Female'];
+            foreach ($ageRanges as $range) {
+                foreach ($sexes as $sex) {
+                    $countsVPDC["dc{$range[0]}{$range[1]}{$sex[0]}"] = VP_DC::whereBetween('age', $range)
+                        ->where('sex', $sex)
+                        ->count('unique_identifier');
+                }
+            }
 
-        return view('reports.community_Members_reached',compact('kpTypes','kpTypeCounts','countsAYPS','countsAYPM','countsTCS','countsPMTCT','countsAYPSHCBF','countsAYPSMHMC'));
+        return view('reports.community_Members_reached',compact('kpTypes','kpTypeCounts','countsAYPS','countsAYPM','countsTCS','countsPMTCT','countsAYPSHCBF','countsAYPSMHMC','countsVPDC'));
     }
     public function changePassword(){
 

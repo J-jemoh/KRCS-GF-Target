@@ -270,29 +270,29 @@
 			</tr>
 				<tr>
 			    <td>Vulnerable Populations</td>
-			    <td></td>
-			    <td></td>
-			    <td></td>
-			    <td></td>
-			    <td></td>
-			    <td></td>
-			    <td></td>
-			    <td></td>
-			    <td></td>
-			    <td></td>
-			    <td></td>
-			    <td></td>
-			    <td></td>
-			    <td></td>
-			    <td></td>
-			    <td></td>
-			    <td></td>
-			    <td></td>
-			    <td></td>
-			    <td></td>
-			    <td></td>
-			    <td></td>
-			    <td></td>
+			    <td>{{ $countsVPDC['dc05M'] }}</td>
+			    <td>{{ $countsVPDC['dc05F'] }}</td>
+			    <td>{{ $countsVPDC['dc612M'] }}</td>
+			    <td>{{ $countsVPDC['dc612F'] }}</td>
+			    <td>{{ $countsVPDC['dc1317M'] }}</td>
+			    <td>{{ $countsVPDC['dc1317F'] }}</td>
+			    <td>{{ $countsVPDC['dc1829M'] }}</td>
+			    <td>{{ $countsVPDC['dc1829F'] }}</td>
+			    <td>{{ $countsVPDC['dc3039M'] }}</td>
+			    <td>{{ $countsVPDC['dc3039F'] }}</td>
+			    <td>{{ $countsVPDC['dc4049M'] }}</td>
+			    <td>{{ $countsVPDC['dc4049F'] }}</td>
+			    <td>{{ $countsVPDC['dc5059M'] }}</td>
+			    <td>{{ $countsVPDC['dc5059F'] }}</td>
+			    <td>{{ $countsVPDC['dc6069M'] }}</td>
+			    <td>{{ $countsVPDC['dc6069F'] }}</td>
+			    <td>{{ $countsVPDC['dc7079M'] }}</td>
+			    <td>{{ $countsVPDC['dc7079F'] }}</td>
+			    <td>{{ $countsVPDC['dc80150M'] }}</td>
+			    <td>{{ $countsVPDC['dc80150F'] }}</td>
+			    <td>{{ $countsVPDC['dc0150M'] }}</td>
+			    <td>{{ $countsVPDC['dc0150F'] }}</td>
+			    <td>{{ $countsVPDC['dc0150F'] + $countsVPDC['dc0150M'] }}</td>
 			</tr>
 			</tr>
 				<tr>

@@ -21,7 +21,7 @@
     <div class="container-fluid">
     	 @include('messages.flash_messages')
     	<div class="card card-info">
-    		<div class="card-header">Manage User Uploads(Setting timeliness for User to update data.)</div>
+    		<div class="card-header">Manage User Uploads(Setting timeliness for User to Upload data.)</div>
     		<div class="card-body">
     			<div class="row">
     				<form></form>

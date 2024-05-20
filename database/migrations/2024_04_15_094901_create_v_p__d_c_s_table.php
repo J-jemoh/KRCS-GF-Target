@@ -27,7 +27,7 @@ return new class extends Migration
             $table->text('facility');
             $table->string('ward');
             $table->string('disability');
-            $table->string('sex');
+            $table->enum('sex',['Male','Female']);
             $table->integer('age');
             $table->string('phone_no')->nullable();
             $table->string('first_contact_date');

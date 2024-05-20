@@ -24,11 +24,11 @@
     		<div class="card-body">
     			<div class="row">
     				<div class="col-md-3">
-    					  <img class="profile-user-img img-responsive img-circle" src="../../dist/img/user4-128x128.jpg" alt="User profile picture">
+    					  <img class="profile-user-img img-responsive img-circle" src="{{asset('admin/logo/profile.png')}}" alt="User profile picture">
 
-			              <h3 class="profile-username text-center">{{auth()->user()->name}}</h3>
+			              <h3 class="profile-username text-center"><b>{{auth()->user()->name}}</b></h3>
 
-			              <p class="text-muted text-center">{{auth()->user()->destination}}</p>
+			              <p class="text-muted text-center"><b>{{auth()->user()->destination}}</b></p>
 
 			              <ul class="list-group list-group-unbordered">
 			                <li class="list-group-item">
@@ -41,7 +41,7 @@
 			                  <b>Created on</b> <a class="pull-right">{{auth()->user()->created_at}}</a>
 			                </li>
 			                <li class="list-group-item">
-			                  <b>Secret Key</b> <a class="pull-right">{{$code}}</a>
+			                  <b>Secret Key</b> <a class="pull-right"><b>{{$code}}</b></a>
 			                </li>
 			              </ul>
 

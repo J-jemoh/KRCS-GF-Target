@@ -321,7 +321,13 @@
           <li class="nav-item">
             <a href="https://krcs-analytics.shinyapps.io/GF-ANALYTICS/" class="nav-link">
               <i class="nav-icon fas fa-chart-pie"></i>
-              <p>Indicator Dashboard</p>
+              <p> Dashboard(R SHiny)</p>
+            </a>
+          </li>
+          <li class="nav-item">
+            <a href="#" class="nav-link">
+              <i class="nav-icon fas fa-chart-pie"></i>
+              <p> Dashboard(Power Bi)</p>
             </a>
           </li>
           <li class="nav-item">
