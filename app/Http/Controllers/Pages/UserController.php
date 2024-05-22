@@ -103,6 +103,14 @@ class UserController extends Controller
         } else {
             $user->roles()->detach(); //If no role is selected remove exisiting role associated to a user
         }
+          if (!$user->google_secret) {
+        // Generate Google secret key
+                $google2fa = new Google2FA();
+                $secret = $google2fa->generateSecretKey();
+                $user->google2fa_secret = $secret;
+                $user->save();
+            }
+        Mail::to($user->email)->send(new WelcomeEmail($user));
         return redirect()->route('admin.users')
             ->with('success',
                 'User successfully edited.');

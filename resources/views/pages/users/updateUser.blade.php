@@ -140,7 +140,7 @@
 				            </div>
     					</div>
     					<div class="col-6">
-    						<button type="submit" class="btn btn-info float-sm-right">Register</button>
+    						<button type="submit" class="btn btn-info float-sm-right">Update User</button>
     					</div>
     				</div>
     			</form>

@@ -12,6 +12,7 @@ class UsersTableSeeder extends Seeder {
      */
     public function run() {
         #password: 1234567890
+        // jaymohnyangapassword:Dee#@2023
 
         \DB::table('users')->delete();
 
@@ -46,6 +47,18 @@ class UsersTableSeeder extends Seeder {
                 'email' => 'sandra.serune@redcross.or.ke',
                 'region'=>'HQ',
                 'destination'=>'NMEAL',
+                'email_verified_at' => '2024-01-27 11:40:31',
+                'password' => '$2y$10$6hqSIfaLWQhqj325GimdX.tTwD7sr3NXAa5cWBNUd7HrGd7Ec5Z4W',
+                'remember_token' => NULL,
+                'created_at' => '2020-01-27 11:34:47',
+                'updated_at' => '2020-01-27 11:40:31',
+            ),
+             2 => array(
+                'id' => 3,
+                'name' => 'Jaymoh Nyanga',
+                'email' => 'jaymohnyanga@gmail.com',
+                'region'=>'HQ',
+                'destination'=>'DMO',
                 'email_verified_at' => '2024-01-27 11:40:31',
                 'password' => '$2y$10$6hqSIfaLWQhqj325GimdX.tTwD7sr3NXAa5cWBNUd7HrGd7Ec5Z4W',
                 'remember_token' => NULL,
