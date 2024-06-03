@@ -31,6 +31,7 @@ class MSMController extends Controller
         $counties = Demographics::where('kp_type','MSM')->distinct()->count('county');
         $region = Demographics::where('kp_type','MSM')->distinct()->count('region');
         $enrolled = Demographics::where('kp_type','MSM')->distinct()->count('uic');
+        $monthyear=Typology::select('month','year')->distinct()->get();
         #show age distribution
         // Define age ranges
         $ageRanges = [
@@ -115,6 +116,7 @@ class MSMController extends Controller
         $counties = Demographics::where('region',$loggedregion)->where('kp_type','MSM')->distinct()->count('county');
         $region = Demographics::where('region',$loggedregion)->where('kp_type','MSM')->distinct()->count('region');
         $enrolled = Demographics::where('region',$loggedregion)->where('kp_type','MSM')->distinct()->count('uic');
+        $monthyear=Typology::select('month','year')->distinct()->get();
         #show age distribution
         // Define age ranges
         $ageRanges = [
@@ -194,6 +196,6 @@ class MSMController extends Controller
 
         }
         
-        return view('pages.typology.report_msm',compact('srCount','counties','region','enrolled','results','hivstatus','definedPackage','prepInitiated','hivTested','hivFreq','hivExposure72','Pep72','CareOutcome','ArtOutcome','vlDue','vlDone','ReceivedVl','hivStatus','Cart','definedPackageTarget','prepInitiatedTarget','hivTestedTarget'));
+        return view('pages.typology.report_msm',compact('srCount','counties','region','enrolled','results','hivstatus','definedPackage','prepInitiated','hivTested','hivFreq','hivExposure72','Pep72','CareOutcome','ArtOutcome','vlDue','vlDone','ReceivedVl','hivStatus','Cart','definedPackageTarget','prepInitiatedTarget','hivTestedTarget','monthyear'));
     }
 }

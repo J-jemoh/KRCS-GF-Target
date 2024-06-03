@@ -510,6 +510,7 @@ class PagesController extends Controller
         $counties = Demographics::where('kp_type','FSW')->distinct()->count('county');
         $region = Demographics::where('kp_type','FSW')->distinct()->count('region');
         $enrolled = Typology::where('kp_type','FSW')->distinct()->count('peer_educator_code');
+        $monthyear=Typology::select('month','year')->distinct()->get();
         #show age distribution
         // Define age ranges
         $ageRanges = [
@@ -606,6 +607,7 @@ class PagesController extends Controller
         $counties = Demographics::where('region',$loggedregion)->where('kp_type','FSW')->distinct()->count('county');
         $region = Demographics::where('region',$loggedregion)->where('kp_type','FSW')->distinct()->count('region');
         $enrolled = Demographics::where('region',$loggedregion)->where('kp_type','FSW')->distinct()->count('uic');
+        $monthyear=Typology::select('month','year')->distinct()->get();
         #show age distribution
         // Define age ranges
         $ageRanges = [
@@ -697,7 +699,7 @@ class PagesController extends Controller
         }
         
 
-        return view('pages.typology.report',compact('srCount','counties','region','enrolled','results','hivstatus','definedPackage','prepInitiated','hivTested','hivFreq','hivExposure72','Pep72','CareOutcome','ArtOutcome','vlDue','vlDone','ReceivedVl','hivStatus','Cart','definedPackageTarget','prepInitiatedTarget','hivTestedTarget'));
+        return view('pages.typology.report',compact('srCount','counties','region','enrolled','results','hivstatus','definedPackage','prepInitiated','hivTested','hivFreq','hivExposure72','Pep72','CareOutcome','ArtOutcome','vlDue','vlDone','ReceivedVl','hivStatus','Cart','definedPackageTarget','prepInitiatedTarget','hivTestedTarget','monthyear'));
     }
     public function demoTemplate(){
 

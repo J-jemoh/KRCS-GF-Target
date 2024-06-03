@@ -44,6 +44,7 @@ class TGController extends Controller
                                 ->orWhere('kp_type','TRANS MAN')
                                 ->orWhere('kp_type','TRANS WOMAN')
                                 ->distinct()->count('peer_educator_code');
+        $monthyear=Typology::select('month','year')->distinct()->get();
         #show age distribution
         // Define age ranges
         $ageRanges = [
@@ -173,6 +174,7 @@ class TGController extends Controller
         $enrolled = Typology::where('region',$loggeduser)
                                   ->whereIn('kp_type',['TG','TRANS MAN','TRANS WOMAN'])
                                 ->distinct('peer_educator_code')->count('peer_educator_code');
+        $monthyear=Typology::select('month','year')->distinct()->get();
         #show age distribution
         // Define age ranges
         $ageRanges = [
@@ -274,6 +276,6 @@ class TGController extends Controller
         }
         
 
-        return view('pages.typology.tg',compact('srCount','counties','region','enrolled','results','hivstatus','definedPackage','prepInitiated','hivTested','hivFreq','hivExposure72','Pep72','CareOutcome','ArtOutcome','vlDue','vlDone','ReceivedVl','hivStatus','Cart','definedPackageTarget','prepInitiatedTarget','hivTestedTarget'));
+        return view('pages.typology.tg',compact('srCount','counties','region','enrolled','results','hivstatus','definedPackage','prepInitiated','hivTested','hivFreq','hivExposure72','Pep72','CareOutcome','ArtOutcome','vlDue','vlDone','ReceivedVl','hivStatus','Cart','definedPackageTarget','prepInitiatedTarget','hivTestedTarget','monthyear'));
     }
 }

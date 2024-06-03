@@ -21,8 +21,24 @@
    <section class="content">
     <div class="container-fluid">
       <div class="row">
+        <div class="col-sm-4">
+          <label>select Month</label>
+          <select name="month" class="form-control" required name="month">
+            @foreach( $monthyear as $month)
+            <option value="{{$month->month}}">{{$month->month}}</option>
+            @endforeach
+          </select>
+        </div>
+        <div class="col-sm-4">
+          <label>select Year</label>
+          <select name="year" class="form-control" required>
+            <option value="{{$month->year}}">{{$month->year}}</option>
+          </select>
+
+        </div>
         <div class="col-4">
-          <a href="{{route('admin.msm.consolidated')}}" class="btn btn-info btn-block">Download/Export to CSV</a>
+          <label>..</label>
+          <a href="{{route('admin.msm.consolidated',['month' => $month->month, 'year' => $month->year])}}" class="btn btn-info btn-block">Download/Export to CSV</a>
         </div>
          <div class="col-4">
              <a href="#" class="btn btn-info btn-block">Download/Export to Excel</a>
