@@ -72,7 +72,7 @@ return new class extends Migration
             $table->string('month');
             $table->integer('year');
             $table->text('region');
-            $table->string('kp_type')->nullable();
+            $table->enum('kp_type',['PWID','MSM','TG','TRANS WOAMAN','TRANS MAN','FSW','FISHER FOLK','TRUCKERS']);
             $table->string('unique_identifier')->unique();
 
             

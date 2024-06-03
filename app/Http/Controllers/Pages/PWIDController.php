@@ -35,8 +35,8 @@ class PWIDController extends Controller
                                 ->distinct()->count('county');
         $region = Demographics::where('kp_type','PWID')
                                 ->distinct()->count('region');
-        $enrolled = Demographics::where('kp_type','PWID')
-                                ->distinct()->count('uic');
+        $enrolled = Typology::where('kp_type','PWID')
+                                ->distinct()->count('peer_educator_code');
          $ageRanges = [
             '0-18' => [0, 18],
             '19-24' => [19, 24],
@@ -67,14 +67,14 @@ class PWIDController extends Controller
             ->where(DB::raw('CAST(condom_distributed_nmbr AS INTEGER)'), '>', 0)
             ->where('kp_type','PWID')
             ->distinct('peer_educator_code')
-            ->count();
+            ->count('peer_educator_code');
         $totalneedles = Typology::where('kp_type','PWID')->where(DB::raw('CAST(nssp_distributed_nbr AS INTEGER)'), '>', 0)->sum(DB::raw('CAST(nssp_distributed_nbr AS INTEGER)'));
         $nsspreceived=Typology::where('kp_type','PWID')->where(DB::raw('CAST(nssp_distributed_nbr AS INTEGER)'), '>', 0)->distinct()->count();
         $prepInitiated= ($totalneedles/$nsspreceived);
         $hivTested= Typology::where('hiv_tested','Yes')
                     ->where('kp_type','PWID')
                     ->distinct('peer_educator_code')
-                    ->count();
+                    ->count('peer_educator_code');
         $hivFreq = Typology::select('hiv_test_freq', DB::raw('COUNT(*) as count'))
         ->where('kp_type','PWID')
         ->groupBy('hiv_test_freq')
@@ -127,8 +127,8 @@ class PWIDController extends Controller
                                 ->distinct()->count('county');
         $region = Demographics::where('region',$loggeduser)->where('kp_type','PWID')
                                 ->distinct()->count('region');
-        $enrolled = Demographics::where('region',$loggeduser)->where('kp_type','PWID')
-                                ->distinct()->count('uic');
+        $enrolled = Typology::where('region',$loggeduser)->where('kp_type','PWID')
+                                ->distinct()->count('peer_educator_code');
          $ageRanges = [
             '0-18' => [0, 18],
             '19-24' => [19, 24],

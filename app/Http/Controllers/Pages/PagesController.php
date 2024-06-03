@@ -506,10 +506,10 @@ class PagesController extends Controller
         $loggedregion= Auth::user()->region;
         if($loggedregion == 'HQ'){
 
-            $srCount = Demographics::where('kp_type','FSW')->distinct()->count('sr_name');
+        $srCount = Demographics::where('kp_type','FSW')->distinct()->count('sr_name');
         $counties = Demographics::where('kp_type','FSW')->distinct()->count('county');
         $region = Demographics::where('kp_type','FSW')->distinct()->count('region');
-        $enrolled = Demographics::where('kp_type','FSW')->distinct()->count('uic');
+        $enrolled = Typology::where('kp_type','FSW')->distinct()->count('peer_educator_code');
         #show age distribution
         // Define age ranges
         $ageRanges = [
@@ -533,16 +533,16 @@ class PagesController extends Controller
         ->get();
         #defined package
         $definedPackage = Typology::where(function ($query) {
-        $query->where('received_peer_education', 'yes')
-            ->orWhere('rssh', 'yes');
+        $query->where('received_peer_education', 'Yes')
+            ->orWhere('rssh', 'Yes');
             })
-            ->where('sti_screened', 'yes')
+            ->where('sti_screened', 'Yes')
             ->where(DB::raw('CAST(condom_distributed_nmbr AS INTEGER)'), '>', 0)
             ->where('kp_type','FSW')
-            ->distinct()
-            ->count('peer_educator_code');
-        $prepInitiated= Typology::where('prep_initated','Yes')->where('kp_type','FSW')->distinct()->count('peer_educator_code');
-        $hivTested= Typology::where('hiv_tested','Yes')->where('kp_type','FSW')->distinct()->count('peer_educator_code');
+            ->distinct('peer_educator_code')
+            ->count();
+        $prepInitiated= Typology::where('prep_initated','Yes')->where('kp_type','FSW')->distinct('peer_educator_code')->count('peer_educator_code');
+        $hivTested= Typology::where('hiv_tested','Yes')->where('kp_type','FSW')->distinct('peer_educator_code')->count('peer_educator_code');
         $hivFreq = Typology::select('hiv_test_freq', DB::raw('COUNT(*) as count'))
         ->where('kp_type','FSW')
         ->whereIn('peer_educator_code', function($query) {
@@ -629,14 +629,14 @@ class PagesController extends Controller
         ->get();
         #defined package
         $definedPackage = Typology::where('region',$loggedregion)->where(function ($query) {
-        $query->where('received_peer_education', 'yes')
-            ->orWhere('rssh', 'yes');
+        $query->where('received_peer_education', 'Yes')
+            ->orWhere('rssh', 'Yes');
             })
-            ->where('sti_screened', 'yes')
+            ->where('sti_screened', 'Yes')
             ->where(DB::raw('CAST(condom_distributed_nmbr AS INTEGER)'), '>', 0)
             ->where('kp_type','FSW')
-            ->distinct()
-            ->count('peer_educator_code');
+            ->distinct('peer_educator_code')
+            ->count();
         $prepInitiated= Typology::where('region',$loggedregion)->where('prep_initated','Yes')->where('kp_type','FSW')->distinct()->count('peer_educator_code');
         $hivTested= Typology::where('region',$loggedregion)->where('hiv_tested','Yes')->where('kp_type','FSW')->distinct()->count('peer_educator_code');
         $hivFreq = Typology::where('region',$loggedregion)->select('hiv_test_freq', DB::raw('COUNT(*) as count'))

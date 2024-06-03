@@ -40,10 +40,10 @@ class TGController extends Controller
                                 ->orWhere('kp_type','TRANS MAN')
                                 ->orWhere('kp_type','TRANS WOMAN')
                                 ->distinct()->count('region');
-        $enrolled = Demographics::where('kp_type','TG')
+        $enrolled = Typology::where('kp_type','TG')
                                 ->orWhere('kp_type','TRANS MAN')
                                 ->orWhere('kp_type','TRANS WOMAN')
-                                ->distinct()->count('uic');
+                                ->distinct()->count('peer_educator_code');
         #show age distribution
         // Define age ranges
         $ageRanges = [
@@ -81,17 +81,20 @@ class TGController extends Controller
             ->where('kp_type','TG')
             ->orWhere('kp_type','TRANS MAN')
             ->orWhere('kp_type','TRANS WOMAN')
-            ->count();
+            ->distinct('peer_educator_code')
+            ->count('peer_educator_code');
         $prepInitiated= Typology::where('prep_initated','Yes')
                         ->where('kp_type','TG')
                         ->orWhere('kp_type','TRANS MAN')
                         ->orWhere('kp_type','TRANS WOMAN')
-                        ->count();
+                        ->distinct('peer_educator_code')
+                        ->count('peer_educator_code');
         $hivTested= Typology::where('hiv_tested','Yes')
                     ->where('kp_type','TG')
                     ->orWhere('kp_type','TRANS MAN')
                     ->orWhere('kp_type','TRANS WOMAN')
-                    ->count();
+                    ->distinct('peer_educator_code')
+                    ->count('peer_educator_code');
         $hivFreq = Typology::select('hiv_test_freq', DB::raw('COUNT(*) as count'))
         ->where('kp_type','TG')
         ->orWhere('kp_type','TRANS MAN')
@@ -167,9 +170,9 @@ class TGController extends Controller
         $region = Demographics::where('region',$loggeduser)
                                   ->whereIn('kp_type',['TG','TRANS MAN','TRANS WOMAN'])
                                 ->distinct()->count('region');
-        $enrolled = Demographics::where('region',$loggeduser)
+        $enrolled = Typology::where('region',$loggeduser)
                                   ->whereIn('kp_type',['TG','TRANS MAN','TRANS WOMAN'])
-                                ->distinct()->count('uic');
+                                ->distinct('peer_educator_code')->count('peer_educator_code');
         #show age distribution
         // Define age ranges
         $ageRanges = [
@@ -203,15 +206,18 @@ class TGController extends Controller
             ->where(DB::raw('CAST(condom_distributed_nmbr AS INTEGER)'), '>', 0)
             ->where('region',$loggeduser)
             ->whereIn('kp_type',['TG','TRANS MAN','TRANS WOMAN'])
-            ->count();
+            ->distinct('peer_educator_code')
+            ->count('peer_educator_code');
         $prepInitiated= Typology::where('region',$loggeduser)
                         ->where('prep_initated','Yes')
                         ->whereIn('kp_type',['TG','TRANS MAN','TRANS WOMAN'])
-                        ->count();
+                        ->distinct('peer_educator_code')
+                        ->count('peer_educator_code');
         $hivTested= Typology::where('region',$loggeduser)
                     ->where('hiv_tested','Yes')
                       ->whereIn('kp_type',['TG','TRANS MAN','TRANS WOMAN'])
-                    ->count();
+                      ->distinct('peer_educator_code')
+                    ->count('peer_educator_code');
         $hivFreq = Typology::where('region',$loggeduser)
         ->select('hiv_test_freq', DB::raw('COUNT(*) as count'))
          ->whereIn('kp_type',['TG','TRANS MAN','TRANS WOMAN'])

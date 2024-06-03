@@ -62,8 +62,8 @@ class MSMController extends Controller
             ->where('kp_type','MSM')
             ->distinct('peer_educator_code')
             ->count();
-        $prepInitiated= Typology::where('prep_initated','Yes')->where('kp_type','MSM')->count();
-        $hivTested= Typology::where('hiv_tested','Yes')->where('kp_type','MSM')->count();
+        $prepInitiated= Typology::where('prep_initated','Yes')->where('kp_type','MSM')->distinct('peer_educator_code')->count('peer_educator_code');
+        $hivTested= Typology::where('hiv_tested','Yes')->where('kp_type','MSM')->distinct('peer_educator_code')->count('peer_educator_code');
         $hivFreq = Typology::select('hiv_test_freq', DB::raw('COUNT(*) as count'))
         ->where('kp_type','MSM')
         ->groupBy('hiv_test_freq')

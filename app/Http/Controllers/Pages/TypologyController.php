@@ -192,6 +192,7 @@ public function uploadPartInfo(Request $request)
 
             $user_id = Auth::id();
             $batchSize = 1000; // Adjust the batch size as needed
+            $processedUics = []; 
 
             // Process CSV data in batches
             while (($data = fgetcsv($handle)) !== false) {
@@ -205,9 +206,16 @@ public function uploadPartInfo(Request $request)
                             $rowData[$columnName] = mb_convert_encoding($data[$index], 'UTF-8', 'UTF-8');
                         }
                     }
-                    $uniqueIdentifier = $rowData['sno'] . '-' . $rowData['month'] . '-' . $rowData['year'] . '-' . $rowData['region'] . '-' . $rowData['peer_educator_code'];
+                     // Check for duplicate UICs
+                    if (in_array($rowData['peer_educator_code'], $processedUics)) {
+                        $data = fgetcsv($handle);
+                        continue; // Skip the row if it's a duplicate
+                    }
+                    $uniqueIdentifier = $rowData['month'] . '-' . $rowData['year'] . '-' . $rowData['region'] . '-' . $rowData['peer_educator_code'];
                     $rowData['unique_identifier'] = $uniqueIdentifier;
                     $rowData['user_id'] = $user_id;
+                     // Add UIC to the processed list
+                    $processedUics[] = $rowData['peer_educator_code'];
                     $batch[] = $rowData;
                     $data = fgetcsv($handle);
                 }

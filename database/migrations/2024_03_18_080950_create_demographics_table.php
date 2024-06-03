@@ -27,8 +27,8 @@ return new class extends Migration
             $table->string('subcounty');
             $table->string('ward');
             $table->string('kp_phone')->nullable();
-            $table->string('kp_type');
-            $table->string('uic');
+            $table->enum('kp_type',['PWID','MSM','TG','TRANS WOAMAN','TRANS MAN','FSW','FISHER FOLK','TRUCKERS']);
+            $table->string('uic')->unique();
             $table->unsignedInteger('age')->nullable();
             $table->string('yob');
             $table->enum('sex',['Male','Female']);

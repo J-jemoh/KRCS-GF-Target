@@ -667,7 +667,7 @@
     };
 
     // The gauge chart
-    const chartSpeed = Highcharts.chart('container-speed', Highcharts.merge(gaugeOptions, {
+    const chartSpeed = Highcharts.chart('container-speedd', Highcharts.merge(gaugeOptions, {
         yAxis: {
             min: 0,
             max: 91509,
@@ -752,7 +752,7 @@
     const chartSpeed = Highcharts.chart('container-prep', Highcharts.merge(gaugeOptions, {
         yAxis: {
             min: 0,
-            max: 6591,
+            max: 23862,
             title: {
                 text: 'Initiated on prep'
             }

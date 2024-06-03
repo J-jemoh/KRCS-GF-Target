@@ -121,7 +121,7 @@ class PMTCTController extends Controller
                             $rowData[$columnName] = mb_convert_encoding($data[$index], 'UTF-8', 'UTF-8');
                         }
                     }
-                    $uniqueIdentifier = $rowData['sno'] . '-' . $rowData['month'] . '-' . $rowData['year'] . '-' . $rowData['region'] . '-' . $rowData['mother_ccc_no'];
+                    $uniqueIdentifier = $rowData['month'] . '-' . $rowData['year'] . '-' . $rowData['region'] . '-' . $rowData['mother_ccc_no'];
                     $rowData['unique_identifier'] = $uniqueIdentifier;
                     $rowData['user_id'] = $user_id;
                     $batch[] = $rowData;

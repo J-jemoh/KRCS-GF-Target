@@ -90,7 +90,7 @@
           <div class="row">
             <div class="col-lg-4">
               <b>Defined package progress</b>
-              <div id="container-speed" style="width: 300px; height: 200px;"></div>
+              <div id="container-speedd" style="width: 300px; height: 200px;"></div>
               <!-- <canvas id="container-speed" width="200" height="200"></canvas> -->
             </div>
              <div class="col-lg-4">

@@ -131,7 +131,7 @@ class AYPController extends Controller
                             $rowData[$columnName] = mb_convert_encoding($data[$index], 'UTF-8', 'UTF-8');
                         }
                     }
-                    $uniqueIdentifier = $rowData['sno'] . '-' . $rowData['month'] . '-' . $rowData['year'] . '-' . $rowData['region'] . '-' . $rowData['peer_name'];
+                    $uniqueIdentifier = $rowData['month'] . '-' . $rowData['year'] . '-' . $rowData['region'] . '-' . $rowData['peer_name'];
                     $rowData['unique_identifier'] = $uniqueIdentifier;
                     $rowData['user_id'] = $user_id;
                     $batch[] = $rowData;
