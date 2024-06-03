@@ -37,6 +37,7 @@ class PWIDController extends Controller
                                 ->distinct()->count('region');
         $enrolled = Typology::where('kp_type','PWID')
                                 ->distinct()->count('peer_educator_code');
+        $monthyear=Typology::select('month','year')->distinct()->get();
          $ageRanges = [
             '0-18' => [0, 18],
             '19-24' => [19, 24],
@@ -129,6 +130,7 @@ class PWIDController extends Controller
                                 ->distinct()->count('region');
         $enrolled = Typology::where('region',$loggeduser)->where('kp_type','PWID')
                                 ->distinct()->count('peer_educator_code');
+        $monthyear=Typology::select('month','year')->distinct()->get();
          $ageRanges = [
             '0-18' => [0, 18],
             '19-24' => [19, 24],
@@ -231,6 +233,6 @@ class PWIDController extends Controller
         // Define age ranges
        
 
-        return view('pages.typology.pwid',compact('srCount','counties','region','enrolled','results','hivstatus','definedPackage','prepInitiated','hivTested','hivFreq','hivExposure72','Pep72','CareOutcome','ArtOutcome','vlDue','vlDone','ReceivedVl','hivStatus','Cart','definedPackageTarget','prepInitiatedTarget','hivTestedTarget'));
+        return view('pages.typology.pwid',compact('srCount','counties','region','enrolled','results','hivstatus','definedPackage','prepInitiated','hivTested','hivFreq','hivExposure72','Pep72','CareOutcome','ArtOutcome','vlDue','vlDone','ReceivedVl','hivStatus','Cart','definedPackageTarget','prepInitiatedTarget','hivTestedTarget','monthyear'));
     }
 }

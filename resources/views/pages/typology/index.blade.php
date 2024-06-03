@@ -38,6 +38,7 @@
 						</form>
           	</div>
           	<div class="col-6">
+          		<form></form>
           		<form method="post" action="{{route('admin.fsw.fsw.post')}}" enctype="multipart/form-data">
           			@csrf
           		<label>Typology data</label>

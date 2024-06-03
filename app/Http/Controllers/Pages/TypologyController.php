@@ -786,7 +786,12 @@ return response()->stream($callback, 200, $headers);
     }
 
 
- public function FetchPWIDData(){
+ public function FetchPWIDData(Request $request){
+
+        $selectedYear = $request->year;
+        $selectedMonth = $request->month;
+
+        Log::info('Retrieved Typologies Data for Year: ' . $selectedYear . ', Month: ' . $selectedMonth );
         // Set batch size
         $batchSize = 3000; // Adjust as needed
         $encryptionKey = 'PWKRCS#@2024';
@@ -798,7 +803,7 @@ return response()->stream($callback, 200, $headers);
             'Encryption-Key' => Crypt::encryptString($encryptionKey),
         ];
         // Stream CSV file content directly to response
-        $callback = function () use ($batchSize, $headers,$encryptionKey) {
+        $callback = function () use ($batchSize, $headers,$encryptionKey,$selectedYear, $selectedMonth) {
             $file = fopen('php://output', 'w');
 
             // Add column headers
@@ -908,19 +913,47 @@ return response()->stream($callback, 200, $headers);
 
             // Retrieve typologies data for the current region
            // Retrieve typologies data for the current region
-            $typologiesData = Typology::whereIn('unique_identifier', $demographicsData->pluck('unique_identifier'))
+            // $typologiesData = Typology::whereIn('unique_identifier', $demographicsData->pluck('unique_identifier'))
+            //     ->get();
+            $typologiesData = Typology::whereIn('peer_educator_code', $demographicsData->pluck('uic'))
+                ->where('year',$selectedYear)
+                ->where('month',$selectedMonth)
                 ->get();
 
+            // Debug: Log the retrieved typologies data
+            Log::info('Retrieved Typologies Data for Year: ' . $selectedYear . ', Month: ' . $selectedMonth . ', Count: ' . $typologiesData->count());
+
             // Create a dictionary of typologies data for efficient lookup
+            // $typologiesDict = [];
+            // foreach ($typologiesData as $typology) {
+            //     $typologiesDict[$typology->unique_identifier] = $typology->toArray();
+            // }
             $typologiesDict = [];
-            foreach ($typologiesData as $typology) {
-                $typologiesDict[$typology->unique_identifier] = $typology->toArray();
-            }
+                foreach ($typologiesData as $typology) {
+                    $typologiesDict[$typology->peer_educator_code] = $typology->toArray();
+                }
+            Log::info('Demographics Data: ' . $demographicsData->toJson());
+            Log::info('Typologies Data: ' . $typologiesData->toJson());
 
             // Merge and output data
+            // foreach ($demographicsData as $demographic) {
+            //       $uniqueIdentifier = $demographic->unique_identifier;
+            //         $typologyRow = $typologiesDict[$uniqueIdentifier] ?? [];
+
+            //         // Merge demographics and typology data
+            //         $mergedRow = array_merge($demographic->toArray(), $typologyRow);
+
+            //         // Select only the specified columns
+            //         $selectedColumns = array_intersect_key($mergedRow, array_flip($columnsToExport));
+            //         fputcsv($file, $selectedColumns);
+            // }
+            // Merge and output data
             foreach ($demographicsData as $demographic) {
-                  $uniqueIdentifier = $demographic->unique_identifier;
-                    $typologyRow = $typologiesDict[$uniqueIdentifier] ?? [];
+                    $uic = $demographic->uic;
+                    $typologyRow = $typologiesDict[$uic] ?? [];
+
+                    Log::info('UIC: ' . $uic);
+                    Log::info('Typology Row: ' . json_encode($typologyRow));
 
                     // Merge demographics and typology data
                     $mergedRow = array_merge($demographic->toArray(), $typologyRow);
@@ -928,7 +961,7 @@ return response()->stream($callback, 200, $headers);
                     // Select only the specified columns
                     $selectedColumns = array_intersect_key($mergedRow, array_flip($columnsToExport));
                     fputcsv($file, $selectedColumns);
-            }
+        }
         } while ($demographicsData->hasMorePages());
     }
 
