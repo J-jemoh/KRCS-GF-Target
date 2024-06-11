@@ -781,32 +781,63 @@ document.addEventListener("DOMContentLoaded", function(){
     });
 });
 
-document.addEventListener("DOMContentLoaded", function(){
-$(document).ready(function(){
-     $('#regionSelect').val('LER').change();
-    $('#regionSelect').change(function(){
-        var selectedRegion = $(this).val();
-        $.ajax({
-            url: '{{ route('srname.fetch') }}',
-            method: 'GET',
-            data: {region: selectedRegion},
-            success: function(response){
-                // Clear existing table rows
-                $('#tbData tbody').empty();
 
-                // Populate table with fetched data
-                $.each(response, function(index, item){
-                    $('#tbData tbody').append(
-                        '<tr>' +
-                        '<td>' + (index + 1) + '</td>' +
-                        '<td>' + item.sr_name + '</td>' +
-                        '<td>' + item.count + '</td>' +
-                        '</tr>'
-                    );
+
+</script>
+<script>
+    document.addEventListener("DOMContentLoaded", function(){
+        $(document).ready(function(){
+            var defaultRegion = "LER";
+            var defaultKPtype = "FSW";
+
+            // Function to update the table based on the selected region and KP type
+            function updateTable(selectedRegion, selectedKPtype) {
+                // Fetch data for the selected region and KP type
+                fetch('{{ route("srname.fetch") }}?region=' + selectedRegion + '&kp_type=' + selectedKPtype, {
+                    method: 'GET',
+                    headers: {
+                        'Content-Type': 'application/json',
+                        'X-CSRF-TOKEN': '{{ csrf_token() }}'
+                    }
+                })
+                .then(response => response.json())
+                .then(data => {
+                    // Clear existing table rows
+                    $('#tbData tbody').empty();
+
+                    // Populate table with fetched data
+                    $.each(data, function(index, item){
+                        $('#tbData tbody').append(
+                            '<tr>' +
+                            '<td>' + (index + 1) + '</td>' +
+                            '<td>' + item.sr_name + '</td>' +
+                            '<td>' + item.count + '</td>' +
+                            '</tr>'
+                        );
+                    });
+                })
+                .catch(error => {
+                    console.error('Error fetching data:', error);
                 });
             }
+
+            // Set default region and KP type on page load
+            $('#regionSelect').val(defaultRegion).change();
+            $('#kpTypeSelect').val(defaultKPtype).change();
+
+            // Event listener for the regionSelect dropdown
+            $('#regionSelect').change(function(){
+                var selectedRegion = $(this).val();
+                var selectedKPtype = $('#kpTypeSelect').val(); // Get selected KP type
+                updateTable(selectedRegion, selectedKPtype);
+            });
+
+            // Event listener for the kpTypeSelect dropdown
+            $('#kpTypeSelect').change(function(){
+                var selectedKPtype = $(this).val();
+                var selectedRegion = $('#regionSelect').val(); // Get selected region
+                updateTable(selectedRegion, selectedKPtype);
+            });
         });
     });
-});
-});
 </script>

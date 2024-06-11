@@ -16,9 +16,9 @@ return new class extends Migration
             $table->integer('user_id');
             $table->integer('sno');
             $table->text('peer_educator_code');
-            $table->string('received_peer_education')->nullable();
-            $table->text('clinical_services')->nullable();
-            $table->string('hiv_tested')->nullable();
+            $table->enum('received_peer_education',['Yes','No'])->nullable();
+            $table->enum('clinical_services',['Yes','No'])->nullable();
+            $table->enum('hiv_tested',['Yes','No'])->nullable();
             $table->string('hts_service_point')->nullable();
             $table->text('hiv_test_freq')->nullable();
             $table->string('hiv_status')->nullable();
@@ -62,7 +62,7 @@ return new class extends Migration
             $table->string('prep_initated')->nullable();
             $table->text('on_prep')->nullable();
             $table->string('modern_fp_services')->nullable();
-            $table->string('rssh')->nullable();
+            $table->enum('rssh',['Yes','No'])->nullable();
             $table->text('ebi')->nullable();
             $table->string('exp_violence')->nullable();
             $table->string('post_violence_support')->nullable();

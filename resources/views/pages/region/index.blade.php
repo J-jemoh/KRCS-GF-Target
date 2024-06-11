@@ -9,7 +9,7 @@
           <div class="col-sm-6">
             <ol class="breadcrumb float-sm-right">
               <li class="breadcrumb-item"><a href="#" class="text-white">Home</a></li>
-              <li class="breadcrumb-item active"><a href="{{route('admin.fsw.index')}}" class="text-white">FSW</a></li>
+              <li class="breadcrumb-item active"><a href="{{route('admin.fsw.index')}}" class="text-white">Typology</a></li>
               <li class="breadcrumb-item active text-white">Regions
               </li>
                <li class="breadcrumb-item active text-white">Reports</li>

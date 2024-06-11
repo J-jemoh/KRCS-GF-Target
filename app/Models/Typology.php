@@ -74,6 +74,6 @@ class Typology extends Model
     ];
         public function demographic()
     {
-       return $this->belongsTo(Demographics::class, 'unique_identifier');
+       return $this->belongsTo(Demographics::class, 'peer_educator');
     }
 }

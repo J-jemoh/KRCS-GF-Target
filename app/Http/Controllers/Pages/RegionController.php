@@ -310,11 +310,13 @@ public function fetchByRegion(Request $request)
     public function SRnames(Request $request)
     {
         $selectedRegion = $request->input('region');
+        $typology=$request->input('kp_type');
 
         // Query HIV status data based on the selected region
         $SRnames = Demographics::select('sr_name', DB::raw('COUNT(*) as count'))
         ->groupBy('sr_name')
         ->where('region',$selectedRegion)
+        ->where('kp_type',$typology)
         ->get();
 
         // Return the data in JSON format
