@@ -40,10 +40,10 @@ return new class extends Migration
             $table->string('pep_72')->nullable();
             $table->string('completed_pep')->nullable();
             $table->text('condom_nmbr_reqr')->nullable();
-            $table->string('condom_distributed_nmbr')->nullable();
+            $table->integer('condom_distributed_nmbr')->nullable();
             $table->string('condom_prov_as_per_need')->nullable();
             $table->text('lubricant_req_nbr')->nullable();
-            $table->string('lubricant_distr_nbr')->nullable();
+            $table->integer('lubricant_distr_nbr')->nullable();
             $table->string('lubricant_prov_per_need')->nullable();
             $table->text('nssp_nmbr')->nullable();
             $table->string('nssp_distributed_nbr')->nullable();
