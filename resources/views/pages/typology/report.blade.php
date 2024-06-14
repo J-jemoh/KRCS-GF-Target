@@ -37,7 +37,7 @@
       </div>
         <div class="col-4">
           <label>..</label>
-          <a href="{{route('admin.fsw.consolidated')}}" class="btn btn-info btn-block">Download/Export to CSV</a>
+          <a href="{{route('admin.fsw.consolidated',['month' => $month->month, 'year' => $month->year])}}" class="btn btn-info btn-block">Download/Export to CSV</a>
         </div>
       </div>
       <br>

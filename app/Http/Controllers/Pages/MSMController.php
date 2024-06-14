@@ -71,7 +71,7 @@ class MSMController extends Controller
         ->get();
         $definedPackageTarget=29915;
         $prepInitiatedTarget=6591;
-        $hivTestedTarget=20000;
+        $hivTestedTarget=27849;
         $hivExposure72 = Typology::select('hiv_exposure_72hr', DB::raw('COUNT(*) as count'))
         ->where('kp_type','MSM')
         ->groupBy('hiv_exposure_72hr')
@@ -156,7 +156,7 @@ class MSMController extends Controller
         ->get();
         $definedPackageTarget=29915;
         $prepInitiatedTarget=6591;
-        $hivTestedTarget=20000;
+        $hivTestedTarget=27849;
         $hivExposure72 = Typology::where('region',$loggedregion)->select('hiv_exposure_72hr', DB::raw('COUNT(*) as count'))
         ->where('kp_type','MSM')
         ->groupBy('hiv_exposure_72hr')

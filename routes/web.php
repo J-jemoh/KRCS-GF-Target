@@ -21,6 +21,8 @@ use App\Http\Controllers\Pages\VPController;
 use App\Http\Controllers\Pages\FisherFolkController;
 use App\Http\Controllers\Pages\SettingsController;
 use App\Http\Controllers\Pages\TwoFactorAuthController;
+use App\Http\Controllers\Pages\KPIController;
+
 /*
 
 |--------------------------------------------------------------------------
@@ -320,6 +322,9 @@ Route::group(['middleware' => ['auth','google2fa','activity']], function () {
             ->name('admin.manage.settings.save');
             Route::post('/admin/update/settings/{id}',[SettingsController::class,'updateSetting'])
             ->name('admin.manage.settings.update');
+
+            #KPI CONTROLLER
+            Route::get('/admin/kpi',[KPIController::class,'index'])->name('kpi.index');
 
 
             

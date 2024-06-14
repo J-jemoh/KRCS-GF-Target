@@ -834,7 +834,7 @@
     const chartSpeed = Highcharts.chart('container-hts', Highcharts.merge(gaugeOptions, {
         yAxis: {
             min: 0,
-            max: 83503,
+            max: 27849,
             title: {
                 text: 'Reached with HTS'
             }
