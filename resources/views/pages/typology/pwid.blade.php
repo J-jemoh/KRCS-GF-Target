@@ -21,6 +21,11 @@
    <section class="content">
     <div class="container-fluid">
       <div class="row">
+          @php
+              // Set default values if $month is not defined
+              $defaultMonth = (object) ['month' => now()->format('m'), 'year' => now()->format('Y')];
+              $month = $month ?? $defaultMonth;
+          @endphp
         <div class="col-sm-4">
           <label>select Month</label>
           <select name="month" class="form-control" required name="month">
