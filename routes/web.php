@@ -22,6 +22,8 @@ use App\Http\Controllers\Pages\FisherFolkController;
 use App\Http\Controllers\Pages\SettingsController;
 use App\Http\Controllers\Pages\TwoFactorAuthController;
 use App\Http\Controllers\Pages\KPIController;
+use App\Http\Controllers\Users\RoleController;
+use App\Http\Controllers\Users\PermissionController;
 
 /*
 
@@ -326,9 +328,21 @@ Route::group(['middleware' => ['auth','google2fa','activity']], function () {
             #KPI CONTROLLER
             Route::get('/admin/kpi',[KPIController::class,'index'])->name('kpi.index');
 
-
+            #ROLE CONTRLLER SETTINGS
+            Route::get('/users/roles',[RoleController::class,'index'])->name('admin.users.role.index');
+            Route::get('/users/roles/create',[RoleController::class,'create'])->name('admin.users.role.create');
+            Route::post('/users/roles/store',[RoleController::class,'store'])->name('admin.users.role.store');
+            Route::get('/users/roles/edit/{id}',[RoleController::class,'edit'])->name('admin.users.role.edit');
+            Route::put('/users/roles/edit/{id}',[RoleController::class,'update'])->name('admin.users.role.update');
+            Route::post('/users/roles/destroy/{id}',[RoleController::class,'destroy'])->name('admin.users.role.destroy');
             
-
+              #PERMISSION CONTRLLER SETTINGS
+            Route::get('/users/permissions',[PermissionController::class,'index'])->name('admin.users.permission.index');
+            Route::get('/users/permission/create',[PermissionController::class,'create'])->name('admin.users.permission.create');
+            Route::post('/users/permission/store',[PermissionController::class,'store'])->name('admin.users.permission.store');
+            Route::get('/users/permission/edit/{id}',[PermissionController::class,'edit'])->name('admin.users.permission.edit');
+            Route::put('/users/permission/edit/{id}',[PermissionController::class,'update'])->name('admin.users.permission.update');
+            Route::post('/users/permission/destroy/{id}',[PermissionController::class,'destroy'])->name('admin.users.permission.destroy');
 
 
     });

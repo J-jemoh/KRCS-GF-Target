@@ -383,7 +383,18 @@
                   <p>Trashed users</p>
                 </a>
               </li>
-
+              <li class="nav-item">
+                <a href="{{route('admin.users.role.index')}}" class="nav-link">
+                  <i class="far fa-user nav-icon"></i>
+                  <p>User Roles</p>
+                </a>
+              </li>
+               <li class="nav-item">
+                <a href="{{route('admin.users.permission.index')}}" class="nav-link">
+                  <i class="far fa-user nav-icon"></i>
+                  <p>User Permissions</p>
+                </a>
+              </li>
             </ul>
               </li>
 
