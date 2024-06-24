@@ -52,12 +52,14 @@
               </p>
             </a>
             <ul class="nav nav-treeview">
+              @can('Upload Targets')
               <li class="nav-item">
                 <a href="{{route('admin.target')}}" class="nav-link">
                   <i class="far fa-circle nav-icon"></i>
                   <p>New Targets</p>
                 </a>
               </li>
+              @endcan
               <li class="nav-item">
                 <a href="{{route('admin.target.all')}}" class="nav-link">
                   <i class="far fa-file nav-icon"></i>
@@ -88,12 +90,14 @@
               </p>
             </a>
             <ul class="nav nav-treeview">
+              @can('Upload Targets')
               <li class="nav-item">
                 <a href="{{route('admin.qpmm')}}" class="nav-link">
                   <i class="far fa-file nav-icon"></i>
                   <p>New Upload</p>
                 </a>
               </li>
+              @endcan
               <li class="nav-item">
                 <a href="{{route('admin.qpmm.allreports')}}" class="nav-link">
                   <i class="far fa-file nav-icon"></i>
@@ -117,12 +121,14 @@
               </p>
             </a>
             <ul class="nav nav-treeview">
+              @can('Upload Targets')
               <li class="nav-item">
                 <a href="{{route('admin.hrg.index')}}" class="nav-link">
                   <i class="far fa-file nav-icon"></i>
                   <p>New Upload</p>
                 </a>
               </li>
+              @endcan
               <li class="nav-item">
                 <a href="{{route('admin.hrg.consolidated')}}" class="nav-link">
                   <i class="far fa-file nav-icon"></i>
@@ -146,12 +152,14 @@
               </p>
             </a>
             <ul class="nav nav-treeview">
+              @can('Upload Targets')
               <li class="nav-item">
                 <a href="{{route('admin.gbv.index')}}" class="nav-link">
                   <i class="far fa-circle nav-icon"></i>
                   <p>New Upload</p>
                 </a>
               </li>
+              @endcan
               <li class="nav-item">
                 <a href="{{route('admin.gbv.consolidated')}}" class="nav-link">
                   <i class="far fa-circle nav-icon"></i>
@@ -181,12 +189,14 @@
               </p>
             </a>
             <ul class="nav nav-treeview">
+              @can('Upload Targets')
                <li class="nav-item">
                 <a href="{{route('admin.fsw.index')}}" class="nav-link">
                   <i class="far fa-circle nav-icon"></i>
                   <p>Data Upload</p>
                 </a>
               </li>
+              @endcan
               <li class="nav-item">
                 <a href="{{route('admin.fsw.report')}}" class="nav-link">
                   <i class="far fa-circle nav-icon"></i>
@@ -246,12 +256,14 @@
               </p>
             </a>
             <ul class="nav nav-treeview">
+              @can('Upload Targets')
                <li class="nav-item">
                 <a href="{{route('admin.vp.index')}}" class="nav-link">
                   <i class="far fa-circle nav-icon"></i>
                   <p>Data Upload</p>
                 </a>
               </li>
+              @endcan
               <li class="nav-item">
                 <a href="{{route('admin.vp.dc.reports')}}" class="nav-link">
                   <i class="far fa-circle nav-icon"></i>
@@ -342,13 +354,14 @@
               <p>Documentation</p>
             </a>
           </li>
+           @can('Manage Users')
             <li class="nav-item">
             <a href="{{route('admin.regions')}}" class="nav-link">
               <i class="nav-icon fas fa-file"></i>
               <p>Regions</p>
             </a>
           </li>
-          @can('Manage Users')
+         
            <li class="nav-item">
             <a href="#" class="nav-link">
               <i class="nav-icon fas fa-edit"></i>
