@@ -71,6 +71,7 @@ public function uploadDemo(Request $request)
 
             $user_id = Auth::id();
             $batchSize = 1000; // Adjust the batch size as needed
+            $processedUics = [];  // Array to keep track of processed UICs (uic values)
 
             // Process CSV data in batches
             while (($data = fgetcsv($handle)) !== false) {
@@ -84,16 +85,39 @@ public function uploadDemo(Request $request)
                             $rowData[$columnName] = mb_convert_encoding($data[$index], 'UTF-8', 'UTF-8');
                         }
                     }
+                                        // Check if the uic already exists in the database
+                    $existingRow = Demographics::where('uic', $rowData['uic'])->exists();
+                    if ($existingRow) {
+                        $data = fgetcsv($handle);
+                        continue; // Skip the row if uic already exists in the database
+                    }
+                    // Check for duplicate UICs (uic)
+                    if (in_array($rowData['uic'], $processedUics)) {
+                    $data = fgetcsv($handle);
+                    continue; // Skip the row if it's a duplicate
+                    }
+
+
                     $uniqueIdentifier = $rowData['sno'] . '-' . $rowData['month'] . '-' . $rowData['year'] . '-' . $rowData['region'] . '-' . $rowData['uic'];
                     $rowData['unique_identifier'] = $uniqueIdentifier;
                     $rowData['user_id'] = $user_id;
+                      // Add the uic to the processed list
+                    $processedUics[] = $rowData['uic'];
                     $batch[] = $rowData;
                     $data = fgetcsv($handle);
                 }
                 
-
+                 if (!empty($batch)) {
+                    try {
+                        Demographics::upsert($batch, uniqueBy:['unique_identifier'], update:array_keys($batch[0]));
+                    } catch (\Exception $e) {
+                        // Handle any exceptions, such as unique constraint violation
+                        Log::error('Error upserting batch: ' . $e->getMessage());
+                        continue; // Continue to the next batch or row
+                    }
+                 }
                 // Insert batch data into the database
-                Demographics::upsert($batch, uniqueBy:['unique_identifier'], update:array_keys($batch[0]));
+                #Demographics::upsert($batch, uniqueBy:['unique_identifier'], update:array_keys($batch[0]));
             }
 
             fclose($handle);
