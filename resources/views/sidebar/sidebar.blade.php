@@ -397,6 +397,29 @@
               </li>
             </ul>
               </li>
+              <li class="nav-item">
+                 <a href="#" class="nav-link">
+                  <i class="nav-icon fas fa-edit"></i>
+                  <p class="text-warning">
+                    Manage Assets
+                    <i class="fas fa-angle-left right"></i>
+                  </p>
+                </a>
+                  <ul class="nav nav-treeview">
+                    <li class="nav-item">
+                        <a href="{{route('assets.index')}}" class="nav-link">
+                          <i class="far fa-user nav-icon"></i>
+                          <p>All Assets</p>
+                        </a>
+                      </li>
+                      <li class="nav-item">
+                        <a href="{{route('assets.issued')}}" class="nav-link">
+                          <i class="far fa-user nav-icon"></i>
+                          <p>Issued Assets</p>
+                        </a>
+                      </li>
+                  </ul>
+              </li>
 
           <li class="nav-item">
               <a class="nav-link" href="{{route('admin.reports.CommunityReached')}}" >

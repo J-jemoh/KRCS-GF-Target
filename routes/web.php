@@ -24,6 +24,7 @@ use App\Http\Controllers\Pages\TwoFactorAuthController;
 use App\Http\Controllers\Pages\KPIController;
 use App\Http\Controllers\Users\RoleController;
 use App\Http\Controllers\Users\PermissionController;
+use App\Http\Controllers\Pages\AssetController;
 
 /*
 
@@ -343,6 +344,19 @@ Route::group(['middleware' => ['auth','google2fa','activity']], function () {
             Route::get('/users/permission/edit/{id}',[PermissionController::class,'edit'])->name('admin.users.permission.edit');
             Route::put('/users/permission/edit/{id}',[PermissionController::class,'update'])->name('admin.users.permission.update');
             Route::post('/users/permission/destroy/{id}',[PermissionController::class,'destroy'])->name('admin.users.permission.destroy');
+
+            #Assets
+            Route::get('/assets/home',[AssetController::class,'index'])->name('assets.index');
+            Route::get('/assets/create',[AssetController::class,'create'])->name('assets.create');
+            Route::post('/assets/store',[AssetController::class,'store'])->name('assets.store');
+            Route::get('/assets/view/{id}',[AssetController::class,'view'])->name('assets.view');
+            Route::get('/assets/edit/{id}',[AssetController::class,'edit'])->name('assets.edit');
+            Route::post('/assets/update/{id}',[AssetController::class,'update'])->name('assets.update');
+            Route::post('/assets/issue/',[AssetController::class,'issueAsset'])->name('assets.issue');
+            Route::post('/assets/return/',[AssetController::class,'returnAsset'])->name('assets.return');
+            Route::get('/assets/issued/',[AssetController::class,'issuedAssets'])->name('assets.issued');
+
+
 
 
     });
