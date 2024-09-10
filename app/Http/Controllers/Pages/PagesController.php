@@ -17,7 +17,7 @@ use App\Models\GBV;
 use App\Models\Demographics;
 use App\Models\Typology;
 use DataTables;
-use App\Models\pfTarget;
+use App\Models\PfTarget;
 use Illuminate\Support\Facades\DB;
 use App\Models\AYP;
 use App\Models\PMTCT;
@@ -746,7 +746,7 @@ class PagesController extends Controller
         return view('pages.backup');
     }
     public function pfTarget(){
-        $pftargets=pfTarget::get();
+        $pftargets=PfTarget::get();
         return view('pages.gc7.pfTarget',compact('pftargets'));
     }
      public function vpIndex(){
