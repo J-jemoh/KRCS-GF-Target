@@ -20,6 +20,7 @@
     <br>
    <section class="content">
     <div class="container-fluid">
+    	@can('Download data')
       <div class="row">
         <div class="col-4">
           <a href="#" class="btn btn-info btn-block">Download/Export to CSV</a>
@@ -28,6 +29,7 @@
              <a href="#" class="btn btn-info btn-block">Download/Export to Excel</a>
          </div>
       </div>
+      @endcan
       <br>
       <div class="card card-info">
       	<div class="card-body">
