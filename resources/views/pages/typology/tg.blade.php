@@ -20,6 +20,7 @@
     <br>
    <section class="content">
     <div class="container-fluid">
+       @can('Download data')
       <div class="row">
          @php
             // Set default values if $month is not defined
@@ -47,6 +48,7 @@
         </div>
         
       </div>
+      @endcan
       <br>
       <div class="row">
      
