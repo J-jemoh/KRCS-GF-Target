@@ -21,6 +21,7 @@
     <div class="container-fluid">
       @include('messages.flash_messages')
       <div class="card card-info">
+      	@can('Upload Targets')
         <div class="card-header">Upload TCS Data</div>
         <div class="card-body">
           <div class="row">
@@ -39,6 +40,7 @@
           	</div>
           </div>
         </div>
+        @endcan
         <div class="card-footer">
         </div>
       </div>

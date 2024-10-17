@@ -20,6 +20,7 @@
     <section class="content">
     <div class="container-fluid">
       @include('messages.flash_messages')
+      @can('Upload Targets')
       <div class="card card-info">
         <div class="card-header">Upload AYP Data</div>
         <div class="card-body">
@@ -72,6 +73,7 @@
         <div class="card-footer">
         </div>
       </div>
+      @endcan
     </div>
         <div class="container-fluid">
     	<div class="card card-info">
