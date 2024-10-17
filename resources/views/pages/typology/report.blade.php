@@ -20,6 +20,7 @@
     <br>
    <section class="content">
     <div class="container-fluid">
+       @can('Download data')
       <div class="row">
          @php
             // Set default values if $month is not defined
@@ -46,6 +47,7 @@
           <a href="{{route('admin.fsw.consolidated',['month' => $month->month, 'year' => $month->year])}}" class="btn btn-info btn-block">Download/Export to CSV</a>
         </div>
       </div>
+      @endcan
       <br>
       <div class="row">
      
