@@ -167,7 +167,9 @@ class PWIDController extends Controller
             ->count();
         $totalneedles = Typology::where('kp_type','PWID')->where(DB::raw('CAST(nssp_distributed_nbr AS INTEGER)'), '>', 0)->sum(DB::raw('CAST(nssp_distributed_nbr AS INTEGER)'));
         $nsspreceived=Typology::where('kp_type','PWID')->where(DB::raw('CAST(nssp_distributed_nbr AS INTEGER)'), '>', 0)->distinct()->count();
-        $prepInitiated= ($totalneedles/$nsspreceived);
+        #$prepInitiated= ($totalneedles/$nsspreceived)?0;
+        $prepInitiated = $nsspreceived > 0 ? ($totalneedles / $nsspreceived) : 0;
+
         $hivTested= Typology::where('hiv_tested','Yes')
                     ->where('kp_type','PWID')
                     ->distinct('peer_educator_code')
