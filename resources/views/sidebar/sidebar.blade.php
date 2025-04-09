@@ -42,6 +42,35 @@
               </p>
             </a>
           </li>
+           @can('Department Updates')
+          <li class="nav-item">
+            <a href="#" class="nav-link">
+              <i class="nav-icon fas fa-copy"></i>
+              <p class="text-warning">
+                Departments
+                <i class="fas fa-angle-left right"></i>
+                <span class="badge badge-info right"></span>
+              </p>
+            </a>
+            <ul class="nav nav-treeview">
+              
+              <li class="nav-item">
+                <a href="{{route('department.index')}}" class="nav-link">
+                  <i class="far fa-circle nav-icon"></i>
+                  <p>Weekly Updates</p>
+                </a>
+              </li>
+
+              <li class="nav-item">
+                <a href="{{route('admin.target.reports')}}" class="nav-link">
+                  <i class="far fa-file nav-icon"></i>
+                  <p>Reports</p>
+                </a>
+              </li>
+            </ul>
+          </li>
+          @endcan
+          @can('Upload Targets')
           <li class="nav-item">
             <a href="#" class="nav-link">
               <i class="nav-icon fas fa-copy"></i>
@@ -52,14 +81,14 @@
               </p>
             </a>
             <ul class="nav nav-treeview">
-              @can('Upload Targets')
+              
               <li class="nav-item">
                 <a href="{{route('admin.target')}}" class="nav-link">
                   <i class="far fa-circle nav-icon"></i>
                   <p>New Targets</p>
                 </a>
               </li>
-              @endcan
+           
               <li class="nav-item">
                 <a href="{{route('admin.target.all')}}" class="nav-link">
                   <i class="far fa-file nav-icon"></i>
@@ -81,6 +110,7 @@
               </li>
             </ul>
           </li>
+
           <li class="nav-item">
             <a href="#" class="nav-link">
               <i class="nav-icon fas fa-chart-pie"></i>
@@ -90,14 +120,13 @@
               </p>
             </a>
             <ul class="nav nav-treeview">
-              @can('Upload Targets')
+          
               <li class="nav-item">
                 <a href="{{route('admin.qpmm')}}" class="nav-link">
                   <i class="far fa-file nav-icon"></i>
                   <p>New Upload</p>
                 </a>
               </li>
-              @endcan
               <li class="nav-item">
                 <a href="{{route('admin.qpmm.allreports')}}" class="nav-link">
                   <i class="far fa-file nav-icon"></i>
@@ -112,7 +141,8 @@
               </li>
             </ul>
           </li>
-          <li class="nav-item">
+             @endcan
+       <!--    <li class="nav-item">
             <a href="#" class="nav-link">
               <i class="nav-icon fas fa-tree"></i>
               <p class="text-warning">
@@ -142,8 +172,8 @@
                 </a>
               </li>
             </ul>
-          </li>
-          <li class="nav-item">
+          </li> -->
+          <!-- <li class="nav-item">
             <a href="#" class="nav-link">
               <i class="nav-icon fas fa-edit"></i>
               <p class="text-warning">
@@ -179,8 +209,8 @@
                 </a>
               </li>
             </ul>
-          </li>
-          <li class="nav-item">
+          </li> -->
+        <!--   <li class="nav-item">
             <a href="#" class="nav-link">
               <i class="nav-icon fas fa-edit"></i>
               <p class="text-warning">
@@ -246,8 +276,8 @@
                 </a>
               </li>
             </ul>
-          </li>
-          <li class="nav-item">
+          </li> -->
+          <!-- <li class="nav-item">
             <a href="#" class="nav-link">
               <i class="nav-icon fas fa-edit"></i>
               <p class="text-warning">
@@ -296,7 +326,7 @@
               </li>
               </li>
             </ul>
-          </li>
+          </li> -->
            <li class="nav-item">
             <a href="{{route('kpi.index')}}" class="nav-link">
               <i class="nav-icon fas fa-chart-pie"></i>
@@ -335,7 +365,7 @@
             </ul>
           </li>
           @endcan
-          <li class="nav-header text-warning">QUICK lINKS</li>
+        <!--   <li class="nav-header text-warning">QUICK lINKS</li>
           <li class="nav-item">
             <a href="https://krcs-analytics.shinyapps.io/GF-ANALYTICS/" class="nav-link">
               <i class="nav-icon fas fa-chart-pie"></i>
@@ -353,7 +383,7 @@
               <i class="nav-icon fas fa-file"></i>
               <p>Documentation</p>
             </a>
-          </li>
+          </li> -->
            @can('Manage Users')
             <li class="nav-item">
             <a href="{{route('admin.regions')}}" class="nav-link">
@@ -421,12 +451,12 @@
                   </ul>
               </li>
 
-          <li class="nav-item">
+         <!--  <li class="nav-item">
               <a class="nav-link" href="{{route('admin.reports.CommunityReached')}}" >
                <i class="nav-icon fas fa-users-cog"></i>
                Community Members Reached Report
               </a>
-          </li>
+          </li> -->
           <!--  <li class="nav-item {{Request::is('logs*')?' active':''}}">
               <a class="nav-link {{ Request::is('logs') ? 'active' : null }}" href="{{ url('/logs') }}" > <i class="nav-icon fas fa-clipboard-list"></i>System Logs
               </a>

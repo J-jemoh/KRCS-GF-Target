@@ -18,8 +18,10 @@
   <link rel="stylesheet" href="{{asset('admin/plugins/datatables-buttons/css/buttons.bootstrap4.min.css')}}">
     <!-- Theme style -->
   <link rel="stylesheet" href="{{asset('admin/dist/css/adminlte.min.css')}}">
-  <link rel="stylesheet" href="{{asset('admin/dist/css/bootstrap.css')}}">
-  <link rel="stylesheet" href="{{asset('admin/dist/css/bootstrap.min.css')}}">
+ <!--  <link rel="stylesheet" href="{{asset('admin/dist/css/bootstrap.css')}}">
+  <link rel="stylesheet" href="{{asset('admin/dist/css/bootstrap.min.css')}}"> -->
+  <!-- <script src="https://cdn.ckeditor.com/ckeditor5/39.0.1/classic/ckeditor.js"></script> -->
+<script src="https://cdn.ckeditor.com/ckeditor5/34.0.0/classic/ckeditor.js"></script>
 </head>
 <body class="hold-transition sidebar-mini layout-fixed layout-navbar-fixed layout-footer-fixed">
     <div id="app">
@@ -62,6 +64,7 @@
 <script src="{{asset('admin/plugins/datatables-buttons/js/buttons.html5.min.js')}}"></script>
 <script src=".{{asset('admin/plugins/datatables-buttons/js/buttons.print.min.js')}}"></script>
 <script src=".{{asset('admin/plugins/datatables-buttons/js/buttons.colVis.min.js')}}"></script>
+<script src="{{asset('admin/ckeditor5/ckeditor5.js')}}"></script>
 <script>
   $(function () {
     $("#example1").DataTable({

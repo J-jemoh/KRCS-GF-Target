@@ -109,8 +109,9 @@ class UserController extends Controller
                 $secret = $google2fa->generateSecretKey();
                 $user->google2fa_secret = $secret;
                 $user->save();
+            Mail::to($user->email)->send(new WelcomeEmail($user));
             }
-        Mail::to($user->email)->send(new WelcomeEmail($user));
+
         return redirect()->route('admin.users')
             ->with('success',
                 'User successfully edited.');

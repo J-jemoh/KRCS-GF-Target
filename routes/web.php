@@ -25,6 +25,7 @@ use App\Http\Controllers\Pages\KPIController;
 use App\Http\Controllers\Users\RoleController;
 use App\Http\Controllers\Users\PermissionController;
 use App\Http\Controllers\Pages\AssetController;
+use App\Http\Controllers\Pages\DepartmentController;
 
 /*
 
@@ -356,6 +357,13 @@ Route::group(['middleware' => ['auth','google2fa','activity']], function () {
             Route::post('/assets/return/',[AssetController::class,'returnAsset'])->name('assets.return');
             Route::get('/assets/issued/',[AssetController::class,'issuedAssets'])->name('assets.issued');
 
+            #Department Controller
+            Route::get('departments/index',[DepartmentController::class,'index'])->name('department.index');
+            Route::get('departments/create',[DepartmentController::class,'create'])->name('department.create');
+            Route::post('departments/create',[DepartmentController::class,'store'])->name('department.store');
+            Route::get('departments/{id}/edit',[DepartmentController::class,'edit'])->name('department.edit');
+            Route::put('departments/{id}/edit',[DepartmentController::class,'update'])->name('department.update');
+            Route::get('departments/{id}/view',[DepartmentController::class,'show'])->name('department.show');
 
 
 
