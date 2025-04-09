@@ -62,7 +62,7 @@
               </li>
 
               <li class="nav-item">
-                <a href="{{route('admin.target.reports')}}" class="nav-link">
+                <a href="#" class="nav-link">
                   <i class="far fa-file nav-icon"></i>
                   <p>Reports</p>
                 </a>

@@ -217,6 +217,7 @@
         </div>
         <!-- /.row -->
        	</div>
+       @can('Manage Users')
         <div class="container-fluid">
           <div class="row">
             <div class="col-lg-4">
@@ -252,6 +253,7 @@
           </div>
           
         </div>
+
         <div class="container-fluid">
           <div class="row">
             <div class="col-lg-6">
@@ -324,6 +326,7 @@
             </div>
           </div>
         </div>
+            @endcan
   </section>
 @endsection
 <!-- for defined package -->
