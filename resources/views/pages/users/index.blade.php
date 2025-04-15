@@ -20,9 +20,11 @@
   	@include('messages.flash_messages')
     <div class="container-fluid">
     	<div class="card card-info">
+        @can('Manage Users')
     		<div class="card-header"><b>All Users</b>
     			<a href="{{route('admin.users.new')}}" class="btn btn-danger float-sm-right">Add  New User</a>
     		</div>
+        @endcan
     		<div class="card-body">
     			 <table id="example1" class="table table-bordered table-striped">
     			 	<thead>

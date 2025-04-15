@@ -9,7 +9,9 @@
           <div class="col-sm-6">
             <ol class="breadcrumb float-sm-right">
               <li class="breadcrumb-item"><a href="{{route('admin.dashboard')}}" class="text-white">Home</a></li>
+              @can('Manage Users')
               <li class="breadcrumb-item active"><a href="{{route('admin.users')}}" class="text-white">User Management</a></li>
+              @endcan
               <li class="breadcrumb-item active"><a href="#" class="text-white">User Profle</a></li>
             </ol>
           </div><!-- /.col -->
