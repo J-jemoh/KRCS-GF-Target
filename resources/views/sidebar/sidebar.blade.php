@@ -334,13 +334,14 @@
               </li>
             </ul>
           </li> -->
+          @can('Read C7 Coverage')
            <li class="nav-item">
             <a href="{{route('kpi.index')}}" class="nav-link">
               <i class="nav-icon fas fa-chart-pie"></i>
               <p class="text-warning">KPI's</p>
             </a>
           </li>
-          @can('Read C7 Coverage')
+          
             <li class="nav-item">
             <a href="#" class="nav-link">
               <i class="nav-icon fas fa-map-marker"></i>
