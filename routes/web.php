@@ -359,6 +359,7 @@ Route::group(['middleware' => ['auth','google2fa','activity']], function () {
 
             #Department Controller
             Route::get('departments/index',[DepartmentController::class,'index'])->name('department.index');
+            Route::get('departments/allReports',[DepartmentController::class,'AllReports'])->name('department.all');
             Route::get('departments/create',[DepartmentController::class,'create'])->name('department.create');
             Route::post('departments/create',[DepartmentController::class,'store'])->name('department.store');
             Route::get('departments/{id}/edit',[DepartmentController::class,'edit'])->name('department.edit');

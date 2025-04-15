@@ -5,14 +5,19 @@ namespace App\Http\Controllers\Pages;
 use App\Http\Controllers\Controller;
 use Illuminate\Http\Request;
 use App\Models\DepartmentUpdate;
+use Illuminate\Support\Facades\Auth;
 
 class DepartmentController extends Controller
 {
     
 
     public function index(){
-        $reports=DepartmentUpdate::orderBy('created_at','DESC')->get();
+        $reports=DepartmentUpdate::where('user_id',Auth::id())->orderBy('created_at','DESC')->get();
         return view('pages.weekly.index',compact('reports'));
+    }
+    public function AllReports(){
+        $reports=DepartmentUpdate::orderBy('created_at','DESC')->get();
+        return view('pages.weekly.AllReports',compact('reports'));
     }
     public function create(){
         return view('pages.weekly.create');

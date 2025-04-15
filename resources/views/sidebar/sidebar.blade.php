@@ -57,16 +57,23 @@
               <li class="nav-item">
                 <a href="{{route('department.index')}}" class="nav-link">
                   <i class="far fa-circle nav-icon"></i>
-                  <p>Weekly Updates</p>
+                  <p>My Weekly Updates</p>
                 </a>
               </li>
-
+              @can('View Reports')
+              <li class="nav-item">
+                <a href="{{route('department.all')}}" class="nav-link">
+                  <i class="far fa-circle nav-icon"></i>
+                  <p>All Weekly Updates</p>
+                </a>
+              </li>
               <li class="nav-item">
                 <a href="#" class="nav-link">
                   <i class="far fa-file nav-icon"></i>
                   <p>Reports</p>
                 </a>
               </li>
+              @endcan
             </ul>
           </li>
           @endcan
