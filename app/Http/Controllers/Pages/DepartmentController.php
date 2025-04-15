@@ -94,4 +94,9 @@ class DepartmentController extends Controller
         return view('pages.weekly.view', compact('weekly'));
 
     }
+    public function destroy($id){
+        $weekly = DepartmentUpdate::findOrFail($id);
+        $weekly->delete(); // Soft delete
+        return redirect()->back()->with('success', 'Report moved to trash successfully');
+}
 }
