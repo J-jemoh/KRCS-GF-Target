@@ -31,20 +31,38 @@
       		@method('put')
           <div class="row">
           	<div class="row">
-          		<div class="form-group">
-				    <label for="exampleFormControlSelect1">Choose Department</label>
-				    <select class="form-control" id="exampleFormControlSelect1" name="department" required>
-				      <option>{{$weekly->department}}</option>
-				      <option>Human Resource</option>
-				      <option>Legal</option>
-				      <option>Finance</option>
-				      <option>Procurement</option>
-				      <option>ICT</option>
-				      <option>Logistics</option>
-				      <option>Security</option>
-				    </select>
-				  </div>
-          	</div>
+          		<div class="row">
+              <div class="col-sm-6">
+                <div class="form-group">
+            <label for="exampleFormControlSelect1">Choose Department</label>
+            <select class="form-control" id="exampleFormControlSelect1" name="department" required>
+              <option>Human Resource</option>
+              <option>Legal</option>
+              <option>Finance</option>
+              <option>Procurement</option>
+              <option>ICT</option>
+              <option>Logistics</option>
+              <option>Security</option>
+              <option>Global Fund</option>
+            </select>
+          </div>
+              </div>
+              <div class="col-sm-6">
+                  <div class="form-group">
+            <label for="exampleFormControlSelect1">Choose Region</label>
+            <select class="form-control" id="exampleFormControlSelect1" name="region">
+              <option>HQ</option>
+              <option>LER</option>
+              <option>UER</option>
+              <option>NER</option>
+              <option>COR</option>
+              <option>NRR</option>
+              <option>WKR</option>
+            </select>
+          </div>
+              </div>
+            
+            </div>
           	<div class="col-sm-4">
           		<div class="form-group">
 				    <label for="exampleFormControlSelect1">Choose Week</label>
