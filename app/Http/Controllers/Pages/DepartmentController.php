@@ -16,7 +16,20 @@ class DepartmentController extends Controller
         return view('pages.weekly.index',compact('reports'));
     }
     public function AllReports(){
-        $reports=DepartmentUpdate::orderBy('created_at','DESC')->get();
+        $user = Auth::user();
+
+        if ($user->hasRole('Cooperate')) {
+            // 'coopoarate' role → Exclude GF
+            $reports = DepartmentUpdate::where('department', '!=', 'Global Fund')
+                        ->orderBy('created_at', 'DESC')
+                        ->get();
+        } else {
+            // All other roles → Only GF
+            $reports = DepartmentUpdate::where('department', 'Global Fund')
+                        ->orderBy('created_at', 'DESC')
+                        ->get();
+        }
+        // $reports=DepartmentUpdate::orderBy('created_at','DESC')->get();
         return view('pages.weekly.AllReports',compact('reports'));
     }
     public function create(){

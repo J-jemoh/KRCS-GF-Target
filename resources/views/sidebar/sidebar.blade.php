@@ -3,7 +3,7 @@
     <!-- Brand Logo -->
     <a href="#" class="brand-link">
       
-      <span class="brand-text font-weight-light"><b>KRCS GF SYSTEM</b></span>
+      <span class="brand-text font-weight-light"><b>KRCS COOPERATE</b></span>
     </a>
 
     <!-- Sidebar -->
