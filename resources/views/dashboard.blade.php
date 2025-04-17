@@ -17,6 +17,7 @@
     </div>
       <section class="content">
       <div class="container-fluid">
+        @can('Read Admin Panel')
       	<div class="row">
      
       	 <div class="col-12 col-sm-6 col-md-3">
@@ -71,6 +72,7 @@
             <!-- /.info-box -->
           </div>
       </div>
+      @endcan
          <div class="row">
           <div class="col-md-12">
             <div class="card">
@@ -138,7 +140,7 @@
                     <!-- /.progress-group -->
 
                     <div class="progress-group">
-                      GBV reported
+                      Weekly reports submited
                       <span class="float-right"><b>310</b>/400</span>
                       <div class="progress progress-sm">
                         <div class="progress-bar bg-danger" style="width: 75%"></div>
@@ -147,7 +149,7 @@
 
                     <!-- /.progress-group -->
                     <div class="progress-group">
-                      <span class="progress-text">QPMM </span>
+                      <span class="progress-text">Weekly reports reviewed </span>
                       <span class="float-right"><b>480</b>/800</span>
                       <div class="progress progress-sm">
                         <div class="progress-bar bg-success" style="width: 60%"></div>
@@ -175,7 +177,7 @@
                     <div class="description-block border-right">
                       <span class="description-percentage text-success"><i class="fas fa-caret-up"></i> 0</span>
                       <h5 class="description-header">0</h5>
-                      <span class="description-text">HRG</span>
+                      <span class="description-text">Viewed</span>
                     </div>
                     <!-- /.description-block -->
                   </div>
@@ -184,7 +186,7 @@
                     <div class="description-block border-right">
                       <span class="description-percentage text-warning"><i class="fas fa-caret-left"></i> 0%</span>
                       <h5 class="description-header">0</h5>
-                      <span class="description-text">QPMM</span>
+                      <span class="description-text">Pending</span>
                     </div>
                     <!-- /.description-block -->
                   </div>
@@ -193,7 +195,7 @@
                     <div class="description-block border-right">
                       <span class="description-percentage text-success"><i class="fas fa-caret-up"></i> 0%</span>
                       <h5 class="description-header">00</h5>
-                      <span class="description-text">GBV</span>
+                      <span class="description-text">Draft</span>
                     </div>
                     <!-- /.description-block -->
                   </div>
@@ -202,7 +204,7 @@
                     <div class="description-block">
                       <span class="description-percentage text-danger"><i class="fas fa-caret-down"></i> 0</span>
                       <h5 class="description-header">0</h5>
-                      <span class="description-text">GOAL COMPLETIONS</span>
+                      <span class="description-text">All reports</span>
                     </div>
                     <!-- /.description-block -->
                   </div>
