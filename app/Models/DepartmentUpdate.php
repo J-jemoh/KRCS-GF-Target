@@ -12,6 +12,6 @@ class DepartmentUpdate extends Model
 
     protected $fillable = [
         'user_id', 'department', 'week', 'start_date', 'end_date', 
-        'achievements', 'work_plan', 'key_risks', 'comments', 'matters_arising'
+        'achievements', 'work_plan', 'key_risks', 'comments', 'matters_arising','region'
     ];
 }
