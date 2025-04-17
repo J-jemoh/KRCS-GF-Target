@@ -131,7 +131,7 @@
                     </p>
 
                     <div class="progress-group">
-                      Targets reached
+                      Total Reports
                       <span class="float-right"><b>160</b>/200</span>
                       <div class="progress progress-sm">
                         <div class="progress-bar bg-primary" style="width: 80%"></div>
@@ -158,7 +158,7 @@
 
                     <!-- /.progress-group -->
                     <div class="progress-group">
-                      HRG
+                      Reports Pending
                       <span class="float-right"><b>250</b>/500</span>
                       <div class="progress progress-sm">
                         <div class="progress-bar bg-warning" style="width: 50%"></div>
