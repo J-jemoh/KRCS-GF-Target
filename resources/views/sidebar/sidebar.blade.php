@@ -434,7 +434,7 @@
                   <p>User Permissions</p>
                 </a>
               </li>
-              @encan
+              @endcan
             </ul>
               </li>
               <li class="nav-item">
