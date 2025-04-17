@@ -100,7 +100,7 @@ class DepartmentController extends Controller
         'matters_arising' => $request->urgent_matters,
         'region'=>$request->region,
     ]);
-    return redirect()->back()->with('Weekly report for '. $weekly->week . ' for '. $weekly->department . ' has been updated successfully.');
+    return redirect()->back()->with('success','Weekly report for '. $weekly->week . ' for '. $weekly->department . ' has been updated successfully.');
     }
     public function show($id){
         $weekly=DepartmentUpdate::findOrFail($id);
