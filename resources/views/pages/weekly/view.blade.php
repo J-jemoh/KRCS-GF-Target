@@ -20,14 +20,19 @@
   <section class="content">
     <div class="container-fluid">
           @include('messages.flash_messages')
-      <div class="card card-danger">
-        <div class="card-header"><h4>Department: {{$weekly->department}} <br>
+      <div class="card ">
+        <div class="card-header">
+           <a href="{{ route('weekly.download.word', $weekly->id) }}" class="btn btn-success float-sm-right">
+            <i class="fas fa-file-word"></i> Download Word Report
+        </a>
+          <h4>Department: {{$weekly->department}} <br>
+          <h4>Region: {{$weekly->region}} <br>
          Week: {{$weekly->week}}<br>
          From: {{$weekly->start_date }} - {{$weekly->end_date}}</h4>
         </div>
         <div class="card-body" style="background-color: #FDFAF6;">
          <div class="row">
-         	<div class="col-lg-6">
+         	<div class="col-lg-12">
          		<div class="card">
          		<div class="card-header"><b>Achievements This Week </b></div>
          		<div class="card-body">
@@ -37,7 +42,7 @@
          		</div>
          	</div>
          	</div>
-         	<div class="col-lg-6">
+         	<div class="col-lg-12">
          		<div class="card">
          		<div class="card-header"><b>Work Planned Upcoming Week </b></div>
          		<div class="card-body">
@@ -49,7 +54,7 @@
          	</div>
          </div>
          <div class="row">
-         	<div class="col-lg-6">
+         	<div class="col-lg-12">
          		<div class="card">
          		<div class="card-header"><b>Key Risks, Issues or Dependencies </b></div>
          		<div class="card-body">
@@ -59,7 +64,7 @@
          		</div>
          	</div>
          	</div>
-         	<div class="col-lg-6">
+         	<div class="col-lg-12">
          		<div class="card">
          		<div class="card-header"><b>Other Comments (add as you deem fit) </b></div>
          		<div class="card-body">

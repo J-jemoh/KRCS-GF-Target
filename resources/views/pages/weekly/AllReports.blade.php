@@ -35,6 +35,7 @@
                 <th>Region</th>
                 <th>Start Date</th>
                 <th>End Date</th>
+                <th>Date Submitted</th>
                 <th>Action</th>
               </tr>
             </thead>
@@ -48,6 +49,7 @@
               <td>{{$weekly->region}}</td>
               <td>{{$weekly->start_date}}</td>
               <td>{{$weekly->end_date}}</td>
+              <th>{{ \Carbon\Carbon::parse($weekly->created_at)->format('j F Y') }}</th>
               <td>
                  <div class="btn-group" role="group" aria-label="Basic example">
                     <a type="button" class="btn btn-info" href="{{route('department.edit',$weekly->id)}}"><i class="fa fa-edit"></i></a>

@@ -366,6 +366,8 @@ Route::group(['middleware' => ['auth','google2fa','activity']], function () {
             Route::put('departments/{id}/edit',[DepartmentController::class,'update'])->name('department.update');
             Route::get('departments/{id}/view',[DepartmentController::class,'show'])->name('department.show');
             Route::post('departments/{id}/trash',[DepartmentController::class,'destroy'])->name('department.destroy');
+            Route::get('/weekly-download-word/{id}', [DepartmentController::class, 'downloadReportWord'])->name('weekly.download.word');
+
 
 
 
