@@ -125,7 +125,7 @@ public function downloadReportWord($id)
     $phpWord = new PhpWord();
     $section = $phpWord->addSection();
 
-    // Title and header info
+    // Title and Header Info
     $section->addTitle("Weekly Report", 1);
     $section->addText("Department: " . $weekly->department);
     $section->addText("Region: " . $weekly->region);
@@ -133,33 +133,50 @@ public function downloadReportWord($id)
     $section->addText("From: " . $weekly->start_date . " - " . $weekly->end_date);
     $section->addTextBreak(1);
 
-    // Helper function to convert CKEditor content to Word
+    // Add HTML sections
     $this->addHtmlContent($section, "Achievements This Week", $weekly->achievements);
     $this->addHtmlContent($section, "Work Planned Upcoming Week", $weekly->work_plan);
     $this->addHtmlContent($section, "Key Risks, Issues or Dependencies", $weekly->key_risks);
     $this->addHtmlContent($section, "Other Comments", $weekly->comments);
     $this->addHtmlContent($section, "Urgent Arising Matters Requiring SMT Intervention", $weekly->matters_arising);
 
-    // Save and return
+    // File name
     $fileName = 'weekly_report_' . $weekly->week . '.docx';
-    $filePath = storage_path('app/public/' . $fileName); 
 
+    // Ensure clean output buffer before streaming
+    if (ob_get_contents()) {
+        ob_end_clean();
+    }
+    ob_start();
+
+    // Set headers for download
+    header("Content-Description: File Transfer");
+    header("Content-Disposition: attachment; filename={$fileName}");
+    header('Content-Type: application/vnd.openxmlformats-officedocument.wordprocessingml.document');
+    header('Content-Transfer-Encoding: binary');
+    header('Cache-Control: must-revalidate, post-check=0, pre-check=0');
+    header('Expires: 0');
+
+    // Stream Word document directly to browser
     $writer = IOFactory::createWriter($phpWord, 'Word2007');
-    $writer->save($filePath);
+    $writer->save('php://output');
 
-    return response()->download($filePath)->deleteFileAfterSend(true);
+    exit;
 }
 
 // 💡 Function to render HTML from CKEditor into PhpWord
 private function addHtmlContent($section, $title, $html)
 {
     $section->addTitle($title, 2);
-      $cleanHtml = mb_convert_encoding($html, 'HTML-ENTITIES', 'UTF-8');
+
+    // Sanitize and encode HTML
+    $cleanHtml = strip_tags($html, '<p><br><ul><li><ol><b><i><strong><em>');
+    $cleanHtml = mb_convert_encoding($cleanHtml, 'HTML-ENTITIES', 'UTF-8');
 
     try {
         Html::addHtml($section, $cleanHtml, false, false);
     } catch (\Exception $e) {
-        \Log::error('Failed to add HTML: ' . $e->getMessage());
+        \Log::error('Failed to add HTML to Word document: ' . $e->getMessage());
+        $section->addText('[Unable to load content due to formatting issues.]');
     }
-}
-}
+}}
