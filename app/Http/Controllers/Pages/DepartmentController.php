@@ -142,7 +142,7 @@ public function downloadReportWord($id)
 
     // Save and return
     $fileName = 'weekly_report_' . $weekly->week . '.docx';
-    $filePath = storage_path($fileName);
+    $filePath = storage_path('app/public/' . $fileName); 
 
     $writer = IOFactory::createWriter($phpWord, 'Word2007');
     $writer->save($filePath);
