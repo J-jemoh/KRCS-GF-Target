@@ -154,6 +154,12 @@ public function downloadReportWord($id)
 private function addHtmlContent($section, $title, $html)
 {
     $section->addTitle($title, 2);
-    Html::addHtml($section, $html, false, false);
+      $cleanHtml = mb_convert_encoding($html, 'HTML-ENTITIES', 'UTF-8');
+
+    try {
+        Html::addHtml($section, $cleanHtml, false, false);
+    } catch (\Exception $e) {
+        \Log::error('Failed to add HTML: ' . $e->getMessage());
+    }
 }
 }
