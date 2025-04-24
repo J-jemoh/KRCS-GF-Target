@@ -116,6 +116,11 @@ class UserController extends Controller
             ->with('success',
                 'User successfully edited.');
             }
+    public function view($id){
+
+        $user=User::findOrFail($id);
+        return view('pages.users.view',compact('user'));
+    }
 
     public function SoftDelete($id){
         $user=User::find($id);

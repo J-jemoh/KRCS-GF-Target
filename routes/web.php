@@ -115,6 +115,7 @@ Route::group(['middleware' => ['auth','google2fa','activity']], function () {
             ->name('admin.user.save');
             Route::get('/users/edit/{id}',[UserController::class,'editUser'])->name('admin.user.edit');
             Route::post('/users/edit/{id}',[UserController::class,'UpdateUser'])->name('admin.user.update');
+            Route::get('/users/view/{id}',[UserController::class,'view'])->name('admin.user.view');
             Route::post('user/delete/{id}',[UserController::class,'SoftDelete'])->name('admin.user.delete');
             Route::get('users/Trashed',[UserController::class,'viewDeleted'])->name('admin.user.trashed');
             Route::post('user/restore/{id}',[UserController::class,'restoreDeleted'])->name('admin.user.restore');

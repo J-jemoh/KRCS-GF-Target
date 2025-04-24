@@ -48,7 +48,7 @@
     			 			<td>
     			 				<div class="btn-group" role="group" aria-label="Basic example">
 				                    <a type="button" class="btn btn-info" href="{{route('admin.user.edit',$user->id)}}"><i class="fa fa-edit"></i></a>
-				                    <a type="button" class="btn btn-warning" href="#"><i class="fa fa-eye"></i></a>
+				                    <a type="button" class="btn btn-warning" href="{{route('admin.user.view',$user->id)}}"><i class="fa fa-eye"></i></a>
 				                    <a type="a" href="#" class="btn btn-danger" data-bs-toggle="modal" data-bs-target="#delete-{{$user->id}}"><i class="fa fa-trash"></i></a>
 				                  </div>
     			 			</td>
