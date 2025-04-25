@@ -74,6 +74,7 @@
 					          		<option>NMO</option>
 					          		<option>DMO</option>
 					          		<option>RMEO</option>
+					          		<option>RGO</option>
 					          		<option>INTERN/VOLUNTEER</option>
 					          	</select>
 					          <div class="input-group-append">
