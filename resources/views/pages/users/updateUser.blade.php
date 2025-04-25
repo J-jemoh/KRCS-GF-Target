@@ -64,7 +64,9 @@
 					          		<option>M & E Manager</option>
 					          		<option>NMO</option>
 					          		<option>DMO</option>
+					          		<option>GA</option>
 					          		<option>RMEO</option>
+					          		<option>RGO</option>
 					          	</select>
 					          <div class="input-group-append">
 					            <div class="input-group-text">
