@@ -25,7 +25,7 @@
               <span class="info-box-icon bg-info elevation-1"><i class="fas fa-cog"></i></span>
 
               <div class="info-box-content">
-                <span class="info-box-text">Total KP'S(Cummulative)</span>
+                <span class="info-box-text">Reports Submited</span>
                 <span class="info-box-number">
                   {{$totalKps}}
                   <small></small>
@@ -40,7 +40,7 @@
               <span class="info-box-icon bg-danger elevation-1"><i class="fas fa-bars"></i></span>
 
               <div class="info-box-content">
-                <span class="info-box-text">Total TCS(Cummulative)</span>
+                <span class="info-box-text">No of Regions</span>
                 <span class="info-box-number">{{$totalTCS}}</span>
               </div>
               <!-- /.info-box-content -->
@@ -52,8 +52,8 @@
               <span class="info-box-icon bg-danger elevation-1"><i class="fas fa-bars"></i></span>
 
               <div class="info-box-content">
-                <span class="info-box-text">Total VPS</span>
-                <span class="info-box-number">0</span>
+                <span class="info-box-text">Weeks Reported</span>
+                <span class="info-box-number">{{$totalwks}}</span>
               </div>
               <!-- /.info-box-content -->
             </div>

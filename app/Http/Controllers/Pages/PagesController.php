@@ -27,6 +27,7 @@ use App\Models\AYPMentorship;
 use App\Models\AYP_HCBF;
 use App\Models\AYP_MHMC;
 use App\Models\TCS;
+use App\Models\DepartmentUpdate;
 use Illuminate\Support\Facades\Hash;
 use Illuminate\Validation\Rules\Password;
 
@@ -50,10 +51,11 @@ class PagesController extends Controller
                         ->get();
         $users=User::orderBy('created_at','desc')->limit(5)->get();
         $totalUser=User::count();
-        $totalKps=Typology::count();
-        $totalTCS=TCS::count();
+        $totalKps=DepartmentUpdate::count();
+        $totalTCS=$totalRegions = DepartmentUpdate::distinct('region')->count('region');
+        $totalwks=$totalRegions = DepartmentUpdate::distinct('week')->count('week');
       
-         return view('dashboard',compact('barData','barDataHts','barDataPrep','users','threshold','totalUser','totalKps','totalTCS'));
+         return view('dashboard',compact('barData','barDataHts','barDataPrep','users','threshold','totalUser','totalKps','totalTCS','totalwks'));
 
     }
     public function targetIndex():View{
