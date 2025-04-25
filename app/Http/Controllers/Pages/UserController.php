@@ -87,6 +87,7 @@ class UserController extends Controller
             'name' => 'required|max:255',
             'email' => 'required|email|unique:users,email,' . $id,
             'password' => 'nullable|min:6|confirmed',
+            'destination'=>'nullable',
         ]);
 
         $input = $request->only(['name', 'email']); //Retrieve the name, email fields
