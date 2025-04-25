@@ -90,7 +90,7 @@ class UserController extends Controller
             'destination'=>'nullable',
         ]);
 
-        $input = $request->only(['name', 'email']); //Retrieve the name, email fields
+        $input = $request->only(['name', 'email','destination']); //Retrieve the name, email fields
         $roles = $request['roles']; //Retreive all roles
         $user->fill($input)->save();
 
