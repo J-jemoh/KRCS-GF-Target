@@ -22,7 +22,7 @@
           @include('messages.flash_messages')
       <div class="card card-danger">
         <div class="card-header">All Departmental Updates
-          <a href="{{route('department.create')}}" class="btn btn-info float-sm-right">Add new weekly report</a>
+          <!-- <a href="{{route('department.create')}}" class="btn btn-info float-sm-right">Add new weekly report</a> -->
         </div>
         <div class="card-body">
           <table id="example1" class="table table-bordered table-striped">
