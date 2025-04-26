@@ -9,6 +9,7 @@ use Illuminate\Support\Facades\Auth;
 use PhpOffice\PhpWord\PhpWord;
 use PhpOffice\PhpWord\IOFactory;
 use PhpOffice\PhpWord\Shared\Html;
+use Barryvdh\DomPDF\Facade\Pdf;
 
 class DepartmentController extends Controller
 {
@@ -152,8 +153,7 @@ public function downloadReportWord($id)
 
 
 // 💡 Function to render HTML from CKEditor into PhpWord
-private function addHtmlContent($section, $title, $html)
-{
+private function addHtmlContent($section, $title, $html){
     $section->addTitle($title, 2);
 
     // Sanitize and encode HTML
@@ -166,4 +166,15 @@ private function addHtmlContent($section, $title, $html)
         \Log::error('Failed to add HTML to Word document: ' . $e->getMessage());
         $section->addText('[Unable to load content due to formatting issues.]');
     }
-}}
+ 
+}
+   public function downloadReportPdf($id){
+    $weekly = DepartmentUpdate::findOrFail($id);
+
+    $pdf = Pdf::loadView('pdf.weekly_report', compact('weekly'));
+
+    $fileName = 'weekly_report_' . $weekly->week . '.pdf';
+
+    return $pdf->download($fileName);
+}
+}

@@ -22,6 +22,9 @@
           @include('messages.flash_messages')
       <div class="card ">
         <div class="card-header">
+           <a href="{{ route('weekly-report.pdf', $weekly->id) }}" class="btn btn-danger float-sm-right ml-2">
+            <i class="fas fa-file-word"></i> Download PDF Report
+        </a>
            <a href="{{ route('weekly.download.word', $weekly->id) }}" class="btn btn-success float-sm-right">
             <i class="fas fa-file-word"></i> Download Word Report
         </a>
