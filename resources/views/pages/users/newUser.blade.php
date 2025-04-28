@@ -71,11 +71,16 @@
 					          	<select class="form-control" name="destination" required>
 					          		<option>Select Role</option>
 					          		<option>M & E Manager</option>
+					          		<option>Grants Manager</option>
+					          		<option>Finance Manager</option>
+					          		<option>HOD</option>
 					          		<option>NMO</option>
 					          		<option>DMO</option>
 					          		<option>GA</option>
 					          		<option>RMEO</option>
 					          		<option>RGO</option>
+					          		<option>HR</option>
+					          		<option>Safety</option>
 					          		<option>INTERN/VOLUNTEER</option>
 					          	</select>
 					          <div class="input-group-append">
