@@ -54,10 +54,18 @@
                  <div class="btn-group" role="group" aria-label="Basic example">
                     <a type="button" class="btn btn-info" href="{{route('department.edit',$weekly->id)}}"><i class="fa fa-edit"></i></a>
                     @can('Edit')
+                    @role('Super Admin')
                     <a type="button" class="btn btn-warning" href="{{route('department.show',$weekly->id)}}"><i class="fa fa-eye"></i></a>
+                    @elseif(role('Admin'))
+                    <a type="button" class="btn btn-warning" href="{{route('department.show',$weekly->id)}}"><i class="fa fa-eye"></i></a>
+                    @endrole
                     @endcan
                     @can('Delete')
+                     @role('Super Admin')
                     <button type="button" class="btn btn-danger" data-toggle="modal" data-target="#delete-{{$weekly->id}}"><i class="fa fa-trash"></i></button>
+                    @elseif(role('Admin'))
+                    <button type="button" class="btn btn-danger" data-toggle="modal" data-target="#delete-{{$weekly->id}}"><i class="fa fa-trash"></i></button>
+                    @endrole
                     @endcan
                   </div>
               </td>
