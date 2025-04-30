@@ -52,14 +52,15 @@
               <th>{{ \Carbon\Carbon::parse($weekly->created_at)->format('j F Y') }}</th>
               <td>
                  <div class="btn-group" role="group" aria-label="Basic example">
-                    <a type="button" class="btn btn-info" href="{{route('department.edit',$weekly->id)}}"><i class="fa fa-edit"></i></a>
-                    @can('Edit')
+                   @can('Edit')
                     @role('Super Admin')
-                    <a type="button" class="btn btn-warning" href="{{route('department.show',$weekly->id)}}"><i class="fa fa-eye"></i></a>
+                    <a type="button" class="btn btn-info" href="{{route('department.edit',$weekly->id)}}"><i class="fa fa-edit"></i></a>
                     @elserole('Admin')
                     <a type="button" class="btn btn-warning" href="{{route('department.show',$weekly->id)}}"><i class="fa fa-eye"></i></a>
                     @endrole
                     @endcan
+                    <a type="button" class="btn btn-warning" href="{{route('department.show',$weekly->id)}}"><i class="fa fa-eye"></i></a>
+                   
                     @can('Delete')
                      @role('Super Admin')
                     <button type="button" class="btn btn-danger" data-toggle="modal" data-target="#delete-{{$weekly->id}}"><i class="fa fa-trash"></i></button>
