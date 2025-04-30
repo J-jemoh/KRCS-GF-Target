@@ -56,6 +56,7 @@ class DepartmentController extends Controller
             'urgent_matters'=>'nullable',
             'region'=>'nullable',
         ]);
+        $status = $request->input('action') === 'submit' ? 'submitted' : 'draft';
          DepartmentUpdate::create([
         'user_id' => auth()->id(),
         'department' => $request->department,
@@ -68,6 +69,7 @@ class DepartmentController extends Controller
         'comments' => $request->comments,
         'matters_arising' => $request->urgent_matters,
         'region'=>$request->region,
+        'status' => $status,
     ]);
 
     // Return a success response
@@ -94,6 +96,7 @@ class DepartmentController extends Controller
             'urgent_matters'=>'nullable',
             'region'=>'nullable',
         ]);
+         $status = $request->input('action') === 'submit' ? 'submitted' : 'draft';
          $weekly->update([
         'user_id' => auth()->id(),
         'department' => $request->department,
@@ -106,6 +109,8 @@ class DepartmentController extends Controller
         'comments' => $request->comments,
         'matters_arising' => $request->urgent_matters,
         'region'=>$request->region,
+        'status' => $status,
+
     ]);
     return redirect()->back()->with('success','Weekly report for '. $weekly->week . ' for '. $weekly->department . ' has been updated successfully.');
     }

@@ -36,6 +36,7 @@
                 <div class="form-group">
             <label for="exampleFormControlSelect1">Choose Department</label>
             <select class="form-control" id="exampleFormControlSelect1" name="department" required>
+              <option>{{$weekly->department}}</option>
               <option>Human Resource</option>
               <option>Legal</option>
               <option>Finance</option>
@@ -51,6 +52,7 @@
                   <div class="form-group">
             <label for="exampleFormControlSelect1">Choose Region</label>
             <select class="form-control" id="exampleFormControlSelect1" name="region">
+              {{$weekly->region}}
               <option>HQ</option>
               <option>LER</option>
               <option>UER</option>
@@ -122,8 +124,9 @@
           </div>
           <div class="row">
 			    <div class="d-flex justify-content-end gap-2">
-			        <button class="btn btn-warning" onclick="history.back()"><i class="fa fa-times"></i> Cancel</button>
-			        <button class="btn btn-danger" type="submit">Update Weekly Report</button>
+			        <button class="btn btn-info" onclick="history.back()"><i class="fa fa-times"></i> Cancel</button>
+              <button class="btn btn-warning" type="submit" name="action" value="draft" ><i class="fa fa-save"></i> Save</button>
+              <button class="btn btn-danger" type="submit" name="action" value="submit"><i class="fa fa-paper-plane" aria-hidden="true"></i> Submit</button>
 			    </div>
 			</div>
     	</form>

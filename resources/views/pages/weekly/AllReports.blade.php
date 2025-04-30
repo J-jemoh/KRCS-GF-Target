@@ -53,7 +53,9 @@
               <td>
                  <div class="btn-group" role="group" aria-label="Basic example">
                     <a type="button" class="btn btn-info" href="{{route('department.edit',$weekly->id)}}"><i class="fa fa-edit"></i></a>
+                    @can('Edit')
                     <a type="button" class="btn btn-warning" href="{{route('department.show',$weekly->id)}}"><i class="fa fa-eye"></i></a>
+                    @endcan
                     @can('Delete')
                     <button type="button" class="btn btn-danger" data-toggle="modal" data-target="#delete-{{$weekly->id}}"><i class="fa fa-trash"></i></button>
                     @endcan

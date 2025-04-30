@@ -21,9 +21,9 @@
   <section class="content">
     <div class="container-fluid">
           @include('messages.flash_messages')
-      <div class="card card-danger">
+      <div class="card">
 
-        <div class="card-header">Create a new weekly Report
+        <div class="card-header"><b>New weekly Report</b>
         </div>
         <div class="card-body">
        <form method="post" action="{{route('department.store')}}">
@@ -119,8 +119,9 @@
           </div>
           <div class="row">
 			    <div class="d-flex justify-content-end gap-2">
-			        <button class="btn btn-warning" onclick="history.back()"><i class="fa fa-times"></i> Cancel</button>
-			        <button class="btn btn-danger" type="submit">Save Weekly Report</button>
+			        <button class="btn btn-info" onclick="history.back()"><i class="fa fa-times"></i> Cancel</button>
+			        <button class="btn btn-warning" type="submit" name="action" value="draft" ><i class="fa fa-save"></i> Save</button>
+              <button class="btn btn-danger" type="submit" name="action" value="submit"><i class="fa fa-paper-plane" aria-hidden="true"></i> Submit</button>
 			    </div>
 			</div>
     	</form>
