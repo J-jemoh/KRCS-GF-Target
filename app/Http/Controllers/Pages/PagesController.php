@@ -52,10 +52,11 @@ class PagesController extends Controller
         $users=User::orderBy('created_at','desc')->limit(5)->get();
         $totalUser=User::count();
         $totalKps=DepartmentUpdate::count();
+        $totalr_user = DepartmentUpdate::where('user_id', auth()->id())->count();
         $totalTCS=$totalRegions = DepartmentUpdate::distinct('region')->count('region');
         $totalwks=$totalRegions = DepartmentUpdate::distinct('week')->count('week');
       
-         return view('dashboard',compact('barData','barDataHts','barDataPrep','users','threshold','totalUser','totalKps','totalTCS','totalwks'));
+         return view('dashboard',compact('barData','barDataHts','barDataPrep','users','threshold','totalUser','totalKps','totalTCS','totalwks','totalr_user'));
 
     }
     public function targetIndex():View{

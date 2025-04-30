@@ -132,34 +132,34 @@
 
                     <div class="progress-group">
                       Total Reports
-                      <span class="float-right"><b>160</b>/200</span>
+                      <span class="float-right"><b>{{$totalr_user}}</b>/{{$totalKps}}</span>
                       <div class="progress progress-sm">
-                        <div class="progress-bar bg-primary" style="width: 80%"></div>
+                        <div class="progress-bar bg-primary" style="width: {{ ($totalr_user / $totalKps) * 100 }}%"></div>
                       </div>
                     </div>
                     <!-- /.progress-group -->
 
                     <div class="progress-group">
                       Weekly reports submited
-                      <span class="float-right"><b>310</b>/400</span>
+                      <span class="float-right"><b>{{$totalKps}}</b>/{{$totalKps}}</span>
                       <div class="progress progress-sm">
-                        <div class="progress-bar bg-danger" style="width: 75%"></div>
+                        <div class="progress-bar bg-danger" style="width: {{ ($totalKps / $totalKps) * 100 }}%"></div>
                       </div>
                     </div>
 
                     <!-- /.progress-group -->
                     <div class="progress-group">
                       <span class="progress-text">Weekly reports reviewed </span>
-                      <span class="float-right"><b>480</b>/800</span>
+                      <span class="float-right"><b>{{$totalKps}}</b>/{{$totalKps}}</span>
                       <div class="progress progress-sm">
-                        <div class="progress-bar bg-success" style="width: 60%"></div>
+                        <div class="progress-bar bg-success" style=" width: {{ ($totalKps / $totalKps) * 100 }}%"></div>
                       </div>
                     </div>
 
                     <!-- /.progress-group -->
                     <div class="progress-group">
                       Reports Pending
-                      <span class="float-right"><b>250</b>/500</span>
+                      <span class="float-right"><b>0</b>/0</span>
                       <div class="progress progress-sm">
                         <div class="progress-bar bg-warning" style="width: 50%"></div>
                       </div>
@@ -176,8 +176,8 @@
                   <div class="col-sm-3 col-6">
                     <div class="description-block border-right">
                       <span class="description-percentage text-success"><i class="fas fa-caret-up"></i> 0</span>
-                      <h5 class="description-header">0</h5>
-                      <span class="description-text">Viewed</span>
+                      <h5 class="description-header">{{$totalr_user}}</h5>
+                      <span class="description-text">My Reports</span>
                     </div>
                     <!-- /.description-block -->
                   </div>
@@ -185,8 +185,8 @@
                   <div class="col-sm-3 col-6">
                     <div class="description-block border-right">
                       <span class="description-percentage text-warning"><i class="fas fa-caret-left"></i> 0%</span>
-                      <h5 class="description-header">0</h5>
-                      <span class="description-text">Pending</span>
+                      <h5 class="description-header">{{$totalr_user}}</h5>
+                      <span class="description-text">Submitted</span>
                     </div>
                     <!-- /.description-block -->
                   </div>
@@ -203,7 +203,7 @@
                   <div class="col-sm-3 col-6">
                     <div class="description-block">
                       <span class="description-percentage text-danger"><i class="fas fa-caret-down"></i> 0</span>
-                      <h5 class="description-header">0</h5>
+                      <h5 class="description-header">{{$totalKps}}</h5>
                       <span class="description-text">All reports</span>
                     </div>
                     <!-- /.description-block -->
