@@ -36,6 +36,7 @@
                 <th>Start Date</th>
                 <th>End Date</th>
                 <th>Date Submitted</th>
+                <th>Status</th>
                 <th>Action</th>
               </tr>
             </thead>
@@ -50,6 +51,13 @@
               <td>{{$weekly->start_date}}</td>
               <td>{{$weekly->end_date}}</td>
               <th>{{ \Carbon\Carbon::parse($weekly->created_at)->format('j F Y') }}</th>
+              <td>
+                @if($weekly->status=='draft')
+                <span class="badge bg-warning">{{$weekly->status}}</span>
+                @else
+                <span class="badge bg-success">{{$weekly->status}}</span>
+                @endif
+              </td>
               <td>
                  <div class="btn-group" role="group" aria-label="Basic example">
                    @can('Edit')
