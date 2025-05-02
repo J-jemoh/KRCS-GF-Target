@@ -26,7 +26,7 @@
         </div>
         <div class="card-body">
           <ul class="nav nav-tabs" id="myTab" role="tablist">
-                <li class="nav-item" role="presentation">
+                <li class="nav-item" role="presentation" style="border-right: 2px solid #fff;">
                   <button class="nav-link active bg-danger" id="home-tab" data-bs-toggle="tab" data-bs-target="#draft" type="button" role="tab" aria-controls="draft" aria-selected="true">Draft Reports</button>
                 </li>
                 <li class="nav-item" role="presentation">

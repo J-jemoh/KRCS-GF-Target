@@ -39,6 +39,7 @@ use App\Http\Controllers\Pages\DepartmentController;
 |
 */
 
+// Route::health();
 
 Route::get('/',function(){
     return view('auth.login');

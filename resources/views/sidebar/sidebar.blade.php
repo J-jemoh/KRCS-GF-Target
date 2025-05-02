@@ -47,7 +47,7 @@
             <a href="#" class="nav-link">
               <i class="nav-icon fas fa-copy"></i>
               <p class="text-warning">
-                Departments
+                Reports
                 <i class="fas fa-angle-left right"></i>
                 <span class="badge badge-info right"></span>
               </p>
