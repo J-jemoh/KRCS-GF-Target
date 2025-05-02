@@ -52,7 +52,7 @@
                   <div class="form-group">
             <label for="exampleFormControlSelect1">Choose Region</label>
             <select class="form-control" id="exampleFormControlSelect1" name="region">
-              {{$weekly->region}}
+              <option>{{$weekly->region}}</option>
               <option>HQ</option>
               <option>LER</option>
               <option>UER</option>

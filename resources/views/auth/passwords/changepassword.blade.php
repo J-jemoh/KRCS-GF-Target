@@ -20,7 +20,7 @@
     <section class="content">
     <div class="container-fluid">
     	@include('messages.flash_messages')
-    	<div class="card card-info">
+    	<div class="card card-light">
     		<div class="card-header"><b>Change Password</b></div>
     		<div class="card-body">
     			<form></form>
