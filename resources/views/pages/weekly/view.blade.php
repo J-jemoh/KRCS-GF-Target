@@ -28,10 +28,13 @@
            <a href="{{ route('weekly.download.word', $weekly->id) }}" class="btn btn-success float-sm-right ml-2">
             <i class="fas fa-file-word"></i> Download Word Report
         </a>
-       
+       @can('Delete')
+       @role('Super Admin')
         <button type="button" class="btn btn-warning float-sm-right " data-toggle="modal" data-target="#status-{{$weekly->id}}">
           Update Status
         </button>
+        @endrole
+        @endcan
           @include('pages.weekly.statusModal')
           <h4>Department: {{$weekly->department}} <br>
           <h4>Region: {{$weekly->region}} <br>
