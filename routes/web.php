@@ -368,6 +368,7 @@ Route::group(['middleware' => ['auth','google2fa','activity']], function () {
             Route::get('departments/{id}/edit',[DepartmentController::class,'edit'])->name('department.edit');
             Route::put('departments/{id}/edit',[DepartmentController::class,'update'])->name('department.update');
             Route::get('departments/{id}/view',[DepartmentController::class,'show'])->name('department.show');
+            Route::put('departments/{id}/status',[DepartmentController::class,'updateStatus'])->name('department.updateStatus');
             Route::post('departments/{id}/trash',[DepartmentController::class,'destroy'])->name('department.destroy');
             Route::get('/weekly-download-word/{id}', [DepartmentController::class, 'downloadReportWord'])->name('weekly.download.word');
             Route::get('/weekly-report/pdf/{id}', [DepartmentController::class, 'downloadReportPdf'])->name('weekly-report.pdf');

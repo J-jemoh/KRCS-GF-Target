@@ -59,4 +59,11 @@ class User extends Authenticatable
         // Check if the user has completed the two-factor authentication setup
         return !is_null($this->google2fa_secret); // Assuming google2fa_secret is where you store the secret key
     }
+    // app/Models/User.php
+
+public function departmentUpdates()
+{
+    return $this->hasMany(DepartmentUpdate::class);
+}
+
 }

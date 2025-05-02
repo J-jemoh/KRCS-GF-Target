@@ -124,6 +124,27 @@ class DepartmentController extends Controller
         $weekly->delete(); // Soft delete
         return redirect()->back()->with('success', 'Report moved to trash successfully');
 }
+    public function updateStatus($id){
+
+        $departmentUpdate = DepartmentUpdate::find($id);
+
+    // Check if the record exists
+    if ($departmentUpdate) {
+        // Check if the status is 'submitted', and update it to 'draft'
+        if ($departmentUpdate->status == 'submitted') {
+            $departmentUpdate->status = 'draft';
+            $departmentUpdate->save();  // Save the changes to the database
+
+            return redirect()->back()->with('success','Status updated successfully');
+        } else {
+            return redirect()->back()->with('success','Status is not submitted, no update needed');
+        }
+    } else {
+        return response()->json([
+            'message' => 'Record not found.'
+        ]);
+    }
+    }
 public function downloadReportWord($id)
 {
     $weekly = DepartmentUpdate::findOrFail($id);

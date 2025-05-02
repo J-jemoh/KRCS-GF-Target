@@ -37,6 +37,7 @@
                 <th>End Date</th>
                 <th>Date Submitted</th>
                 <th>Status</th>
+                <th>Person Resposbile</th>
                 <th>Action</th>
               </tr>
             </thead>
@@ -57,6 +58,9 @@
                 @else
                 <span class="badge bg-success">{{$weekly->status}}</span>
                 @endif
+              </td>
+              <td>
+                {{$weekly->user->name ?? ''}}
               </td>
               <td>
                  <div class="btn-group" role="group" aria-label="Basic example">

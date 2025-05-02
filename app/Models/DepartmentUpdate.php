@@ -14,4 +14,8 @@ class DepartmentUpdate extends Model
         'user_id', 'department', 'week', 'start_date', 'end_date', 
         'achievements', 'work_plan', 'key_risks', 'comments', 'matters_arising','region','status'
     ];
+    public function user()
+{
+    return $this->belongsTo(User::class);
+}
 }
