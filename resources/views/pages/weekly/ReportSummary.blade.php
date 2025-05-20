@@ -9,7 +9,7 @@
           <div class="col-sm-6">
             <ol class="breadcrumb float-sm-right">
               <li class="breadcrumb-item"><a href="{{route('admin.dashboard')}}" class="text-white">Home</a></li>
-              <li class="breadcrumb-item active"><a href="#" class="text-white">Seport Summary</a></li>
+              <li class="breadcrumb-item active"><a href="#" class="text-white">Report Summary</a></li>
 
             </ol>
           </div><!-- /.col -->
