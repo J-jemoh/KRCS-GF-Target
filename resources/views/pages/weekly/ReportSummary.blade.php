@@ -22,7 +22,7 @@
     	<div class="card">
     		<div class="card-header">Summary Report for all the regions</div>
     		<div class="card-body">
-    			<table id="example1" class="table table-bordered table-striped">
+<!--     			<table id="example1" class="table table-bordered table-striped">
                         <thead>
                         	<tr>
                         		<th>#</th>
@@ -45,8 +45,29 @@
                         	</tr>
                         	@endforeach
                         </tbody>
-                    </table>
+                    </table> -->
+             @foreach($summaries as $summary)  
+              <div class="accordion accordion-flush" id="accordionFlushExample">
+			  <div class="accordion-item">
+			    <h2 class="accordion-header">
+			      <button class="accordion-button collapsed bg-light" type="button" data-bs-toggle="collapse" data-bs-target="#flush-collapseOne" aria-expanded="false" aria-controls="flush-collapseOne">
+			        {{$summary->region}} - Total Reports: </b>{{$summary->total_reports}}
+			      </button>
+			    </h2>
+			    <div id="flush-collapseOne" class="accordion-collapse collapse" data-bs-parent="#accordionFlushExample">
+			      <div class="accordion-body">
+			      	<p><b>Summary of achievements</b></p>
+			      	<p>{!! $summary->achievements_summary!!}</</p>
+			      	<p><b>Work Plan summary</b></p>
+			      	<p>{!! $summary->workplan_summary!!}</p>
+			      	<b>Key Risks summary</b>
+			      	<p>{!! $summary->key_risks_summary!!}</p>
+			      </div>
+			    </div>
+			  </div>
 
+			</div>
+			@endforeach
     		</div>
     	</div>
     </div>
