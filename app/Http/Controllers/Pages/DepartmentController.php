@@ -10,6 +10,7 @@ use PhpOffice\PhpWord\PhpWord;
 use PhpOffice\PhpWord\IOFactory;
 use PhpOffice\PhpWord\Shared\Html;
 use Barryvdh\DomPDF\Facade\Pdf;
+use Illuminate\Support\Facades\DB;
 
 class DepartmentController extends Controller
 {
@@ -202,5 +203,32 @@ private function addHtmlContent($section, $title, $html){
     $fileName = 'weekly_report_' . $weekly->week . '.pdf';
 
     return $pdf->download($fileName);
+}
+public function ReportSummary(){
+    $user = Auth::user();
+
+    // Start with base query
+    $query = DB::table('department_updates');
+
+    // Apply filters based on user role
+    if ($user->hasRole('Super Admin')) {
+        // No filtering
+    } elseif ($user->hasRole('Cooperate')) {
+        $query->where('department', '!=', 'Global Fund');
+    } else {
+        $query->where('department', 'Global Fund');
+    }
+
+ $summaries = DB::table('department_updates')
+        ->select(
+            'region',
+            DB::raw('COUNT(*) as total_reports'),
+            DB::raw("STRING_AGG(COALESCE(achievements, ''), '\n' ORDER BY id) as achievements_summary"),
+            DB::raw("STRING_AGG(COALESCE(work_plan, ''), '\n' ORDER BY id) as workplan_summary"),
+            DB::raw("STRING_AGG(COALESCE(key_risks, ''), '\n' ORDER BY id) as key_risks_summary")
+        )
+        ->groupBy('region')
+        ->get();
+    return view('pages.weekly.ReportSummary',compact('summaries'));
 }
 }

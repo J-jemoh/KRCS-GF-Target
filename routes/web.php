@@ -372,6 +372,7 @@ Route::group(['middleware' => ['auth','google2fa','activity']], function () {
             Route::post('departments/{id}/trash',[DepartmentController::class,'destroy'])->name('department.destroy');
             Route::get('/weekly-download-word/{id}', [DepartmentController::class, 'downloadReportWord'])->name('weekly.download.word');
             Route::get('/weekly-report/pdf/{id}', [DepartmentController::class, 'downloadReportPdf'])->name('weekly-report.pdf');
+            Route::get('/reports/summary',[DepartmentController::class,'ReportSummary'])->name('weekly.summary');
 
 
 
