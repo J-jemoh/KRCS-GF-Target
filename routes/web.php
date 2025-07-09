@@ -26,6 +26,7 @@ use App\Http\Controllers\Users\RoleController;
 use App\Http\Controllers\Users\PermissionController;
 use App\Http\Controllers\Pages\AssetController;
 use App\Http\Controllers\Pages\DepartmentController;
+use App\Http\Controllers\Pages\MonthlyHighlightsController;
 
 /*
 
@@ -373,6 +374,22 @@ Route::group(['middleware' => ['auth','google2fa','activity']], function () {
             Route::get('/weekly-download-word/{id}', [DepartmentController::class, 'downloadReportWord'])->name('weekly.download.word');
             Route::get('/weekly-report/pdf/{id}', [DepartmentController::class, 'downloadReportPdf'])->name('weekly-report.pdf');
             Route::get('/reports/summary',[DepartmentController::class,'ReportSummary'])->name('weekly.summary');
+
+            #Monthly Highlights Controller
+            Route::get('/monthly/highlights',[MonthlyHighlightsController::class,'myhighlights'])->name('monthly.mine');
+            Route::get('/monthly/highlights/all',[MonthlyHighlightsController::class,'allHighlights'])->name('monthly.all');
+            Route::get('/monthly/create',[MonthlyHighlightsController::class,'create'])->name('monthly.create');
+            // Route::get('/monthly/all/highlights',[MonthlyHighlightsController::class,'allHighlights'])->name('monthly.all');
+            Route::post('/monthly/create',[MonthlyHighlightsController::class,'store'])->name('monthly.store');
+            Route::get('/monthly/edit/{id}',[MonthlyHighlightsController::class,'edit'])->name('monthly.edit');
+            Route::put('/monthly/edit/{id}',[MonthlyHighlightsController::class,'update'])->name('monthly.update');
+            Route::get('/monthly/show/{id}',[MonthlyHighlightsController::class,'show'])->name('monthly.show');
+            Route::post('/monthly/comment/add',[MonthlyHighlightsController::class,'addComment'])->name('monthly.addComment');
+            Route::put('/monhtly/status/update/{id}',[MonthlyHighlightsController::class,'updateStatus'])->name('monthly.updateStatus');
+            Route::get('/monthly-download-word/{id}', [MonthlyHighlightsController::class, 'downloadReportWord'])->name('monthly.download.word');
+            Route::get('/monthly-download-pdf/{id}', [MonthlyHighlightsController::class, 'downloadReportPdf'])->name('monthly.download.pdf');
+
+
 
 
 

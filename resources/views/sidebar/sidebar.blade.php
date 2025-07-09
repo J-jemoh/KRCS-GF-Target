@@ -77,12 +77,12 @@
             </ul>
           </li>
           @endcan
-          @can('Upload Targets')
-          <li class="nav-item">
+          @can('Monthly Highlights')
+           <li class="nav-item">
             <a href="#" class="nav-link">
               <i class="nav-icon fas fa-copy"></i>
               <p class="text-warning">
-                Targets
+                Monthly Highlights
                 <i class="fas fa-angle-left right"></i>
                 <span class="badge badge-info right"></span>
               </p>
@@ -90,308 +90,29 @@
             <ul class="nav nav-treeview">
               
               <li class="nav-item">
-                <a href="{{route('admin.target')}}" class="nav-link">
+                <a href="{{route('monthly.mine')}}" class="nav-link">
                   <i class="far fa-circle nav-icon"></i>
-                  <p>New Targets</p>
+                  <p>My Monthly Highlights</p>
                 </a>
               </li>
-           
+              @can('View Highlights')
               <li class="nav-item">
-                <a href="{{route('admin.target.all')}}" class="nav-link">
-                  <i class="far fa-file nav-icon"></i>
-                  <p>All Targets</p>
-                </a>
-              </li>
-
-              <li class="nav-item">
-                <a href="{{route('admin.target.reports')}}" class="nav-link">
-                  <i class="far fa-file nav-icon"></i>
-                  <p>Reports</p>
-                </a>
-              </li>
-                <li class="nav-item">
-                <a href="{{route('admin.target.template')}}" class="nav-link">
-                  <i class="far fa-file nav-icon"></i>
-                  <p>Template</p>
-                </a>
-              </li>
-            </ul>
-          </li>
-
-          <li class="nav-item">
-            <a href="#" class="nav-link">
-              <i class="nav-icon fas fa-chart-pie"></i>
-              <p class="text-warning">
-                QPMM
-                <i class="right fas fa-angle-left"></i>
-              </p>
-            </a>
-            <ul class="nav nav-treeview">
-          
-              <li class="nav-item">
-                <a href="{{route('admin.qpmm')}}" class="nav-link">
-                  <i class="far fa-file nav-icon"></i>
-                  <p>New Upload</p>
+                <a href="{{route('monthly.all')}}" class="nav-link">
+                  <i class="far fa-circle nav-icon"></i>
+                  <p>All Highlights</p>
                 </a>
               </li>
               <li class="nav-item">
-                <a href="{{route('admin.qpmm.allreports')}}" class="nav-link">
+                <a href="{{route('weekly.summary')}}" class="nav-link">
                   <i class="far fa-file nav-icon"></i>
-                  <p>All QPMMS</p>
-                </a>
-              </li>
-              <li class="nav-item">
-                <a href="{{route('admin.reports')}}" class="nav-link">
-                  <i class="far fa-file nav-icon"></i>
-                  <p>QPMM Reports</p>
-                </a>
-              </li>
-            </ul>
-          </li>
-             @endcan
-       <!--    <li class="nav-item">
-            <a href="#" class="nav-link">
-              <i class="nav-icon fas fa-tree"></i>
-              <p class="text-warning">
-                HRG
-                <i class="fas fa-angle-left right"></i>
-              </p>
-            </a>
-            <ul class="nav nav-treeview">
-              @can('Upload Targets')
-              <li class="nav-item">
-                <a href="{{route('admin.hrg.index')}}" class="nav-link">
-                  <i class="far fa-file nav-icon"></i>
-                  <p>New Upload</p>
+                  <p>Highlight Summary</p>
                 </a>
               </li>
               @endcan
-              <li class="nav-item">
-                <a href="{{route('admin.hrg.consolidated')}}" class="nav-link">
-                  <i class="far fa-file nav-icon"></i>
-                  <p>All HRG data</p>
-                </a>
-              </li>
-              <li class="nav-item">
-                <a href="#" class="nav-link">
-                  <i class="far fa-file nav-icon"></i>
-                  <p>HRG Reports</p>
-                </a>
-              </li>
-            </ul>
-          </li> -->
-          <!-- <li class="nav-item">
-            <a href="#" class="nav-link">
-              <i class="nav-icon fas fa-edit"></i>
-              <p class="text-warning">
-                GBV data
-                <i class="fas fa-angle-left right"></i>
-              </p>
-            </a>
-            <ul class="nav nav-treeview">
-              @can('Upload Targets')
-              <li class="nav-item">
-                <a href="{{route('admin.gbv.index')}}" class="nav-link">
-                  <i class="far fa-circle nav-icon"></i>
-                  <p>New Upload</p>
-                </a>
-              </li>
-              @endcan
-              <li class="nav-item">
-                <a href="{{route('admin.gbv.consolidated')}}" class="nav-link">
-                  <i class="far fa-circle nav-icon"></i>
-                  <p>Consolidated</p>
-                </a>
-              </li>
-              <li class="nav-item">
-                <a href="{{route('admin.gbv.visualize')}}" class="nav-link">
-                  <i class="far fa-circle nav-icon"></i>
-                  <p>Visualizations</p>
-                </a>
-              </li>
-              <li class="nav-item">
-                <a href="{{route('admin.gbv.template')}}" class="nav-link">
-                  <i class="far fa-circle nav-icon"></i>
-                  <p>Template</p>
-                </a>
-              </li>
-            </ul>
-          </li> -->
-        <!--   <li class="nav-item">
-            <a href="#" class="nav-link">
-              <i class="nav-icon fas fa-edit"></i>
-              <p class="text-warning">
-                KP Typologies
-                <i class="fas fa-angle-left right"></i>
-              </p>
-            </a>
-            <ul class="nav nav-treeview">
-              @can('Upload Targets')
-               <li class="nav-item">
-                <a href="{{route('admin.fsw.index')}}" class="nav-link">
-                  <i class="far fa-circle nav-icon"></i>
-                  <p>Data Upload</p>
-                </a>
-              </li>
-              @endcan
-              <li class="nav-item">
-                <a href="{{route('admin.fsw.report')}}" class="nav-link">
-                  <i class="far fa-circle nav-icon"></i>
-                  <p>FSW</p>
-                </a>
-              </li>
-              <li class="nav-item">
-                <a href="{{route('admin.msm.report')}}" class="nav-link">
-                  <i class="far fa-circle nav-icon"></i>
-                  <p>MSM</p>
-                </a>
-              </li>
-              <li class="nav-item">
-                <a href="{{route('admin.tg.index')}}" class="nav-link">
-                  <i class="far fa-circle nav-icon"></i>
-                  <p>TG</p>
-                </a>
-              </li>
-              <li class="nav-item">
-                <a href="{{route('admin.pwid.index')}}" class="nav-link">
-                  <i class="far fa-circle nav-icon"></i>
-                  <p>PWID</p>
-                </a>
-              </li>
-               <li class="nav-item">
-                <a href="{{route('admin.ayp.index')}}" class="nav-link">
-                  <i class="far fa-circle nav-icon"></i>
-                  <p>AYP</p>
-                </a>
-              </li>
-               <li class="nav-item">
-                <a href="{{route('admin.pmtct.reports')}}" class="nav-link">
-                  <i class="far fa-circle nav-icon"></i>
-                  <p>PMTCT</p>
-                </a>
-              </li>
-              <li class="nav-item">
-                <a href="{{route('admin.tcs.index')}}" class="nav-link">
-                  <i class="far fa-circle nav-icon"></i>
-                  <p>TCS</p>
-                </a>
-              </li>
-              <li class="nav-item">
-                <a href="#" class="nav-link">
-                  <i class="far fa-circle nav-icon"></i>
-                  <p>Template</p>
-                </a>
-              </li>
-            </ul>
-          </li> -->
-          <!-- <li class="nav-item">
-            <a href="#" class="nav-link">
-              <i class="nav-icon fas fa-edit"></i>
-              <p class="text-warning">
-                VP Typologies
-                <i class="fas fa-angle-left right"></i>
-              </p>
-            </a>
-            <ul class="nav nav-treeview">
-              @can('Upload Targets')
-               <li class="nav-item">
-                <a href="{{route('admin.vp.index')}}" class="nav-link">
-                  <i class="far fa-circle nav-icon"></i>
-                  <p>Data Upload</p>
-                </a>
-              </li>
-              @endcan
-              <li class="nav-item">
-                <a href="{{route('admin.vp.dc.reports')}}" class="nav-link">
-                  <i class="far fa-circle nav-icon"></i>
-                  <p>DC</p>
-                </a>
-              </li>
-              <li class="nav-item">
-                <a href="{{route('admin.vp.eban.reports')}}" class="nav-link">
-                  <i class="far fa-circle nav-icon"></i>
-                  <p>EBAN</p>
-                </a>
-              </li>
-              <li class="nav-item">
-                <a href="{{route('admin.typology.vp.ff')}}" class="nav-link">
-                  <i class="far fa-circle nav-icon"></i>
-                  <p>FISHERFOLKS</p>
-                </a>
-              </li>
-              <li class="nav-item">
-                <a href="#" class="nav-link">
-                  <i class="far fa-circle nav-icon"></i>
-                  <p>TRUCKERS</p>
-                </a>
-              </li>
-              <li class="nav-item">
-                <a href="#" class="nav-link">
-                  <i class="far fa-circle nav-icon"></i>
-                  <p>People in Prison</p>
-                </a>
-              </li>
-              </li>
-            </ul>
-          </li> -->
-          @can('Read C7 Coverage')
-           <li class="nav-item">
-            <a href="{{route('kpi.index')}}" class="nav-link">
-              <i class="nav-icon fas fa-chart-pie"></i>
-              <p class="text-warning">KPI's</p>
-            </a>
-          </li>
-          
-            <li class="nav-item">
-            <a href="#" class="nav-link">
-              <i class="nav-icon fas fa-map-marker"></i>
-              <p class="text-warning">
-                GC Program
-                <i class="fas fa-angle-left right"></i>
-              </p>
-            </a>
-            
-            <ul class="nav nav-treeview">
-              <li class="nav-item">
-                <a href="#" class="nav-link">
-                  <i class="far fa-circle nav-icon"></i>
-                  <p>GC6 Coverage</p>
-                </a>
-              </li>
-              <li class="nav-item">
-                <a href="{{route('admin.gc7')}}" class="nav-link">
-                  <i class="far fa-circle nav-icon"></i>
-                  <p>GC7 Coverage</p>
-                </a>
-              </li>
-              <li class="nav-item">
-                <a href="#" class="nav-link">
-                  <i class="far fa-circle nav-icon"></i>
-                  <p>Reports</p>
-                </a>
-              </li>
             </ul>
           </li>
-          @endcan
-        <!--   <li class="nav-header text-warning">QUICK lINKS</li>
-          <li class="nav-item">
-            <a href="https://krcs-analytics.shinyapps.io/GF-ANALYTICS/" class="nav-link">
-              <i class="nav-icon fas fa-chart-pie"></i>
-              <p> Dashboard(R SHiny)</p>
-            </a>
-          </li>
-          <li class="nav-item">
-            <a href="#" class="nav-link">
-              <i class="nav-icon fas fa-chart-pie"></i>
-              <p> Dashboard(Power Bi)</p>
-            </a>
-          </li>
-          <li class="nav-item">
-            <a href="#" class="nav-link">
-              <i class="nav-icon fas fa-file"></i>
-              <p>Documentation</p>
-            </a>
-          </li> -->
+    
+        @endcan
            @can('Manage Users')
             <li class="nav-item">
             <a href="{{route('admin.regions')}}" class="nav-link">
@@ -461,16 +182,7 @@
                   </ul>
               </li>
 
-         <!--  <li class="nav-item">
-              <a class="nav-link" href="{{route('admin.reports.CommunityReached')}}" >
-               <i class="nav-icon fas fa-users-cog"></i>
-               Community Members Reached Report
-              </a>
-          </li> -->
-          <!--  <li class="nav-item {{Request::is('logs*')?' active':''}}">
-              <a class="nav-link {{ Request::is('logs') ? 'active' : null }}" href="{{ url('/logs') }}" > <i class="nav-icon fas fa-clipboard-list"></i>System Logs
-              </a>
-          </li> -->
+      
            <li class="nav-item {{Request::is('activity*')?' active':''}}">
               <a class="nav-link {{ Request::is('activity') ? 'active' : null }}" href="{{ url('/activity') }}" > <i class="nav-icon fas fa-users-cog"></i>User Activities
               </a>

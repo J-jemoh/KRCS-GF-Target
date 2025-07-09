@@ -20,7 +20,7 @@
   <section class="content">
     <div class="container-fluid">
     	<div class="card">
-    		<div class="card-header">Summary Report for all the regions</div>
+    		<div class="card-header"><b>Summary Report for all the regions</b></div>
     		<div class="card-body">
 <!--     			<table id="example1" class="table table-bordered table-striped">
                         <thead>
@@ -51,7 +51,7 @@
 			  <div class="accordion-item">
 			    <h2 class="accordion-header">
 			      <button class="accordion-button collapsed bg-light" type="button" data-bs-toggle="collapse" data-bs-target="#flush-collapseOne-{{$summary->region}}" aria-expanded="false" aria-controls="flush-collapseOne">
-			        {{$summary->region}} - Total Reports: </b>{{$summary->total_reports}}
+			        <b>{{$summary->region}} - Total Reports: </b>{{$summary->total_reports}}
 			      </button>
 			    </h2>
 			    <div id="flush-collapseOne-{{$summary->region}}" class="accordion-collapse collapse" data-bs-parent="#accordionFlushExample">

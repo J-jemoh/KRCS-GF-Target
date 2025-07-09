@@ -65,5 +65,9 @@ public function departmentUpdates()
 {
     return $this->hasMany(DepartmentUpdate::class);
 }
+public function monthlyHighlights(){
+    return $this->hasMany(MonthlyHighlight::class);
+}
+
 
 }
