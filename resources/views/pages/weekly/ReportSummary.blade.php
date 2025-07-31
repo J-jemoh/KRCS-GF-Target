@@ -72,10 +72,14 @@
 
             {{-- Laravel pagination links --}}
             <div class="mt-4">
-                {{ $keyReports->links() }}
+              {{ $keyReports->links('pagination::bootstrap-5') }}
+                <!-- {{ $keyReports->links() }} -->
             </div>
         </div>
     	</div>
     </div>
 </section>
+<!-- For Bootstrap 5 -->
+
+
 @endsection
