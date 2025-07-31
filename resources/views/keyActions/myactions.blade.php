@@ -47,7 +47,7 @@
             	<td>{{$action->id}}</td>
             	<td>{{$action->region}}</td>
             	<td>{{$action->category}}</td>
-              <td>{{$action->sr_name}}</td>
+              <td>{{Str::upper($action->sr_name)}}</td>
             	<td>{!! Str::limit($action->key_issues, 50)!!}</td>
             	<td>{!! Str::limit($action->root_cause, 50)!!}</td>
             	<td>{{$action->date}}</td>

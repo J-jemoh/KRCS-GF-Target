@@ -63,7 +63,7 @@
 					                    <td class="px-2 py-1 border">{{ $index + 1 }}</td>
 					                    <td class="px-2 py-1 border">{!! $issue->key_issues !!}</td>
 					                    <td class="px-2 py-1 border">{!! $issue->mitigation_action !!}</td>
-					                    <td class="px-2 py-1 border">{{ $issue->sr_name }}</td>
+					                    <td class="px-2 py-1 border">{{ Str::upper($issue->sr_name) }}</td>
 					                    <td class="px-2 py-1 border">{{ $issue->status_update }}</td>
 					                </tr>
 					            @endforeach
