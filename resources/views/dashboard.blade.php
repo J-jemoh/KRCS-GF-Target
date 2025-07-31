@@ -109,7 +109,7 @@
                     	@php
             						    use Carbon\Carbon;
             						    $startDate = Carbon::create(2024, 1, 1);
-            						    $endDate = Carbon::create(2024, 2, 29); // Assuming it's a leap year
+            						    $endDate = Carbon::today(); // Assuming it's a leap year
 
             						    // Format the dates
             						    $formattedStartDate = $startDate->format('M Y');

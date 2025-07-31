@@ -90,7 +90,11 @@
           	<div class="col-12">
           		<div class="form-group">
           		<label for="exampleFormControlInput1">Supervisor Comments </label>
-          		<textarea name="s_comments" class="form-control" id="notes4" rows="5" readonly></textarea>
+          		<textarea name="s_comments" class="form-control" id="notes4" rows="5" readonly>
+              @foreach($highlight->highlightComments as $comments)
+              {{$comments->comment}}
+              @endforeach  
+              </textarea>
           		</div>
           	</div>
           </div>

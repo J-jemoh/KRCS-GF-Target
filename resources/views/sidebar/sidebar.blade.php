@@ -88,13 +88,14 @@
               </p>
             </a>
             <ul class="nav nav-treeview">
-              
+              @can('Create Highlight')
               <li class="nav-item">
                 <a href="{{route('monthly.mine')}}" class="nav-link">
                   <i class="far fa-circle nav-icon"></i>
                   <p>My Monthly Highlights</p>
                 </a>
               </li>
+              @endcan
               @can('View Highlights')
               <li class="nav-item">
                 <a href="{{route('monthly.all')}}" class="nav-link">
@@ -113,6 +114,42 @@
           </li>
     
         @endcan
+        @can('Manage Actions')
+        <li class="nav-item">
+            <a href="#" class="nav-link">
+              <i class="nav-icon fas fa-link"></i>
+              <p class="text-warning">
+                Management Actions
+                <i class="fas fa-angle-left right"></i>
+                <span class="badge badge-info right"></span>
+              </p>
+            </a>
+            <ul class="nav nav-treeview">
+              @can('Create Action')
+              <li class="nav-item">
+                <a href="{{route('keyActions.mine')}}" class="nav-link">
+                  <i class="fas fa-bars nav-icon"></i>
+                  <p>My Key actions</p>
+                </a>
+              </li>
+              @endcan
+              @can('View Actions')
+              <li class="nav-item">
+                <a href="{{route('keyActions.allactions')}}" class="nav-link">
+                  <i class="fas fa-bars nav-icon"></i>
+                  <p>All Key Actions</p>
+                </a>
+              </li>
+              <li class="nav-item">
+                <a href="{{route('keyActions.mysummary')}}" class="nav-link">
+                  <i class="fas fa-bars nav-icon"></i>
+                  <p>Action Summary</p>
+                </a>
+              </li>
+              @endcan
+            </ul>
+          </li>
+          @endcan
            @can('Manage Users')
             <li class="nav-item">
             <a href="{{route('admin.regions')}}" class="nav-link">

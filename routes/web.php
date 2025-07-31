@@ -27,6 +27,7 @@ use App\Http\Controllers\Users\PermissionController;
 use App\Http\Controllers\Pages\AssetController;
 use App\Http\Controllers\Pages\DepartmentController;
 use App\Http\Controllers\Pages\MonthlyHighlightsController;
+use App\Http\Controllers\Pages\KeyActionsController;
 
 /*
 
@@ -388,6 +389,18 @@ Route::group(['middleware' => ['auth','google2fa','activity']], function () {
             Route::put('/monhtly/status/update/{id}',[MonthlyHighlightsController::class,'updateStatus'])->name('monthly.updateStatus');
             Route::get('/monthly-download-word/{id}', [MonthlyHighlightsController::class, 'downloadReportWord'])->name('monthly.download.word');
             Route::get('/monthly-download-pdf/{id}', [MonthlyHighlightsController::class, 'downloadReportPdf'])->name('monthly.download.pdf');
+
+            #Management Key Actions Controller
+            Route::get('/Management/Actions',[KeyActionsController::class,'myactions'])->name('keyActions.mine');
+            Route::get('/Management/Actions/all',[KeyActionsController::class,'allactions'])->name('keyActions.allactions');
+            Route::get('/Management/Actions/create',[KeyActionsController::class,'create'])->name('keyActions.create');
+            Route::post('/Management/Actions/create',[KeyActionsController::class,'store'])->name('keyActions.store');
+            Route::get('/Management/Actions/edit/{id}',[KeyActionsController::class,'edit'])->name('keyActions.edit');
+            Route::put('/Management/Actions/update/{id}',[KeyActionsController::class,'update'])->name('keyActions.update');
+            Route::get('/Management/Actions/show/{id}',[KeyActionsController::class,'show'])->name('keyActions.show');
+            Route::get('/Management/Actions/summary',[KeyActionsController::class,'mysummary'])->name('keyActions.mysummary');
+            Route::put('/management-actions/{id}/update-status', [KeyActionsController::class, 'updateStatus'])->name('keyActions.statusUpdate');
+            Route::put('/management-actions/{id}/change-status', [KeyActionsController::class, 'Statusupdate'])->name('keyActions.status');
 
 
 
