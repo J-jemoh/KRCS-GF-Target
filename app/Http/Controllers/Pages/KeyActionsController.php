@@ -110,16 +110,21 @@ class KeyActionsController extends Controller
 
     }
     public function mysummary(){
+        $perPage = 10;
+
         $keyActions = ManagementActions::when(!Auth::user()->can('View Actions'), function ($query) {
-                        // If no permission, limit to their own records
-                        $query->where('user_id', Auth::id());
-                    })
-                    ->when(request('sr_name'), function ($query) {
-                        $query->where('sr_name', 'ILIKE', '%' . request('sr_name') . '%');
-                    })
-                    ->orderBy('created_at', 'DESC')
-                    ->get()
-                    ->groupBy('category');
+                $query->where('user_id', Auth::id());
+            })
+            ->when(request('sr_name'), function ($query) {
+                $query->where('sr_name', 'ILIKE', '%' . request('sr_name') . '%');
+            })
+            ->orderBy('created_at', 'DESC')
+            ->paginate($perPage);
+
+        $groupedActions = $keyActions->getCollection()->groupBy('category');
+
+        // Reassign the modified collection back to the paginator
+        $keyActions->setCollection($groupedActions->flatten(1));
 
 
 

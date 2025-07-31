@@ -40,36 +40,45 @@
 
   			</div>
   				<div class="card-body">
-  					<table class="table-auto w-full border mb-6 table" id="actionsTable">
-					    <thead>
-					        <tr class="bg-gray-100">
-					            <th class="px-2 py-1 border">Department</th>
-					            <th class="px-2 py-1 border">#</th>
-					            <th class="px-2 py-1 border">Key Issue</th>
-					            <th class="px-2 py-1 border">Action Plan</th>
-					            <th class="px-2 py-1 border">SR Name</th>
-					            <th class="px-2 py-1 border">Status</th>
-					        </tr>
-					    </thead>
-					    <tbody>
-					        @foreach ($keyActions as $department => $actions)
-					            @foreach ($actions as $index => $issue)
-					                <tr>
-					                    @if ($index === 0)
-					                        <td class="px-2 py-1 border" rowspan="{{ count($actions) }}">
-					                            {{ $department }}
-					                        </td>
-					                    @endif
-					                    <td class="px-2 py-1 border">{{ $index + 1 }}</td>
-					                    <td class="px-2 py-1 border">{!! $issue->key_issues !!}</td>
-					                    <td class="px-2 py-1 border">{!! $issue->mitigation_action !!}</td>
-					                    <td class="px-2 py-1 border">{{ Str::upper($issue->sr_name) }}</td>
-					                    <td class="px-2 py-1 border">{{ $issue->status_update }}</td>
-					                </tr>
-					            @endforeach
-					        @endforeach
-					    </tbody>
-					</table>
+  					@php
+						    $grouped = $keyActions->getCollection()->groupBy('category');
+						@endphp
+
+						<table class="table-auto w-full border mb-6" id="actionsTable">
+						    <thead>
+						        <tr class="bg-gray-100">
+						            <th class="px-2 py-1 border">Department</th>
+						            <th class="px-2 py-1 border">#</th>
+						            <th class="px-2 py-1 border">Key Issue</th>
+						            <th class="px-2 py-1 border">Action Plan</th>
+						            <th class="px-2 py-1 border">SR Name</th>
+						            <th class="px-2 py-1 border">Status</th>
+						        </tr>
+						    </thead>
+						    <tbody>
+						        @foreach ($grouped as $department => $actions)
+						            @foreach ($actions as $index => $issue)
+						                <tr>
+						                    @if ($index === 0)
+						                        <td class="px-2 py-1 border" rowspan="{{ $actions->count() }}">
+						                            {{ $department }}
+						                        </td>
+						                    @endif
+						                    <td class="px-2 py-1 border">{{ $index + 1 }}</td>
+						                    <td class="px-2 py-1 border">{!! $issue->key_issues !!}</td>
+						                    <td class="px-2 py-1 border">{!! $issue->mitigation_action !!}</td>
+						                    <td class="px-2 py-1 border">{{ Str::upper($issue->sr_name) }}</td>
+						                    <td class="px-2 py-1 border">{{ $issue->status_update }}</td>
+						                </tr>
+						            @endforeach
+						        @endforeach
+						    </tbody>
+						</table>
+
+						{{-- Laravel pagination links --}}
+						<div class="mt-4">
+						    {{ $keyActions->links() }}
+						</div>
 
 
   				</div>
