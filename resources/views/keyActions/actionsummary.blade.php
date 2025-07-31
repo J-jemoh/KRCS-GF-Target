@@ -77,7 +77,8 @@
 
 						{{-- Laravel pagination links --}}
 						<div class="mt-4">
-						    {{ $keyActions->links() }}
+						    <!-- {{ $keyActions->links() }} -->
+						     {{ $keyActions->links('pagination::bootstrap-5') }}
 						</div>
 
 
