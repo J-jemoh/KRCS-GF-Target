@@ -47,13 +47,13 @@
      				<div class="col-sm-4">
 	                <div class="form-group">
 				            <label for="exampleFormControlSelect1">Region</label>
-				            <select class="form-control" id="exampleFormControlSelect1" name="region" required>
-				              <option>LER</option>
-				              <option>UER</option>
-				              <option>NER</option>
-				              <option>COR</option>
-				              <option>NRR</option>
-				              <option>WKR</option>
+				            <select class="form-control" name="region" required id="region-select">
+				              <option value="LER">LER</option>
+				              <option value="UER">UER</option>
+				              <option value="NER">NER</option>
+				              <option value="COR">COR</option>
+				              <option value="NRR">NRR</option>
+				              <option value="WKR">WKR</option>
 				            </select>
 				          </div>
 	              </div>
@@ -71,7 +71,10 @@
 	              </div>
 	              <div class="col-sm-4">
 	              	<label>Sr Name</label>
-	              	<input type="text" name="sr_name" class="form-control" required>
+	              	 <select class="form-control" name="sr_name" id="sr-name-select" required>
+						        <option value="">Select SR Name</option>
+						    </select>
+	              	<!-- <input type="text" name="sr_name" class="form-control" required> -->
 	              </div>
 	              	</div>
 	              	<div class="row">
@@ -147,6 +150,7 @@
      		</div>
      	</div>
      </section>
+     <script src="https://code.jquery.com/jquery-3.6.0.min.js"></script>
      <script>
 		document.addEventListener('DOMContentLoaded', function () {
 		  const noteIds = ['#notes', '#notes1', '#notes2', '#notes3', '#notes4','#notes5','#notes6'];
@@ -166,4 +170,32 @@
 		  });
 		});
 		</script>
+	<script>
+    $(document).ready(function () {
+        $('#region-select').on('change', function () {
+            var region = $(this).val();
+            var srDropdown = $('#sr-name-select');
+            var url = "{{ route('get.srs.by.region', ':region') }}"; // route name with placeholder
+
+            srDropdown.empty().append('<option value="">Loading...</option>');
+
+            if (region) {
+                // Replace placeholder with actual region
+                url = url.replace(':region', region);
+
+                $.get(url, function (data) {
+                    srDropdown.empty().append('<option value="">Select SR Name</option>');
+                    $.each(data, function (index, value) {
+                        srDropdown.append('<option value="' + value + '">' + value + '</option>');
+                    });
+                }).fail(function () {
+                    srDropdown.empty().append('<option value="">Error loading SRs</option>');
+                });
+            } else {
+                srDropdown.empty().append('<option value="">Select SR Name</option>');
+            }
+        });
+    });
+</script>
+
     @endsection

@@ -65,6 +65,8 @@
   				{!!$action->root_cause!!}
   				<p><b>Recommended Mitigating Action </b></p>
   				{!!$action->mitigation_action!!}
+  				<p><b>SR Response </b></p>
+  				{!!$action->sr_response!!}
   				<p><b>Suppoting Documents</b></p>
   				<hr style="border: solid 2px; color: #black;">
   				<p><b>Reference documents</b></p>

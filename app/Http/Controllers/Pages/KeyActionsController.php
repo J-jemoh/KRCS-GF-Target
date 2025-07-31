@@ -11,6 +11,7 @@ use PhpOffice\PhpWord\Shared\Html;
 use Barryvdh\DomPDF\Facade\Pdf;
 use Illuminate\Support\Facades\DB;
 use App\Models\ManagementActions;
+use App\Models\SRNames;
 
 class KeyActionsController extends Controller
 {
@@ -161,6 +162,11 @@ class KeyActionsController extends Controller
                     'message' => 'Record not found.'
                 ]);
         }   
+    }
+    public function getSRsByRegion($region){
+    $sr_names = SRNames::where('region', $region)->pluck('sr_name');
+
+    return response()->json($sr_names);
     }
 
 }

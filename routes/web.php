@@ -28,6 +28,7 @@ use App\Http\Controllers\Pages\AssetController;
 use App\Http\Controllers\Pages\DepartmentController;
 use App\Http\Controllers\Pages\MonthlyHighlightsController;
 use App\Http\Controllers\Pages\KeyActionsController;
+use App\Http\Controllers\Pages\SRController;
 
 /*
 
@@ -401,6 +402,12 @@ Route::group(['middleware' => ['auth','google2fa','activity']], function () {
             Route::get('/Management/Actions/summary',[KeyActionsController::class,'mysummary'])->name('keyActions.mysummary');
             Route::put('/management-actions/{id}/update-status', [KeyActionsController::class, 'updateStatus'])->name('keyActions.statusUpdate');
             Route::put('/management-actions/{id}/change-status', [KeyActionsController::class, 'Statusupdate'])->name('keyActions.status');
+            Route::get('/get-srs-by-region/{region}', [KeyActionsController::class, 'getSRsByRegion'])->name('get.srs.by.region');
+
+            #sr controller
+            Route::get('/sr/list',[SRController::class,'index'])->name('sr.index');
+            Route::get('/sr/create',[SRController::class,'create'])->name('sr.create');
+            Route::post('/sr/list/import', [SRController::class, 'import'])->name('sr.import');
 
 
 
