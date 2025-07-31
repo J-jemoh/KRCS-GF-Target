@@ -21,7 +21,9 @@
     <div class="container-fluid">
     	<div class="card">
     		<div class="card-header"><b>Summary Report for all the regions</b>
-
+          <button onclick="exportTableToXLSX('actionsTable', 'Key_Actions_Report')" class="btn btn-info float-sm-right ml-4">
+          <i class="fas fa-file-export"></i> Export to Excel
+      </button>
           <div class="mb-4 float-sm-right">
          <!--  <label for="srFilter" class="font-semibold">Filter by SR Name:</label>
           <input type="text" id="srFilter" placeholder="Enter SR Name..." class="border px-2 py-1 rounded w-1/3"> -->
@@ -81,5 +83,13 @@
 </section>
 <!-- For Bootstrap 5 -->
 
+  <script src="https://cdnjs.cloudflare.com/ajax/libs/xlsx/0.18.5/xlsx.full.min.js"></script>
 
+    <script>
+    function exportTableToXLSX(tableId) {
+        var table = document.getElementById(tableId);
+        var workbook = XLSX.utils.table_to_book(table, {sheet: "KeyActions"});
+        XLSX.writeFile(workbook, "Weekly_Summary_Report.xlsx");
+    }
+    </script>
 @endsection
