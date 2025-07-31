@@ -115,8 +115,8 @@ class KeyActionsController extends Controller
         $keyActions = ManagementActions::when(!Auth::user()->can('View Actions'), function ($query) {
                 $query->where('user_id', Auth::id());
             })
-            ->when(request('sr_name'), function ($query) {
-                $query->where('sr_name', 'ILIKE', '%' . request('sr_name') . '%');
+            ->when(request('region'), function ($query) {
+                $query->where('region', 'ILIKE', '%' . request('region') . '%');
             })
             ->orderBy('created_at', 'DESC')
             ->paginate($perPage);

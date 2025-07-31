@@ -30,8 +30,8 @@
 			   <!--  <label for="srFilter" class="font-semibold">Filter by SR Name:</label>
 			    <input type="text" id="srFilter" placeholder="Enter SR Name..." class="border px-2 py-1 rounded w-1/3"> -->
 						<form method="GET" class="d-flex gap-2 mb-3" style="max-width: 600px;">
-						    <input type="text" name="sr_name" placeholder="Search SR Name"
-						           value="{{ request('sr_name') }}" class="form-control" />
+						    <input type="text" name="region" placeholder="Search Region"
+						           value="{{ request('region') }}" class="form-control" />
 						    <button type="submit" class="btn btn-info"><i class="fa fa-search"></i> </button>
 						</form>
 
@@ -48,7 +48,7 @@
 						    <thead>
 						        <tr class="bg-gray-100">
 						            <th class="px-2 py-1 border">Department</th>
-						            <th class="px-2 py-1 border">#</th>
+						            <th class="px-2 py-1 border">Region</th>
 						            <th class="px-2 py-1 border">Key Issue</th>
 						            <th class="px-2 py-1 border">Action Plan</th>
 						            <th class="px-2 py-1 border">SR Name</th>
@@ -64,7 +64,7 @@
 						                            {{ $department }}
 						                        </td>
 						                    @endif
-						                    <td class="px-2 py-1 border">{{ $index + 1 }}</td>
+						                    <td class="px-2 py-1 border">{{ $issue->region  }}</td>
 						                    <td class="px-2 py-1 border">{!! $issue->key_issues !!}</td>
 						                    <td class="px-2 py-1 border">{!! $issue->mitigation_action !!}</td>
 						                    <td class="px-2 py-1 border">{{ Str::upper($issue->sr_name) }}</td>
