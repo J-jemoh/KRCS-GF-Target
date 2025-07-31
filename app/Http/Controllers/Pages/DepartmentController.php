@@ -229,6 +229,22 @@ public function ReportSummary(){
         )
         ->groupBy('region')
         ->get();
-    return view('pages.weekly.ReportSummary',compact('summaries'));
+
+    $perPage = 10;
+
+        $keyReports = DepartmentUpdate::when(!Auth::user()->can('View Reports'), function ($query) {
+                $query->where('user_id', Auth::id());
+            })
+            ->when(request('region'), function ($query) {
+                $query->where('region', 'ILIKE', '%' . request('region') . '%');
+            })
+            ->orderBy('created_at', 'DESC')
+            ->paginate($perPage);
+
+        $groupedActions = $keyReports->getCollection()->groupBy('region');
+
+        // Reassign the modified collection back to the paginator
+        $keyReports->setCollection($groupedActions->flatten(1));
+    return view('pages.weekly.ReportSummary',compact('summaries','keyReports'));
 }
 }

@@ -44,7 +44,7 @@
 						    $grouped = $keyActions->getCollection()->groupBy('category');
 						@endphp
 
-						<table class="table-auto w-full border mb-6" id="actionsTable">
+						<table class="table-auto w-full border mb-6 table" id="actionsTable">
 						    <thead>
 						        <tr class="bg-gray-100">
 						            <th class="px-2 py-1 border">Department</th>

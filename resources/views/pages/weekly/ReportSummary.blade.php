@@ -20,55 +20,61 @@
   <section class="content">
     <div class="container-fluid">
     	<div class="card">
-    		<div class="card-header"><b>Summary Report for all the regions</b></div>
-    		<div class="card-body">
-<!--     			<table id="example1" class="table table-bordered table-striped">
-                        <thead>
-                        	<tr>
-                        		<th>#</th>
-                        		<th>Region</th>
-                        		<th>No of Reports</th>
-                        		<th>Achievemnts</th>
-                        		<th>Work Plan</th>
-                        		<th>Key Risks</th>
-                        	</tr>
-                        </thead>
-                        <tbody>
-                        	@foreach($summaries as $summary)
-                        	<tr>
-                        		<td>#</td>
-                        		<td>{{$summary->region}}</td>
-                        		<td>{{$summary->total_reports}}</td>
-                        		<td>{!! $summary->achievements_summary!!}</td>
-                        		<td>{!! $summary->workplan_summary!!}</td>
-                        		<td>{!! $summary->key_risks_summary!!}</td>
-                        	</tr>
-                        	@endforeach
-                        </tbody>
-                    </table> -->
-             @foreach($summaries as $summary)  
-              <div class="accordion accordion-flush" id="accordionFlushExample">
-			  <div class="accordion-item">
-			    <h2 class="accordion-header">
-			      <button class="accordion-button collapsed bg-light" type="button" data-bs-toggle="collapse" data-bs-target="#flush-collapseOne-{{$summary->region}}" aria-expanded="false" aria-controls="flush-collapseOne">
-			        <b>{{$summary->region}} - Total Reports: </b>{{$summary->total_reports}}
-			      </button>
-			    </h2>
-			    <div id="flush-collapseOne-{{$summary->region}}" class="accordion-collapse collapse" data-bs-parent="#accordionFlushExample">
-			      <div class="accordion-body">
-			      	<p><b>Summary of achievements</b></p>
-			      	<p>{!! $summary->achievements_summary!!}</</p>
-			      	<p><b>Work Plan summary</b></p>
-			      	<p>{!! $summary->workplan_summary!!}</p>
-			      	<b>Key Risks summary</b>
-			      	<p>{!! $summary->key_risks_summary!!}</p>
-			      </div>
-			    </div>
-			  </div>
+    		<div class="card-header"><b>Summary Report for all the regions</b>
 
-			</div>
-			@endforeach
-    		</div>
+          <div class="mb-4 float-sm-right">
+         <!--  <label for="srFilter" class="font-semibold">Filter by SR Name:</label>
+          <input type="text" id="srFilter" placeholder="Enter SR Name..." class="border px-2 py-1 rounded w-1/3"> -->
+            <form method="GET" class="d-flex gap-2 mb-3" style="max-width: 600px;">
+                <input type="text" name="region" placeholder="Search Region"
+                       value="{{ request('region') }}" class="form-control" />
+                <button type="submit" class="btn btn-info"><i class="fa fa-search"></i> </button>
+            </form>
+
+      </div>
+        </div>
+    		  
+        <div class="card-body">
+            @php
+                $grouped = $keyReports->getCollection()->groupBy('region');
+            @endphp
+
+            <table class="table-auto w-full border mb-6 table" id="actionsTable">
+                <thead>
+                    <tr class="bg-gray-100">
+                        <th class="px-2 py-1 border">Region</th>
+                        <th class="px-2 py-1 border">Week</th>
+                        <th class="px-2 py-1 border">Start Date</th>
+                        <th class="px-2 py-1 border">Key Issues</th>
+                        <th class="px-2 py-1 border">Achievements</th>
+                        <th class="px-2 py-1 border">Work Planned</th>
+                    </tr>
+                </thead>
+                <tbody>
+                    @foreach ($grouped as $department => $actions)
+                        @foreach ($actions as $index => $issue)
+                            <tr>
+                                @if ($index === 0)
+                                    <td class="px-2 py-1 border" rowspan="{{ $actions->count() }}">
+                                        {{ $department }}
+                                    </td>
+                                @endif
+                                <td class="px-2 py-1 border">{{ $issue->week }}</td>
+                                <td class="px-2 py-1 border">{{ $issue->start_date }}</td>
+                                <td class="px-2 py-1 border">{!! $issue->key_risks !!}</td>
+                                <td class="px-2 py-1 border">{!! $issue->achievements !!}</td>
+                                <td class="px-2 py-1 border">{!! $issue->work_plan !!}</td>
+                            </tr>
+                        @endforeach
+                    @endforeach
+                </tbody>
+            </table>
+
+            {{-- Laravel pagination links --}}
+            <div class="mt-4">
+                {{ $keyReports->links() }}
+            </div>
+        </div>
     	</div>
     </div>
 </section>
