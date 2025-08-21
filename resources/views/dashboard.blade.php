@@ -222,36 +222,9 @@
        @can('Manage Users')
         <div class="container-fluid">
           <div class="row">
-            <div class="col-lg-4">
-              <div class="card card-danger">
-            <div class="card-header"><b>Performance Visualizations for Defined Packaged</b></div>
-            <div class="card-body">
-              <div style="width: 100%;">
-                <canvas id="myChart"></canvas>
-            </div>
-            </div>
-          </div>
-            </div>
-            <div class="col-lg-4">
-              <div class="card card-danger">
-            <div class="card-header"><b>Perfomance Visualization for HTS</b></div>
-            <div class="card-body">
-              <div style="width: 100%;">
-                <canvas id="myChart_hts"></canvas>
-            </div>
-            </div>
-          </div>
-            </div>
-            <div class="col-lg-4">
-              <div class="card card-danger">
-            <div class="card-header"><b>Perfomance Visualization for Prep</b></div>
-            <div class="card-body">
-              <div style="width: 100%;">
-                <canvas id="myChart_prep"></canvas>
-            </div>
-            </div>
-          </div>
-            </div>
+            
+           
+          
           </div>
           
         </div>

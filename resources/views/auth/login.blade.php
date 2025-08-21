@@ -23,7 +23,7 @@
   <!-- /.login-logo -->
   <div class="card card-outline card-danger">
     <div class="card-header text-center">
-      <a href="#" class="h3 text-danger"><b>Corporate services</b></a>
+      <!-- <a href="#" class="h3 text-danger"><b>Corporate services</b></a> -->
     </div>
     <div class="card-body">
       <p class="login-box-msg">Sign in to start your session</p>

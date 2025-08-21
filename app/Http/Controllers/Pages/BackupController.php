@@ -7,47 +7,62 @@ use Illuminate\Http\Request;
 use Spatie\Backup\Tasks\Backup\BackupJobFactory;
 use Illuminate\Support\Facades\Log;
 use Illuminate\Support\Facades\Artisan;
+use Symfony\Component\Process\Process;
 
 class BackupController extends Controller
 {
     //
      public function backup(Request $request)
-    {
-        try {
-            $config= config('backup.backup.source');
-            dd($config);
-            // Create a new backup job
-            // dd($config);
-            Log::info($config);
-            if ($config === null) {
-            throw new \Exception('Backup configuration is null');
-            }
+{
+    $db   = config('database.connections.pgsql.database');
+    $user = config('database.connections.pgsql.username');
+    $pass = config('database.connections.pgsql.password');
+    $host = config('database.connections.pgsql.host');
+    $port = config('database.connections.pgsql.port');
 
-        // Proceed with the backup job creation
-        $backupJob = BackupJobFactory::createFromArray($config);
-            // $backupJob = BackupJobFactory::createFromArray(config('backup.source.databases'));
-
-            // Execute the backup
-            $backupJob->run();
-
-            // Retrieve the path to the backup
-            $backupPath = $backupJob->getBackupDestination()->backupPath();
-
-            // You can now move the backup file to your desired location, such as OneDrive
-            // For simplicity, let's just save it to a local directory within the Laravel project
-            $destinationPath = storage_path('backups');
-            if (!file_exists($destinationPath)) {
-                mkdir($destinationPath, 0755, true); // Create the directory if it doesn't exist
-            }
-            $backupFileName = basename($backupPath);
-            $backupFullPath = $destinationPath . '/' . $backupFileName;
-
-            // Move the backup file
-            rename($backupPath, $backupFullPath);
-
-            return redirect()->back()->with('success', 'Database backup successful.');
-        } catch (\Exception $e) {
-            return redirect()->back()->with('error', 'Database backup failed: ' . $e->getMessage());
-        }
+    // Detect pg_dump path based on OS
+    if (strtoupper(substr(PHP_OS, 0, 3)) === 'WIN') {
+        $pgDumpPath = 'C:\\Program Files\\PostgreSQL\\16\\bin\\pg_dump.exe';
+    } else {
+        $pgDumpPath = 'pg_dump';
     }
+
+    // Create backup folder if not exists
+    $backupDir = storage_path('app/backups');
+    if (!file_exists($backupDir)) {
+        mkdir($backupDir, 0755, true);
+    }
+
+    $backupFile = 'backups/' . $db . '_' . date('Y-m-d_H-i-s') . '.sql';
+
+    // Build command for logging & testing
+    $command = sprintf(
+        'PGPASSWORD=%s "%s" -h %s -p %d -U %s -F c -b -v -f "%s" %s',
+        $pass,
+        $pgDumpPath,
+        $host,
+        $port,
+        $user,
+        storage_path('app/' . $backupFile),
+        $db
+    );
+
+    // Log the command so you can try it in terminal
+    \Log::info("Backup command: " . $command);
+
+    // Run the process
+    $process = Process::fromShellCommandline($command);
+    $process->run();
+
+    if (!$process->isSuccessful()) {
+        return response()->json([
+            'success' => false,
+            'message' => 'Backup failed',
+            'error'   => $process->getErrorOutput() ?: 'No error output - check credentials & host.'
+        ], 500);
+    }
+
+    return response()->download(storage_path('app/' . $backupFile))->deleteFileAfterSend(true);
+}
+
 }
