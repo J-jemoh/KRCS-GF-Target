@@ -25,7 +25,18 @@
        
         </div>
         <div class="card-body">
-          <table id="example1" class="table table-bordered table-striped">
+          <ul class="nav nav-tabs" id="myTab" role="tablist">
+            <li class="nav-item" role="presentation">
+              <button class="nav-link active" id="home-tab" data-bs-toggle="tab" data-bs-target="#home" type="button" role="tab" aria-controls="home" aria-selected="true">Draft Higlights</button>
+            </li>
+            <li class="nav-item" role="presentation">
+              <button class="nav-link" id="profile-tab" data-bs-toggle="tab" data-bs-target="#profile" type="button" role="tab" aria-controls="profile" aria-selected="false">Submitted Highlights</button>
+            </li>
+          </ul>
+          <div class="tab-content" id="myTabContent">
+            <br>
+            <div class="tab-pane fade show active" id="home" role="tabpanel" aria-labelledby="home-tab">
+                <table id="example1" class="table table-bordered table-striped">
             <thead>
               <tr>
                 <th>#</th>
@@ -41,6 +52,7 @@
             </thead>
             <tbody>
             @foreach($highlights as $highlight)
+            @if($highlight->status == 'draft')
             <tr>
               <td>{{$highlight->id}}</td>
               <td>{{$highlight->region}}</td>
@@ -71,10 +83,68 @@
                               </div>
               </td>
             </tr>
+            @endif
             @endforeach
               
             </tbody>
-          </table>
+                </table>
+                  </div>
+                  <div class="tab-pane fade" id="profile" role="tabpanel" aria-labelledby="profile-tab">
+                    <table id="example2" class="table table-bordered table-striped">
+                  <thead>
+                    <tr>
+                      <th>#</th>
+                      <th>Region</th>
+                      <th>Month</th>
+                      <th>Start Date</th>
+                      <th>End Date</th>
+                      <th>Date Created</th>
+                      <th>Status</th>
+                      <th>Created by</th>
+                      <th>Action</th>
+                    </tr>
+                  </thead>
+                  <tbody>
+                  @foreach($highlights as $highlight)
+                  @if($highlight->status == 'submitted')
+                  <tr>
+                    <td>{{$highlight->id}}</td>
+                    <td>{{$highlight->region}}</td>
+                    <td>{{$highlight->created_at->format('F Y')}}</td>
+                    <td>{{$highlight->start_date}}</td>
+                    <td>{{$highlight->end_date}}</td>
+                    <td>{{$highlight->created_at}}</td>
+                    @if($highlight->status=='draft')
+                    <td><span class="badge badge-info">{{$highlight->status}}</span> </td>
+                    @else
+                    <td><span class="badge badge-success">{{$highlight->status}}</span> </td>
+                    @endif
+
+                    <td>{{$highlight->user->name ?? ''}}</td>
+                    <td>
+                      <div class="btn-group" role="group" aria-label="Basic example">
+                                      @can('Edit')
+                                      @role('Super Admin')
+                                      <a type="button" class="btn btn-info" href="{{route('monthly.edit',$highlight->id)}}"><i class="fa fa-edit"></i></a>
+                                      @endrole
+                                      @endcan
+                                      <a type="button" class="btn btn-warning" href="{{route('monthly.show',$highlight->id)}}"><i class="fa fa-eye"></i></a>
+                                      @role('Super Admin')
+                                      @can('Delete')
+                                      <button type="button" class="btn btn-danger"><i class="fa fa-trash"></i></button>
+                                      @endcan
+                                      @endrole
+                                    </div>
+                    </td>
+                  </tr>
+                  @endif
+                  @endforeach
+                    
+                  </tbody>
+                </table>
+            </div>
+          </div>
+        
         </div>
       </div>
     </div>

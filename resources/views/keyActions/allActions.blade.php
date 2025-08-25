@@ -27,52 +27,30 @@
            @endcan
         </div>
         <div class="card-body">
-          <table id="example1" class="table table-bordered table-striped">
-            <thead>
-              <tr>
-                <th>#</th>
-                <th>Region</th>
-                <th>Department</th>
-                <th>SR Name</th>
-                <th>Key Issues</th>
-                <th>Root Cause</th>
-                <th>Timeline</th>
-                <th>Status</th>
-                <th>Action</th>
-              </tr>
-            </thead>
-            <tbody>
-            @foreach($keyActions as $action)
-            <tr>
-            	<td>{{$action->id}}</td>
-            	<td>{{$action->region}}</td>
-            	<td>{{$action->category}}</td>
-              <td>{{$action->sr_name}}</td>
-            	<td>{!! Str::limit($action->key_issues, 50)!!}</td>
-            	<td>{!! Str::limit($action->root_cause, 50)!!}</td>
-            	<td>{{$action->date}}</td>
-            	<td>{{$action->status_update}}</td>
-            	<td>
-            		<div class="btn-group" role="group" aria-label="Basic example">
-                                @can('Edit')
-                                @role('Super Admin')
-                                <a type="button" class="btn btn-info" href="{{route('keyActions.edit',$action->id)}}"><i class="fa fa-edit"></i></a>
-                                @endrole
-                                @endcan
-            
-                                <a type="button" class="btn btn-warning" href="{{route('keyActions.show', $action->id)}}"><i class="fa fa-eye"></i></a>
-                                @can('Delete')
-                                @role('Super Admin')
-                                <button type="button" class="btn btn-danger"><i class="fa fa-trash"></i></button>
-                                @endrole
-                                @endcan
-                             
-                              </div>
-            	</td>
-            </tr>
-              @endforeach
-            </tbody>
-          </table>
+          <ul class="nav nav-tabs" id="myTab" role="tablist">
+            <li class="nav-item" role="presentation">
+              <button class="nav-link active" id="home-tab" data-bs-toggle="tab" data-bs-target="#home" type="button" role="tab" aria-controls="home" aria-selected="true">Pending Actions</button>
+            </li>
+            <li class="nav-item" role="presentation">
+              <button class="nav-link" id="profile-tab" data-bs-toggle="tab" data-bs-target="#profile" type="button" role="tab" aria-controls="profile" aria-selected="false">Ongoing actions</button>
+            </li>
+            <li class="nav-item" role="presentation">
+              <button class="nav-link" id="contact-tab" data-bs-toggle="tab" data-bs-target="#contact" type="button" role="tab" aria-controls="contact" aria-selected="false">Closed/Resolved</button>
+            </li>
+          </ul>
+          <div class="tab-content" id="myTabContent">
+            <br>
+            <div class="tab-pane fade show active" id="home" role="tabpanel" aria-labelledby="home-tab">
+                @include('keyActions.pending')
+            </div>
+            <div class="tab-pane fade" id="profile" role="tabpanel" aria-labelledby="profile-tab">
+              @include('keyActions.ongoing')
+            </div>
+            <div class="tab-pane fade" id="contact" role="tabpanel" aria-labelledby="contact-tab">
+              @include('keyActions.closed')
+            </div>
+          </div>
+
         </div>
       </div>
     </div>
