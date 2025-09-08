@@ -113,7 +113,7 @@ class KeyActionsController extends Controller
         $perPage = 10;
 
         $keyActions = ManagementActions::when(!Auth::user()->can('View Actions'), function ($query) {
-                $query->where('user_id', Auth::id());
+                $query->where('region', Auth::user()->region);
             })
             ->when(request('region'), function ($query) {
                 $query->where('region', 'ILIKE', '%' . request('region') . '%');
