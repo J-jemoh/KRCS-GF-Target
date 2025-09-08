@@ -104,7 +104,7 @@
                 </a>
               </li>
               <li class="nav-item">
-                <a href="{{route('weekly.summary')}}" class="nav-link">
+                <a href="#" class="nav-link">
                   <i class="far fa-file nav-icon"></i>
                   <p>Highlight Summary</p>
                 </a>
