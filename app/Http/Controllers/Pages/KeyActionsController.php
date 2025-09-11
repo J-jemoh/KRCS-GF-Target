@@ -110,25 +110,36 @@ class KeyActionsController extends Controller
 
     }
     public function mysummary(){
+
         $perPage = 10;
 
-        $keyActions = ManagementActions::when(!Auth::user()->can('View Actions'), function ($query) {
-                $query->where('region', Auth::user()->region);
-            })
+        $keyActions = ManagementActions::query()
+            ->when(
+                // If NOT super admin/admin
+                !auth()->user()->hasRole(['Super Admin', 'Admin','GFHODS']),
+                function ($query) {
+                    // Then check if they have the View Actions permission
+                    if (auth()->user()->can('View Actions')) {
+                        // Restrict to their region
+                        $query->where('region', auth()->user()->region);
+                    } else {
+                        // If no permission, return nothing
+                        $query->whereRaw('1=0');
+                    }
+                }
+            )
             ->when(request('region'), function ($query) {
                 $query->where('region', 'ILIKE', '%' . request('region') . '%');
             })
             ->orderBy('created_at', 'DESC')
             ->paginate($perPage);
 
+        // Optional: group by category if needed
         $groupedActions = $keyActions->getCollection()->groupBy('category');
-
-        // Reassign the modified collection back to the paginator
         $keyActions->setCollection($groupedActions->flatten(1));
 
+        return view('keyActions.actionsummary', compact('keyActions'));
 
-
-        return view('keyActions.actionsummary',compact('keyActions'));
     }
     public function updateStatus(Request $request, $id){
         $request->validate([
