@@ -18,7 +18,7 @@ class MonthlyHighlightsController extends Controller
     //
 
     public function myhighlights(){
-    $highlights=MonthlyHighlights::where('user_id',Auth::id())->orderBy('created_at','DESC')->get();
+    $highlights=MonthlyHighlights::where('region',auth()->user()->region)->orderBy('created_at','DESC')->get();
         return view('highlights.myhighlights',compact('highlights'));
     }
     public function allHighlights(){
