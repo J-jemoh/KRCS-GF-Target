@@ -110,6 +110,14 @@
                 </a>
               </li>
               @endcan
+              @can('View Trashed')
+              <li class="nav-item">
+                <a href="{{route('highlights.trashed')}}" class="nav-link">
+                  <i class="far fa-file nav-icon"></i>
+                  <p>Trashed Highlights</p>
+                </a>
+              </li>
+              @endcan
             </ul>
           </li>
     

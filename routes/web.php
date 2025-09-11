@@ -386,10 +386,14 @@ Route::group(['middleware' => ['auth','google2fa','activity']], function () {
             Route::get('/monthly/edit/{id}',[MonthlyHighlightsController::class,'edit'])->name('monthly.edit');
             Route::put('/monthly/edit/{id}',[MonthlyHighlightsController::class,'update'])->name('monthly.update');
             Route::get('/monthly/show/{id}',[MonthlyHighlightsController::class,'show'])->name('monthly.show');
+            Route::delete('/highlights/{id}/trash', [MonthlyHighlightsController::class, 'trash'])->name('highlights.trash');
+            Route::get('/highlights/trashed', [MonthlyHighlightsController::class, 'trashed'])->name('highlights.trashed');
+            Route::patch('/highlights/{id}/restore', [MonthlyHighlightsController::class, 'restore'])->name('highlights.restore');
             Route::post('/monthly/comment/add',[MonthlyHighlightsController::class,'addComment'])->name('monthly.addComment');
             Route::put('/monhtly/status/update/{id}',[MonthlyHighlightsController::class,'updateStatus'])->name('monthly.updateStatus');
             Route::get('/monthly-download-word/{id}', [MonthlyHighlightsController::class, 'downloadReportWord'])->name('monthly.download.word');
             Route::get('/monthly-download-pdf/{id}', [MonthlyHighlightsController::class, 'downloadReportPdf'])->name('monthly.download.pdf');
+
 
             #Management Key Actions Controller
             Route::get('/Management/Actions',[KeyActionsController::class,'myactions'])->name('keyActions.mine');

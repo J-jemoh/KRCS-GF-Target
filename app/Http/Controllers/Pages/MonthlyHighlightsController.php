@@ -110,6 +110,24 @@ class MonthlyHighlightsController extends Controller
         return view('highlights.view',compact('highlight'));
 
     }
+    public function trash($id){
+    $highlight = MonthlyHighlights::findOrFail($id);
+    $highlight->delete();
+    return redirect()->route('monthly.mine')
+                     ->with('success', 'Highlight moved to trash successfully.');
+    }
+    public function trashed(){
+    $highlights = MonthlyHighlights::onlyTrashed()->get();
+    return view('highlights.trashed', compact('highlights'));
+    }
+    public function restore($id){
+    $highlight = MonthlyHighlights::onlyTrashed()->findOrFail($id);
+    $highlight->restore();
+    return redirect()->route('monthly.mine')
+                     ->with('success', 'Highlight restored successfully.');
+    }
+
+
     public function addComment(Request $request){
         $this->validate($request,[
 

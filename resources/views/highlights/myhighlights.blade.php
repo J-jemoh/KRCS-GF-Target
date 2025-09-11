@@ -80,18 +80,20 @@
                                               <a type="button" class="btn btn-warning" href="{{route('monthly.show',$highlight->id)}}"><i class="fa fa-eye"></i></a>
                                               @if($highlight->status === 'draft')
                                               @can('Delete')
-                                              <button type="button" class="btn btn-danger"><i class="fa fa-trash"></i></button>
+                                              <button type="button" class="btn btn-danger"  data-toggle="modal" data-target="#highlight{{$highlight->id}}"><i class="fa fa-trash"></i></button>
                                               @endcan
                                               @endif
                                             </div>
                             </td>
                           </tr>
                           @endif
+                           @include('highlights.deleteModal')
                           @endforeach
-                            
+                           
                           </tbody>
-                        </table>
 
+
+                        </table>
 
                       </div>
                       <div class="tab-pane fade" id="profile" role="tabpanel" aria-labelledby="profile-tab">
