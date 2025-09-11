@@ -119,7 +119,7 @@ class KeyActionsController extends Controller
                 !auth()->user()->hasRole(['Super Admin', 'Admin','GFHODS']),
                 function ($query) {
                     // Then check if they have the View Actions permission
-                    if (auth()->user()->can('View Actions')) {
+                    if (auth()->user()->can('View Action Summary')) {
                         // Restrict to their region
                         $query->where('region', auth()->user()->region);
                     } else {

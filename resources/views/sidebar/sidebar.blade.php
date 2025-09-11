@@ -140,6 +140,8 @@
                   <p>All Key Actions</p>
                 </a>
               </li>
+              @endcan
+              @can('View Action Summary')
               <li class="nav-item">
                 <a href="{{route('keyActions.mysummary')}}" class="nav-link">
                   <i class="fas fa-bars nav-icon"></i>
