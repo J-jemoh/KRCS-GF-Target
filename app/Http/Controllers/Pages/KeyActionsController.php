@@ -12,6 +12,9 @@ use Barryvdh\DomPDF\Facade\Pdf;
 use Illuminate\Support\Facades\DB;
 use App\Models\ManagementActions;
 use App\Models\SRNames;
+use App\Mail\ManagementActionSubmitted;
+use App\Mail\ManagementActionDraft;
+use Illuminate\Support\Facades\Mail;
 
 class KeyActionsController extends Controller
 {
@@ -44,23 +47,28 @@ class KeyActionsController extends Controller
 
         ]);
         $status = $request->input('action') === 'submit' ? 'submitted' : 'draft';
-         ManagementActions::create([
-        'user_id' => auth()->id(),
-        'duration'=>$request->duration,
-        'region' => $request->region,
-        'category' => $request->department,
-        'sr_name' => $request->sr_name,
-        'key_issues' => $request->key_issues,
-        'root_cause' => $request->root_cause,
-        'mitigation_action' => $request->mitigation_plans,
-        'date' => $request->timeline,
-        'sr_response' => $request->sr_response,
-        'status_update'=>$request->statusupdate,
-        'reference_documents'=>$request->reference_documents,
-        'sr_attachmemts'=>$request->sr_attachments,
-        'pr_attachments'=>$request->pr_attachments,
-        'status' => $status,
-    ]);
+        $managementAction= ManagementActions::create([
+            'user_id' => auth()->id(),
+            'duration'=>$request->duration,
+            'region' => $request->region,
+            'category' => $request->department,
+            'sr_name' => $request->sr_name,
+            'key_issues' => $request->key_issues,
+            'root_cause' => $request->root_cause,
+            'mitigation_action' => $request->mitigation_plans,
+            'date' => $request->timeline,
+            'sr_response' => $request->sr_response,
+            'status_update'=>$request->statusupdate,
+            'reference_documents'=>$request->reference_documents,
+            'sr_attachmemts'=>$request->sr_attachments,
+            'pr_attachments'=>$request->pr_attachments,
+            'status' => $status,
+        ]);
+         if ($status === 'submitted') {
+                Mail::to(auth()->user()->email)->send(new ManagementActionSubmitted($managementAction));
+            } else {
+                Mail::to(auth()->user()->email)->send(new ManagementActionDraft($managementAction));
+            }
         return redirect()->route('keyActions.mine')->with('success', 'Your Management Action has been saved successfully.');
     }
     public function edit($id){
@@ -101,6 +109,12 @@ class KeyActionsController extends Controller
             'pr_attachments'=>$request->pr_attachments,
             'status' => $status,
     ]);
+         if ($status === 'submitted') {
+                Mail::to(auth()->user()->email)->send(new ManagementActionSubmitted($action));
+            } else {
+                Mail::to(auth()->user()->email)->send(new ManagementActionDraft($action));
+            }
+
         return redirect()->back()->with('success', 'Your Management Action has been updated successfully.');
 
     }

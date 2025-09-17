@@ -10,13 +10,17 @@ class HighlightComments extends Model
 {
     use HasFactory,SoftDeletes;
 
+    protected $table = 'highlight_comments'; //
+
     protected $fillable=[
         'monthlyhighlights_id','supervisor_id','comment'
 
     ];
-    public function monthlyHighlight()
-{
-    return $this->belongsTo(MonthlyHighlight::class, 'monthlyhighlights_id');
+    public function monthlyHighlight(){
+    return $this->belongsTo(MonthlyHighlights::class, 'monthlyhighlights_id');
+}
+public function supervisor(){
+    return $this->belongsTo(User::class, 'supervisor_id');
 }
 
 }

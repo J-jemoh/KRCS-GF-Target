@@ -12,6 +12,8 @@ use PhpOffice\PhpWord\IOFactory;
 use PhpOffice\PhpWord\Shared\Html;
 use Barryvdh\DomPDF\Facade\Pdf;
 use Illuminate\Support\Facades\DB;
+use App\Mail\HighlightCommentAdded;
+use Illuminate\Support\Facades\Mail;
 
 class MonthlyHighlightsController extends Controller
 {
@@ -134,12 +136,20 @@ class MonthlyHighlightsController extends Controller
             'highlight_id'=>'required',
             'comment'=>'required',
         ]);
-        HighlightComments::create([
+        $comment= HighlightComments::create([
 
             'supervisor_id'=>auth()->user()->id,
             'monthlyhighlights_id'=>$request->highlight_id,
             'comment'=>$request->comment,
         ]);
+     
+        $comment->load('monthlyHighlight.user');
+        // Find the highlight owner
+        $highlightOwner = $comment->monthlyHighlight?->user;
+
+        if ($highlightOwner && $highlightOwner->email) {
+            Mail::to($highlightOwner->email)->send(new HighlightCommentAdded($comment));
+        }
 
         return redirect()->back()->with('success','Comment added successfully');
 

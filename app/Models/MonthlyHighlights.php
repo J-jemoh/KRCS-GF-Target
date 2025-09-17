@@ -9,6 +9,7 @@ use Illuminate\Database\Eloquent\SoftDeletes;
 class MonthlyHighlights extends Model
 {
     use HasFactory,SoftDeletes;
+     protected $table = 'monthly_highlights'; 
 
     protected $fillable=[
 

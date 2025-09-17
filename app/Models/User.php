@@ -68,6 +68,10 @@ public function departmentUpdates()
 public function monthlyHighlights(){
     return $this->hasMany(MonthlyHighlight::class);
 }
+public function highlightComments()
+    {
+        return $this->hasMany(HighlightComments::class, 'supervisor_id');
+    }
 
 
 }
